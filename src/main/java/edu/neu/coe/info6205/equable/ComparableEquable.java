@@ -14,12 +14,12 @@ public class ComparableEquable<T extends Comparable<T>> extends Equable implemen
 
     @Override
     public int compareTo(ComparableEquable<T> o) {
-        Iterator<T> thisIterator = (Iterator<T>)elements.iterator();
-        Iterator<T> thatIterator = (Iterator<T>)o.elements.iterator();
+        Iterator<T> thisIterator = (Iterator<T>) elements.iterator();
+        Iterator<T> thatIterator = (Iterator<T>) o.elements.iterator();
         while (thisIterator.hasNext()) {
             if (thatIterator.hasNext()) {
                 int cf = thisIterator.next().compareTo(thatIterator.next());
-                if (cf!=0)
+                if (cf != 0)
                     return cf;
             } else
                 return -1;

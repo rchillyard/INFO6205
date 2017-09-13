@@ -6,7 +6,7 @@ package edu.neu.coe.info6205.equable;
 
 public abstract class BaseEquable {
 
-    public abstract Equable getEquable();
+    protected abstract Equable getEquable();
 
     @Override
     public int hashCode() {

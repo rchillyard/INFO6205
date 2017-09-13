@@ -28,8 +28,7 @@ public class Matrix {
                 }
             }
             return new Matrix(this.rows, other.columns, result);
-        }
-        else
+        } else
             throw new RuntimeException("incompatible matrices");
     }
 
@@ -45,8 +44,8 @@ public class Matrix {
         bVals[1][0] = -1;
         bVals[1][1] = 0;
 
-        Matrix a = new Matrix(2,2, aVals);
-        Matrix b = new Matrix(2,2, bVals);
+        Matrix a = new Matrix(2, 2, aVals);
+        Matrix b = new Matrix(2, 2, bVals);
         Matrix c = a.multiply(b);
         System.out.println(c.rows);
         System.out.println(c.columns);
