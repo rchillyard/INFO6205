@@ -4,6 +4,9 @@
 
 package edu.neu.coe.info6205;
 
+import edu.neu.coe.info6205.equable.BaseEquable;
+import edu.neu.coe.info6205.equable.Equable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205;
+package edu.neu.coe.info6205.equable;
 
 public abstract class BaseEquable {
 
