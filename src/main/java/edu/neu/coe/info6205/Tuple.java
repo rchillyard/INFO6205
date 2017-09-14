@@ -28,7 +28,7 @@ public class Tuple extends BaseEquable {
 
     @Override
     public Equable getEquable() {
-        Collection<Object> elements = new ArrayList<Object>();
+        Collection<Object> elements = new ArrayList<>();
         elements.add(x);
         elements.add(y);
         return new Equable(elements);

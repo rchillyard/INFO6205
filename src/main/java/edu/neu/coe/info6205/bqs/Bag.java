@@ -11,15 +11,15 @@ public interface Bag<Item> extends Iterable<Item> {
      * No guarantee is made regarding the ordering of Items in the iterator
      * @param item the item to add
      */
-    public void add(Item item);
+    void add(Item item);
 
     /**
      * @return true if this bag is empty
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * @return the number of elements in this bag (not the capacity which is an implementation-dependent feature)
      */
-    public int size();
+    int size();
 }

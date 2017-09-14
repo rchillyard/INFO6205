@@ -13,6 +13,7 @@ public class TupleTest {
     /**
      * Test method for Tuple
      */
+    @SuppressWarnings("EqualsWithItself")
     @Test
     public void testTuple() {
         Tuple tuple1 = new Tuple(1, Math.PI);

@@ -10,23 +10,23 @@ public interface Stack<Item> {
      * Update this Stack by adding an item on the top.
      * @param item the item to add
      */
-    public void push(Item item);
+    void push(Item item);
 
     /**
      * Update this Stack by taking the top item of this Stack.
      * @return the item.
-     * @throws Exception
+     * @throws Exception if this Stack is empty.
      */
-    public Item pop();
+    Item pop() throws Exception;
 
     /**
      * Take the peek at the item on top of this Stack.
      * @return the item.
      */
-    public Item peek();
+    Item peek();
 
     /**
      * @return true if this stack is empty
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 }

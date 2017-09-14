@@ -12,6 +12,7 @@ public class ComparableEquable<T extends Comparable<T>> extends Equable implemen
         super(elements);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public int compareTo(ComparableEquable<T> o) {
         Iterator<T> thisIterator = (Iterator<T>) elements.iterator();

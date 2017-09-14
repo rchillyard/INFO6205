@@ -37,9 +37,8 @@ public class Equable {
     @Override
     public int hashCode() {
         int result = 0;
-        Iterator<?> iterator = elements.iterator();
-        while (iterator.hasNext()) {
-            result = 31 * result + iterator.next().hashCode();
+        for (Object element : elements) {
+            result = 31 * result + element.hashCode();
         }
         return result;
     }
