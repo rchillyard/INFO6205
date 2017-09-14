@@ -4,7 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import edu.neu.coe.info6205.Tuple;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -20,7 +19,7 @@ public class BagTest {
      */
     @Test
     public void testBag() {
-        Bag bag = new BagImpl<Integer>();
+        Bag bag = new Bag_Array<Integer>();
         assertTrue(bag.size()==0);
         assertTrue(bag.isEmpty());
         assertFalse(((Iterator<Integer>) bag.iterator()).hasNext());

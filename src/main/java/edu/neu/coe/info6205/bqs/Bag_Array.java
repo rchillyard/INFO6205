@@ -4,36 +4,20 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class BagImpl<Item> implements Bag<Item> {
+public class Bag_Array<Item> implements Bag<Item> {
 
-    public BagImpl() {
+    public Bag_Array() {
         grow((Item[])new Object[0], 32);
     }
-
-    private Item[] items = null;
-    private int count = 0;
 
     @Override
     public void add(Item item) {
         if (full())
             grow(items,2 * capacity());
         items[count++] = item;
-    }
-
-    private void grow(Item[] source, int size) {
-        items = growFrom(source, size);
-    }
-
-    private int capacity() {
-        return items.length; // items should always be non-null when this method is called
-    }
-
-    private boolean full() {
-        return size()==capacity();
     }
 
     @Override
@@ -51,6 +35,18 @@ public class BagImpl<Item> implements Bag<Item> {
         return Arrays.asList(Arrays.copyOf(items,count)).iterator();
     }
 
+    private void grow(Item[] source, int size) {
+        items = growFrom(source, size);
+    }
+
+    private int capacity() {
+        return items.length; // items should always be non-null when this method is called
+    }
+
+    private boolean full() {
+        return size()==capacity();
+    }
+
     /**
      * This fairly primitive grow method takes an Object array called "from",
      * instantiates a new array of the given size,
@@ -64,5 +60,8 @@ public class BagImpl<Item> implements Bag<Item> {
         System.arraycopy(from, 0, result, 0, from.length);
         return result;
     }
+
+    private Item[] items = null;
+    private int count = 0;
 
 }
