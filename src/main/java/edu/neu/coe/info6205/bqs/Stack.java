@@ -15,9 +15,9 @@ public interface Stack<Item> {
     /**
      * Update this Stack by taking the top item of this Stack.
      * @return the item.
-     * @throws Exception if this Stack is empty.
+     * @throws RuntimeException if this Stack is empty.
      */
-    Item pop() throws Exception;
+    Item pop() throws RuntimeException;
 
     /**
      * Take the peek at the item on top of this Stack.

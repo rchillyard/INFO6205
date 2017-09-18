@@ -8,8 +8,6 @@ import java.util.Iterator;
 
 public class Equable {
 
-    protected final Iterable<?> elements;
-
     public Equable(Iterable<?> elements) {
         this.elements = elements;
     }
@@ -25,8 +23,7 @@ public class Equable {
         Iterator<?> thatIterator = equable.elements.iterator();
         while (thisIterator.hasNext()) {
             if (thatIterator.hasNext()) {
-                boolean same = thisIterator.next().equals(thatIterator.next());
-                if (!same)
+                if (!thisIterator.next().equals(thatIterator.next()))
                     return false;
             } else
                 return false;
@@ -42,4 +39,7 @@ public class Equable {
         }
         return result;
     }
+
+    protected final Iterable<?> elements;
+
 }

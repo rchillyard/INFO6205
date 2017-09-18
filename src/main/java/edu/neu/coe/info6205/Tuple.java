@@ -12,12 +12,17 @@ import java.util.Collection;
 
 public class Tuple extends BaseEquable {
 
-    private final int x;
-    private final double y;
-
     public Tuple(int x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     @Override
@@ -33,5 +38,8 @@ public class Tuple extends BaseEquable {
         elements.add(y);
         return new Equable(elements);
     }
+
+    private final int x;
+    private final double y;
 
 }
