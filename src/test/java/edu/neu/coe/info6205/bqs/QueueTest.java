@@ -11,6 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QueueTest {
 
     @Test
+    public void testQueue0() {
+        Queue<Integer> queue = new Queue_Elements<>();
+        assertTrue(queue.isEmpty());
+        assertNull(queue.dequeue());
+        assertTrue(queue.isEmpty());
+    }
+
+    @Test
     public void testQueue1() {
         Queue<Integer> queue = new Queue_Elements<>();
         assertTrue(queue.isEmpty());

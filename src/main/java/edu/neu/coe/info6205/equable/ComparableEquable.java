@@ -4,6 +4,8 @@
 
 package edu.neu.coe.info6205.equable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Iterator;
 
 public class ComparableEquable<T extends Comparable<T>> extends Equable implements Comparable<ComparableEquable<T>> {
@@ -14,7 +16,7 @@ public class ComparableEquable<T extends Comparable<T>> extends Equable implemen
 
     @SuppressWarnings("unchecked")
     @Override
-    public int compareTo(ComparableEquable<T> o) {
+    public int compareTo(@NotNull ComparableEquable<T> o) {
         Iterator<T> thisIterator = (Iterator<T>) elements.iterator();
         Iterator<T> thatIterator = (Iterator<T>) o.elements.iterator();
         while (thisIterator.hasNext()) {

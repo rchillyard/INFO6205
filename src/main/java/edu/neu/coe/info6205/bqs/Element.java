@@ -14,6 +14,6 @@ public class Element<Item> {
         this(x, null);
     }
 
-    Item item;
+    final Item item;
     Element<Item> next;
 }

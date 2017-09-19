@@ -4,6 +4,9 @@
 
 package edu.neu.coe.info6205.bqs;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
+
 public class Stack_LinkedList<Item> implements Stack<Item> {
     public Stack_LinkedList() {
         list = new LinkedList<>();
@@ -13,10 +16,11 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
         list.add(item);
     }
 
-    public Item pop() throws RuntimeException {
+    public Item pop() throws BQSException {
         return list.remove();
     }
 
+    @Nullable
     public Item peek() {
         return list.getHead();
     }
@@ -25,5 +29,6 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
         return list.isEmpty();
     }
 
+    @NotNull
     private final LinkedList<Item> list;
 }

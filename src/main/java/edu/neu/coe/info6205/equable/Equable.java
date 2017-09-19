@@ -4,6 +4,8 @@
 
 package edu.neu.coe.info6205.equable;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Iterator;
 
 public class Equable {
@@ -13,7 +15,7 @@ public class Equable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 

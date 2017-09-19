@@ -4,37 +4,57 @@
 
 package edu.neu.coe.info6205.bqs;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
+
 public class Queue_Elements<Item> implements Queue<Item> {
     public Queue_Elements() {
-        first = null;
-        last = null;
+        oldest = null;
+        newest = null;
     }
 
-    public void enqueue(Item item) {
-        Element old = last;
+    /**
+     * Enqueue the given item into the linked list referenced by oldest
+     *
+     * @param item the item to add
+     */
+    public void enqueue(@NotNull Item item) {
         Element<Item> element = new Element<>(item);
-        if (isEmpty()) first = element;
-        else old.next = element;
-        this.last = element;
+        @Nullable Element<Item> secondNewest = newest;
+        if (isEmpty()) oldest = element;
+        else {
+            assert secondNewest != null; // Redundant Check
+            secondNewest.next = element;
+        }
+        this.newest = element;
     }
 
-    public Item dequeue() {
-        Item result = first.item;
-        Element<Item> tail = first.next;
-        first = tail;
-        if (isEmpty()) last = null;
-        return result;
+    public @NotNull
+    Item dequeue() {
+        if (isEmpty()) return null;
+        else {
+            assert oldest != null; // Redundant assertion
+            @NotNull Item result = oldest.item;
+            @Nullable Element<Item> secondOldest = oldest.next;
+            oldest = secondOldest;
+            if (isEmpty()) newest = null;
+            return result;
+        }
     }
 
     public boolean isEmpty() {
-        return first == null;
+        return oldest == null;
     }
 
     // This Element essentially begins a LinkedList of Elements which correspond
-    // to the elements that can be taken from the queue.
-    // CONSIDER simplifying by using a LinkedList here instead of Element
-    private Element<Item> first;
+    // to the elements that can be taken from the queue (head points to the oldest element).
+    // However, it is built in manner that requires a pointer to the newest element.
+    @org.jetbrains.annotations.Nullable
+    @Nullable
+    private Element<Item> oldest;
 
-    // This element always points to the last element in the LinkedList referenced by First.
-    private Element<Item> last;
+    // This element always points to the newest (tail-most) element in the LinkedList referenced by oldest.
+    @org.jetbrains.annotations.Nullable
+    @Nullable
+    private Element<Item> newest;
 }

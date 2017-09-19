@@ -4,6 +4,8 @@
 
 package edu.neu.coe.info6205.bqs;
 
+import com.sun.istack.internal.Nullable;
+
 public interface Stack<Item> {
 
     /**
@@ -17,15 +19,16 @@ public interface Stack<Item> {
      * Update this Stack by taking the top item of this Stack.
      *
      * @return the item.
-     * @throws RuntimeException if this Stack is empty.
+     * @throws BQSException if this Stack is empty.
      */
-    Item pop() throws RuntimeException;
+    Item pop() throws BQSException;
 
     /**
      * Take the peek at the item on top of this Stack.
      *
      * @return the item.
      */
+    @Nullable
     Item peek();
 
     /**
