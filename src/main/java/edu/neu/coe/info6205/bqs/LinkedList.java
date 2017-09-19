@@ -8,7 +8,7 @@ public class LinkedList<Item> {
 
     public void add(Item item) {
         Element tail = head;
-        head = new Element(item, tail);
+        head = new Element<>(item, tail);
     }
 
     public Item remove() {
@@ -24,14 +24,6 @@ public class LinkedList<Item> {
     public boolean isEmpty() {
         return head==null;
     }
-    private class Element {
-        Element(Item x, Element n) {
-            item = x;
-            next = n;
-        }
-        final Item item;
-        final Element next;
-    }
 
-    private Element head = null;
+    private Element<Item> head = null;
 }

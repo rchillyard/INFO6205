@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StackTest {
 
     /**
-     * Test method for Bag
+     * Test method for Stack
      */
     @Test
     public void testStack() {
-        Stack<Integer> stack = new Stack_LinkedList<Integer>();
+        Stack<Integer> stack = new Stack_LinkedList<>();
         assertTrue(stack.isEmpty());
         stack.push(1);
         assertFalse(stack.isEmpty());
