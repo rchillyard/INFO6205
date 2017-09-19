@@ -19,7 +19,7 @@ public class StackTest {
         assertTrue(stack.isEmpty());
         stack.push(1);
         assertFalse(stack.isEmpty());
-        assertEquals( stack.pop(), new Integer(1));
+        assertEquals(stack.pop(), new Integer(1));
     }
 
 }

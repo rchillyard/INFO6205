@@ -18,11 +18,11 @@ public class LinkedList<Item> {
     }
 
     public Item getHead() {
-        return isEmpty() ? null : head.item ;
+        return isEmpty() ? null : head.item;
     }
 
     public boolean isEmpty() {
-        return head==null;
+        return head == null;
     }
 
     private Element<Item> head = null;

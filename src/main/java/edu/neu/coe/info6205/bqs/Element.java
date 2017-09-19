@@ -9,6 +9,11 @@ public class Element<Item> {
         item = x;
         next = n;
     }
+
+    Element(Item x) {
+        this(x, null);
+    }
+
     Item item;
     Element<Item> next;
 }

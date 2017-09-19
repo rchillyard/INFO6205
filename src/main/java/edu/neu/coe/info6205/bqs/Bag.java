@@ -9,6 +9,7 @@ public interface Bag<Item> extends Iterable<Item> {
     /**
      * Update this Bag by adding item.
      * No guarantee is made regarding the ordering of Items in the iterator
+     *
      * @param item the item to add
      */
     void add(Item item);

@@ -12,23 +12,29 @@ public class Queue_Elements<Item> implements Queue<Item> {
 
     public void enqueue(Item item) {
         Element old = last;
-        last = new Element<>(item, null);
-        if (isEmpty()) first = last;
-        else old.next = last;
+        Element<Item> element = new Element<>(item);
+        if (isEmpty()) first = element;
+        else old.next = element;
+        this.last = element;
     }
 
     public Item dequeue() {
         Item result = first.item;
-        first = first.next;
+        Element<Item> tail = first.next;
+        first = tail;
         if (isEmpty()) last = null;
         return result;
     }
 
     public boolean isEmpty() {
-        return first==null;
+        return first == null;
     }
 
+    // This Element essentially begins a LinkedList of Elements which correspond
+    // to the elements that can be taken from the queue.
+    // CONSIDER simplifying by using a LinkedList here instead of Element
     private Element<Item> first;
 
+    // This element always points to the last element in the LinkedList referenced by First.
     private Element<Item> last;
 }

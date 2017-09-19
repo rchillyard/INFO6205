@@ -8,12 +8,14 @@ public interface Stack<Item> {
 
     /**
      * Update this Stack by adding an item on the top.
+     *
      * @param item the item to add
      */
     void push(Item item);
 
     /**
      * Update this Stack by taking the top item of this Stack.
+     *
      * @return the item.
      * @throws RuntimeException if this Stack is empty.
      */
@@ -21,6 +23,7 @@ public interface Stack<Item> {
 
     /**
      * Take the peek at the item on top of this Stack.
+     *
      * @return the item.
      */
     Item peek();
