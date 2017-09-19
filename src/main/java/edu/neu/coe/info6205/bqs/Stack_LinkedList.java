@@ -5,29 +5,25 @@
 package edu.neu.coe.info6205.bqs;
 
 public class Stack_LinkedList<Item> implements Stack<Item> {
-    private final LinkedList<Item> list;
-
     public Stack_LinkedList() {
-        list = new LinkedList<Item>();
+        list = new LinkedList<>();
     }
 
-    @Override
     public void push(Item item) {
         list.add(item);
     }
 
-    @Override
     public Item pop() throws RuntimeException {
         return list.remove();
     }
 
-    @Override
     public Item peek() {
-        return list.head.item;
+        return list.getHead();
     }
 
-    @Override
     public boolean isEmpty() {
-        return list.head==null;
+        return list.isEmpty();
     }
+
+    private final LinkedList<Item> list;
 }

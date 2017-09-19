@@ -6,19 +6,8 @@ package edu.neu.coe.info6205.bqs;
 
 public class LinkedList<Item> {
 
-    class Element<Item> {
-        Element(Item x, Element<Item> n) {
-            item = x;
-            next = n;
-        }
-        Item item;
-        Element<Item> next;
-    }
-
-    Element<Item> head = null;
-
     public void add(Item item) {
-        Element<Item> tail = head;
+        Element tail = head;
         head = new Element(item, tail);
     }
 
@@ -28,4 +17,21 @@ public class LinkedList<Item> {
         return result;
     }
 
+    public Item getHead() {
+        return isEmpty() ? null : head.item ;
+    }
+
+    public boolean isEmpty() {
+        return head==null;
+    }
+    private class Element {
+        Element(Item x, Element n) {
+            item = x;
+            next = n;
+        }
+        final Item item;
+        final Element next;
+    }
+
+    private Element head = null;
 }
