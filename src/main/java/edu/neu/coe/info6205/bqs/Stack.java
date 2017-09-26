@@ -4,8 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import com.sun.istack.internal.Nullable;
-
 public interface Stack<Item> {
 
     /**
@@ -28,7 +26,6 @@ public interface Stack<Item> {
      *
      * @return the item.
      */
-    @Nullable
     Item peek();
 
     /**

@@ -4,12 +4,8 @@
 
 package edu.neu.coe.info6205.equable;
 
-import com.sun.istack.internal.Nullable;
-import org.jetbrains.annotations.NotNull;
-
 public abstract class BaseEquable {
 
-    @NotNull
     protected abstract Equable getEquable();
 
     @Override
@@ -18,7 +14,7 @@ public abstract class BaseEquable {
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals( Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseEquable equable = (BaseEquable) o;

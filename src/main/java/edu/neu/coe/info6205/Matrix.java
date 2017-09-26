@@ -4,8 +4,6 @@
 
 package edu.neu.coe.info6205;
 
-import com.sun.istack.internal.NotNull;
-
 public class Matrix {
 
     private final int rows;
@@ -19,8 +17,7 @@ public class Matrix {
         this.values = values;
     }
 
-    @NotNull
-    public Matrix multiply(@NotNull final Matrix other) {
+    public Matrix multiply(final Matrix other) {
         if (this.columns == other.rows) {
             double[][] result = new double[rows][other.columns];
             for (int i = 0; i < this.rows; i++) {

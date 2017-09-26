@@ -4,9 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -58,7 +55,7 @@ public class DList<Item> implements Iterable<Item> {
      * @param item the item to be added.
      * @param prev may NOT be null
      */
-    public void addAfter(Item item, @NotNull Item prev) throws BQSException {
+    public void addAfter(Item item, Item prev) throws BQSException {
         {
             D_Element last = findLast(prev);
             if (last != null)
@@ -104,7 +101,7 @@ public class DList<Item> implements Iterable<Item> {
      * @param item the item to be added.
      * @param prev may NOT be null
      */
-    public void addAfterElement(Item item, @NotNull D_Element prev) {
+    public void addAfterElement(Item item, D_Element prev) {
         D_Element next = prev.next;
         D_Element element = new D_Element(item, prev, next);
         if (next != null) next.prev = element;
@@ -157,7 +154,6 @@ public class DList<Item> implements Iterable<Item> {
         return sb.toString();
     }
 
-    @NotNull
     @Override
     public Iterator<Item> iterator() {
         return head != null ? head.iterator() : new ArrayList<Item>().iterator();
@@ -178,7 +174,6 @@ public class DList<Item> implements Iterable<Item> {
         D_Element prev;
         D_Element next;
 
-        @NotNull
         @Override
         public Iterator<Item> iterator() {
             Collection<Item> result = new ArrayList<>();
@@ -192,7 +187,6 @@ public class DList<Item> implements Iterable<Item> {
     }
 
 
-    @Nullable
     private D_Element head = null;
     private D_Element tail = null;
     private int count = 0;

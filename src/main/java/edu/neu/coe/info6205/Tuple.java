@@ -4,7 +4,6 @@
 
 package edu.neu.coe.info6205;
 
-import com.sun.istack.internal.NotNull;
 import edu.neu.coe.info6205.equable.BaseEquable;
 import edu.neu.coe.info6205.equable.Equable;
 
@@ -26,14 +25,12 @@ public class Tuple extends BaseEquable {
         return y;
     }
 
-    @NotNull
     @Override
     public String toString() {
         return "Tuple(" + x + ", " + y + ")";
     }
 
 
-    @NotNull
     @Override
     public Equable getEquable() {
         Collection<Object> elements = new ArrayList<>();

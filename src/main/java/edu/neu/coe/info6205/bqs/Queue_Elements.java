@@ -4,9 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 public class Queue_Elements<Item> implements Queue<Item> {
     public Queue_Elements() {
         oldest = null;
@@ -18,9 +15,9 @@ public class Queue_Elements<Item> implements Queue<Item> {
      *
      * @param item the item to add
      */
-    public void enqueue(@NotNull Item item) {
+    public void enqueue( Item item) {
         Element<Item> element = new Element<>(item);
-        @Nullable Element<Item> secondNewest = newest;
+        Element<Item> secondNewest = newest;
         if (isEmpty()) oldest = element;
         else {
             assert secondNewest != null; // Redundant Check
@@ -29,13 +26,13 @@ public class Queue_Elements<Item> implements Queue<Item> {
         this.newest = element;
     }
 
-    public @NotNull
+    public
     Item dequeue() {
         if (isEmpty()) return null;
         else {
             assert oldest != null; // Redundant assertion
-            @NotNull Item result = oldest.item;
-            @Nullable Element<Item> secondOldest = oldest.next;
+             Item result = oldest.item;
+             Element<Item> secondOldest = oldest.next;
             oldest = secondOldest;
             if (isEmpty()) newest = null;
             return result;
@@ -49,12 +46,8 @@ public class Queue_Elements<Item> implements Queue<Item> {
     // This Element essentially begins a LinkedList of Elements which correspond
     // to the elements that can be taken from the queue (head points to the oldest element).
     // However, it is built in manner that requires a pointer to the newest element.
-    @org.jetbrains.annotations.Nullable
-    @Nullable
     private Element<Item> oldest;
 
     // This element always points to the newest (tail-most) element in the LinkedList referenced by oldest.
-    @org.jetbrains.annotations.Nullable
-    @Nullable
     private Element<Item> newest;
 }

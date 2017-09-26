@@ -4,9 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -32,13 +29,12 @@ public class Bag_Array<Item> implements Bag<Item> {
         return count;
     }
 
-    @NotNull
     public Iterator<Item> iterator() {
         assert items != null; // Should be not-null any time after construction.
         return Arrays.asList(Arrays.copyOf(items, count)).iterator();
     }
 
-    private void grow(@NotNull Item[] source, int size) {
+    private void grow( Item[] source, int size) {
         items = growFrom(source, size);
     }
 
@@ -60,14 +56,12 @@ public class Bag_Array<Item> implements Bag<Item> {
      * @param from the source array
      * @param size the size of the new array
      */
-    @NotNull
-    private static <T> T[] growFrom(@NotNull T[] from, int size) {
+    private static <T> T[] growFrom( T[] from, int size) {
         @SuppressWarnings("unchecked") T[] result = (T[]) new Object[size];
         System.arraycopy(from, 0, result, 0, from.length);
         return result;
     }
 
-    @Nullable
     private Item[] items = null;
     private int count = 0;
 }

@@ -4,8 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import com.sun.istack.internal.Nullable;
-
 public class LinkedList<Item> {
 
     public void add(Item item) {
@@ -20,7 +18,6 @@ public class LinkedList<Item> {
         return result;
     }
 
-    @Nullable
     public Item getHead() {
         //noinspection ConstantConditions
         return isEmpty() ? null : head.item;
@@ -30,6 +27,5 @@ public class LinkedList<Item> {
         return head == null;
     }
 
-    @Nullable
     private Element<Item> head = null;
 }
