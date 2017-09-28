@@ -4,9 +4,9 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class StackTest {
 
@@ -14,7 +14,7 @@ public class StackTest {
      * Test method for Stack
      */
     @Test
-    public void testStack() {
+    public void testStack() throws BQSException {
         Stack<Integer> stack = new Stack_LinkedList<>();
         assertTrue(stack.isEmpty());
         stack.push(1);
@@ -23,7 +23,7 @@ public class StackTest {
             Integer item = stack.pop();
             assertEquals(item, new Integer(1));
         } catch (BQSException e) {
-            fail(e);
+            throw e;
         }
     }
 

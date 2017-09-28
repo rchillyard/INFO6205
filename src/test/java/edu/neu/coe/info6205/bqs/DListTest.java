@@ -4,13 +4,11 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import static org.junit.Assert.*;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 public class DListTest {
 

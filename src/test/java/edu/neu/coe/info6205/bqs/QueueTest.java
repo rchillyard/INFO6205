@@ -4,9 +4,9 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class QueueTest {
 
