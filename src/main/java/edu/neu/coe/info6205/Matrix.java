@@ -4,6 +4,8 @@
 
 package edu.neu.coe.info6205;
 
+import java.util.Arrays;
+
 public class Matrix {
 
     private final int rows;
@@ -33,6 +35,7 @@ public class Matrix {
     }
 
     public static void main(String[] args) {
+        Arrays.sort(args);
         double[][] aVals = new double[2][2];
         aVals[0][0] = 1;
         aVals[0][1] = 2;
