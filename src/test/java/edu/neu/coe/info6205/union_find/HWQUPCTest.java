@@ -4,7 +4,6 @@
 
 package edu.neu.coe.info6205.union_find;
 
-import edu.neu.coe.info6205.randomwalk.RandomWalk;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

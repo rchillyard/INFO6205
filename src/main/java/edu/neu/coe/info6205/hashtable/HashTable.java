@@ -4,8 +4,6 @@
 
 package edu.neu.coe.info6205.hashtable;
 
-import static sun.misc.Version.println;
-
 public class HashTable {
 
     private final int length;
@@ -33,7 +31,6 @@ public class HashTable {
             if (index==length-1) index = 0;
         }
         if (index<length) {
-            assert (index>=0);
             hashes[index] = key.hashCode();
             keys[index] = key;
             values[index] = value;
@@ -53,13 +50,9 @@ public class HashTable {
         int index = findMatchingIndex(key, getIndex(key));
         assert(index >= 0);
         assert(index < length);
-        if (index >= 0) {
-            assert(hashes[index]==key.hashCode());
-            assert(keys[index]==key);
-            return values[index];
-        }
-        else
-            return null;
+        assert (hashes[index] == key.hashCode());
+        assert (keys[index] == key);
+        return values[index];
     }
 
     private boolean checkKey(Object key, int index) {

@@ -85,7 +85,7 @@ public class DList<Item> implements Iterable<Item> {
      * @param next may be null, in which case the item will be the only item on the list
      */
     public void addBeforeElement(Item item, D_Element next) {
-        assert (isEmpty() != (next != null));
+        assert (isEmpty() == (next == null));
         D_Element previous = next != null ? next.prev : null;
         D_Element element = new D_Element(item, previous, next);
         if (previous != null) previous.next = element;

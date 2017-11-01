@@ -2,14 +2,13 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-//package edu.neu.coe.info6205.equable;
-//
-//public abstract class BaseComparableEquable<T extends Comparable<T>> extends BaseEquable implements Comparable<ComparableEquable<T>> {
-//    @Override
-//    public int compareTo(ComparableEquable<T> o) {
-//        Equable equable = (Equable) o;
-//            return getEquable().compareTo(equable.getEquable());
-//        }
-//
-//    }
-//}
+package edu.neu.coe.info6205.equable;
+
+import edu.neu.coe.info6205.ComparableTuple;
+
+public abstract class BaseComparableEquable extends BaseEquable {
+
+    public int compareTo(ComparableTuple o) {
+        return ((ComparableEquable) getEquable()).compareTo((ComparableEquable) o.getEquable());
+    }
+}

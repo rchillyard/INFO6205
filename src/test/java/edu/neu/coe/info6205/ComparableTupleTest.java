@@ -4,16 +4,70 @@
 
 package edu.neu.coe.info6205;
 
-//public class ComparableTupleTest {
-//
-//    /**
-//     * Test method for Tuple
-//     */
-//    @Test
-//    public void testComparableTuple() {
-//        ComparableTuple tuple1 = new ComparableTuple(1, Math.PI);
-//        ComparableTuple tuple2 = new ComparableTuple(2, Math.E);
-//        assertEquals(1, tuple1.compareTo(tuple2));
-//    }
-//
-//}
+import edu.neu.coe.info6205.equable.BaseEquable;
+import edu.neu.coe.info6205.equable.ComparableEquable;
+import edu.neu.coe.info6205.equable.Equable;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static junit.framework.TestCase.assertEquals;
+
+public class ComparableTupleTest {
+
+    /**
+     * Test methods for ComparableTuple
+     */
+    @Test
+    public void testComparableTuple1() {
+        ComparableTuple tuple1 = new ComparableTuple(1, Math.PI);
+        ComparableTuple tuple2 = new ComparableTuple(2, Math.E);
+        assertEquals(Integer.compare(1, 2), tuple1.compareTo(tuple2));
+        ComparableTuple tuple3 = new ComparableTuple(1, Math.E);
+        assertEquals(Double.compare(Math.PI, Math.E), tuple1.compareTo(tuple3));
+    }
+
+    class Incomparable {
+        public Incomparable() {
+            super();
+        }
+    }
+
+    class MockIncomparableTuple extends BaseEquable implements Comparable<MockIncomparableTuple> {
+
+        private final Incomparable y;
+
+        public MockIncomparableTuple(Incomparable y) {
+            this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "MockIncomparableTuple(" + y + ")";
+        }
+
+        @SuppressWarnings("unchecked")
+        public Equable getEquable() {
+            Collection<Object> elements = new ArrayList();
+            elements.add(y);
+            return new ComparableEquable(elements);
+        }
+
+        @Override
+        public int compareTo(MockIncomparableTuple o) {
+            final ComparableEquable equable = (ComparableEquable) getEquable();
+            final ComparableEquable oEquable = (ComparableEquable) o.getEquable();
+            return equable.compareTo(oEquable);
+        }
+    }
+
+    @Test(expected = ComparableEquable.ComparableEquableException.class)
+    public void testComparableTuple2() {
+        MockIncomparableTuple tuple1 = new MockIncomparableTuple(new Incomparable());
+        MockIncomparableTuple tuple2 = new MockIncomparableTuple(new Incomparable());
+        int cf = tuple1.compareTo(tuple2);
+        System.out.print("hello");
+    }
+
+}

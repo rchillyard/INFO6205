@@ -110,7 +110,7 @@ public class HWQUPC {
 
     /**
      * Used only by testing code
-     * @param pathCompression
+     * @param pathCompression true if you want path compression
      */
     public void setPathCompression(boolean pathCompression) {
         this.pathCompression = pathCompression;

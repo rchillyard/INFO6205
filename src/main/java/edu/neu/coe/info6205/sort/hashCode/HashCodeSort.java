@@ -53,7 +53,7 @@ public class HashCodeSort<X extends Comparable<X>> {
 
     // Build the resulting List<X> from the indices
     private List<X> createResult(int n, int[] indices, int[] hashes, List<X> a) {
-        List<X> result = new ArrayList<X>();
+        List<X> result = new ArrayList<>();
         for(int i=0;i<n;i++) result.add(a.get(indices[i]));
         return result;
     }

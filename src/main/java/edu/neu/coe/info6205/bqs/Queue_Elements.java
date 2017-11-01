@@ -32,8 +32,7 @@ public class Queue_Elements<Item> implements Queue<Item> {
         else {
             assert oldest != null; // Redundant assertion
              Item result = oldest.item;
-             Element<Item> secondOldest = oldest.next;
-            oldest = secondOldest;
+            oldest = oldest.next;
             if (isEmpty()) newest = null;
             return result;
         }
