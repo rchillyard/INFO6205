@@ -4,6 +4,7 @@
 
 package edu.neu.coe.info6205;
 
+import edu.neu.coe.info6205.equable.BaseComparableEquable;
 import edu.neu.coe.info6205.equable.BaseEquable;
 import edu.neu.coe.info6205.equable.ComparableEquable;
 import edu.neu.coe.info6205.equable.Equable;
@@ -34,7 +35,7 @@ public class ComparableTupleTest {
         }
     }
 
-    class MockIncomparableTuple extends BaseEquable implements Comparable<MockIncomparableTuple> {
+    class MockIncomparableTuple extends BaseComparableEquable implements Comparable<MockIncomparableTuple> {
 
         private final Incomparable y;
 
@@ -56,9 +57,7 @@ public class ComparableTupleTest {
 
         @Override
         public int compareTo(MockIncomparableTuple o) {
-            final ComparableEquable equable = (ComparableEquable) getEquable();
-            final ComparableEquable oEquable = (ComparableEquable) o.getEquable();
-            return equable.compareTo(oEquable);
+            return super.compareTo(o);
         }
     }
 
@@ -66,8 +65,7 @@ public class ComparableTupleTest {
     public void testComparableTuple2() {
         MockIncomparableTuple tuple1 = new MockIncomparableTuple(new Incomparable());
         MockIncomparableTuple tuple2 = new MockIncomparableTuple(new Incomparable());
-        int cf = tuple1.compareTo(tuple2);
-        System.out.print("hello");
+        tuple1.compareTo(tuple2);
     }
 
 }
