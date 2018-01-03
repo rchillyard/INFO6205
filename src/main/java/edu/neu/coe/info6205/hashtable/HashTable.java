@@ -25,7 +25,7 @@ public class HashTable {
     public void put(Object key, Object value) {
         if (size>=length)
             throw new HashTableException("table is full");
-        int index = getIndex(key);
+        int index = getIndex(key, bits);
         while (hashes[index]!=0 || keys[index]!=null) {
             index++;
             if (index==length-1) index = 0;
@@ -40,19 +40,31 @@ public class HashTable {
             throw new HashTableException("logic error");
     }
 
-    private int getIndex(Object key) {
-        int result = key.hashCode() >> (32 - bits);
-        if (result < 0) result += length;
-        return result;
+    // TODO should be private
+    static int getIndex(Object key, int bits) {
+        return key.hashCode() & (mask << bits ^ mask);
     }
 
+    private static int mask = 0xFFFFFFFF;
+
     public Object getValue(Object key) {
-        int index = findMatchingIndex(key, getIndex(key));
+        int index = findMatchingIndex(key, getIndex(key, bits));
         assert(index >= 0);
         assert(index < length);
         assert (hashes[index] == key.hashCode());
         assert (keys[index] == key);
         return values[index];
+    }
+
+    public Object getValueMaybe(Object key) {
+        int index = findMatchingIndex(key, getIndex(key, bits));
+        if (index >= 0) {
+            assert (index < length);
+            assert (hashes[index] == key.hashCode());
+            assert (keys[index] == key);
+            return values[index];
+        }
+        return null;
     }
 
     private boolean checkKey(Object key, int index) {
@@ -82,11 +94,9 @@ public class HashTable {
     }
 
     public void show() {
-        for (int i=0; i<length; i++) {
-            if (hashes[i]!=0) {
-                System.out.println("i: "+i+": hash: "+hashes[i]+", key: "+keys[i]+", value: "+values[i]);
-            }
-        }
+        for (int i=0; i<length; i++)
+            if (hashes[i] != 0)
+                System.out.println("i: " + i + ": hash: " + hashes[i] + ", key: " + keys[i] + ", value: " + values[i]);
     }
 
     private class HashTableException extends RuntimeException {

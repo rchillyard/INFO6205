@@ -25,7 +25,7 @@ public class FrequencyCounter {
     }
 
     public static void main(String[] args) {
-        FrequencyCounter counter = new FrequencyCounter(new STMap<>(new HashMap<>()));
+        FrequencyCounter counter = new FrequencyCounter(new STMap<>(new HashMap<String,Integer>()));
 
         for (String arg: args) counter.increment(arg);
 

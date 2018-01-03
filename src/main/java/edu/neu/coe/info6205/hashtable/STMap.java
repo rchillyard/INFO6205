@@ -18,7 +18,7 @@ public class STMap <Key, Value> implements ST<Key, Value>{
 
     private Map<Key, Value> map;
 
-    STMap(Map<Key,Value> map) {
+    public STMap(Map<Key,Value> map) {
         this.map = map;
     }
 
