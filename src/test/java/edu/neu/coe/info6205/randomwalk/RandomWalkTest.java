@@ -16,13 +16,13 @@ public class RandomWalkTest {
     public void testMove1() {
         RandomWalk rw = new RandomWalk();
         rw.move(1, 0);
-        assertEquals(rw.distance(), 1.0, 1.0E-7);
+        assertEquals(1.0, rw.distance(), 1.0E-7);
         rw.move(1, 0);
-        assertEquals(rw.distance(), 2.0, 1.0E-7);
+        assertEquals(2.0, rw.distance(), 1.0E-7);
         rw.move(-1, 0);
-        assertEquals(rw.distance(), 1.0, 1.0E-7);
+        assertEquals(1.0, rw.distance(), 1.0E-7);
         rw.move(-1, 0);
-        assertEquals(rw.distance(), 0.0, 1.0E-7);
+        assertEquals(0.0, rw.distance(), 1.0E-7);
     }
 
     /**
@@ -31,13 +31,13 @@ public class RandomWalkTest {
     public void testMove2() {
         RandomWalk rw = new RandomWalk();
         rw.move(0, 1);
-        assertEquals(rw.distance(), 1.0, 1.0E-7);
+        assertEquals(1.0, rw.distance(), 1.0E-7);
         rw.move(0, 1);
-        assertEquals(rw.distance(), 2.0, 1.0E-7);
+        assertEquals(2.0, rw.distance(), 1.0E-7);
         rw.move(0, -1);
-        assertEquals(rw.distance(), 1.0, 1.0E-7);
+        assertEquals(1.0, rw.distance(), 1.0E-7);
         rw.move(0, -1);
-        assertEquals(rw.distance(), 0.0, 1.0E-7);
+        assertEquals(0.0, rw.distance(), 1.0E-7);
     }
 
     /**
@@ -47,13 +47,13 @@ public class RandomWalkTest {
         RandomWalk rw = new RandomWalk();
         double root2 = Math.sqrt(2);
         rw.move(1, 1);
-        assertEquals(rw.distance(), root2, 1.0E-7);
+        assertEquals(root2, rw.distance(), 1.0E-7);
         rw.move(1, 1);
-        assertEquals(rw.distance(), 2 * root2, 1.0E-7);
+        assertEquals(2 * root2, rw.distance(), 1.0E-7);
         rw.move(0, -2);
-        assertEquals(rw.distance(), 2.0, 1.0E-7);
+        assertEquals(2.0, rw.distance(), 1.0E-7);
         rw.move(-2, 0);
-        assertEquals(rw.distance(), 0.0, 1.0E-7);
+        assertEquals(0.0, rw.distance(), 1.0E-7);
     }
 
     /**
@@ -62,7 +62,7 @@ public class RandomWalkTest {
     public void testRandomWalk() {
         RandomWalk rw = new RandomWalk();
         rw.move(1, 0);
-        assertEquals(rw.distance(), 1.0, 1.0E-7);
+        assertEquals(1.0, rw.distance(), 1.0E-7);
     }
 
 }

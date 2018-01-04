@@ -23,7 +23,7 @@ public class BagTest {
         assertTrue(bag.size() == 1);
         assertFalse(bag.isEmpty());
         assertTrue((bag.iterator()).hasNext());
-        assertEquals(bag.iterator().next(), new Integer(1));
+        assertEquals(new Integer(1), bag.iterator().next());
     }
 
 }
