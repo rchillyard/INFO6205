@@ -36,6 +36,7 @@ public class HWQUPCTest {
     @Test
     public void testFind2() {
         HWQUPC h = new HWQUPC(10);
+//        h.show();
         h.union(0,1);
 //        h.show();
         assertEquals(0, h.find(0));

@@ -30,7 +30,7 @@ public class HWQUPC {
         height = new int[n];
         for (int i = 0; i < n; i++) {
             parent[i] = i;
-            height[i] = 0;
+            height[i] = 1;
         }
     }
 
@@ -59,11 +59,10 @@ public class HWQUPC {
     public int find(int p) {
         validate(p);
         int root = p;
-        while (root != parent[root])
+        while (root != parent[root]) {
+            if (pathCompression) HWQUPC.doPathCompression(root, parent);
             root = parent[root];
-        if (!pathCompression)
-            return root;
-        HWQUPC.doPathCompression(p, root, parent);
+        }
         return root;
         // ... end of TODO
     }
@@ -127,11 +126,12 @@ public class HWQUPC {
 
     static void mergeComponents(int i, int j, int[] height, int[] parent) {
         // TODO make shorter root point to taller one
-        throw new RuntimeException("not implemented");
+        if (height[i] < height[j]) { parent[i] = j; height[j] += height[i]; }
+        else { parent[j] = i; height[i] += height[j]; }
     }
 
-    static void doPathCompression(int p, int root, int[] parent) {
+    static void doPathCompression(int i, int[] parent) {
         // TODO update parent if appropriate
-        throw new RuntimeException("not implemented");
+        parent[i] = parent[parent[i]];
     }
 }
