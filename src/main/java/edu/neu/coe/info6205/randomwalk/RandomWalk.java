@@ -12,7 +12,7 @@ public class RandomWalk {
 
     private final Random random = new Random();
 
-    public void move(int dx, int dy) {
+    private void move(int dx, int dy) {
         x += dx;
         y += dy;
     }

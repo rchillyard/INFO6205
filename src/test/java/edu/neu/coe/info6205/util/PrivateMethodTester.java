@@ -1,0 +1,118 @@
+/*
+ * Copyright (c) 2018. Phasmid Software
+ */
+
+package edu.neu.coe.info6205.util;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class PrivateMethodTester {
+
+    private final Object object;
+    private final Class<?> clazz;
+
+    public PrivateMethodTester(Object object) {
+        this.object = object;
+        this.clazz = object.getClass();
+    }
+
+    public Object invokePrivate(String name, Object... parameters) {
+        Class<?>[] classes = getClasses(parameters);
+        final int length = parameters.length;
+        try {
+            Method m = getPrivateMethod(name, classes, length);
+            return invokePrivateMethod(m, parameters);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(name + ": method not found for given " + length +
+                    " parameters");
+        }
+    }
+
+    private Method getPrivateMethod(String name, Class<?>[] classes, int length) throws NoSuchMethodException {
+        if (length == 0) return getPrivateMethodNoParams(name);
+        else return getMethodParams(name, classes, length);
+    }
+
+    private Method getMethodParams(String name, Class<?>[] classes, int length) throws NoSuchMethodException {
+        for (int i = 0; i < getCombinations(length); i++) {
+            Class<?>[] effectiveClasses = new Class<?>[length];
+            System.arraycopy(classes, 0, effectiveClasses, 0, length);
+            try {
+                return getPrivateMethod(name, classes, i, effectiveClasses);
+            } catch (NoSuchMethodException e) {
+                // Ignore this exception: we keep looking in subsequent combinations of effective classes
+            }
+        }
+        throw new NoSuchMethodException("private method " + name + " with " + classes.length + " parameters");
+    }
+
+    private Method getPrivateMethodNoParams(String name) throws NoSuchMethodException {
+        return findPrivateMethod(name, new Class<?>[0]);
+    }
+
+    private Method getPrivateMethod(String name, Class<?>[] classes, int i, Class<?>[] effectiveClasses) throws NoSuchMethodException {
+        for (int j = 0; j < classes.length; j++) {
+            if (((i >> j) & 1) == 1) effectiveClasses[j] = getPrimitiveClass(classes[j]);
+            try {
+                return findPrivateMethod(name, effectiveClasses);
+            } catch (NoSuchMethodException nsme) {
+                // Ignore this exception: we keep looking with different effective classes
+            }
+        }
+        throw new NoSuchMethodException("private method " + name + " with " + classes.length + " parameters for combination " + i);
+    }
+
+    private Object invokePrivateMethod(Method m, Object[] parameters) {
+        try {
+            if (m != null)
+                return m.invoke(object, parameters);
+            else throw new RuntimeException("method to be invoked is null");
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e.getTargetException());
+        }
+    }
+
+    private Method findPrivateMethod(String name, Class<?>[] classes) throws NoSuchMethodException {
+//        System.out.println("getDeclaredMethod "+name+" with classes: ");
+//        for (Class<?> clazz : classes)
+//            System.out.println("  "+clazz);
+        Method m = clazz.getDeclaredMethod(name, classes);
+//        System.out.println("found "+name);
+        m.setAccessible(true);
+        return m;
+    }
+
+    private int getCombinations(int length) {
+        int all = 1;
+        for (int i = 0; i < length; i++) all *= 2;
+        return all;
+    }
+
+    private Class<?>[] getClasses(Object[] parameters) {
+        Class<?>[] classes = new Class<?>[parameters.length];
+        for (int i = 0; i < parameters.length; i++) classes[i] = parameters[i].getClass();
+        return classes;
+    }
+
+    private Class<?> getPrimitiveClass(Class<?> clazz) {
+        if (clazz == Integer.class)
+            return int.class;
+        else if (clazz == Long.class)
+            return long.class;
+        else if (clazz == Double.class)
+            return double.class;
+        else if (clazz == Float.class)
+            return float.class;
+        else if (clazz == Boolean.class)
+            return boolean.class;
+        else if (clazz == Character.class)
+            return char.class;
+        else if (clazz == Byte.class)
+            return byte.class;
+        else
+            return clazz;
+    }
+}
