@@ -8,7 +8,7 @@ public interface Sort<X> {
      * @param xs sort the array xs in place
      */
     default void sort(Comparable<X>[] xs) {
-        sort(xs, 0, xs.length - 1);
+        sort(xs, 0, xs.length);
     }
 
     /**
