@@ -42,10 +42,9 @@ public class HashTable {
 
     // TODO should be private
     static int getIndex(Object key, int bits) {
+        int mask = 0xFFFFFFFF;
         return key.hashCode() & (mask << bits ^ mask);
     }
-
-    private static int mask = 0xFFFFFFFF;
 
     public Object getValue(Object key) {
         int index = findMatchingIndex(key, getIndex(key, bits));

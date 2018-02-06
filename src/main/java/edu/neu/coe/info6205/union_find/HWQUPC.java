@@ -11,8 +11,8 @@ package edu.neu.coe.info6205.union_find;
  * Height-weighted Quick Union with Path Compression
  */
 public class HWQUPC {
-    private int[] parent;   // parent[i] = parent of i
-    private int[] height;   // height[i] = height of subtree rooted at i
+    private final int[] parent;   // parent[i] = parent of i
+    private final int[] height;   // height[i] = height of subtree rooted at i
     private int count;  // number of components
     private boolean pathCompression = false;
 

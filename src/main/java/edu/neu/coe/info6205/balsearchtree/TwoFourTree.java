@@ -9,8 +9,10 @@ public class TwoFourTree<Key extends Comparable<Key>, Value> {
     private Node root;
 
     private class Node {
-        private Value value;
-        private Key key1, key2, key3;
+        private final Value value;
+        private final Key key1;
+        private final Key key2;
+        private final Key key3;
         private Node left, middle, right;
         public Node(Value value, Key key1, Key key2, Key key3) {
             this.value = value;

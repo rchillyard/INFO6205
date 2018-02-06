@@ -4,14 +4,12 @@
 
 package edu.neu.coe.info6205.sort.simple;
 
-import edu.neu.coe.info6205.sort.hashCode.HashCodeSort;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ALL")
 public class InsertionSortTest {

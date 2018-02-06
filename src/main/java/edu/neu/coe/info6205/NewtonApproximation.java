@@ -4,7 +4,7 @@
 
 package edu.neu.coe.info6205;
 
-public class NewtonApproximation {
+class NewtonApproximation {
     public static void main(String[] args) {
         // Newton's Approximation to solve cos(x) = x
         double x = 1.0;

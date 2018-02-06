@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class FrequencyCounter {
 
-    private ST<String,Integer> map;
+    private final ST<String,Integer> map;
 
     public FrequencyCounter(ST<String,Integer> map) {
         this.map = map;
@@ -25,7 +25,7 @@ public class FrequencyCounter {
     }
 
     public static void main(String[] args) {
-        FrequencyCounter counter = new FrequencyCounter(new STMap<>(new HashMap<String,Integer>()));
+        FrequencyCounter counter = new FrequencyCounter(new STMap<>(new HashMap<>()));
 
         for (String arg: args) counter.increment(arg);
 

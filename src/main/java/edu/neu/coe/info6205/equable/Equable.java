@@ -20,11 +20,9 @@ public class Equable {
         Iterator<?> thisIterator = elements.iterator();
         Iterator<?> thatIterator = equable.elements.iterator();
         while (thisIterator.hasNext())
-            if (thatIterator.hasNext())
-                if (thisIterator.next().equals(thatIterator.next()))
-                    continue;
-                else
-                    return false;
+            if (thatIterator.hasNext()) {
+                if (!thisIterator.next().equals(thatIterator.next())) return false;
+            }
             else
                 return false;
         return true;

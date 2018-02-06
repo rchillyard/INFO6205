@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class RandomWalkTest {
 
     @Test
-    public void testMove0() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void testMove0() {
         RandomWalk rw = new RandomWalk();
         PrivateMethodTester pmt = new PrivateMethodTester(rw);
         pmt.invokePrivate("move",1,0);

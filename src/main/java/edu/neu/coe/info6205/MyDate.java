@@ -18,8 +18,7 @@ public class MyDate implements Comparable<MyDate> {
         if (cfy!=0) return cfy;
         int cfm = Integer.compare(this.month, that.month);
         if (cfm!=0) return cfm;
-        int cfd = Integer.compare(this.day, that.day);
-        return cfd;
+        return Integer.compare(this.day, that.day);
     }
 
     private final int year;

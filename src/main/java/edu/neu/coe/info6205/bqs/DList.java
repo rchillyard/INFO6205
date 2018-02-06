@@ -150,7 +150,7 @@ public class DList<Item> implements Iterable<Item> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Item i : this) sb.append(i + ", ");
+        for (Item i : this) sb.append(i).append(", ");
         return sb.toString();
     }
 

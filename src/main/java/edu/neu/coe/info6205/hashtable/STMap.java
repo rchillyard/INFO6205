@@ -16,8 +16,6 @@ public class STMap <Key, Value> implements ST<Key, Value>{
         map.put(key, value);
     }
 
-    private Map<Key, Value> map;
-
     public STMap(Map<Key,Value> map) {
         this.map = map;
     }
@@ -26,4 +24,6 @@ public class STMap <Key, Value> implements ST<Key, Value>{
     public String toString() {
         return map.toString();
     }
+
+    private final Map<Key, Value> map;
 }
