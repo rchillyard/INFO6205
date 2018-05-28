@@ -4,11 +4,12 @@
 
 package edu.neu.coe.info6205.equable;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public class Equable {
 
-    public Equable(Iterable<?> elements) {
+    public Equable(Collection<?> elements) {
         this.elements = elements;
     }
 
@@ -35,6 +36,6 @@ public class Equable {
         return result;
     }
 
-    protected final Iterable<?> elements;
+    protected final Collection<?> elements;
 
 }

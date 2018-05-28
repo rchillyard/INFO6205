@@ -4,11 +4,12 @@
 
 package edu.neu.coe.info6205.equable;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public class ComparableEquable extends Equable implements Comparable<ComparableEquable> {
 
-    public ComparableEquable(Iterable<?> elements) {
+    public ComparableEquable(Collection<?> elements) {
         super(elements);
     }
 
