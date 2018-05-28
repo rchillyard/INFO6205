@@ -7,8 +7,6 @@ package edu.neu.coe.info6205.randomwalk;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationTargetException;
-
 import static org.junit.Assert.*;
 
 public class RandomWalkTest {
@@ -68,5 +66,23 @@ public class RandomWalkTest {
         assertEquals(2.0, rw.distance(), 1.0E-7);
         pmt.invokePrivate("move",-2,0);
         assertEquals(0.0, rw.distance(), 1.0E-7);
+    }
+
+    /**
+     */
+    @Test
+    public void testRandomWalk(){
+        for(int i = 0; i < 5000; i++){
+            RandomWalk rw = new RandomWalk();
+            assertEquals(rw.randomWalkMulti(100, 100), 10, 3);
+        }
+    }
+
+    @Test
+    public void testRandomWalk2() {
+        for (int i = 0; i < 5000; i++) {
+            RandomWalk rw = new RandomWalk();
+            assertNotSame(0, rw.randomWalkMulti(1, 1));
+        }
     }
 }
