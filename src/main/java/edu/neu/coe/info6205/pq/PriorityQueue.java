@@ -2,13 +2,28 @@ package edu.neu.coe.info6205.pq;
 
 import java.util.Comparator;
 
+/**
+ * Priority Queue Data Structure which uses a binary heap.
+ * <p>
+ * It is unlimited in capacity, although there is no code to grow it after it has been constructed.
+ * It can serve as a minPQ or a maxPQ (define "max" as either false or true, respectively).
+ * <p>
+ * It follows the code from Sedgewick and Wayne more or less. I have changed the names a bit. For example,
+ * the methods to insert and remove the max (or min) element are called "give" and "take," respectively.
+ * <p>
+ * It operates on arbitrary Object types which implies that it requires a Comparator to be passed in.
+ * <p>
+ * For all details on usage, please see PriorityQueueTest.java
+ *
+ * @param <K>
+ */
 public class PriorityQueue<K> {
 
     /**
      * Basic constructor that takes the max value, an actually array of elements, and a comparator.
      *
      * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
-     * @param binHeap    a pre-formed array.
+     * @param binHeap    a pre-formed array with length one greater than the required capacity.
      * @param last       the number of elements in binHeap
      * @param comparator a comparator for the type K
      */
@@ -29,7 +44,8 @@ public class PriorityQueue<K> {
      */
     public PriorityQueue (int n, boolean max, Comparator<K> comparator) {
 
-        this(max, new Object[n], 0, comparator);
+        // NOTE that we reserve the first element of the binary heap, so the length must be n+1, not n
+        this(max, new Object[n + 1], 0, comparator);
     }
 
     /**
@@ -59,24 +75,29 @@ public class PriorityQueue<K> {
     /**
      * Insert an element with the given key into this Priority Queue.
      *
-     * @param key the value of the key to insert
+     * @param key the value of the key to give
      */
-    public void insert(K key) {
-        binHeap[++last] = key;
-        swimUp(last);
+    public void give(K key) {
+        if (last == binHeap.length - 1)
+            last--; // if we are already at capacity, then we arbitrarily trash the least eligible element
+        // (even if it's more eligible than key).
+        binHeap[++last] = key; // insert the key into the binary heap just after the last element
+        swimUp(last); // reorder the binary heap
     }
 
     /**
-     * Take the root element from this Priority Queue.
+     * Remove the root element from this Priority Queue and adjust the binary heap accordingly.
      * If max is true, then the result will be the maximum element, else the minimum element.
      * NOTE that this method is called DelMax (or DelMin) in the book.
      * @return If max is true, then the maximum element, otherwise the minimum element.
+     * @throws PQException if this priority queue is empty
      */
-    public K take() {
-        K result = binHeap[1];
-        swap(1, last--);
-        sink(1);
-        binHeap[last+1] = null;
+    public K take() throws PQException {
+        if (isEmpty()) throw new PQException("Priority queue is empty");
+        K result = binHeap[1]; // get the root element (the largest or smallest, according to field max)
+        swap(1, last--); // swap the root element with the last element
+        sink(1); // adjust the heap so that it is ordered again
+        binHeap[last + 1] = null; // prevent loitering
         return result;
     }
 
@@ -146,17 +167,19 @@ public class PriorityQueue<K> {
      * The following methods are for unit testing ONLY!!
      */
 
+    @SuppressWarnings("unused")
     private K peek(int k) {
         return binHeap[k];
     }
 
+    @SuppressWarnings("unused")
     private boolean getMax() {
         return max;
     }
 
     private final boolean max;
     private final Comparator<K> comparator;
-    private final K[] binHeap; // binHeap[i] is ith element of binary heap
+    private final K[] binHeap; // binHeap[i] is ith element of binary heap (first element is reserved)
     private int last; // number of elements in the binary heap
 
 }

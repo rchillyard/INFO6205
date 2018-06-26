@@ -6,8 +6,10 @@ import org.junit.Test;
 import java.util.Comparator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings("ConstantConditions")
 public class PriorityQueueTest {
 
     @Test
@@ -43,63 +45,91 @@ public class PriorityQueueTest {
     @Test
     public void testSwimUp() {
         String[] binHeap = new String[3];
-        binHeap[1] = "A";
-        binHeap[2] = "B";
+        String a = "A";
+        String b = "B";
+        binHeap[1] = a;
+        binHeap[2] = b;
         PriorityQueue<String> pq = new PriorityQueue<>(true, binHeap, 2, Comparator.comparing(String::toString));
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
-        assertEquals("A", tester.invokePrivate("peek", 1));
+        assertEquals(a, tester.invokePrivate("peek", 1));
         tester.invokePrivate("swimUp", 2);
-        assertEquals("B", tester.invokePrivate("peek", 1));
+        assertEquals(b, tester.invokePrivate("peek", 1));
     }
 
     @Test
     public void testSink() {
         String[] binHeap = new String[4];
-        binHeap[1] = "A";
-        binHeap[2] = "B";
-        binHeap[3] = "C";
+        String a = "A";
+        String b = "B";
+        String c = "C";
+        binHeap[1] = a;
+        binHeap[2] = b;
+        binHeap[3] = c;
         PriorityQueue<String> pq = new PriorityQueue<>(true, binHeap, 3, Comparator.comparing(String::toString));
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         tester.invokePrivate("sink", 1);
-        assertEquals("C", tester.invokePrivate("peek", 1));
-        assertEquals("A", tester.invokePrivate("peek", 3));
+        assertEquals(c, tester.invokePrivate("peek", 1));
+        assertEquals(a, tester.invokePrivate("peek", 3));
     }
 
     @Test
-    public void testInsert() {
+    public void testGive1() {
 
         PriorityQueue<String> pq = new PriorityQueue<>(10, Comparator.comparing(String::toString));
         String key = "A";
-        pq.insert(key);
+        pq.give(key);
         assertEquals(1,pq.size());
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
+        assertEquals(key, tester.invokePrivate("peek", 1));
+    }
+
+    @Test
+    public void testGive2() {
+        // Test that we can comfortably give more elements than the the PQ has capacity for
+        PriorityQueue<String> pq = new PriorityQueue<>(1, Comparator.comparing(String::toString));
+        final PrivateMethodTester tester = new PrivateMethodTester(pq);
+        String key = "A";
+        pq.give(null); // This will never survive so it might as well be null
+        assertEquals(1,pq.size());
+        assertNull(tester.invokePrivate("peek", 1));
+        pq.give(key);
+        assertEquals(1,pq.size());
         assertEquals(key, tester.invokePrivate("peek", 1));
 
     }
     @Test
-    public void testTake1() {
+    public void testTake1() throws PQException {
 
         PriorityQueue<String> pq = new PriorityQueue<>(10, Comparator.comparing(String::toString));
         String key = "A";
-        pq.insert(key);
+        pq.give(key);
         assertEquals(key,pq.take());
         assertTrue(pq.isEmpty());
 
     }
+
     @Test
-    public void testTake2() {
+    public void testTake2() throws PQException {
 
         PriorityQueue<String> pq = new PriorityQueue<>(10, Comparator.comparing(String::toString));
-        String key1 = "A";
-        String key2 = "B";
-        pq.insert(key1);
-        pq.insert(key2);
+        String a = "A";
+        String b = "B";
+        pq.give(a);
+        pq.give(b);
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
-        assertEquals(key1, tester.invokePrivate("peek", 2));
-        assertEquals(key2, tester.invokePrivate("peek", 1));
-        assertEquals(key2,pq.take());
-        assertEquals(key1,pq.take());
+        assertEquals(a, tester.invokePrivate("peek", 2));
+        assertEquals(b, tester.invokePrivate("peek", 1));
+        assertEquals(b,pq.take());
+        assertEquals(a,pq.take());
         assertTrue(pq.isEmpty());
 
+    }
+    @Test(expected = PQException.class)
+    public void testTake3() throws PQException {
+
+        PriorityQueue<String> pq = new PriorityQueue<>(10, Comparator.comparing(String::toString));
+        pq.give("A");
+        pq.take();
+        pq.take();
     }
 }
