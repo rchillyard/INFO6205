@@ -9,6 +9,7 @@ import edu.neu.coe.info6205.bqs.Stack;
 import edu.neu.coe.info6205.bqs.Stack_LinkedList;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Function;
@@ -47,6 +48,37 @@ public class DAGTest {
     }
 
     /**
+     * Test method for DAG
+     */
+    @Test
+    public void testDag2() {
+        DAG_Impl<Integer> target = setupStandardDAG();
+        assertEquals(11, target.E());
+        assertEquals(7, target.V());
+        assertEquals(Integer.valueOf(0), target.edges().iterator().next().getFrom());
+        assertEquals(Integer.valueOf(0), target.vertices().iterator().next());
+        assertEquals(Integer.valueOf(1), target.adjacent(0).iterator().next().getTo());
+        assertFalse(target.adjacent(2).iterator().hasNext());
+        assertEquals(Integer.valueOf(4), target.adjacent(1).iterator().next().getTo());
+    }
+
+    /**
+     * Test method for reverse
+     */
+    @Test
+    public void testReverse() {
+        DAG<Integer> target = setupStandardDAG();
+        DAG_Impl<Integer> integerDAG = (DAG_Impl<Integer>) target.reverse();
+        assertEquals(11, integerDAG.E());
+        assertEquals(7, integerDAG.V());
+        assertEquals(Integer.valueOf(0), integerDAG.edges().iterator().next().getFrom());
+        assertEquals(Integer.valueOf(0), integerDAG.vertices().iterator().next());
+        assertEquals(Integer.valueOf(6), integerDAG.adjacent(0).iterator().next().getTo());
+        assertFalse(integerDAG.adjacent(3).iterator().hasNext());
+        assertEquals(Integer.valueOf(0), integerDAG.adjacent(1).iterator().next().getTo());
+    }
+
+    /**
      * Test method for DFS
      */
     @Test
@@ -70,7 +102,6 @@ public class DAGTest {
         assertEquals(Integer.valueOf(5),((LinkedList<Integer>) preOrder).getLast());
         assertEquals(Integer.valueOf(4),((LinkedList<Integer>) postOrder).getFirst());
         assertEquals(Integer.valueOf(0),((LinkedList<Integer>) postOrder).getLast());
-        System.out.println("reversePost: "+reversePostOrder);
         try {
             assertEquals(Integer.valueOf(0),(reversePostOrder).pop());
             assertEquals(Integer.valueOf(5),(reversePostOrder).pop());
@@ -89,8 +120,15 @@ public class DAGTest {
     public void testSorted() {
         DAG_Impl<Integer> target = setupStandardDAG();
         Iterable<Integer> sorted = target.sorted();
-        System.out.println(sorted);
-        assertEquals(Integer.valueOf(3), sorted.iterator().next());
+        Iterator<Integer> iterator = sorted.iterator();
+        assertEquals(Integer.valueOf(3), iterator.next());
+        assertEquals(Integer.valueOf(6), iterator.next());
+        assertEquals(Integer.valueOf(0), iterator.next());
+        assertEquals(Integer.valueOf(5), iterator.next());
+        assertEquals(Integer.valueOf(2), iterator.next());
+        assertEquals(Integer.valueOf(1), iterator.next());
+        assertEquals(Integer.valueOf(4), iterator.next());
+        assertFalse(iterator.hasNext());
     }
 
     private DAG_Impl<Integer> setupStandardDAG() {

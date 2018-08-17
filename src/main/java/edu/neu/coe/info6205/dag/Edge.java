@@ -21,4 +21,9 @@ public class Edge<Vertex> {
     public Edge<Vertex> reverse() {
         return new Edge<>(to, from);
     }
+
+    @Override
+    public String toString() {
+        return from+"->"+to;
+    }
 }

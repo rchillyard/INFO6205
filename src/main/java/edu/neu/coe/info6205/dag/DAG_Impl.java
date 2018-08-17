@@ -24,8 +24,7 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
 
     @Override
     public void dfs(Vertex vertex, Function<Vertex, Void> pre, Function<Vertex, Void> post) {
-        DepthFirstSearch x = new DepthFirstSearch(pre, post);
-        x.innerDfs(vertex);
+        new DepthFirstSearch(pre, post).innerDfs(vertex);
     }
 
     @Override
@@ -76,6 +75,11 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
 
     public void addEdge(Vertex from, Vertex to) {
         addEdge(new Edge<>(from, to));
+    }
+
+    @Override
+    public String toString() {
+        return adjacentEdges.toString();
     }
 
     private Bag<Edge<Vertex>> getAdjacencyBag(Vertex vertex) {

@@ -51,10 +51,19 @@ public class Bag_Array<Item> implements Bag<Item> {
 
     public Iterator<Item> iterator() {
         assert items != null; // Should be not-null any time after construction.
-        return Arrays.asList(Arrays.copyOf(items, count)).iterator();
+        return Arrays.asList(asArray()).iterator();
     }
 
-    private void grow( Item[] source, int size) {
+    private Item[] asArray() {
+        return Arrays.copyOf(items, count);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(asArray());
+    }
+
+    private void grow(Item[] source, int size) {
         items = growFrom(source, size);
     }
 
