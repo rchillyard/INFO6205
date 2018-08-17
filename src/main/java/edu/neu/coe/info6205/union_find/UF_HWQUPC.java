@@ -10,11 +10,13 @@ package edu.neu.coe.info6205.union_find;
 /**
  * Height-weighted Quick Union with Path Compression
  */
-public class HWQUPC {
-    private final int[] parent;   // parent[i] = parent of i
-    private final int[] height;   // height[i] = height of subtree rooted at i
-    private int count;  // number of components
-    private boolean pathCompression = false;
+public class Connections_HWQUPC implements UF {
+    /**
+     * Ensure that site p is connected to site q,
+     * @param  p the integer representing one site
+     * @param  q the integer representing the other site
+     */
+    public void connect(int p, int q) { if (!isConnected(p,q)) union(p, q); }
 
     /**
      * Initializes an empty union–find data structure with {@code n} sites
@@ -24,7 +26,7 @@ public class HWQUPC {
      * @param  n the number of sites
      * @throws IllegalArgumentException if {@code n < 0}
      */
-    public HWQUPC(int n) {
+    public Connections_HWQUPC(int n) {
         count = n;
         parent = new int[n];
         height = new int[n];
@@ -45,7 +47,7 @@ public class HWQUPC {
      *
      * @return the number of components (between {@code 1} and {@code n})
      */
-    public int count() {
+    public int components() {
         return count;
     }
 
@@ -60,33 +62,11 @@ public class HWQUPC {
         validate(p);
         int root = p;
         while (root != parent[root]) {
-            if (pathCompression) HWQUPC.doPathCompression(root, parent);
+            if (pathCompression) Connections_HWQUPC.doPathCompression(root, parent);
             root = parent[root];
         }
         return root;
         // ... end of TODO
-    }
-
-    // validate that p is a valid index
-    private void validate(int p) {
-        int n = parent.length;
-        if (p < 0 || p >= n) {
-            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
-        }
-    }
-
-    /**
-     * Returns true if the the two sites are in the same component.
-     *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
-     * @return {@code true} if the two sites {@code p} and {@code q} are in the same component;
-     *         {@code false} otherwise
-     * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
-     */
-    public boolean connected(int p, int q) {
-        return find(p) == find(q);
     }
 
     /**
@@ -103,7 +83,7 @@ public class HWQUPC {
         int j = find(q);
         if (i == j)
             return;
-        HWQUPC.mergeComponents(i, j, height, parent);
+        Connections_HWQUPC.mergeComponents(i, j, height, parent);
         count--;
     }
 
@@ -115,14 +95,27 @@ public class HWQUPC {
         this.pathCompression = pathCompression;
     }
 
+    // validate that p is a valid index
+    private void validate(int p) {
+        int n = parent.length;
+        if (p < 0 || p >= n) {
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
+        }
+    }
+
     /**
      * Used only by testing code
      * @param i the component
      * @return the parent of the component
      */
-    public int getParent(int i) {
+    private int getParent(int i) {
         return parent[i];
     }
+
+    private final int[] parent;   // parent[i] = parent of i
+    private final int[] height;   // height[i] = height of subtree rooted at i
+    private int count;  // number of components
+    private boolean pathCompression = false;
 
     static void mergeComponents(int i, int j, int[] height, int[] parent) {
         // TODO make shorter root point to taller one
