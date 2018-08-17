@@ -19,6 +19,6 @@ public class Edge<Vertex> {
     }
 
     public Edge<Vertex> reverse() {
-        return new Edge(to, from);
+        return new Edge<>(to, from);
     }
 }

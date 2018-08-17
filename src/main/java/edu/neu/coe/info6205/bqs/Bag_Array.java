@@ -29,6 +29,26 @@ public class Bag_Array<Item> implements Bag<Item> {
         return count;
     }
 
+    @Override
+    public boolean contains(Item item) {
+        for (Item i : items) {
+            if (i!=null && i.equals(item))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int multiplicity(Item item) {
+        int result = 0;
+        if (isEmpty()) return 0;
+        for (Item i : items) {
+            if (i!=null && i.equals(item))
+                result++;
+        }
+        return result;
+    }
+
     public Iterator<Item> iterator() {
         assert items != null; // Should be not-null any time after construction.
         return Arrays.asList(Arrays.copyOf(items, count)).iterator();

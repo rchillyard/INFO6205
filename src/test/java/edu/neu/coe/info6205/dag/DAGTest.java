@@ -80,8 +80,6 @@ public class DAGTest {
         } catch (BQSException e) {
             e.printStackTrace();
         }
-//        System.out.println("pre: "+preOrder);
-//        System.out.println("post: "+postOrder);
     }
 
     /**
