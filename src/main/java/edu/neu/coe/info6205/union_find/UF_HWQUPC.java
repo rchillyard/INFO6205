@@ -111,12 +111,11 @@ public class UF_HWQUPC implements UF {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("UF_HWQUPC:");
-        stringBuilder.append("\n  count: ").append(count);
-        stringBuilder.append("\n  path compression: ").append(pathCompression);
-        stringBuilder.append("\n  parents: ").append(Arrays.toString(parent));
-        stringBuilder.append("\n  height: ").append(Arrays.toString(height));
-        return stringBuilder.toString();
+        return "UF_HWQUPC:" + "\n  count: " + count +
+                ";\n  path compression? " + pathCompression +
+                ";\n  parents: " + Arrays.toString(parent) +
+                ";\n  heights: " + Arrays.toString(height) +
+                ".";
     }
 
     // validate that p is a valid index
