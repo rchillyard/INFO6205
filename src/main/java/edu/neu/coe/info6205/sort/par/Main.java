@@ -1,7 +1,5 @@
 package edu.neu.coe.info6205.sort.par;
 
-import edu.neu.coe.info6205.hashtable.HashTable;
-
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -75,14 +73,17 @@ public class Main {
     private static void processCommand(String x, String y) {
         if (x.equalsIgnoreCase("N")) setConfig(x, Integer.parseInt(y));
         else
-        if (x.equalsIgnoreCase("P")) ForkJoinPool.getCommonPoolParallelism();
+            // TODO sort this out
+            if (x.equalsIgnoreCase("P")) //noinspection ResultOfMethodCallIgnored
+                ForkJoinPool.getCommonPoolParallelism();
     }
 
     private static void setConfig(String x, int i) {
         configuration.put(x,i);
     }
 
-    private static Map<String,Integer> configuration = new HashMap();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private static final Map<String, Integer> configuration = new HashMap<>();
 
 
 }

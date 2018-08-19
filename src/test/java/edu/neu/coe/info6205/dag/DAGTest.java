@@ -37,7 +37,7 @@ public class DAGTest {
     @Test
     public void testAddEdge() {
         DAG_Impl<Integer> target = new DAG_Impl<>();
-        Edge edge = new Edge(1, 2);
+        Edge<Integer> edge = new Edge<>(1, 2);
         target.addEdge(edge);
         assertEquals(1, target.E());
         assertEquals(2, target.V());

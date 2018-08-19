@@ -7,7 +7,8 @@ package edu.neu.coe.info6205.randomwalk;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class RandomWalkTest {
 
@@ -72,17 +73,13 @@ public class RandomWalkTest {
      */
     @Test
     public void testRandomWalk(){
-        for(int i = 0; i < 5000; i++){
-            RandomWalk rw = new RandomWalk();
-            assertEquals(rw.randomWalkMulti(100, 100), 10, 4);
-        }
+        for (int i = 0; i < 5000; i++)
+            assertEquals(RandomWalk.randomWalkMulti(100, 100), 10, 4);
     }
 
     @Test
     public void testRandomWalk2() {
-        for (int i = 0; i < 5000; i++) {
-            RandomWalk rw = new RandomWalk();
-            assertNotSame(0, rw.randomWalkMulti(1, 1));
-        }
+        for (int i = 0; i < 5000; i++)
+            assertNotSame(0, RandomWalk.randomWalkMulti(1, 1));
     }
 }

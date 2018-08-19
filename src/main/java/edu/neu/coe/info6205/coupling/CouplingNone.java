@@ -5,13 +5,15 @@ public class CouplingNone {
     class A {
         public A(int a) { this.a = a; }
         public int getA() { return a; }
-        private int a;
+
+        private final int a;
     }
 
     class B {
         public B(int b) { this.b = b; }
         public int getB() { return b; }
-        private int b;
+
+        private final int b;
     }
 
     public static void main(String[] args) {

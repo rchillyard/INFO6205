@@ -5,7 +5,7 @@
 package edu.neu.coe.info6205;
 
 public class CallByValue {
-        int number = 0;
+    private int number = 0;
         final int[] array = {0};
 
         // Hide "number" field
@@ -23,7 +23,8 @@ public class CallByValue {
         // Also compare foreach loop and for loop
         public int[] incrementArray1 (int[] array) {
             for (int a : array) {
-                a++;
+                //noinspection UnusedAssignment
+                a++; // CONSIDER what is going on here?
             }
             return array;
         }
@@ -37,7 +38,8 @@ public class CallByValue {
 
         public int[] incrementArray3 () {
             for (int a : array) {
-                a++;
+                //noinspection UnusedAssignment
+                a++; // CONSIDER what is going on here?
             }
             return array;
         }

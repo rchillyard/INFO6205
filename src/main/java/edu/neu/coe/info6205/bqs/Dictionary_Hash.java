@@ -32,6 +32,7 @@ public class Dictionary_Hash<K, V> implements Dictionary<K, V> {
 
     @Override
     public boolean containsKey(Object key) {
+        //noinspection SuspiciousMethodCalls
         return map.containsKey(key);
     }
 
@@ -45,5 +46,5 @@ public class Dictionary_Hash<K, V> implements Dictionary<K, V> {
         return map.keySet();
     }
 
-    private final Map<K, V> map = new HashMap();
+    private final Map<K, V> map = new HashMap<>();
 }

@@ -4,11 +4,10 @@
 
 package edu.neu.coe.info6205.dag;
 
-import edu.neu.coe.info6205.bqs.Bag;
-import edu.neu.coe.info6205.bqs.Bag_Array;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class EdgeTest {
 

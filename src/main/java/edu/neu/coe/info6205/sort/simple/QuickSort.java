@@ -2,8 +2,6 @@ package edu.neu.coe.info6205.sort.simple;
 
 import java.util.Arrays;
 
-import static edu.neu.coe.info6205.sort.simple.Helper.*;
-
 public class QuickSort<X extends Comparable<X>> implements Sort<X> {
     @Override
     public void sort(X[] xs, int from, int to) {

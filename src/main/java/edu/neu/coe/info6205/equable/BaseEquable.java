@@ -12,6 +12,7 @@ public abstract class BaseEquable {
 
     @Override
     public int hashCode() {
+        //noinspection ToArrayCallWithZeroLengthArrayArgument
         return Objects.hash(getEquable().elements.toArray(new Object[getEquable().elements.size()]));
     }
 

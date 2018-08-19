@@ -8,7 +8,8 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TupleTest {
 
@@ -22,12 +23,12 @@ public class TupleTest {
         Tuple tuple2 = new Tuple(2, Math.E);
         assertEquals("tuple1.hashCode()==340594883",  340594883, tuple1.hashCode());
         assertEquals("tuple2.hashCode()==-888017822", -888017822, tuple2.hashCode());
-        assertTrue("tuple1.hashCode()==tuple1.hashCode()", tuple1.hashCode()==tuple1.hashCode());
+        assertEquals("tuple1.hashCode()==tuple1.hashCode()", tuple1.hashCode(), tuple1.hashCode());
         assertTrue("tuple1.hashCode()!=tuple2.hashCode()", tuple1.hashCode()!=tuple2.hashCode());
-        assertTrue("tuple1.equals(tuple1)", tuple1.equals(tuple1));
-        assertTrue("tuple2.equals(tuple2)", tuple2.equals(tuple2));
+        assertEquals("tuple1.equals(tuple1)", tuple1, tuple1);
+        assertEquals("tuple2.equals(tuple2)", tuple2, tuple2);
         assertTrue("!tuple1.equals(tuple2)", !tuple1.equals(tuple2));
-        assertTrue("tuple1.toString()==\"Tuple(1, 3.141592653589793)\"", tuple1.toString().equals("Tuple(1, 3.141592653589793)"));
+        assertEquals("tuple1.toString()==\"Tuple(1, 3.141592653589793)\"", "Tuple(1, 3.141592653589793)", tuple1.toString());
     }
 
     @Test
@@ -62,11 +63,11 @@ public class TupleTest {
         Tuple tuple2 = new Tuple(1, 1.0);
         assertEquals("tuple1.hashCode()==1072694240",  1072694240, tuple1.hashCode());
         assertEquals("tuple2.hashCode()==1072694240", 1072694240, tuple2.hashCode());
-        assertTrue("tuple1.hashCode()==tuple1.hashCode()", tuple1.hashCode()==tuple1.hashCode());
-        assertTrue("tuple1.hashCode()==tuple2.hashCode()", tuple1.hashCode()==tuple2.hashCode());
-        assertTrue("tuple1.equals(tuple1)", tuple1.equals(tuple1));
-        assertTrue("tuple2.equals(tuple2)", tuple2.equals(tuple2));
-        assertTrue("tuple1.equals(tuple2)", tuple1.equals(tuple2));
+        assertEquals("tuple1.hashCode()==tuple1.hashCode()", tuple1.hashCode(), tuple1.hashCode());
+        assertEquals("tuple1.hashCode()==tuple2.hashCode()", tuple1.hashCode(), tuple2.hashCode());
+        assertEquals("tuple1.equals(tuple1)", tuple1, tuple1);
+        assertEquals("tuple2.equals(tuple2)", tuple2, tuple2);
+        assertEquals("tuple1.equals(tuple2)", tuple1, tuple2);
         assertEquals("tuple1.toString()==\"Tuple(1, 1.0)\"", "Tuple(1, 1.0)", tuple1.toString());
 
         Tuple.index(0xAAAABBBB);
