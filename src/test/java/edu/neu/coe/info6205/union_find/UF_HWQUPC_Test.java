@@ -9,15 +9,59 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class UFHWQUPCTest {
+public class UF_HWQUPC_Test {
+
+    /**
+     */
+    @Test
+    public void testIsConnected01() {
+        Connections h = new UF_HWQUPC(2);
+        assertFalse(h.isConnected(0,1));
+    }
+
+    /**
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testIsConnected02() {
+        Connections h = new UF_HWQUPC(1);
+        assertTrue(h.isConnected(0,1));
+    }
+
+    /**
+     */
+    @Test
+    public void testIsConnected03() {
+        Connections h = new UF_HWQUPC(2);
+        final PrivateMethodTester tester = new PrivateMethodTester(h);
+        assertEquals(null, tester.invokePrivate("updateParent", 0, 1));
+        assertTrue(h.isConnected(0,1));
+    }
+
+    /**
+     */
+    @Test
+    public void testConnect01() {
+        Connections h = new UF_HWQUPC(2);
+        h.connect(0,1);
+    }
+
+    /**
+     */
+    @Test
+    public void testConnect02() {
+        Connections h = new UF_HWQUPC(2);
+        h.connect(0,1);
+        h.connect(0,1);
+        assertTrue(h.isConnected(0,1));
+    }
 
     /**
      */
     @Test
     public void testFind0() {
-        UF h = new Connections_HWQUPC(10);
-//        h.show();
+        UF h = new UF_HWQUPC(1);
         assertEquals(0, h.find(0));
     }
 
@@ -25,9 +69,8 @@ public class UFHWQUPCTest {
      */
     @Test
     public void testFind1() {
-        Connections_HWQUPC h = new Connections_HWQUPC(10);
+        UF h = new UF_HWQUPC(2);
         h.connect(0,1);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
     }
@@ -36,14 +79,11 @@ public class UFHWQUPCTest {
      */
     @Test
     public void testFind2() {
-        Connections_HWQUPC h = new Connections_HWQUPC(10);
-//        h.show();
+        UF h = new UF_HWQUPC(3, false);
         h.connect(0,1);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         h.connect(2,1);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -53,12 +93,11 @@ public class UFHWQUPCTest {
      */
     @Test
     public void testFind3() {
-        Connections_HWQUPC h = new Connections_HWQUPC(10);
+        UF h = new UF_HWQUPC(6, false);
         h.connect(0,1);
         h.connect(0,2);
         h.connect(3,4);
         h.connect(3,5);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -66,7 +105,6 @@ public class UFHWQUPCTest {
         assertEquals(3, h.find(4));
         assertEquals(3, h.find(5));
         h.connect(0,3);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -82,13 +120,11 @@ public class UFHWQUPCTest {
      */
     @Test
     public void testFind4() {
-        Connections_HWQUPC h = new Connections_HWQUPC(10);
-        h.setPathCompression(true);
+        UF h = new UF_HWQUPC(6);
         h.connect(0,1);
         h.connect(0,2);
         h.connect(3,4);
         h.connect(3,5);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -96,7 +132,6 @@ public class UFHWQUPCTest {
         assertEquals(3, h.find(4));
         assertEquals(3, h.find(5));
         h.connect(0,3);
-//        h.show();
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -110,11 +145,11 @@ public class UFHWQUPCTest {
 
     /**
      */
-    @Test
-    public void testConnected01() {
-        Connections h = new Connections_HWQUPC(10);
-//        h.show();
-        assertFalse(h.isConnected(0,1));
+    @Test(expected = IllegalArgumentException.class)
+    public void testFind5() {
+        UF h = new UF_HWQUPC(1);
+        h.find(1);
     }
+
 
 }

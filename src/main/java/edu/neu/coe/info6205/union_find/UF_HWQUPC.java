@@ -7,10 +7,12 @@
  */
 package edu.neu.coe.info6205.union_find;
 
+import java.util.Arrays;
+
 /**
  * Height-weighted Quick Union with Path Compression
  */
-public class Connections_HWQUPC implements UF {
+public class UF_HWQUPC implements UF {
     /**
      * Ensure that site p is connected to site q,
      * @param  p the integer representing one site
@@ -24,9 +26,10 @@ public class Connections_HWQUPC implements UF {
      * component.
      *
      * @param  n the number of sites
+     * @param pathCompression whether to use path compression
      * @throws IllegalArgumentException if {@code n < 0}
      */
-    public Connections_HWQUPC(int n) {
+    public UF_HWQUPC(int n, boolean pathCompression) {
         count = n;
         parent = new int[n];
         height = new int[n];
@@ -34,6 +37,20 @@ public class Connections_HWQUPC implements UF {
             parent[i] = i;
             height[i] = 1;
         }
+        this.pathCompression = pathCompression;
+    }
+
+    /**
+     * Initializes an empty union–find data structure with {@code n} sites
+     * {@code 0} through {@code n-1}. Each site is initially in its own
+     * component.
+     * This data structure uses path compression
+     *
+     * @param  n the number of sites
+     * @throws IllegalArgumentException if {@code n < 0}
+     */
+    public UF_HWQUPC(int n) {
+        this(n, true);
     }
 
     public void show() {
@@ -62,7 +79,7 @@ public class Connections_HWQUPC implements UF {
         validate(p);
         int root = p;
         while (root != parent[root]) {
-            if (pathCompression) Connections_HWQUPC.doPathCompression(root, parent);
+            if (pathCompression) doPathCompression(root);
             root = parent[root];
         }
         return root;
@@ -79,11 +96,8 @@ public class Connections_HWQUPC implements UF {
      *         both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     public void union(int p, int q) {
-        int i = find(p);
-        int j = find(q);
-        if (i == j)
-            return;
-        Connections_HWQUPC.mergeComponents(i, j, height, parent);
+        // CONSIDER can we avoid doing find again?
+        mergeComponents(find(p), find(q));
         count--;
     }
 
@@ -95,12 +109,30 @@ public class Connections_HWQUPC implements UF {
         this.pathCompression = pathCompression;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("UF_HWQUPC:");
+        stringBuilder.append("\n  count: "+ count);
+        stringBuilder.append("\n  path compression: "+ pathCompression);
+        stringBuilder.append("\n  parents: "+ Arrays.toString(parent));
+        stringBuilder.append("\n  height: "+ Arrays.toString(height));
+        return stringBuilder.toString();
+    }
+
     // validate that p is a valid index
     private void validate(int p) {
         int n = parent.length;
         if (p < 0 || p >= n) {
             throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
         }
+    }
+
+    private void updateParent(int p, int x) {
+        parent[p] = x;
+    }
+
+    private void updateHeight(int p, int x) {
+        height[p] += height[x];
     }
 
     /**
@@ -117,14 +149,17 @@ public class Connections_HWQUPC implements UF {
     private int count;  // number of components
     private boolean pathCompression = false;
 
-    static void mergeComponents(int i, int j, int[] height, int[] parent) {
+    private void mergeComponents(int i, int j) {
         // TODO make shorter root point to taller one
-        if (height[i] < height[j]) { parent[i] = j; height[j] += height[i]; }
-        else { parent[j] = i; height[i] += height[j]; }
+        if (height[i] < height[j]) { updateParent(i, j); updateHeight(j, i); }
+        else { updateParent(j, i); updateHeight(i, j); }
     }
 
-    static void doPathCompression(int i, int[] parent) {
-        // TODO update parent if appropriate
-        parent[i] = parent[parent[i]];
+    /**
+     * This implements the single-pass path-halving mechanism of path compression
+     */
+    private void doPathCompression(int i) {
+        // TODO update parent to value of grandparent
+        updateParent(i, parent[parent[i]]);
     }
 }

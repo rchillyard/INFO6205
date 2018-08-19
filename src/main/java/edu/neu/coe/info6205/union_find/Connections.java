@@ -1,6 +1,11 @@
 package edu.neu.coe.info6205.union_find;
 
-public interface UF {
+/**
+ * This interface models a situation where a set of objects ("sites") maintains a set of connections between the objects.
+ * There are two operations: connect and isConnected.
+ * Object (sites) are identified by unique integers.
+ */
+public interface Connections {
     /**
      * Returns true if site p is connected to site q.
      *
@@ -9,7 +14,7 @@ public interface UF {
      * @return {@code true} if there is a connection (direct or indirect) between p and q
      * @throws IllegalArgumentException if either p or q is an invalid site identifier
      */
-    boolean connected(int p, int q);
+    boolean isConnected(int p, int q);
 
     /**
      * Connects site p with site q
@@ -18,5 +23,5 @@ public interface UF {
      * @param  q the integer representing the other site
      * @throws IllegalArgumentException if either p or q is an invalid site identifier
      */
-    void union(int p, int q);
+    void connect(int p, int q);
 }
