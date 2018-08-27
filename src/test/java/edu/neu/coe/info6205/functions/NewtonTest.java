@@ -40,4 +40,19 @@ public class NewtonTest {
         assertEquals("cos(x) - x=0 did not converge given x0=-1.0, maxTries=2, and tolerance=1.0E-7", x);
     }
 
+    @Test
+    public void testNewton3() {
+        // Build the Newton's Approximation problem to be solved: cos(x) = x
+        Newton newton = new Newton("cos(x) - x", (double x) -> Math.cos(x) - x, (double x) -> -Math.sin(x) - 1);
+
+        // Demonstrate that we cannot solve the problem starting with a value of x = -1;
+        // requiring a precision of 10^-7;
+        // and giving up after 2 tries.
+        Either<String, Double> result = newton.solve(-Math.PI/2, 100, 1E-7);
+
+        assertFalse("result is a Double", result.isRight());
+        String x = result.getLeft();
+        assertEquals("cos(x) - x=0 did not converge given x0=-1.0, maxTries=2, and tolerance=1.0E-7", x);
+    }
+
 }
