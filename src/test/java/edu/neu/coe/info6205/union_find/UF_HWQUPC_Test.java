@@ -160,4 +160,12 @@ public class UF_HWQUPC_Test {
     }
 
 
+    /**
+     */
+    @Test
+    public void testConnected01() {
+        Connections h = new UF_HWQUPC(10);
+//        h.show();
+        assertFalse(h.isConnected(0,1));
+    }
 }

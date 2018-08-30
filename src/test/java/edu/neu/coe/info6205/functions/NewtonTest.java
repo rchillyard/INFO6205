@@ -52,7 +52,7 @@ public class NewtonTest {
 
         assertFalse("result is a Double", result.isRight());
         String x = result.getLeft();
-        assertEquals("cos(x) - x=0 did not converge given x0=-1.0, maxTries=2, and tolerance=1.0E-7", x);
+        assertEquals("cos(x) - x=0 did not converge given x0=-1.5707963267948966, maxTries=100, and tolerance=1.0E-7", x);
     }
 
 }

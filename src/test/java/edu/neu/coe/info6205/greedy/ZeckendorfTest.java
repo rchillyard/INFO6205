@@ -1,6 +1,5 @@
 package edu.neu.coe.info6205.greedy;
 
-import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -9,86 +8,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class ZeckendorfTest {
-    /**
-     * Test method for Zeckendorf
-     */
-    @Test
-    public void testZeckendorf() {
-        Zeckendorf z = new Zeckendorf();
-        PrivateMethodTester t = new PrivateMethodTester(z);
-        assertEquals(2, t.invokePrivate("size"));
-        assertEquals(1L, t.invokePrivate("fib", 0));
-        assertEquals(1L, t.invokePrivate("fib", 1));
-    }
-
-    /**
-     * Test method for extendFibonacci
-     */
-    @Test
-    public void testExtendFibonacci() {
-        Zeckendorf z = new Zeckendorf();
-        PrivateMethodTester t = new PrivateMethodTester(z);
-        t.invokePrivate("extendFibonacci");
-        assertEquals(4, t.invokePrivate("size"));
-        assertEquals(2L, t.invokePrivate("fib", 2));
-        assertEquals(3L, t.invokePrivate("fib", 3));
-        t.invokePrivate("extendFibonacci");
-        assertEquals(8, t.invokePrivate("size"));
-        assertEquals(5L, t.invokePrivate("fib", 4));
-        assertEquals(8L, t.invokePrivate("fib", 5));
-        assertEquals(13L, t.invokePrivate("fib", 6));
-        assertEquals(21L, t.invokePrivate("fib", 7));
-
-    }
-
-    /**
-     * Test method for calculateFibonacci
-     */
-    @Test
-    public void testCalculateFibonacci() {
-        Zeckendorf z = new Zeckendorf();
-        PrivateMethodTester t = new PrivateMethodTester(z);
-        t.invokePrivate("ensureFibonacci", 5L);
-        assertEquals(2L, t.invokePrivate("calculateFibonacci", 2));
-        assertEquals(3L, t.invokePrivate("calculateFibonacci", 3));
-        assertEquals(5L, t.invokePrivate("calculateFibonacci", 4));
-        assertEquals(8L, t.invokePrivate("calculateFibonacci", 5));
-    }
-
-    /**
-     * Test method for ensureFibonacci
-     */
-    @Test
-    public void testEnsureFibonacci() {
-        Zeckendorf z = new Zeckendorf();
-        PrivateMethodTester t = new PrivateMethodTester(z);
-        t.invokePrivate("ensureFibonacci", 1L);
-        assertEquals(2, t.invokePrivate("size"));
-        t.invokePrivate("ensureFibonacci", 2L);
-        assertEquals(4, t.invokePrivate("size"));
-        t.invokePrivate("ensureFibonacci", 3L);
-        assertEquals(4, t.invokePrivate("size"));
-        t.invokePrivate("ensureFibonacci", 4L);
-        assertEquals(8, t.invokePrivate("size"));
-        t.invokePrivate("ensureFibonacci", 5L);
-        assertEquals(8, t.invokePrivate("size"));
-    }
-
-    /**
-     * Test method for getLargestFibonacci
-     */
-    @Test
-    public void testGetLargestFibonacci() {
-        Zeckendorf z = new Zeckendorf();
-        PrivateMethodTester t = new PrivateMethodTester(z);
-        assertEquals(1L, t.invokePrivate("getLargestFibonacci", 1L));
-        t.invokePrivate("ensureFibonacci", 2L);
-        assertEquals(2L, t.invokePrivate("getLargestFibonacci", 2L));
-        assertEquals(3L, t.invokePrivate("getLargestFibonacci", 4L));
-        t.invokePrivate("ensureFibonacci", 5L);
-        assertEquals(5L, t.invokePrivate("getLargestFibonacci", 6L));
-    }
-
     /**
      * Test method for get
      */
