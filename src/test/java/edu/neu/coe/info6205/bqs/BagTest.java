@@ -14,7 +14,7 @@ public class BagTest {
      * Test method for Bag
      */
     @Test
-    public void testBag() {
+    public void testBag1() {
         Bag<Integer> bag = new Bag_Array<>();
         assertTrue(bag.size() == 0);
         assertTrue(bag.isEmpty());
@@ -25,5 +25,19 @@ public class BagTest {
         assertTrue((bag.iterator()).hasNext());
         assertEquals(new Integer(1), bag.iterator().next());
     }
+
+    /**
+     * Test method for Bag
+     */
+    @Test
+    public void testBag2() {
+        Bag<Integer> bag = new Bag_Array<>();
+        System.out.println(bag);
+        bag.add(1);
+        bag.add(1);
+        System.out.println(bag);
+        assertTrue(bag.size() == 2);
+    }
+
 
 }

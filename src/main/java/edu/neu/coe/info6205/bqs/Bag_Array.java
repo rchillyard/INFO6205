@@ -34,7 +34,15 @@ public class Bag_Array<Item> implements Bag<Item> {
         return Arrays.asList(Arrays.copyOf(items, count)).iterator();
     }
 
-    private void grow( Item[] source, int size) {
+    @Override
+    public String toString() {
+        return "Bag_Array{" +
+                "items=" + Arrays.toString(items) +
+                ", count=" + count +
+                '}';
+    }
+
+    private void grow(Item[] source, int size) {
         items = growFrom(source, size);
     }
 
