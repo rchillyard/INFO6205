@@ -4,7 +4,7 @@
 
 package edu.neu.coe.info6205.bqs;
 
-public interface Stack<Item> {
+public interface Stack<Item> extends Iterable<Item> {
 
     /**
      * Update this Stack by adding an item on the top.
@@ -22,7 +22,7 @@ public interface Stack<Item> {
     Item pop() throws BQSException;
 
     /**
-     * Take the peek at the item on top of this Stack.
+     * Take a peek at the item on top of this Stack.
      *
      * @return the item.
      */

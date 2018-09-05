@@ -17,8 +17,12 @@ public class RandomWalk {
         y += dy;
     }
 
-    private void randomWalk(int n) {
-        for (int i = 0; i < n; i++)
+    /**
+     * Perform a random walk of m steps
+     * @param m the number of steps the drunkard takes
+     */
+    private void randomWalk(int m) {
+        for (int i = 0; i < m; i++)
             randomMove();
     }
 
@@ -29,13 +33,33 @@ public class RandomWalk {
     }
 
     public double distance() {
-        return Math.sqrt(x * x + y * y);  // TODO you need to implement this
+        return Math.sqrt(x * x + y * y); // TODO you need to implement this
+    }
+
+    /**
+     * Perform multiple random walk experiments, returning the mean distance.
+     * @param m the number of steps for each experiment
+     * @param n the number of experiments to run
+     * @return the mean distance
+     */
+    public static double randomWalkMulti(int m, int n) {
+        double totalDistance = 0;
+        for (int i = 0; i < n; i++){
+            RandomWalk walk = new RandomWalk();
+            walk.randomWalk(m);
+            totalDistance = totalDistance + walk.distance();
+        }
+        return totalDistance/n ;
     }
 
     public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
-        RandomWalk walk = new RandomWalk();
-        walk.randomWalk(n);
-        System.out.println(n + " steps: " + walk.distance());
+        if (args.length==0)
+            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
+        int m = Integer.parseInt(args[0]);
+        int n = 30;
+        if (args.length > 1) n = Integer.parseInt(args[1]);
+        double meanDistance = randomWalkMulti(m, n);
+        System.out.println(m + " steps: " + meanDistance + " over "+ n + " experiments");
     }
+
 }

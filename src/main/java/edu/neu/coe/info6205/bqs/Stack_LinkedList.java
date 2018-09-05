@@ -4,6 +4,8 @@
 
 package edu.neu.coe.info6205.bqs;
 
+import java.util.Iterator;
+
 public class Stack_LinkedList<Item> implements Stack<Item> {
     public Stack_LinkedList() {
         list = new LinkedList<>();
@@ -26,4 +28,14 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
     }
 
     private final LinkedList<Item> list;
+
+    @Override
+    public Iterator<Item> iterator() {
+        return list.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return list.toString();
+    }
 }

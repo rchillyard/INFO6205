@@ -19,12 +19,8 @@ public class StackTest {
         assertTrue(stack.isEmpty());
         stack.push(1);
         assertFalse(stack.isEmpty());
-        try {
-            Integer item = stack.pop();
-            assertEquals(item, new Integer(1));
-        } catch (BQSException e) {
-            throw e;
-        }
+        Integer item = stack.pop();
+        assertEquals(item, new Integer(1));
     }
 
 }

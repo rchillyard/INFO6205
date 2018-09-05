@@ -45,5 +45,12 @@ public class Tuple extends BaseEquable {
     private final int x;
     private final double y;
 
+    public static int index(int hash) {
+        System.out.printf("hash: %x\n", hash);
+        int x = (hash & 0xFFFF0000) >>> 16 ^ hash & 0x0000FFFF;
+        System.out.printf("index: %x\n", x);
+        return x;
+    }
+
 }
 
