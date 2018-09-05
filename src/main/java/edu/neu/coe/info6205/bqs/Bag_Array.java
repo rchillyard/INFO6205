@@ -61,7 +61,10 @@ public class Bag_Array<Item> implements Bag<Item> {
 
     @Override
     public String toString() {
-        return Arrays.toString(asArray());
+        return "Bag_Array{" +
+                "items=" + Arrays.toString(items) +
+                ", count=" + count +
+                '}';
     }
 
     private void grow(Item[] source, int size) {

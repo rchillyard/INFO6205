@@ -5,10 +5,10 @@
 package edu.neu.coe.info6205.hashtable;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class FrequencyCounter<K> {
 
+    public FrequencyCounter(Map<K,Integer> map) {
     private final ST<K, Integer> map;
 
     public FrequencyCounter(ST<K, Integer> map) {
