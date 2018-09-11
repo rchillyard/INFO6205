@@ -17,12 +17,20 @@ final class Either<L, R> {
         return right.isPresent() && !left.isPresent();
     }
 
+    /**
+     * Get this as an R. If this object is an L instead, then null will be returned.
+     * @return an R value else null
+     */
     public R getRight() {
-        return right.get();
+        return right.orElse(null);
     }
 
+    /**
+     * Get this as n L. If this object is an R instead, then null will be returned.
+     * @return an L value else null
+     */
     public L getLeft() {
-        return left.get();
+        return left.orElse(null);
     }
 
     private final Optional<L> left;
@@ -36,7 +44,7 @@ final class Either<L, R> {
     public <T> T map(
             Function<? super L, ? extends T> lFunc,
             Function<? super R, ? extends T> rFunc) {
-        return left.<T>map(lFunc).orElseGet(() -> right.map(rFunc).get());
+        return left.<T>map(lFunc).orElseGet(() -> right.map(rFunc).orElseGet(null));
     }
 
     public <T> Either<T, R> mapLeft(Function<? super L, ? extends T> lFunc) {

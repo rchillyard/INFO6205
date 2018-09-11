@@ -6,7 +6,7 @@ package edu.neu.coe.info6205;
 
 public class CallByValue {
     private int number = 0;
-        final int[] array = {0};
+        private final int[] array = {0};
 
         // Hide "number" field
         public int incrementNumber1(int number) {
