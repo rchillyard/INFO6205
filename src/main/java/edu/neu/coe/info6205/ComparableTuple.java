@@ -4,9 +4,6 @@
 
 package edu.neu.coe.info6205;
 
-//import edu.neu.coe.info6205.equable.BaseComparableEquable;
-
-
 import edu.neu.coe.info6205.equable.BaseComparableEquable;
 import edu.neu.coe.info6205.equable.ComparableEquable;
 import edu.neu.coe.info6205.equable.Equable;
