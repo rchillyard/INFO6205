@@ -74,7 +74,7 @@ public class RandomWalkTest {
     @Test
     public void testRandomWalk(){
         for (int i = 0; i < 5000; i++)
-            assertEquals(RandomWalk.randomWalkMulti(100, 100), 10, 4);
+            assertEquals(10, RandomWalk.randomWalkMulti(100, 100), 4);
     }
 
     @Test
