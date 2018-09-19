@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class Stack_LinkedList<Item> implements Stack<Item> {
     public Stack_LinkedList() {
-        list = new LinkedList<>();
+        list = new LinkedList_Elements<>();
     }
 
     public void push(Item item) {
@@ -27,7 +27,7 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
         return list.isEmpty();
     }
 
-    private final LinkedList<Item> list;
+    private final LinkedList_Elements<Item> list;
 
     @Override
     public Iterator<Item> iterator() {

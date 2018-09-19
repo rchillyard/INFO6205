@@ -44,4 +44,18 @@ public class BagTest {
         assertEquals(new Integer(0), bag.iterator().next());
     }
 
+    /**
+     * Test method for Bag
+     */
+    @Test
+    public void testBagIterator() {
+        Bag<Integer> bag = new Bag_Array<>();
+        for (int i = 1; i <= 4; i++)
+            bag.add(i);
+        assertEquals(4, bag.size());
+        int sum = 0;
+        for (Integer x : bag) sum += x;
+        assertEquals(10, sum);
+    }
+
 }

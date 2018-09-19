@@ -20,9 +20,9 @@ public class MyDateTest {
     @Test
     public void testMyDate() {
         MyDate target = new MyDate(2018, 9, 11);
-        assertEquals("day", 11,target.getDay());
-        assertEquals("month", 9,target.getMonth());
-        assertEquals("year", 2018,target.getYear());
+        assertEquals("day", 11, target.getDay());
+        assertEquals("month", 9, target.getMonth());
+        assertEquals("year", 2018, target.getYear());
     }
     /**
      * Test method for MyData.getDayOfTheWeek
