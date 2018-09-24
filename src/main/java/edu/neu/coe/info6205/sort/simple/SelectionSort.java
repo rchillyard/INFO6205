@@ -1,8 +1,5 @@
 package edu.neu.coe.info6205.sort.simple;
 
-import static edu.neu.coe.info6205.sort.simple.Helper.less;
-import static edu.neu.coe.info6205.sort.simple.Helper.swap;
-
 public class SelectionSort<X extends Comparable<X>> implements Sort<X> {
 
     @Override

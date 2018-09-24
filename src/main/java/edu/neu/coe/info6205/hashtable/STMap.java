@@ -4,6 +4,7 @@
 
 package edu.neu.coe.info6205.hashtable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class STMap <Key, Value> implements ST<Key, Value>{
@@ -19,6 +20,10 @@ public class STMap <Key, Value> implements ST<Key, Value>{
 
     public STMap(Map<Key,Value> map) {
         this.map = map;
+    }
+
+    public STMap() {
+        this(new HashMap<>());
     }
 
     @Override
