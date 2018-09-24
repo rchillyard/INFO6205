@@ -15,10 +15,10 @@ public class UF_HWQUPC_Test {
     public void testToString() {
         Connections h = new UF_HWQUPC(2);
         assertEquals("UF_HWQUPC:\n" +
-                "  count: 2;\n" +
-                "  path compression? true;\n" +
-                "  parents: [0, 1];\n" +
-                "  heights: [1, 1].", h.toString());
+                "  count: 2\n" +
+                "  path compression? true\n" +
+                "  parents: [0, 1]\n" +
+                "  heights: [1, 1]", h.toString());
     }
     /**
      *

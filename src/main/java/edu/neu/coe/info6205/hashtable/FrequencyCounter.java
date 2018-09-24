@@ -25,8 +25,9 @@ public class FrequencyCounter<K> {
         return value;
     }
 
-    public void increment(String s) {
-        // TODO implement me
+    public void increment(K s) {
+        int x = get(s);
+        map.put(s,x+1);
     }
 
     public String toString() {

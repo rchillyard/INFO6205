@@ -127,9 +127,9 @@ public class UF_HWQUPC implements UF {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("UF_HWQUPC:");
         stringBuilder.append("\n  count: ").append(count);
-        stringBuilder.append("\n  path compression: ").append(pathCompression);
+        stringBuilder.append("\n  path compression? ").append(pathCompression);
         stringBuilder.append("\n  parents: ").append(Arrays.toString(parent));
-        stringBuilder.append("\n  height: ").append(Arrays.toString(height));
+        stringBuilder.append("\n  heights: ").append(Arrays.toString(height));
         return stringBuilder.toString();
     }
 
