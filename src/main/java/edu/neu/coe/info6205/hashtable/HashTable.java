@@ -23,20 +23,19 @@ public class HashTable {
     }
 
     public void put(Object key, Object value) {
-        if (size>=length)
+        if (size >= length)
             throw new HashTableException("table is full");
         int index = getIndex(key, bits);
-        while (hashes[index]!=0 || keys[index]!=null) {
+        while (hashes[index] != 0 || keys[index] != null) {
             index++;
-            if (index==length-1) index = 0;
+            if (index == length - 1) index = 0;
         }
-        if (index<length) {
+        if (index < length) {
             hashes[index] = key.hashCode();
             keys[index] = key;
             values[index] = value;
             size++;
-        }
-        else
+        } else
             throw new HashTableException("logic error");
     }
 
@@ -48,8 +47,8 @@ public class HashTable {
 
     public Object getValue(Object key) {
         int index = findMatchingIndex(key, getIndex(key, bits));
-        assert(index >= 0);
-        assert(index < length);
+        assert (index >= 0);
+        assert (index < length);
         assert (hashes[index] == key.hashCode());
         assert (keys[index] == key);
         return values[index];
@@ -79,7 +78,7 @@ public class HashTable {
                     return result;
                 else {
                     result++;
-                    if (result==length) result = 0;
+                    if (result == length) result = 0;
                 }
             else
                 return -1;
@@ -89,11 +88,11 @@ public class HashTable {
 
     // This is only for testing and should be made private
     public boolean check(int bits, int length) {
-        return (this.bits==bits && this.length==length);
+        return (this.bits == bits && this.length == length);
     }
 
     public void show() {
-        for (int i=0; i<length; i++)
+        for (int i = 0; i < length; i++)
             if (hashes[i] != 0)
                 System.out.println("i: " + i + ": hash: " + hashes[i] + ", key: " + keys[i] + ", value: " + values[i]);
     }
