@@ -9,16 +9,16 @@ import java.util.Map;
 
 public class FrequencyCounter<K> {
 
-    public FrequencyCounter(Map<K,Integer> map) {
+    public FrequencyCounter(ST<K,Integer> map) {
         this.map = map;
     }
 
     public FrequencyCounter() {
-        this(new HashMap<>());
+        this(new STMap<K,Integer>(new HashMap<>()));
     }
 
     public int get(Object key) {
-        Integer value = map.get(key);
+        Integer value = map.get((K)key);
         if (value==null) value = 0;
         return value;
     }
@@ -32,6 +32,6 @@ public class FrequencyCounter<K> {
         return map.toString();
     }
 
-    private final Map<K,Integer> map;
+    private final ST<K, Integer> map;
 
 }
