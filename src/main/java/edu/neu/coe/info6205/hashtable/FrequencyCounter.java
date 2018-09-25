@@ -5,15 +5,12 @@
 package edu.neu.coe.info6205.hashtable;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class FrequencyCounter<K> {
 
-    public FrequencyCounter(Map<K,Integer> map) {
     private final ST<K, Integer> map;
 
     public FrequencyCounter(ST<K, Integer> map) {
-    public FrequencyCounter(ST<K,Integer> map) {
         this.map = map;
     }
 
@@ -36,6 +33,8 @@ public class FrequencyCounter<K> {
     public String toString() {
         return map.toString();
     }
+
+    private final ST<K, Integer> map;
 
     public static void main(String[] args) {
         FrequencyCounter<String> counter = new FrequencyCounter<>();
