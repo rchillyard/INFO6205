@@ -1,0 +1,30 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 AvenirNext-Regular;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red78\green78\blue78;\red53\green59\blue71;\red255\green255\blue255;
+}
+{\*\expandedcolortbl;;\cssrgb\c38039\c38039\c38039;\cssrgb\c27059\c29804\c34902;\cssrgb\c100000\c100000\c100000;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl420\partightenfactor0
+
+\f0\fs28 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Question 4:\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f1 \cf3 \cb4 \strokec3 Answer is: \ul D\ulnone \
+\pard\pardeftab720\sl420\partightenfactor0
+
+\f0 \cf2 \cb1 \strokec2 \
+Question 5:\
+\
+\'a0\'a0\'a0while (!pq.isEmpty() && mst.size() < G.V()-1) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Edge e = pq.getMin();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0 pq.remove(e);\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 Vertice\'a0v = e.getOneVertice(), w = e.getAnotherVertice();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0if (!uf.connected(v, w)) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0uf.union(v, w);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0mst.enqueue(e);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+}

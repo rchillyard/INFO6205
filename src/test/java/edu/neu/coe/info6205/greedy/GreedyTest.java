@@ -15,7 +15,6 @@ public class GreedyTest {
      * See also Zeckendorf.java in the main tree.
      * This version of Zeckendorf uses the Greedy class.
      */
-    @SuppressWarnings("Duplicates")
     class GreedyZ {
 
         GreedyZ() {
