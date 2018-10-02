@@ -13,7 +13,6 @@ public class FrequencyCounter<K> {
     }
 
     public FrequencyCounter() {
-        this(new STMap<>(new HashMap<>()));
         this(new STMap<>());
     }
 
