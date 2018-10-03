@@ -2,7 +2,6 @@ package edu.neu.coe.info6205.union_find;
 
 /**
  * This interface models the concept of Union-Find, a special case of the Connections interface
- *
  */
 public interface UF extends Connections {
     /**
@@ -15,7 +14,7 @@ public interface UF extends Connections {
     /**
      * Returns the component identifier for the component containing site {@code p}.
      *
-     * @param  p the integer representing one site
+     * @param p the integer representing one site
      * @return the component identifier for the component containing site {@code p}
      * @throws IllegalArgumentException unless {@code 0 <= p < n}
      */
@@ -25,22 +24,22 @@ public interface UF extends Connections {
      * Merges the component containing site {@code p} with the
      * the component containing site {@code q}.
      *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
+     *                                  both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     void union(int p, int q);
 
     /**
      * Returns true if the the two sites are in the same component.
      *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      * @return {@code true} if the two sites {@code p} and {@code q} are in the same component;
-     *         {@code false} otherwise
+     * {@code false} otherwise
      * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
+     *                                  both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     default boolean isConnected(int p, int q) {
         return find(p) == find(q);

@@ -16,7 +16,7 @@ public class WQUPC {
      * {@code 0} through {@code n-1}. Each site is initially in its own
      * component.
      *
-     * @param  n the number of sites
+     * @param n the number of sites
      * @throws IllegalArgumentException if {@code n < 0}
      */
     public WQUPC(int n) {
@@ -30,7 +30,7 @@ public class WQUPC {
     }
 
     public void show() {
-        for (int i=0; i<parent.length; i++) {
+        for (int i = 0; i < parent.length; i++) {
             System.out.printf("%d: %d, %d\n", i, parent[i], size[i]);
         }
     }
@@ -47,7 +47,7 @@ public class WQUPC {
     /**
      * Returns the component identifier for the component containing site {@code p}.
      *
-     * @param  p the integer representing one site
+     * @param p the integer representing one site
      * @return the component identifier for the component containing site {@code p}
      * @throws IllegalArgumentException unless {@code 0 <= p < n}
      */
@@ -69,19 +69,19 @@ public class WQUPC {
     private void validate(int p) {
         int n = parent.length;
         if (p < 0 || p >= n) {
-            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
         }
     }
 
     /**
      * Returns true if the the two sites are in the same component.
      *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      * @return {@code true} if the two sites {@code p} and {@code q} are in the same component;
-     *         {@code false} otherwise
+     * {@code false} otherwise
      * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
+     *                                  both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     public boolean connected(int p, int q) {
         return find(p) == find(q);
@@ -91,10 +91,10 @@ public class WQUPC {
      * Merges the component containing site {@code p} with the
      * the component containing site {@code q}.
      *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
+     *                                  both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     public void union(int p, int q) {
         int rootP = find(p);
@@ -104,8 +104,7 @@ public class WQUPC {
         if (size[rootP] < size[rootQ]) {
             parent[rootP] = rootQ;
             size[rootQ] += size[rootP];
-        }
-        else {
+        } else {
             parent[rootQ] = rootP;
             size[rootP] += size[rootQ];
         }

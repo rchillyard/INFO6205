@@ -20,13 +20,14 @@ public class UF_HWQUPC_Test {
                 "  parents: [0, 1]\n" +
                 "  heights: [1, 1]", h.toString());
     }
+
     /**
      *
      */
     @Test
     public void testIsConnected01() {
         Connections h = new UF_HWQUPC(2);
-        assertFalse(h.isConnected(0,1));
+        assertFalse(h.isConnected(0, 1));
     }
 
     /**
@@ -34,7 +35,7 @@ public class UF_HWQUPC_Test {
     @Test(expected = IllegalArgumentException.class)
     public void testIsConnected02() {
         Connections h = new UF_HWQUPC(1);
-        assertTrue(h.isConnected(0,1));
+        assertTrue(h.isConnected(0, 1));
     }
 
     /**
@@ -44,7 +45,7 @@ public class UF_HWQUPC_Test {
         Connections h = new UF_HWQUPC(2);
         final PrivateMethodTester tester = new PrivateMethodTester(h);
         assertNull(tester.invokePrivate("updateParent", 0, 1));
-        assertTrue(h.isConnected(0,1));
+        assertTrue(h.isConnected(0, 1));
     }
 
     /**
@@ -52,7 +53,7 @@ public class UF_HWQUPC_Test {
     @Test
     public void testConnect01() {
         Connections h = new UF_HWQUPC(2);
-        h.connect(0,1);
+        h.connect(0, 1);
     }
 
     /**
@@ -60,9 +61,9 @@ public class UF_HWQUPC_Test {
     @Test
     public void testConnect02() {
         Connections h = new UF_HWQUPC(2);
-        h.connect(0,1);
-        h.connect(0,1);
-        assertTrue(h.isConnected(0,1));
+        h.connect(0, 1);
+        h.connect(0, 1);
+        assertTrue(h.isConnected(0, 1));
     }
 
     /**
@@ -78,7 +79,7 @@ public class UF_HWQUPC_Test {
     @Test
     public void testFind1() {
         UF h = new UF_HWQUPC(2);
-        h.connect(0,1);
+        h.connect(0, 1);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
     }
@@ -88,10 +89,10 @@ public class UF_HWQUPC_Test {
     @Test
     public void testFind2() {
         UF h = new UF_HWQUPC(3, false);
-        h.connect(0,1);
+        h.connect(0, 1);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
-        h.connect(2,1);
+        h.connect(2, 1);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -102,17 +103,17 @@ public class UF_HWQUPC_Test {
     @Test
     public void testFind3() {
         UF h = new UF_HWQUPC(6, false);
-        h.connect(0,1);
-        h.connect(0,2);
-        h.connect(3,4);
-        h.connect(3,5);
+        h.connect(0, 1);
+        h.connect(0, 2);
+        h.connect(3, 4);
+        h.connect(3, 5);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
         assertEquals(3, h.find(3));
         assertEquals(3, h.find(4));
         assertEquals(3, h.find(5));
-        h.connect(0,3);
+        h.connect(0, 3);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
@@ -129,17 +130,17 @@ public class UF_HWQUPC_Test {
     @Test
     public void testFind4() {
         UF h = new UF_HWQUPC(6);
-        h.connect(0,1);
-        h.connect(0,2);
-        h.connect(3,4);
-        h.connect(3,5);
+        h.connect(0, 1);
+        h.connect(0, 2);
+        h.connect(3, 4);
+        h.connect(3, 5);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));
         assertEquals(3, h.find(3));
         assertEquals(3, h.find(4));
         assertEquals(3, h.find(5));
-        h.connect(0,3);
+        h.connect(0, 3);
         assertEquals(0, h.find(0));
         assertEquals(0, h.find(1));
         assertEquals(0, h.find(2));

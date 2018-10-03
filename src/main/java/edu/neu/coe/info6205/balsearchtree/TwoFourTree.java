@@ -14,6 +14,7 @@ public class TwoFourTree<Key extends Comparable<Key>, Value> {
         private final Key key2;
         private final Key key3;
         private Node left, middle, right;
+
         public Node(Value value, Key key1, Key key2, Key key3) {
             this.value = value;
             this.key1 = key1;
@@ -28,8 +29,8 @@ public class TwoFourTree<Key extends Comparable<Key>, Value> {
     }
 
     private Node cf(Key key, Node node, Key k, Node n) {
-        if (key.compareTo(k)==0) return node;
-        else if (key.compareTo(k)<0) return n;
+        if (key.compareTo(k) == 0) return node;
+        else if (key.compareTo(k) < 0) return n;
         else return null;
     }
 

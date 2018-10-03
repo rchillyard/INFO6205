@@ -23,7 +23,7 @@ public class FrequencyCounter<K> {
 
     public void increment(K s) {
         int x = get(s);
-        map.put(s,x+1);
+        map.put(s, x + 1);
     }
 
     public String toString() {

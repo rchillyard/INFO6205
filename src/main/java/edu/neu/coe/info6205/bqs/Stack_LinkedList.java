@@ -17,6 +17,7 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
 
     /**
      * push method, delegates to list as add
+     *
      * @param item the item to add
      */
     public void push(Item item) {
@@ -25,6 +26,7 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
 
     /**
      * pop method, delegates to list as remove
+     *
      * @return the item on the top of this stack
      * @throws BQSException if this stack is empty
      */
@@ -34,6 +36,7 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
 
     /**
      * peek method, delegates to list as getHead
+     *
      * @return the value at the top of the stack (no change is made to the stack). Result may be null
      */
     public Item peek() {
@@ -42,6 +45,7 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
 
     /**
      * isEmtpy method, delegates to list.
+     *
      * @return true if this stack is empty
      */
     public boolean isEmpty() {

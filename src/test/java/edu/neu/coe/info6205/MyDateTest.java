@@ -21,6 +21,7 @@ public class MyDateTest {
         assertEquals("month", 9, target.getMonth());
         assertEquals("year", 2018, target.getYear());
     }
+
     /**
      * Test method for MyData.getDayOfTheWeek
      */

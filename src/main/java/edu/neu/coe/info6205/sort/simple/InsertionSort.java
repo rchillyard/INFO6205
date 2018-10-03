@@ -9,7 +9,7 @@ public class InsertionSort<X extends Comparable<X>> implements Sort<X> {
         for (int i = from; i < to; i++)
             for (int j = i; j > 0; j--)
                 if (less(xs[j], xs[j - 1]))
-                    swap(xs, j, j - 1);
+                    swap(xs, from, to, j, j - 1);
                 else break;
 
     }

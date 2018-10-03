@@ -3,13 +3,23 @@ package edu.neu.coe.info6205.coupling;
 public class CouplingTight {
 
     class A {
-        public A(int a) { CouplingTight.this.a = a; }
-        public int getA() { return a; }
+        public A(int a) {
+            CouplingTight.this.a = a;
+        }
+
+        public int getA() {
+            return a;
+        }
     }
 
     class B {
-        public B(int b) { CouplingTight.this.b = b; }
-        public int getB() { return b; }
+        public B(int b) {
+            CouplingTight.this.b = b;
+        }
+
+        public int getB() {
+            return b;
+        }
     }
 
     private int a;

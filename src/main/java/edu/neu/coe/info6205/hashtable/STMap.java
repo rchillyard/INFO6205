@@ -22,7 +22,9 @@ public class STMap<Key, Value> implements ST<Key, Value> {
         this.map = map;
     }
 
-    public STMap() { this(new HashMap<>()); }
+    public STMap() {
+        this(new HashMap<>());
+    }
 
     @Override
     public String toString() {

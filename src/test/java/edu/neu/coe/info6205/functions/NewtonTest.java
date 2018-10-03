@@ -48,7 +48,7 @@ public class NewtonTest {
         // Demonstrate that we cannot solve the problem starting with a value of x = -1;
         // requiring a precision of 10^-7;
         // and giving up after 2 tries.
-        Either<String, Double> result = newton.solve(-Math.PI/2, 100, 1E-7);
+        Either<String, Double> result = newton.solve(-Math.PI / 2, 100, 1E-7);
 
         assertFalse("result is a Double", result.isRight());
         String x = result.getLeft();

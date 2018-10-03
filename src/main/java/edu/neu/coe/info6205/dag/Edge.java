@@ -24,6 +24,6 @@ public class Edge<Vertex> {
 
     @Override
     public String toString() {
-        return from+"->"+to;
+        return from + "->" + to;
     }
 }

@@ -66,7 +66,7 @@ public class Newton {
                 aDouble -> {
                     // Publish the happy news.
                     System.out.println("Good news! " + newton.equation + " was solved: " + aDouble);
-        });
+                });
     }
 
     private final String equation;
