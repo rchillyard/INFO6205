@@ -18,29 +18,21 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
 
     /**
      * Method to sort an array of Xs
-     * @param array an array of Xs to be sorted in place.
+     * @param xs an array of Xs to be sorted in place.
      */
-    private void shellSort(X[] array) {
-        int N = array.length;
+    @Override
+    public void sort(X[] xs, int from, int to) {
+        int N = to - from;
         H hh = new H(N);
         int h = hh.next();
         while (h > 0) {
-            for (int i = h; i < N; i++)
-                for (int j = i; j >= h && Helper.less(array[j], array[j - h]); j -= h) {
-                    Helper.swap(array, j, j - h);
-                    System.out.println("after step: h=" + h + ", i=" + i + ":\t" + Arrays.toString(array));
+            for (int i = h + from; i < to; i++)
+                for (int j = i; j >= h + from && Helper.less(xs[j], xs[j - h]); j -= h) {
+                    Helper.swap(xs, j, j - h);
+                    System.out.println("after step: h=" + h + ", i=" + i + ":\t" + Arrays.toString(xs));
                 }
             h = hh.next();
         }
-    }
-
-    @Override
-    public X[] sort(X[] xs, int from, int to) {
-        int N = to - from;
-        X[] result = (X[]) new Object[N];
-        System.arraycopy(xs, from, result, 0, N);
-        shellSort(result);
-        return result;
     }
 
     private final int m;
