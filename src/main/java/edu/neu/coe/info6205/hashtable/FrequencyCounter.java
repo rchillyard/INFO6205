@@ -4,8 +4,6 @@
 
 package edu.neu.coe.info6205.hashtable;
 
-import java.util.HashMap;
-
 public class FrequencyCounter<K> {
 
     public FrequencyCounter(ST<K, Integer> map) {

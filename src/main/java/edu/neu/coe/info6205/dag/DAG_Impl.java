@@ -83,12 +83,7 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
     }
 
     private Bag<Edge<Vertex>> getAdjacencyBag(Vertex vertex) {
-        Bag<Edge<Vertex>> edges = adjacentEdges.get(vertex);
-        if (edges == null) {
-            edges = new Bag_Array<>();
-            adjacentEdges.put(vertex, edges);
-        }
-        return edges;
+        return adjacentEdges.computeIfAbsent(vertex, k -> new Bag_Array<>());
     }
 
     private final Map<Vertex, Bag<Edge<Vertex>>> adjacentEdges = new HashMap<>();

@@ -25,8 +25,8 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
 
     /**
      * pop method, delegates to list as remove
-     * @return
-     * @throws BQSException
+     * @return the item on the top of this stack
+     * @throws BQSException if this stack is empty
      */
     public Item pop() throws BQSException {
         return list.remove();
