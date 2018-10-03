@@ -39,10 +39,9 @@ public class Benchmark<T> {
         for (int i = 0; i < 1000; i++) array[i] = random.nextInt();
         int n = 200;
         // TODO You need to apply doubling to n
-        // FIXME Need to refresh before each run
         benchmarkSort(array, n, "InsertionSort", new InsertionSort<>(), m);
         benchmarkSort(array, n, "SelectionSort", new SelectionSort<>(), m);
-        benchmarkSort(array, n, "SelectionSort", new ShellSort<>(2), m);
+        benchmarkSort(array, n, "ShellSort    ", new ShellSort<>(3), m);
 
     }
 
