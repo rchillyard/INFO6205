@@ -2,7 +2,7 @@ package edu.neu.coe.info6205.sort.simple;
 
 import java.util.*;
 
-public class ShellSort<X extends Comparable<X>> {
+public class ShellSort<X extends Comparable<X>> implements Sort<X> {
 
     /**
      * Constructor for ShellSort
@@ -20,7 +20,7 @@ public class ShellSort<X extends Comparable<X>> {
      * Method to sort an array of Xs
      * @param array an array of Xs to be sorted in place.
      */
-    public void sort(X[] array) {
+    private void shellSort(X[] array) {
         int N = array.length;
         H hh = new H(N);
         int h = hh.next();
@@ -32,6 +32,15 @@ public class ShellSort<X extends Comparable<X>> {
                 }
             h = hh.next();
         }
+    }
+
+    @Override
+    public X[] sort(X[] xs, int from, int to) {
+        int N = to - from;
+        X[] result = (X[]) new Object[N];
+        System.arraycopy(xs, from, result, 0, N);
+        shellSort(result);
+        return result;
     }
 
     private final int m;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class QuickSort<X extends Comparable<X>> implements Sort<X> {
     @Override
-    public void sort(X[] xs, int from, int to) {
+    public X[] sort(X[] xs, int from, int to) {
         Arrays.sort(xs, from, to);
 //        for (int i = from; i < to; i++)
 //            for (int j = i; j > 0; j--)
@@ -12,6 +12,7 @@ public class QuickSort<X extends Comparable<X>> implements Sort<X> {
 //                    swap(xs, j, j - 1);
 //                else break;
 //
+        return null;
     }
 }
 

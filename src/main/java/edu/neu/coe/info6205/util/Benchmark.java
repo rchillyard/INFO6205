@@ -6,6 +6,7 @@ package edu.neu.coe.info6205.util;
 
 import edu.neu.coe.info6205.sort.simple.InsertionSort;
 import edu.neu.coe.info6205.sort.simple.SelectionSort;
+import edu.neu.coe.info6205.sort.simple.ShellSort;
 import edu.neu.coe.info6205.sort.simple.Sort;
 
 import java.util.Random;
@@ -41,6 +42,8 @@ public class Benchmark<T> {
         // FIXME Need to refresh before each run
         benchmarkSort(array, n, "InsertionSort", new InsertionSort<>(), m);
         benchmarkSort(array, n, "SelectionSort", new SelectionSort<>(), m);
+        benchmarkSort(array, n, "SelectionSort", new ShellSort<>(2), m);
+
     }
 
     private static void benchmarkSort(Integer[] xs, Integer n, String name, Sort<Integer> sorter, int m) {
