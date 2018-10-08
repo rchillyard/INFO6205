@@ -21,12 +21,13 @@ public class BenchmarkTest {
     public void sort() throws Exception {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
-        Integer[] array = new Integer[10000];
-        for (int i = 0; i < 10000; i++) array[i] = random.nextInt();
+        int n = 1000; // This is the size of the array to be sorted.
+        Integer[] array = new Integer[n];
+        for (int i = 0; i < n; i++) array[i] = random.nextInt();
         double ts = benchmarkSort(array, "SelectionSort", new SelectionSort<>(), m);
         double ti = benchmarkSort(array, "InsertionSort", new InsertionSort<>(), m);
         // The timing for selection sort and insertion sort should be about the same for random input.
-        assertEquals(ts, ti, 1E-2);
+        assertEquals(1, ts/ti, 0.15);
     }
 
     private static double benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {

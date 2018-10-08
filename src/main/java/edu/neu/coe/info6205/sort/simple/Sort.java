@@ -1,20 +1,24 @@
 package edu.neu.coe.info6205.sort.simple;
 
+import java.util.Arrays;
+
 public interface Sort<X extends Comparable<X>> {
 
     /**
-     * Generic sort method.
+     * Generic, non-mutating sort method.
      *
-     * @param xs sort the array xs in place
+     * @param xs sort the array xs, returning the sorted result, leaving xs unchanged.
      */
-    default void sort(X[] xs) {
-        sort(xs, 0, xs.length);
+    default X[] sort(X[] xs) {
+        X[] result = Arrays.copyOf(xs, xs.length);
+        sort(result, 0, result.length);
+        return result;
     }
 
     /**
-     * Generic sort method.
+     * Generic, mutating sort method which operates on a sub-array
      *
-     * @param xs   sort the array xs in place
+     * @param xs   sort the array xs from "from" to "to".
      * @param from the index of the first element to sort
      * @param to   the index of the first element not to sort
      */

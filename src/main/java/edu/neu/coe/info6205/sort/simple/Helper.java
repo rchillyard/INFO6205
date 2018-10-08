@@ -6,7 +6,9 @@ public class Helper {
         return v.compareTo(w) < 0;
     }
 
-    static <X extends Comparable<X>> void swap(X[] a, int i, int j) {
+    static <X extends Comparable<X>> void swap(X[] a, int lo, int hi, int i, int j) {
+        if (i<lo) throw new RuntimeException("i is out of range: i; "+i+"; lo="+lo);
+        if (j>hi) throw new RuntimeException("j is out of range: j; "+j+"; hi="+hi);
         X temp = a[i];
         a[i] = a[j];
         a[j] = temp;

@@ -12,7 +12,7 @@ public class SelectionSort<X extends Comparable<X>> implements Sort<X> {
             for (int j = i + 1; j < to; j++)
                 if (less(xs[j], xs[min]))
                     min = j;
-            swap(xs, i, min);
+            swap(xs, from, to, i, min);
         }
     }
 }

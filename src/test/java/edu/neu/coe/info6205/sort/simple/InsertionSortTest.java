@@ -23,11 +23,11 @@ public class InsertionSortTest {
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        new InsertionSort().sort(xs);
-        assertEquals(Integer.valueOf(1), xs[0]);
-        assertEquals(Integer.valueOf(2), xs[1]);
-        assertEquals(Integer.valueOf(3), xs[2]);
-        assertEquals(Integer.valueOf(4), xs[3]);
+        Integer[] ys = new InsertionSort<Integer>().sort(xs);
+        assertEquals(Integer.valueOf(1), ys[0]);
+        assertEquals(Integer.valueOf(2), ys[1]);
+        assertEquals(Integer.valueOf(3), ys[2]);
+        assertEquals(Integer.valueOf(4), ys[3]);
     }
 
 }
