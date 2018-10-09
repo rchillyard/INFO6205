@@ -58,7 +58,6 @@ public class Benchmark<T> {
     public static void main(String[] args) {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
-        // TODO You need to apply doubling to n
         int n = 100000; // This is the size of the array
         for (int k = 0; k < 5; k++) {
             Integer[] array = new Integer[n];

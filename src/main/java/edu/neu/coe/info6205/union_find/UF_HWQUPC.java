@@ -18,7 +18,9 @@ public class UF_HWQUPC implements UF {
      * @param  p the integer representing one site
      * @param  q the integer representing the other site
      */
-    public void connect(int p, int q) { if (!isConnected(p,q)) union(p, q); }
+    public void connect(int p, int q) {
+        if (!isConnected(p, q)) union(p, q);
+    }
 
     /**
      * Initializes an empty union–find data structure with {@code n} sites

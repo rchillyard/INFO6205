@@ -8,7 +8,7 @@ import java.util.Set;
  * @param <K> the key type
  * @param <V> the value type
  */
-public interface Dictionary<K,V> {
+public interface Dictionary<K, V> {
 
     void put(K k, V v);
 

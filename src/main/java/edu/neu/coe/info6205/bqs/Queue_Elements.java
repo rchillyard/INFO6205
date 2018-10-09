@@ -5,6 +5,10 @@
 package edu.neu.coe.info6205.bqs;
 
 public class Queue_Elements<Item> implements Queue<Item> {
+
+    /**
+     * Construct a new (empty) queue.
+     */
     public Queue_Elements() {
         oldest = null;
         newest = null;
@@ -15,7 +19,7 @@ public class Queue_Elements<Item> implements Queue<Item> {
      *
      * @param item the item to add
      */
-    public void enqueue( Item item) {
+    public void enqueue(Item item) {
         Element<Item> element = new Element<>(item);
         Element<Item> secondNewest = newest;
         if (isEmpty()) oldest = element;
@@ -26,12 +30,17 @@ public class Queue_Elements<Item> implements Queue<Item> {
         this.newest = element;
     }
 
-    public
-    Item dequeue() {
+
+    /**
+     * Dequeue an element from the oldest list and return the item.
+     *
+     * @return the value of the oldest element.
+     */
+    public Item dequeue() {
         if (isEmpty()) return null;
         else {
             assert oldest != null; // Redundant assertion
-             Item result = oldest.item;
+            Item result = oldest.item;
             oldest = oldest.next;
             if (isEmpty()) newest = null;
             return result;

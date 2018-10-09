@@ -13,7 +13,7 @@ import java.util.Set;
 public class Dictionary_Hash<K, V> implements Dictionary<K, V> {
 
     public void put(K k, V v) {
-        map.put(k,v);
+        map.put(k, v);
     }
 
     public V get(K k) {

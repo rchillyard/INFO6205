@@ -3,15 +3,25 @@ package edu.neu.coe.info6205.coupling;
 public class CouplingNone {
 
     class A {
-        public A(int a) { this.a = a; }
-        public int getA() { return a; }
+        public A(int a) {
+            this.a = a;
+        }
+
+        public int getA() {
+            return a;
+        }
 
         private final int a;
     }
 
     class B {
-        public B(int b) { this.b = b; }
-        public int getB() { return b; }
+        public B(int b) {
+            this.b = b;
+        }
+
+        public int getB() {
+            return b;
+        }
 
         private final int b;
     }
