@@ -11,6 +11,7 @@ public class HashCodeSort<X extends Comparable<X>> {
 
     /**
      * Sort the given list "a" and return the result
+     *
      * @param a the list to be sorted
      * @return the result
      */
@@ -27,7 +28,7 @@ public class HashCodeSort<X extends Comparable<X>> {
     // Sort the arrays indices and hashes by comparing hashes
     private void insertionSort(int n, int[] indices, int[] hashes) {
         // TODO implement me (8 points)
-        for(int i=0;i<n;i++)
+        for (int i = 0; i < n; i++)
             for (int j = i; j > 0; j--)
                 if (hashes[j] < hashes[j - 1]) {
                     exchange(indices, j);
@@ -38,7 +39,7 @@ public class HashCodeSort<X extends Comparable<X>> {
     // Verify that the arrays are in true order according to natural ordering on X
     private void verify(int n, int[] indices, int[] hashes, List<X> a) {
         // TODO implement me (8 points)
-        for(int i=1;i<n;i++)
+        for (int i = 1; i < n; i++)
             if (hashes[i - 1] == hashes[i])
                 if (a.get(indices[i - 1]).compareTo(a.get(indices[i])) > 0)
                     exchange(indices, i);
@@ -47,14 +48,14 @@ public class HashCodeSort<X extends Comparable<X>> {
     // Exchange elements i-1 and i in the array
     private void exchange(int[] array, int i) {
         final int temp = array[i];
-        array[i] = array[i-1];
-        array[i-1] = temp;
+        array[i] = array[i - 1];
+        array[i - 1] = temp;
     }
 
     // Build the resulting List<X> from the indices
     private List<X> createResult(int n, int[] indices, int[] hashes, List<X> a) {
         List<X> result = new ArrayList<>();
-        for(int i=0;i<n;i++) result.add(a.get(indices[i]));
+        for (int i = 0; i < n; i++) result.add(a.get(indices[i]));
         return result;
     }
 

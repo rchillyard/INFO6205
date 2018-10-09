@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import java.util.Comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @SuppressWarnings("ConstantConditions")
 public class PriorityQueueTest {
@@ -78,7 +76,7 @@ public class PriorityQueueTest {
         PriorityQueue<String> pq = new PriorityQueue<>(10, Comparator.comparing(String::toString));
         String key = "A";
         pq.give(key);
-        assertEquals(1,pq.size());
+        assertEquals(1, pq.size());
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         assertEquals(key, tester.invokePrivate("peek", 1));
     }
@@ -90,20 +88,21 @@ public class PriorityQueueTest {
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         String key = "A";
         pq.give(null); // This will never survive so it might as well be null
-        assertEquals(1,pq.size());
+        assertEquals(1, pq.size());
         assertNull(tester.invokePrivate("peek", 1));
         pq.give(key);
-        assertEquals(1,pq.size());
+        assertEquals(1, pq.size());
         assertEquals(key, tester.invokePrivate("peek", 1));
 
     }
+
     @Test
     public void testTake1() throws PQException {
 
         PriorityQueue<String> pq = new PriorityQueue<>(10, Comparator.comparing(String::toString));
         String key = "A";
         pq.give(key);
-        assertEquals(key,pq.take());
+        assertEquals(key, pq.take());
         assertTrue(pq.isEmpty());
 
     }
@@ -119,11 +118,12 @@ public class PriorityQueueTest {
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         assertEquals(a, tester.invokePrivate("peek", 2));
         assertEquals(b, tester.invokePrivate("peek", 1));
-        assertEquals(b,pq.take());
-        assertEquals(a,pq.take());
+        assertEquals(b, pq.take());
+        assertEquals(a, pq.take());
         assertTrue(pq.isEmpty());
 
     }
+
     @Test(expected = PQException.class)
     public void testTake3() throws PQException {
 

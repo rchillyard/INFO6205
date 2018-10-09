@@ -23,8 +23,7 @@ public class Equable {
         while (thisIterator.hasNext())
             if (thatIterator.hasNext()) {
                 if (!thisIterator.next().equals(thatIterator.next())) return false;
-            }
-            else
+            } else
                 return false;
         return true;
     }

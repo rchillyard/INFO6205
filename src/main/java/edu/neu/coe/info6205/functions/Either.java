@@ -19,6 +19,7 @@ final class Either<L, R> {
 
     /**
      * Get this as an R. If this object is an L instead, then null will be returned.
+     *
      * @return an R value else null
      */
     public R getRight() {
@@ -27,6 +28,7 @@ final class Either<L, R> {
 
     /**
      * Get this as n L. If this object is an R instead, then null will be returned.
+     *
      * @return an L value else null
      */
     public L getLeft() {

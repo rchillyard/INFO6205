@@ -1,7 +1,7 @@
 /**
  * Original code:
  * Copyright © 2000–2017, Robert Sedgewick and Kevin Wayne.
- *
+ * <p>
  * Modifications:
  * Copyright (c) 2017. Phasmid Software
  */
@@ -54,7 +54,7 @@ public class UF_HWQUPC implements UF {
     }
 
     public void show() {
-        for (int i=0; i<parent.length; i++) {
+        for (int i = 0; i < parent.length; i++) {
             System.out.printf("%d: %d, %d\n", i, parent[i], height[i]);
         }
     }
@@ -137,7 +137,7 @@ public class UF_HWQUPC implements UF {
     private void validate(int p) {
         int n = parent.length;
         if (p < 0 || p >= n) {
-            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n-1));
+            throw new IllegalArgumentException("index " + p + " is not between 0 and " + (n - 1));
         }
     }
 
@@ -165,8 +165,13 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // TODO make shorter root point to taller one
-        if (height[i] < height[j]) { updateParent(i, j); updateHeight(j, i); }
-        else { updateParent(j, i); updateHeight(i, j); }
+        if (height[i] < height[j]) {
+            updateParent(i, j);
+            updateHeight(j, i);
+        } else {
+            updateParent(j, i);
+            updateHeight(i, j);
+        }
     }
 
     /**

@@ -32,7 +32,7 @@ public class Bag_Array<Item> implements Bag<Item> {
     @Override
     public boolean contains(Item item) {
         for (Item i : items) {
-            if (i!=null && i.equals(item))
+            if (i != null && i.equals(item))
                 return true;
         }
         return false;
@@ -43,7 +43,7 @@ public class Bag_Array<Item> implements Bag<Item> {
         int result = 0;
         if (isEmpty()) return 0;
         for (Item i : items) {
-            if (i!=null && i.equals(item))
+            if (i != null && i.equals(item))
                 result++;
         }
         return result;
@@ -61,7 +61,10 @@ public class Bag_Array<Item> implements Bag<Item> {
 
     @Override
     public String toString() {
-        return Arrays.toString(asArray());
+        return "Bag_Array{" +
+                "items=" + Arrays.toString(items) +
+                ", count=" + count +
+                '}';
     }
 
     private void grow(Item[] source, int size) {
@@ -86,7 +89,7 @@ public class Bag_Array<Item> implements Bag<Item> {
      * @param from the source array
      * @param size the size of the new array
      */
-    private static <T> T[] growFrom( T[] from, int size) {
+    private static <T> T[] growFrom(T[] from, int size) {
         // NOTE that we cannot use Arrays.copyOf here because we are extending the length of the array.
         @SuppressWarnings("unchecked") T[] result = (T[]) new Object[size];
         System.arraycopy(from, 0, result, 0, from.length);

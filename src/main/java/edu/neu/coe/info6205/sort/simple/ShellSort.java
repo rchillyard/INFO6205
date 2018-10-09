@@ -41,6 +41,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
     private final int m;
 
     private class H {
+        @SuppressWarnings("CanBeFinal")
         private int h = 1;
         private boolean started = false;
 

@@ -98,16 +98,16 @@ public class DAGTest {
         };
 
         target.dfs(0, pre, post);
-        assertEquals(Integer.valueOf(0),((LinkedList<Integer>) preOrder).getFirst());
-        assertEquals(Integer.valueOf(5),((LinkedList<Integer>) preOrder).getLast());
-        assertEquals(Integer.valueOf(4),((LinkedList<Integer>) postOrder).getFirst());
-        assertEquals(Integer.valueOf(0),((LinkedList<Integer>) postOrder).getLast());
+        assertEquals(Integer.valueOf(0), ((LinkedList<Integer>) preOrder).getFirst());
+        assertEquals(Integer.valueOf(5), ((LinkedList<Integer>) preOrder).getLast());
+        assertEquals(Integer.valueOf(4), ((LinkedList<Integer>) postOrder).getFirst());
+        assertEquals(Integer.valueOf(0), ((LinkedList<Integer>) postOrder).getLast());
         try {
-            assertEquals(Integer.valueOf(0),(reversePostOrder).pop());
-            assertEquals(Integer.valueOf(5),(reversePostOrder).pop());
-            assertEquals(Integer.valueOf(2),(reversePostOrder).pop());
-            assertEquals(Integer.valueOf(1),(reversePostOrder).pop());
-            assertEquals(Integer.valueOf(4),(reversePostOrder).pop());
+            assertEquals(Integer.valueOf(0), (reversePostOrder).pop());
+            assertEquals(Integer.valueOf(5), (reversePostOrder).pop());
+            assertEquals(Integer.valueOf(2), (reversePostOrder).pop());
+            assertEquals(Integer.valueOf(1), (reversePostOrder).pop());
+            assertEquals(Integer.valueOf(4), (reversePostOrder).pop());
         } catch (BQSException e) {
             e.printStackTrace();
         }
