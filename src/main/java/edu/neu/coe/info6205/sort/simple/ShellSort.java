@@ -1,6 +1,6 @@
 package edu.neu.coe.info6205.sort.simple;
 
-import java.util.*;
+import java.util.Arrays;
 
 public class ShellSort<X extends Comparable<X>> implements Sort<X> {
 
@@ -18,7 +18,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
 
     /**
      * Method to sort a sub-array of an array of Xs.
-     *
+     * <p>
      * TODO check that the treatment of from and to is correct. It seems to be according to the unit tests.
      *
      * @param xs an array of Xs to be sorted in place.
@@ -29,13 +29,24 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
         H hh = new H(N);
         int h = hh.next();
         while (h > 0) {
-            for (int i = h + from; i < to; i++)
-                for (int j = i; j >= h + from && Helper.less(xs[j], xs[j - h]); j -= h) {
-                    Helper.swap(xs, from, to, j, j - h);
-//                    System.out.println("after step: h=" + h + ", i=" + i + ":\t" + Arrays.toString(xs));
-                }
+            hSort(h, xs, from, to);
             h = hh.next();
         }
+    }
+
+    /**
+     * TODO use private method tester to test this
+     *
+     * @param h    the stride (gap) of the h-sort.
+     * @param xs   the array to be sorted.
+     * @param from the first index to be considered in array xs.
+     * @param to   one plus the last index to be considered in array xs.
+     */
+    private void hSort(int h, X[] xs, int from, int to) {
+        for (int i = h + from; i < to; i++)
+            for (int j = i; j >= h + from && Helper.less(xs[j], xs[j - h]); j -= h) {
+                Helper.swap(xs, from, to, j, j - h);
+            }
     }
 
     private final int m;
