@@ -29,18 +29,22 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
         H hh = new H(N);
         int h = hh.next();
         while (h > 0) {
-            for (int i = h + from; i < to; i++)
-                for (int j = i; j >= h + from && Helper.less(xs[j], xs[j - h]); j -= h) {
-                    Helper.swap(xs, from, to, j, j - h);
-//                    System.out.println("after step: h=" + h + ", i=" + i + ":\t" + Arrays.toString(xs));
-                }
+            hSort(h, xs, from, to);
             h = hh.next();
         }
+    }
+
+    private void hSort(int h, X[] xs, int from, int to) {
+        for (int i = h + from; i < to; i++)
+            for (int j = i; j >= h + from && Helper.less(xs[j], xs[j - h]); j -= h) {
+                Helper.swap(xs, from, to, j, j - h);
+            }
     }
 
     private final int m;
 
     private class H {
+        @SuppressWarnings("CanBeFinal")
         private int h = 1;
         private boolean started = false;
 

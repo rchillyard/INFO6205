@@ -13,9 +13,9 @@ public class FibonacciTest {
     public void testZeckendorf() {
         Fibonacci z = new Fibonacci();
         PrivateMethodTester t = new PrivateMethodTester(z);
-        assertEquals(2, t.invokePrivate("size"));
-        assertEquals(1L, t.invokePrivate("fib", 0));
-        assertEquals(1L, t.invokePrivate("fib", 1));
+        assertEquals("size should be 2", 2, t.invokePrivate("size"));
+        assertEquals("fib(0) should be 1", 1L, t.invokePrivate("fib", 0));
+        assertEquals("fib(1) should be 1", 1L, t.invokePrivate("fib", 1));
     }
 
     /**
@@ -26,16 +26,17 @@ public class FibonacciTest {
         Fibonacci z = new Fibonacci();
         PrivateMethodTester t = new PrivateMethodTester(z);
         t.invokePrivate("extend");
-        assertEquals(4, t.invokePrivate("size"));
-        assertEquals(2L, t.invokePrivate("fib", 2));
-        assertEquals(3L, t.invokePrivate("fib", 3));
+        int size = 4;
+        assertEquals("after 1 extend, size should be " + size, size, t.invokePrivate("size"));
+        assertEquals("fib(2) should be 2", 2L, t.invokePrivate("fib", 2));
+        assertEquals("fib(3) should be 3", 3L, t.invokePrivate("fib", 3));
         t.invokePrivate("extend");
-        assertEquals(8, t.invokePrivate("size"));
-        assertEquals(5L, t.invokePrivate("fib", 4));
-        assertEquals(8L, t.invokePrivate("fib", 5));
-        assertEquals(13L, t.invokePrivate("fib", 6));
-        assertEquals(21L, t.invokePrivate("fib", 7));
-
+        size = 8;
+        assertEquals("after 2 extends, size should be " + size, size, t.invokePrivate("size"));
+        assertEquals("fib(4) should be 5", 5L, t.invokePrivate("fib", 4));
+        assertEquals("fib(5) should be 8", 8L, t.invokePrivate("fib", 5));
+        assertEquals("fib(6) should be 13", 13L, t.invokePrivate("fib", 6));
+        assertEquals("fib(7) should be 21", 21L, t.invokePrivate("fib", 7));
     }
 
     /**
