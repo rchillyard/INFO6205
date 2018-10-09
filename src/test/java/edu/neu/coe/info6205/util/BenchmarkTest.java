@@ -6,12 +6,9 @@ package edu.neu.coe.info6205.util;
 
 import edu.neu.coe.info6205.sort.simple.InsertionSort;
 import edu.neu.coe.info6205.sort.simple.SelectionSort;
-import edu.neu.coe.info6205.sort.simple.ShellSort;
 import edu.neu.coe.info6205.sort.simple.Sort;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -24,21 +21,22 @@ public class BenchmarkTest {
     public void sort() throws Exception {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
-        Integer[] array = new Integer[1000];
-        for (int i = 0; i < 1000; i++) array[i] = random.nextInt();
-        int n = 200;
-        benchmarkSort(array, n, "InsertionSort", new InsertionSort<>(), m, 0.006);
+        int n = 1000; // This is the size of the array to be sorted.
+        Integer[] array = new Integer[n];
+        for (int i = 0; i < n; i++) array[i] = random.nextInt();
+        double ts = benchmarkSort(array, "SelectionSort", new SelectionSort<>(), m);
+        double ti = benchmarkSort(array, "InsertionSort", new InsertionSort<>(), m);
+        // The timing for selection sort and insertion sort should be about the same for random input.
+        assertEquals(1, ts / ti, 0.15);
     }
 
-    private static void benchmarkSort(Integer[] xs, Integer n, String name, Sort<Integer> sorter, int m, double expected) {
-        Function<Integer, Void> sortFunction = (x) -> {
-            sorter.sort(xs, 0, x);
+    private static double benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
+        Function<Integer[], Void> sortFunction = (xs) -> {
+            sorter.sort(xs);
             return null;
         };
-        Benchmark<Integer> bm = new Benchmark<>(sortFunction);
-        double x = bm.run(n, m);
-        System.out.println(name + ": " + x + " millisecs for n=" + n);
-        assertEquals(expected, x, 0.01);
+        Benchmark<Integer[]> bm = new Benchmark<>(sortFunction);
+        return bm.run(array, m);
     }
 
 }

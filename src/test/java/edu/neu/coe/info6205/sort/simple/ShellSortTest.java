@@ -8,9 +8,6 @@ import edu.neu.coe.info6205.greedy.Fibonacci;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("ALL")

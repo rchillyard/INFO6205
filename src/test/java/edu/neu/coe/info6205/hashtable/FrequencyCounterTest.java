@@ -6,7 +6,7 @@ package edu.neu.coe.info6205.hashtable;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class FrequencyCounterTest {
     @Test

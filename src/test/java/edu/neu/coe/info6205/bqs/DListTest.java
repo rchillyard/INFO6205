@@ -6,9 +6,9 @@ package edu.neu.coe.info6205.bqs;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.Iterator;
+
+import static org.junit.Assert.*;
 
 
 public class DListTest {
