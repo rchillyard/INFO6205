@@ -4,12 +4,26 @@
 
 package edu.neu.coe.info6205.sort.simple;
 
+import edu.neu.coe.info6205.greedy.Fibonacci;
+import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("ALL")
 public class ShellSortTest {
+
+    @Test
+    public void hSort1() {
+        ShellSort<Integer> sorter = new ShellSort<>(3);
+        PrivateMethodTester t = new PrivateMethodTester(sorter);
+        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
+        Integer[] zs = {4, 1, -1, 2, 8, 3, 0, 5, 15, 6, 1, 9, 17, 7, 11};
+        Class[] classes = {int.class, Comparable[].class, int.class, int.class};
+        t.invokePrivateExplicit("hSort", classes, 4, xs, 0, xs.length);
+        assertEquals(zs, xs);
+
+    }
 
     @Test
     public void sort1() throws Exception {
