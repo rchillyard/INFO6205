@@ -140,7 +140,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
         @Override
         public String toString() {
-            StringBuffer sb = new StringBuffer("Node: " + key + ":" + value);
+            StringBuilder sb = new StringBuilder("Node: " + key + ":" + value);
             if (smaller != null) sb.append(", smaller: " + smaller.key);
             if (larger != null) sb.append(", larger: " + larger.key);
             return sb.toString();

@@ -27,7 +27,7 @@ public class BenchmarkTest {
         double ts = benchmarkSort(array, "SelectionSort", new SelectionSort<>(), m);
         double ti = benchmarkSort(array, "InsertionSort", new InsertionSort<>(), m);
         // The timing for selection sort and insertion sort should be about the same for random input.
-        assertEquals(1, ts / ti, 0.15);
+        assertEquals(1, ts / ti, 0.2);
     }
 
     private static double benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
