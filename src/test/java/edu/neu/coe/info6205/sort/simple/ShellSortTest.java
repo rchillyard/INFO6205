@@ -4,11 +4,11 @@
 
 package edu.neu.coe.info6205.sort.simple;
 
-import edu.neu.coe.info6205.greedy.Fibonacci;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ALL")
 public class ShellSortTest {
@@ -57,6 +57,17 @@ public class ShellSortTest {
         Sort ss = new ShellSort<Integer>(3);
         ss.sort(xs, 11, xs.length);
         assertEquals(zs, xs);
+    }
+
+    @Test
+    public void sort5() throws Exception {
+        Helper<Integer> helper = new Helper<>("ShellSort", 1000);
+        Integer[] xs = (Integer[]) helper.random(random -> random.nextInt());
+        SelectionSort<Integer> sorter = new SelectionSort<Integer>(helper);
+        Integer[] ys = sorter.sort(xs);
+        assertTrue(helper.sorted(ys));
+        System.out.println(helper);
+
     }
 
 }

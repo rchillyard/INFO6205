@@ -48,8 +48,11 @@ public class PrivateMethodTester {
             Method m = getPrivateMethod(name, classes, classes.length, allowSubstitutions);
             return invokePrivateMethod(m, parameters);
         } catch (NoSuchMethodException e) {
+            StringBuffer sb = new StringBuffer();
+            Method[] declaredMethods = clazz.getDeclaredMethods();
+            for (Method m : declaredMethods) sb.append(m+", ");
             throw new RuntimeException(name + ": method not found for given " + classes.length +
-                    " parameter classes");
+                    " parameter classes [did you consider that the method might be declared for a superclass or interface of one or more of your parameters? If so, use the invokePrivateExplicit method]. Here is a list of declared methods: "+sb);
         }
     }
 
@@ -87,6 +90,7 @@ public class PrivateMethodTester {
     }
 
     private Method getPrivateMethod(String name, Class<?>[] classes, int i, Class<?>[] effectiveClasses) throws NoSuchMethodException {
+        // TODO: This method will substitute primitive classes for object classes. But we need to substitute superclasses and interfaces as well.
         for (int j = 0; j < classes.length; j++) {
             if (((i >> j) & 1) == 1) effectiveClasses[j] = getPrimitiveClass(classes[j]);
             try {
@@ -129,6 +133,7 @@ public class PrivateMethodTester {
     }
 
     private Class<?> getPrimitiveClass(Class<?> clazz) {
+        clazz.getSuperclass();
         if (clazz == Integer.class)
             return int.class;
         else if (clazz == Long.class)

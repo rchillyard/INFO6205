@@ -13,5 +13,10 @@ public class QuickSort<X extends Comparable<X>> implements Sort<X> {
 //                else break;
 //
     }
+
+    @Override
+    public Helper<X> getHelper() {
+        return null;
+    }
 }
 

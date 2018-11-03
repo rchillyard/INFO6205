@@ -4,7 +4,9 @@
 
 package edu.neu.coe.info6205.bqs;
 
-public class Queue_Elements<Item> implements Queue<Item> {
+import java.util.Iterator;
+
+public class Queue_Elements<Item> implements Iterable<Item>, Queue<Item>  {
 
     /**
      * Construct a new (empty) queue.
@@ -56,6 +58,29 @@ public class Queue_Elements<Item> implements Queue<Item> {
     // However, it is built in manner that requires a pointer to the newest element.
     private Element<Item> oldest;
 
-    // This element always points to the newest (tail-most) element in the LinkedList referenced by oldest.
+    // This Element always points to the newest (tail-most) element in the LinkedList referenced by oldest.
     private Element<Item> newest;
+
+    @Override
+    public String toString() {
+        return (oldest!=null?"Queue: next: "+oldest+(oldest.next!=null?" and others...":""):"empty");
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new QueueIterator();
+    }
+
+    class QueueIterator implements Iterator<Item> {
+        public boolean hasNext() {
+            return next!=null;
+        }
+        public Item next() {
+            Item result = next.item;
+            next = next.next;
+            return result;
+        }
+        Element<Item> next = oldest;
+
+    }
 }

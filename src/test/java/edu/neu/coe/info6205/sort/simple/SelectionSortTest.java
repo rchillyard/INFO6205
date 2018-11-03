@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ALL")
 public class SelectionSortTest {
@@ -23,11 +24,10 @@ public class SelectionSortTest {
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        Integer[] ys = new SelectionSort<Integer>().sort(xs);
-        assertEquals(Integer.valueOf(1), ys[0]);
-        assertEquals(Integer.valueOf(2), ys[1]);
-        assertEquals(Integer.valueOf(3), ys[2]);
-        assertEquals(Integer.valueOf(4), ys[3]);
+        Helper<Integer> helper = new Helper<>("SelectionSort", xs.length);
+        SelectionSort<Integer> sorter = new SelectionSort<Integer>(helper);
+        Integer[] ys = sorter.sort(xs);
+        assertTrue(helper.sorted(ys));
     }
 
 }

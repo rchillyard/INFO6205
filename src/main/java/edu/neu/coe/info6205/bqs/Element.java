@@ -16,4 +16,9 @@ public class Element<Item> {
 
     final Item item;
     Element<Item> next;
+
+    @Override
+    public String toString() {
+        return item+(next==null?" (last)":"");
+    }
 }

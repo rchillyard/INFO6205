@@ -10,6 +10,7 @@ public interface Sort<X extends Comparable<X>> {
      * @param xs sort the array xs, returning the sorted result, leaving xs unchanged.
      */
     default X[] sort(X[] xs) {
+        getHelper().setN(xs.length);
         X[] result = Arrays.copyOf(xs, xs.length);
         sort(result, 0, result.length);
         return result;
@@ -24,4 +25,9 @@ public interface Sort<X extends Comparable<X>> {
      */
     void sort(X[] xs, int from, int to);
 
+    /**
+     * Get the Helper associated with this Sort.
+     * @return the Helper
+     */
+    Helper<X> getHelper();
 }

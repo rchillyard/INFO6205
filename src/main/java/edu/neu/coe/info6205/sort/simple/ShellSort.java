@@ -17,9 +17,24 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
      *          2: use powers of two less one;
      *          3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
      *          4: Sedgewick's sequence (not implemented).
+     * @param helper an explicit instance of Helper to be used.
+     */
+    public ShellSort(int m, Helper<X> helper) {
+        this.m = m;
+        this.helper = helper;
+    }
+
+    /**
+     * Constructor for ShellSort
+     *
+     * @param m the "gap" (h) sequence to follow:
+     *          1: ordinary insertion sort;
+     *          2: use powers of two less one;
+     *          3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
+     *          4: Sedgewick's sequence (not implemented).
      */
     public ShellSort(int m) {
-        this.m = m;
+        this(m, new Helper<>("ShellSort"));
     }
 
     /**
@@ -31,6 +46,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
      */
     @Override
     public void sort(X[] xs, int from, int to) {
+
         int N = to - from;
         H hh = new H(N);
         int h = hh.first();
@@ -40,17 +56,28 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
         }
     }
 
+    @Override
+    public Helper<X> getHelper() {
+        return helper;
+    }
+
+    @Override
+    public String toString() {
+        return helper.toString();
+    }
+
     /**
      * Private method to h-sort an array.
      */
     private void hSort(int h, X[] xs, int from, int to) {
         for (int i = h + from; i < to; i++)
-            for (int j = i; j >= h + from && Helper.less(xs[j], xs[j - h]); j -= h) {
-                Helper.swap(xs, from, to, j, j - h);
+            for (int j = i; j >= h + from && helper.less(xs[j], xs[j - h]); j -= h) {
+                helper.swap(xs, from, to, j, j - h);
             }
     }
 
     private final int m;
+    private final Helper<X> helper;
 
     /**
      * Private inner class to provide h (gap) values.
