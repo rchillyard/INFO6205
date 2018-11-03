@@ -1,6 +1,6 @@
 package edu.neu.coe.info6205.sort.simple;
 
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * Class to implement Shell Sort.
@@ -39,7 +39,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
 
     /**
      * Method to sort a sub-array of an array of Xs.
-     *
+     * <p>
      * TODO check that the treatment of from and to is correct. It seems to be according to the unit tests.
      *
      * @param xs an array of Xs to be sorted in place.
@@ -67,7 +67,12 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
     }
 
     /**
-     * Private method to h-sort an array.
+     * TODO use private method tester to test this
+     *
+     * @param h    the stride (gap) of the h-sort.
+     * @param xs   the array to be sorted.
+     * @param from the first index to be considered in array xs.
+     * @param to   one plus the last index to be considered in array xs.
      */
     private void hSort(int h, X[] xs, int from, int to) {
         for (int i = h + from; i < to; i++)
@@ -137,7 +142,8 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
                         throw new RuntimeException("invalid m value: " + m);
                 }
             } else {
-                throw new RuntimeException("cannot call next until first is called");
+                started = true;
+                return h;
             }
         }
     }

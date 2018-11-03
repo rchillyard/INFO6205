@@ -12,14 +12,11 @@ class ParSort {
     public static int cutoff = 1000;
 
     public static void sort(int[] array, int from, int to) {
-        int size = to - from;
-        if (size < cutoff) {
-            Arrays.sort(array, from, to);
-        } else {
+        if (to - from < cutoff) Arrays.sort(array, from, to);
+        else {
             CompletableFuture<int[]> parsort1 = parsort(array, from, from + (to - from) / 2); // TODO implement me
             CompletableFuture<int[]> parsort2 = parsort(array, from + (to - from) / 2, to); // TODO implement me
-            CompletableFuture<int[]> parsort = parsort1.
-                    thenCombine(parsort2, (xs1, xs2) -> {
+            CompletableFuture<int[]> parsort = parsort1.thenCombine(parsort2, (xs1, xs2) -> {
                         int[] result = new int[xs1.length + xs2.length];
                         // TODO implement me
                         int i = 0;
