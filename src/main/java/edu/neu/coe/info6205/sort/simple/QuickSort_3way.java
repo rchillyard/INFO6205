@@ -1,6 +1,19 @@
 package edu.neu.coe.info6205.sort.simple;
 
 public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
+    /**
+     * Constructor for InsertionSort
+     *
+     * @param helper an explicit instance of Helper to be used.
+     */
+    public QuickSort_3way(Helper<X> helper) {
+        this.helper = helper;
+    }
+
+    public QuickSort_3way() {
+        this(new Helper<>("3-way QuickSort"));
+    }
+
     class Partition {
         final int lt;
         final int gt;
@@ -13,7 +26,7 @@ public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
 
     @Override
     public void sort(X[] a, int from, int to) {
-        int lo = from;
+        @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
         int hi = to - 1;
         if (hi <= lo) return;
         Partition partition = partition(a, lo, hi);
@@ -42,6 +55,11 @@ public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
         a[j] = temp;
     }
 
+    @Override
+    public Helper<X> getHelper() {
+        return helper;
+    }
 
+    private final Helper<X> helper;
 }
 
