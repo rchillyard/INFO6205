@@ -93,14 +93,16 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             NodeValue result = put(node.smaller, key, value);
             if (node.smaller == null)
                 node.smaller = result.node;
-            if (result.value==null) node.count++;
+            if (result.value==null)
+                result.node.count++;
             return result;
         } else {
             // if key is greater than node's key, we recursively invoke put in the larger subtree
             NodeValue result = put(node.larger, key, value);
             if (node.larger == null)
                 node.larger = result.node;
-            if (result.value==null) node.count++;
+            if (result.value==null)
+                result.node.count++;
             return result;
         }
     }
@@ -202,9 +204,12 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     private void setRoot(Node node) {
-        root = node;
+        if(root==null){
+            root = node;
+            root.count++;
+        }else
+            root = node;
     }
-
     private void show(Node node, StringBuffer sb, int indent) {
         if (node == null) return;
         for (int i = 0; i < indent; i++) sb.append("  ");
