@@ -130,7 +130,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
             if (started) {
                 switch (m) {
                     case 1:
-                        // TODO
+                        // TO IMPLEMENT
                         return 0;
                     case 2:
                         h = (h + 1) / 2 - 1;

@@ -14,11 +14,11 @@ class ParSort {
     public static void sort(int[] array, int from, int to) {
         if (to - from < cutoff) Arrays.sort(array, from, to);
         else {
-            CompletableFuture<int[]> parsort1 = parsort(array, from, from + (to - from) / 2); // TODO implement me
-            CompletableFuture<int[]> parsort2 = parsort(array, from + (to - from) / 2, to); // TODO implement me
+            CompletableFuture<int[]> parsort1 = parsort(array, from, from + (to - from) / 2); // TO IMPLEMENT
+            CompletableFuture<int[]> parsort2 = parsort(array, from + (to - from) / 2, to); // TO IMPLEMENT
             CompletableFuture<int[]> parsort = parsort1.thenCombine(parsort2, (xs1, xs2) -> {
                         int[] result = new int[xs1.length + xs2.length];
-                        // TODO implement me
+                        // TO IMPLEMENT
                         int i = 0;
                         int j = 0;
                         for (int k = 0; k < result.length; k++) {
@@ -45,7 +45,7 @@ class ParSort {
         return CompletableFuture.supplyAsync(
                 () -> {
                     int[] result = new int[to - from];
-                    // TODO implement me
+                    // TO IMPLEMENT
                     System.arraycopy(array, from, result, 0, result.length);
                     sort(result, 0, to - from);
                     return result;

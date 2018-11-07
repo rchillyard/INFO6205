@@ -137,4 +137,52 @@ public class BSTTest {
         assertEquals("Z",queue.dequeue());
         assertTrue(queue.isEmpty());
     }
+
+    @Test
+    public void testDelete1() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
+        PrivateMethodTester tester = new PrivateMethodTester(bst);
+        Class[] classes = {Comparable.class, Object.class};
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42);
+        tester.invokePrivate("setRoot", node);
+        bst.delete("X");
+        assertNull(bst.root);
+    }
+
+    @Test
+    public void testDelete2() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
+        PrivateMethodTester tester = new PrivateMethodTester(bst);
+        Class[] classes = {Comparable.class, Object.class};
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42);
+        tester.invokePrivate("setRoot", node);
+        bst.put("Y",57);
+        bst.delete("Y");
+        assertNull(bst.root.smaller);
+        assertNull(bst.root.larger);
+    }
+
+    @Test
+    public void testDelete3() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
+        PrivateMethodTester tester = new PrivateMethodTester(bst);
+        Class[] classes = {Comparable.class, Object.class};
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42);
+        tester.invokePrivate("setRoot", node);
+        bst.put("W",57);
+        bst.delete("W");
+        assertNull(bst.root.smaller);
+        assertNull(bst.root.larger);
+    }
+
+    @Test
+    public void testDelete4() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
+        PrivateMethodTester tester = new PrivateMethodTester(bst);
+        Class[] classes = {Comparable.class, Object.class};
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42);
+        tester.invokePrivate("setRoot", node);
+        bst.put("W",57);
+        bst.delete("A");
+    }
 }

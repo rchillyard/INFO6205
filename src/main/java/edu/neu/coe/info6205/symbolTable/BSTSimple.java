@@ -12,8 +12,8 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     @Override
     public void putAll(Map<Key, Value> map) {
-        // TODO optionally randomize the input
-        for (Key k : map.keySet()) put(k, map.get(k));
+        // CONSIDER optionally randomize the input
+        for (Map.Entry<Key, Value> entry : map.entrySet()) put(entry.getKey(), entry.getValue());
     }
 
     @Override
@@ -37,6 +37,15 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         if (root == null) root = nodeValue.node;
         if (nodeValue.value==null) root.count++;
         return nodeValue.value;
+    }
+
+    public void delete(Key key) {
+        root = delete(root, key);
+    }
+
+    @Override
+    public void deleteMin() {
+        root = deleteMin(root);
     }
 
     @Override
@@ -94,6 +103,42 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             if (result.value==null) node.count++;
             return result;
         }
+    }
+
+    private Node delete(Node x, Key key) {
+        // TO IMPLEMENT
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.smaller = delete(x.smaller, key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+
+            Node t = x;
+            x = min(t.larger);
+            x.larger = deleteMin(t.larger);
+            x.smaller = t.smaller;
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
+    }
+
+    private Node deleteMin(Node x) {
+        if (x.smaller == null) return x.larger;
+        x.smaller = deleteMin(x.smaller);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
+    }
+
+    private int size(Node x) {
+        return x == null ? 0 : x.count;
+    }
+
+    private Node min(Node x) {
+        if (x == null) throw new RuntimeException("min not implemented for null");
+        else if (x.smaller == null) return x;
+        else return min(x.smaller);
     }
 
     /**

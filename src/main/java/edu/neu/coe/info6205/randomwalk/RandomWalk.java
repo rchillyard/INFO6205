@@ -50,7 +50,7 @@ public class RandomWalk {
      * @return the (Euclidean) distance from the origin to the current position.
      */
     public double distance() {
-        return Math.sqrt(x * x + y * y); // TODO you need to implement this
+        return Math.sqrt(x * x + y * y); // TO IMPLEMENT
     }
 
     /**
