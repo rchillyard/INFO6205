@@ -3,8 +3,6 @@ package edu.neu.coe.info6205.reduction;
 import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.bqs.Queue_Elements;
 
-import java.util.Objects;
-
 /**
  * This is from a problem in LeetCode: 780 Reaching Points (Hard)
  */
@@ -17,12 +15,12 @@ public class Moves2 {
     }
 
     public Moves2(int x, int y) {
-        this(new Point(x,y));
+        this(new Point(x, y));
     }
 
     public boolean valid(int x, int y) {
         Queue<Point> points = new Queue_Elements<>();
-        points.enqueue(new Point(x,y));
+        points.enqueue(new Point(x, y));
         return inner(points, false);
     }
 
@@ -30,7 +28,7 @@ public class Moves2 {
         if (points.isEmpty()) return result;
         Point x = points.dequeue();
         if (x.equals(t)) return true;
-        if (x.x>t.x || x.y>t.y) return inner(points, false);
+        if (x.x > t.x || x.y > t.y) return inner(points, false);
         points.enqueue(move(x, true));
         points.enqueue(move(x, false));
         return inner(points, result);

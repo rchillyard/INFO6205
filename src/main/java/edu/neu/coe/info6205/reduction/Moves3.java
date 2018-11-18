@@ -1,9 +1,5 @@
 package edu.neu.coe.info6205.reduction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * This is from a problem in LeetCode: 780 Reaching Points (Hard)
  */
@@ -16,17 +12,17 @@ public class Moves3 implements Moves {
     }
 
     public Moves3(int x, int y) {
-        this(new Point(x,y));
+        this(new Point(x, y));
     }
 
     public boolean valid(Point t) {
         Point p = t;
         while (true) {
             // DO NOT PUBLISH THIS IN PUBLIC REPO
-            if (p.x==s.x) return p.y == s.y || (p.y - s.y) % s.x == 0; // Vertically aligned area
-            if (p.y==s.y) return (p.x - s.x) % s.y == 0; // Horizontally aligned area
-            if (p.x<s.x || p.y<s.y) return false; // Missed area
-            p = move (p, true); // Area needing at least one more move.
+            if (p.x == s.x) return p.y == s.y || (p.y - s.y) % s.x == 0; // Vertically aligned area
+            if (p.y == s.y) return (p.x - s.x) % s.y == 0; // Horizontally aligned area
+            if (p.x < s.x || p.y < s.y) return false; // Missed area
+            p = move(p, true); // Area needing at least one more move.
         }
     }
 
@@ -43,6 +39,6 @@ public class Moves3 implements Moves {
     }
 
     public boolean valid(int x, int y) {
-         return valid(new Point(x,y));
+        return valid(new Point(x, y));
     }
 }

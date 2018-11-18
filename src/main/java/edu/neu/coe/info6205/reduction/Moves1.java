@@ -14,14 +14,14 @@ public class Moves1 implements Moves {
     }
 
     public boolean valid(int x, int y) {
-        return valid(new Point(x,y));
+        return valid(new Point(x, y));
     }
 
     @Override
     public boolean valid(Point p) {
-        if (p.x==tx && p.y==ty) return true;
-        if (p.x>tx || p.y>ty) return false;
-        return valid(p.x, p.x+p.y) || valid(p.x+p.y, p.y);
+        if (p.x == tx && p.y == ty) return true;
+        if (p.x > tx || p.y > ty) return false;
+        return valid(p.x, p.x + p.y) || valid(p.x + p.y, p.y);
     }
 
     @Override
