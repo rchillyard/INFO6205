@@ -12,9 +12,17 @@ public class PrivateMethodTester {
     private final Object object;
     private final Class<?> clazz;
 
-    public PrivateMethodTester(Object object) {
+    public PrivateMethodTester(Object object, Class<?> clazz) {
         this.object = object;
-        this.clazz = object.getClass();
+        this.clazz = clazz;
+    }
+
+    public PrivateMethodTester(Object object) {
+        this(object, object.getClass());
+    }
+
+    public PrivateMethodTester(Class<?> clazz) {
+        this(null, clazz);
     }
 
     /**
@@ -133,7 +141,6 @@ public class PrivateMethodTester {
     }
 
     private Class<?> getPrimitiveClass(Class<?> clazz) {
-        clazz.getSuperclass();
         if (clazz == Integer.class)
             return int.class;
         else if (clazz == Long.class)

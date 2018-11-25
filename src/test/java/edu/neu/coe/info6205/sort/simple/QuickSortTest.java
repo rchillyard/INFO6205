@@ -6,9 +6,6 @@ package edu.neu.coe.info6205.sort.simple;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("ALL")

@@ -22,7 +22,6 @@ public class ShellSortTest {
         Class[] classes = {int.class, Comparable[].class, int.class, int.class};
         t.invokePrivateExplicit("hSort", classes, 4, xs, 0, xs.length);
         assertEquals(zs, xs);
-
     }
 
     @Test
@@ -62,7 +61,7 @@ public class ShellSortTest {
     //  TODO  @Test
     public void sort5() throws Exception {
         Helper<Integer> helper = new Helper<>("ShellSort", 1000);
-        Integer[] xs = (Integer[]) helper.random(random -> random.nextInt());
+        Integer[] xs = (Integer[]) helper.random(Integer.class, random -> random.nextInt());
         SelectionSort<Integer> sorter = new SelectionSort<Integer>(helper);
         Integer[] ys = sorter.sort(xs);
         assertTrue(helper.sorted(ys));

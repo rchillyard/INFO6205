@@ -37,6 +37,15 @@ public class PrivateMethodTesterTest {
         private double xTimesYTimesWPlusZ(Integer z, double w) {
             return x * y * w + z;
         }
+
+    }
+
+    private static int one() { return 1; }
+
+    @Test
+    public void testStatic() {
+        final PrivateMethodTester tester = new PrivateMethodTester(PrivateMethodTesterTest.class);
+        assertEquals(1, tester.invokePrivate("one"));
     }
 
     /**

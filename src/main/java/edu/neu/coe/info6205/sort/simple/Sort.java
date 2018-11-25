@@ -5,15 +5,25 @@ import java.util.Arrays;
 public interface Sort<X extends Comparable<X>> {
 
     /**
+     * Generic, non-mutating sort method which allows for explicit determination of the makeCopy option.
+     *
+     * @param xs sort the array xs, returning the sorted result, leaving xs unchanged.
+     * @param makeCopy if set to true, we make a copy first and sort that.
+     */
+    default X[] sort(X[] xs, boolean makeCopy) {
+        getHelper().setN(xs.length);
+        X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
+        sort(result, 0, result.length);
+        return result;
+    }
+
+    /**
      * Generic, non-mutating sort method.
      *
      * @param xs sort the array xs, returning the sorted result, leaving xs unchanged.
      */
     default X[] sort(X[] xs) {
-        getHelper().setN(xs.length);
-        X[] result = Arrays.copyOf(xs, xs.length);
-        sort(result, 0, result.length);
-        return result;
+        return sort(xs, true);
     }
 
     /**

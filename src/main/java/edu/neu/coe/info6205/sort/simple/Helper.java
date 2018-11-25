@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.sort.simple;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -54,20 +55,20 @@ public class Helper<X extends Comparable<X>> {
         a[j] = temp;
     }
 
-    boolean sorted(X[] a) {
+    public boolean sorted(X[] a) {
         for (int i = 1; i < a.length; i++) if (a[i-1].compareTo(a[i])>0) return false;
         return true;
     }
 
-    Object[] random(int n, Function<Random,X> f) {
+    public X[] random(int n, Class<X> clazz, Function<Random, X> f) {
         setN(n);
-        Object[] result = new Object[n];
+        X[] result = (X[]) Array.newInstance(clazz, n);
         for (int i = 0; i < n; i++) result[i] = f.apply(random);
         return result;
     }
 
-    Object[] random(Function<Random,X> f) {
-        return random(n, f);
+    public X[] random(Class<X> clazz, Function<Random, X> f) {
+        return random(n, clazz, f);
     }
 
     @Override
