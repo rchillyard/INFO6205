@@ -79,7 +79,7 @@ public class Benchmark<T> {
     }
 
     private long doRun(T t, boolean warmup) {
-        T t1 = fPre != null ? t1 = fPre.apply(t) : t;
+        T t1 = fPre != null ? fPre.apply(t) : t;
         if (warmup) {
             fRun.apply(t1);
             return 0;
