@@ -4,10 +4,12 @@
 
 package edu.neu.coe.info6205.util;
 
+import edu.neu.coe.info6205.sort.simple.Helper;
 import edu.neu.coe.info6205.sort.simple.InsertionSort;
 import edu.neu.coe.info6205.sort.simple.SelectionSort;
 import edu.neu.coe.info6205.sort.simple.Sort;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -17,14 +19,46 @@ import java.util.function.Function;
 public class Benchmark<T> {
 
     /**
-     * Constructor for a Benchmark.
+     * Constructor for a Benchmark with option of specifying all three functions.
+     *
+     * @param fPre a function of T => T.
+     *          Function fPre is run before each invocation of fRun (but with the clock stopped).
+     *             The result of fPre (if any) is passed to fRun.
+     * @param fRun a function of T => Void.
+     *          Function fRun is the function whose timing you want to measure. For example, you might create a function which sorts an array.
+     *          When you create a lambda defining fRun, you must return "null."
+     * @param fPost a function of T => Void.
+     *          Function fPost is run after each invocation of fRun (but with the clock stopped).
+     */
+    public Benchmark(Function<T, T> fPre, Function<T, Void> fRun, Function<T, Void> fPost) {
+        this.fPre = fPre;
+        this.fRun = fRun;
+        this.fPost = fPost;
+    }
+
+    /**
+     * Constructor for a Benchmark with option of specifying all three functions.
+     *
+     * @param fPre a function of T => T.
+     *             Function fPre is run before each invocation of fRun (but with the clock stopped).
+     *             The result of fPre (if any) is passed to fRun.
+     * @param fRun a function of T => Void.
+     *             Function fRun is the function whose timing you want to measure. For example, you might create a function which sorts an array.
+     *             When you create a lambda defining fRun, you must return "null."
+     */
+    public Benchmark(Function<T, T> fPre, Function<T, Void> fRun) {
+        this(fPre, fRun, null);
+    }
+
+    /**
+     * Constructor for a Benchmark where only the (timed) run function is specified.
      *
      * @param f a function of T => Void.
      *          Function f is the function whose timing you want to measure. For example, you might create a function which sorts an array.
      *          When you create a lambda defining f, you must return "null."
      */
     public Benchmark(Function<T, Void> f) {
-        this.f = f;
+        this(null, f);
     }
 
     /**
@@ -35,18 +69,31 @@ public class Benchmark<T> {
      * @return the average number of milliseconds taken for each run of function f.
      */
     public double run(T t, int m) {
-        doRun(t, 10);
-        final long start = System.nanoTime();
-        doRun(t, m);
-        final long end = System.nanoTime();
-        return ((double) end - start) / m / 1000000;
+        // Warmup phase
+        int warmupRuns = Integer.min(2, Integer.max(10, m / 10));
+        for (int i = 0; i < warmupRuns; i++) doRun(t, true);
+        // Timed phase
+        long totalTime = 0;
+        for (int i = 0; i < m; i++) totalTime += doRun(t, false);
+        return (double) totalTime / m / 1000000;
     }
 
-    private void doRun(T t, int n) {
-        for (int i = 0; i < n; i++) f.apply(t);
+    private long doRun(T t, boolean warmup) {
+        T t1 = fPre != null ? fPre.apply(t) : t;
+        if (warmup) {
+            fRun.apply(t1);
+            return 0;
+        }
+        long start = System.nanoTime();
+        fRun.apply(t1);
+        long nanos = System.nanoTime() - start;
+        if (fPost != null) fPost.apply(t1);
+        return nanos;
     }
 
-    private final Function<T, Void> f;
+    private final Function<T, T> fPre;
+    private final Function<T, Void> fRun;
+    private final Function<T, Void> fPost;
 
     /**
      * Everything below this point has to do with a particular example of running a Benchmark.
@@ -70,11 +117,18 @@ public class Benchmark<T> {
     }
 
     private static void benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
+        Function<Integer[], Integer[]> preFunction = (xs) -> {
+            return Arrays.copyOf(array, array.length);
+        };
         Function<Integer[], Void> sortFunction = (xs) -> {
-            sorter.sort(xs);
+            sorter.sort(xs, false);
             return null;
         };
-        Benchmark<Integer[]> bm = new Benchmark<>(sortFunction);
+        final Helper<Integer> helper = sorter.getHelper();
+        Function<Integer[], Void> cleanupFunction = (xs) -> {
+            if (!helper.sorted(xs)) throw new RuntimeException("not sorted"); return null;
+        };
+        Benchmark<Integer[]> bm = new Benchmark<>(preFunction, sortFunction, cleanupFunction);
         double x = bm.run(array, m);
         System.out.println(name + ": " + x + " millisecs");
     }

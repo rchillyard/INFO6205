@@ -1,7 +1,6 @@
 package edu.neu.coe.info6205.symbolTable;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<Key, Value> {
@@ -10,11 +9,15 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         return get(key) != null;
     }
 
+    /**
+     * This implementation of putAll ensures that the keys are inserted into this BST in random order.
+     * @param map a map of key value pairs
+     */
     @Override
     public void putAll(Map<Key, Value> map) {
-        // TODO optionally randomize the input
-        for (Key k : map.keySet()) put(k, map.get(k));
-//        for (Map.Entry<Key, Value> entry : map.entrySet()) put(entry.getKey(), entry.getValue());
+        List<Key> ks = new ArrayList(map.keySet());
+        Collections.shuffle(ks);
+        for (Key k : ks) put(k, map.get(k));
     }
 
     @Override
@@ -40,6 +43,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         return nodeValue.value;
     }
 
+    public void delete(Key key) {
+        root = delete(root, key);
+    }
+
     @Override
     public void deleteMin() {
         root = deleteMin(root);
@@ -48,6 +55,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     @Override
     public Set<Key> keySet() {
         return null;
+    }
+
+    public int depth(Key key) {
+        return depth(getNode(root, key));
     }
 
     public BSTSimple() {
@@ -66,11 +77,16 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     private Value get(Node node, Key key) {
+        Node result = getNode(node, key);
+        return result!=null ? result.value : null;
+    }
+
+    private Node getNode(Node node, Key key) {
         if (node == null) return null;
         int cf = key.compareTo(node.key);
-        if (cf < 0) return get(node.smaller, key);
-        else if (cf > 0) return get(node.larger, key);
-        else return node.value;
+        if (cf < 0) return getNode(node.smaller, key);
+        else if (cf > 0) return getNode(node.larger, key);
+        else return node;
     }
 
     /**
@@ -83,7 +99,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
      */
     private NodeValue put(Node node, Key key, Value value) {
         // If node is null, then we return the newly constructed Node, and value=null
-        if (node == null) return new NodeValue(new Node(key, value), null);
+        if (node == null) return new NodeValue(new Node(key, value, 0), null);
         int cf = key.compareTo(node.key);
         if (cf == 0) {
             // If keys match, then we return the node and its value
@@ -160,6 +176,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         if (q>0) f.apply(node.key, node.value);
     }
 
+    private int depth(Node key) {
+        return 0;
+    }
+
     private class NodeValue {
         private final Node node;
         private final Value value;
@@ -176,13 +196,15 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     class Node {
-        Node(Key key, Value value) {
+        Node(Key key, Value value, int depth) {
             this.key = key;
             this.value = value;
+            this.depth = depth;
         }
 
         final Key key;
         Value value;
+        int depth;
         Node smaller = null;
         Node larger = null;
         int count = 0;
@@ -197,8 +219,8 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     }
 
-    private Node makeNode(Key key, Value value) {
-        return new Node(key, value);
+    private Node makeNode(Key key, Value value, int depth) {
+        return new Node(key, value, depth);
     }
 
     private Node getRoot() {

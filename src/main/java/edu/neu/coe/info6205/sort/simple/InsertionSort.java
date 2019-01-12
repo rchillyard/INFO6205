@@ -22,17 +22,16 @@ public class InsertionSort<X extends Comparable<X>> implements Sort<X> {
                 if (helper.less(xs[j], xs[j - 1]))
                     helper.swap(xs, from, to, j, j - 1);
                 else break;
-
-    }
-
-    @Override
-    public Helper<X> getHelper() {
-        return helper;
     }
 
     @Override
     public String toString() {
         return helper.toString();
+    }
+
+    @Override
+    public Helper<X> getHelper() {
+        return helper;
     }
 
     private final Helper<X> helper;

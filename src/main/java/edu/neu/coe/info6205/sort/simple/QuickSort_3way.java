@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.sort.simple;
 
+import java.util.Arrays;
+
 public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
     /**
      * Constructor for InsertionSort
@@ -25,9 +27,18 @@ public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
     }
 
     @Override
+    public X[] sort(X[] xs, boolean makeCopy) {
+        getHelper().setN(xs.length);
+        X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
+        // TODO make this consistent with other uses of sort where the upper limit of the range is result.length
+        sort(result, 0, result.length - 1);
+        return result;
+    }
+
+    @Override
     public void sort(X[] a, int from, int to) {
         @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
-        int hi = to - 1;
+        int hi = to;
         if (hi <= lo) return;
         Partition partition = partition(a, lo, hi);
         sort(a, lo, partition.lt - 1);
