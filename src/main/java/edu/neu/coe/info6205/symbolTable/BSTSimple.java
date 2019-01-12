@@ -71,11 +71,6 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     Node root = null;
 
-    @Override
-    public void delete(Key key) {
-        // TODO- Implement this delete method or add your variations of delete.
-    }
-
     private Value get(Node node, Key key) {
         Node result = getNode(node, key);
         return result!=null ? result.value : null;
