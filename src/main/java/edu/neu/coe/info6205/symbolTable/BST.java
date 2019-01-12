@@ -9,4 +9,6 @@ public interface BST<Key extends Comparable<Key>, Value> {
     Value put(Key key, Value value);
 
     Set<Key> keySet();
+
+    void delete(Key key);
 }

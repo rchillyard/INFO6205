@@ -133,7 +133,6 @@ public class PrivateMethodTester {
     }
 
     private Class<?> getPrimitiveClass(Class<?> clazz) {
-        clazz.getSuperclass();
         if (clazz == Integer.class)
             return int.class;
         else if (clazz == Long.class)

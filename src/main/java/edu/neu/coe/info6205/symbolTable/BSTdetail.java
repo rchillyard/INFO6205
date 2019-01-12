@@ -9,7 +9,11 @@ public interface BSTdetail<Key extends Comparable<Key>, Value> extends BST<Key, 
 
     void putAll(Map<Key, Value> map);
 
+    void delete(Key key);
+
     int size();
 
     void inOrderTraverse(BiFunction<Key, Value, Void> f);
+
+    void deleteMin();
 }

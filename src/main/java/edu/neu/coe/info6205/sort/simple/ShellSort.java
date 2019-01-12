@@ -67,6 +67,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
     }
 
     /**
+     * Private method to h-sort an array.
      * TODO use private method tester to test this
      *
      * @param h    the stride (gap) of the h-sort.

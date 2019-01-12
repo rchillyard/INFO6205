@@ -14,6 +14,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     public void putAll(Map<Key, Value> map) {
         // TODO optionally randomize the input
         for (Key k : map.keySet()) put(k, map.get(k));
+//        for (Map.Entry<Key, Value> entry : map.entrySet()) put(entry.getKey(), entry.getValue());
     }
 
     @Override
@@ -40,6 +41,11 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     @Override
+    public void deleteMin() {
+        root = deleteMin(root);
+    }
+
+    @Override
     public Set<Key> keySet() {
         return null;
     }
@@ -53,6 +59,11 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     Node root = null;
+
+    @Override
+    public void delete(Key key) {
+        // TODO- Implement this delete method or add your variations of delete.
+    }
 
     private Value get(Node node, Key key) {
         if (node == null) return null;
@@ -84,16 +95,54 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             NodeValue result = put(node.smaller, key, value);
             if (node.smaller == null)
                 node.smaller = result.node;
-            if (result.value==null) node.count++;
+            if (result.value==null)
+                result.node.count++;
             return result;
         } else {
             // if key is greater than node's key, we recursively invoke put in the larger subtree
             NodeValue result = put(node.larger, key, value);
             if (node.larger == null)
                 node.larger = result.node;
-            if (result.value==null) node.count++;
+            if (result.value==null)
+                result.node.count++;
             return result;
         }
+    }
+
+    private Node delete(Node x, Key key) {
+        // TO IMPLEMENT
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.smaller = delete(x.smaller, key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+
+            Node t = x;
+            x = min(t.larger);
+            x.larger = deleteMin(t.larger);
+            x.smaller = t.smaller;
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
+    }
+
+    private Node deleteMin(Node x) {
+        if (x.smaller == null) return x.larger;
+        x.smaller = deleteMin(x.smaller);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
+    }
+
+    private int size(Node x) {
+        return x == null ? 0 : x.count;
+    }
+
+    private Node min(Node x) {
+        if (x == null) throw new RuntimeException("min not implemented for null");
+        else if (x.smaller == null) return x;
+        else return min(x.smaller);
     }
 
     /**
@@ -157,7 +206,11 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     private void setRoot(Node node) {
-        root = node;
+        if(root==null){
+            root = node;
+            root.count++;
+        }else
+            root = node;
     }
 
     private void show(Node node, StringBuffer sb, int indent) {
