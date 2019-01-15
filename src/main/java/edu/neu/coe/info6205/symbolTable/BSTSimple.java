@@ -229,6 +229,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         }else
             root = node;
     }
+
     private void show(Node node, StringBuffer sb, int indent) {
         if (node == null) return;
         for (int i = 0; i < indent; i++) sb.append("  ");
