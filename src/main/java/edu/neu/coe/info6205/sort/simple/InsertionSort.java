@@ -17,11 +17,13 @@ public class InsertionSort<X extends Comparable<X>> implements Sort<X> {
 
     @Override
     public void sort(X[] xs, int from, int to) {
+        // TO BE IMPLEMENTED ...
         for (int i = from; i < to; i++)
             for (int j = i; j > 0; j--)
                 if (helper.less(xs[j], xs[j - 1]))
                     helper.swap(xs, from, to, j, j - 1);
                 else break;
+        // ... END IMPLEMENTATION
     }
 
     @Override

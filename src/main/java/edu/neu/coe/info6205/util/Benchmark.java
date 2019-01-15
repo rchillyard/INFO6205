@@ -69,6 +69,7 @@ public class Benchmark<T> {
      * @return the average number of milliseconds taken for each run of function f.
      */
     public double run(T t, int m) {
+        // TO BE IMPLEMENTED ...
         // Warmup phase
         int warmupRuns = Integer.min(2, Integer.max(10, m / 10));
         for (int i = 0; i < warmupRuns; i++) doRun(t, true);
@@ -76,8 +77,10 @@ public class Benchmark<T> {
         long totalTime = 0;
         for (int i = 0; i < m; i++) totalTime += doRun(t, false);
         return (double) totalTime / m / 1000000;
+        // ... END IMPLEMENTATION
     }
 
+    // TO BE IMPLEMENTED ...
     private long doRun(T t, boolean warmup) {
         T t1 = fPre != null ? fPre.apply(t) : t;
         if (warmup) {
@@ -90,6 +93,7 @@ public class Benchmark<T> {
         if (fPost != null) fPost.apply(t1);
         return nanos;
     }
+    // ... END IMPLEMENTATION
 
     private final Function<T, T> fPre;
     private final Function<T, Void> fRun;

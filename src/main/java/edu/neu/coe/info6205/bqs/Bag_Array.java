@@ -90,10 +90,12 @@ public class Bag_Array<Item> implements Bag<Item> {
      * @param size the size of the new array
      */
     private static <T> T[] growFrom(T[] from, int size) {
+        // TO BE IMPLEMENTED ...
         // NOTE that we cannot use Arrays.copyOf here because we are extending the length of the array.
         @SuppressWarnings("unchecked") T[] result = (T[]) new Object[size];
         System.arraycopy(from, 0, result, 0, from.length);
         return result;
+        // ... END IMPLEMENTATION
     }
 
     private Item[] items = null;

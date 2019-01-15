@@ -85,6 +85,7 @@ public class DList<Item> implements Iterable<Item> {
      * @param next may be null, in which case the item will be the only item on the list
      */
     public void addBeforeElement(Item item, D_Element next) {
+        // TO BE IMPLEMENTED ...
         assert (isEmpty() == (next == null));
         D_Element previous = next != null ? next.prev : null;
         D_Element element = new D_Element(item, previous, next);
@@ -93,6 +94,7 @@ public class DList<Item> implements Iterable<Item> {
         if (next != null) next.prev = element;
         else tail = element;
         count++;
+        // ... END IMPLEMENTATION
     }
 
     /**
@@ -102,12 +104,14 @@ public class DList<Item> implements Iterable<Item> {
      * @param prev may NOT be null
      */
     public void addAfterElement(Item item, D_Element prev) {
+        // TO BE IMPLEMENTED ...
         D_Element next = prev.next;
         D_Element element = new D_Element(item, prev, next);
         if (next != null) next.prev = element;
         else tail = element;
         prev.next = element;
         count++;
+        // ... END IMPLEMENTATION
     }
 
     /**
@@ -116,27 +120,33 @@ public class DList<Item> implements Iterable<Item> {
      * @param element the element to be removed.
      */
     public void remove(D_Element element) {
+        // TO BE IMPLEMENTED ...
         if (element.prev != null) element.prev.next = element.next;
         else head = element.next;
         if (element.next != null) element.next.prev = element.prev;
         else tail = element.prev;
         count--;
+        // ... END IMPLEMENTATION
     }
 
     public D_Element findFirst(Item item) {
+        // TO BE IMPLEMENTED ...
         if (isEmpty()) return null;
         D_Element result = head;
         while (result != null && !result.item.equals(item))
             result = result.next;
         return result;
+        // ... END IMPLEMENTATION
     }
 
     public D_Element findLast(Item item) {
+        // TO BE IMPLEMENTED ...
         if (isEmpty()) return null;
         D_Element result = tail;
         while (result != null && !result.item.equals(item))
             result = result.prev;
         return result;
+        // ... END IMPLEMENTATION
     }
 
     public boolean isEmpty() {
