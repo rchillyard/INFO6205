@@ -4,12 +4,12 @@
 
 package edu.neu.coe.info6205.util;
 
-import edu.neu.coe.info6205.sort.simple.InsertionSort;
-import edu.neu.coe.info6205.sort.simple.SelectionSort;
-import edu.neu.coe.info6205.sort.simple.Sort;
+import edu.neu.coe.info6205.sort.simple.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
@@ -32,11 +32,9 @@ public class BenchmarkTest {
                 },
                 b -> {
                     GoToSleep(200L, 0);
-                    return null;
                 },
                 b -> {
                     GoToSleep(50L, 1);
-                    return null;
                 }
         );
         double x = bm.run(true, nRuns);
@@ -56,8 +54,23 @@ public class BenchmarkTest {
             e.printStackTrace();
         }
     }
+
     @Test
-    public void sort() throws Exception {
+    public void testQuickSort() throws Exception {
+        Random random = new Random();
+        int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
+        int n = 1000; // This is the size of the array to be sorted.
+        Integer[] array = new Integer[n];
+        for (int i = 0; i < n; i++) array[i] = random.nextInt();
+        double tqs3 = benchmarkSort(array, "QuickSort3way", new QuickSort_3way<>(), m);
+        double tqs = benchmarkSort(array, "QuickSort", new QuickSort<>(), m);
+        System.out.println(tqs);
+        System.out.println(tqs3);
+        assertEquals(1, tqs/tqs3, 0.4);
+    }
+
+    @Ignore
+    public void testSimpleSorts() throws Exception {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
         int n = 1000; // This is the size of the array to be sorted.
@@ -66,13 +79,12 @@ public class BenchmarkTest {
         double ts = benchmarkSort(array, "SelectionSort", new SelectionSort<>(), m);
         double ti = benchmarkSort(array, "InsertionSort", new InsertionSort<>(), m);
         // The timing for selection sort and insertion sort should be about the same for random input.
-        assertEquals(1, ts / ti, 0.2);
+        assertEquals(1, ts / ti, 0.4);
     }
 
     private static double benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
-        Function<Integer[], Void> sortFunction = (xs) -> {
+        Consumer<Integer[]> sortFunction = (xs) -> {
             sorter.sort(xs);
-            return null;
         };
         Benchmark<Integer[]> bm = new Benchmark<>(sortFunction);
         return bm.run(array, m);
