@@ -22,6 +22,7 @@ public class Queue_Elements<Item> implements Iterable<Item>, Queue<Item>  {
      * @param item the item to add
      */
     public void enqueue(Item item) {
+        // TO BE IMPLEMENTED ...
         Element<Item> element = new Element<>(item);
         Element<Item> secondNewest = newest;
         if (isEmpty()) oldest = element;
@@ -30,6 +31,7 @@ public class Queue_Elements<Item> implements Iterable<Item>, Queue<Item>  {
             secondNewest.next = element;
         }
         this.newest = element;
+        // ... END IMPLEMENTATION
     }
 
 
@@ -41,11 +43,13 @@ public class Queue_Elements<Item> implements Iterable<Item>, Queue<Item>  {
     public Item dequeue() {
         if (isEmpty()) return null;
         else {
+            // TO BE IMPLEMENTED ...
             assert oldest != null; // Redundant assertion
             Item result = oldest.item;
             oldest = oldest.next;
             if (isEmpty()) newest = null;
             return result;
+            // ... END IMPLEMENTATION
         }
     }
 
