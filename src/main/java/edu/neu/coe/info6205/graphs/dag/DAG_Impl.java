@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.dag;
+package edu.neu.coe.info6205.graphs.dag;
 
 import edu.neu.coe.info6205.bqs.Bag;
 import edu.neu.coe.info6205.bqs.Bag_Array;
@@ -8,7 +8,7 @@ import edu.neu.coe.info6205.bqs.Stack_LinkedList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 public class DAG_Impl<Vertex> implements DAG<Vertex> {
 
@@ -23,18 +23,15 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
     }
 
     @Override
-    public void dfs(Vertex vertex, Function<Vertex, Void> pre, Function<Vertex, Void> post) {
+    public void dfs(Vertex vertex, Consumer<Vertex> pre, Consumer<Vertex> post) {
         new DepthFirstSearch(pre, post).innerDfs(vertex);
     }
 
     @Override
     public Iterable<Vertex> sorted() {
         Stack<Vertex> postOrderStack = new Stack_LinkedList<>();
-        Function<Vertex, Void> pre = (v) -> null;
-        Function<Vertex, Void> post = (v) -> {
-            postOrderStack.push(v);
-            return null;
-        };
+        Consumer<Vertex> pre = (v) -> {};
+        Consumer<Vertex> post = postOrderStack::push;
         new DepthFirstSearch(pre, post).innerDfs();
         return postOrderStack;
     }
@@ -90,7 +87,7 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
 
     class DepthFirstSearch {
 
-        DepthFirstSearch(Function<Vertex, Void> pre, Function<Vertex, Void> post) {
+        DepthFirstSearch(Consumer<Vertex> pre, Consumer<Vertex> post) {
             this.pre = pre;
             this.post = post;
             this.marked = new TreeSet<>();
@@ -103,16 +100,16 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
         void innerDfs(Vertex v) {
             if (marked.contains(v)) return;
             marked.add(v);
-            pre.apply(v);
+            pre.accept(v);
             for (Edge<Vertex> e : adjacentEdges.get(v)) {
                 Vertex v1 = e.getTo();
                 if (!marked.contains(v1)) innerDfs(v1);
             }
-            post.apply(v);
+            post.accept(v);
         }
 
         private final TreeSet<Vertex> marked;
-        private final Function<Vertex, Void> pre;
-        private final Function<Vertex, Void> post;
+        private final Consumer<Vertex> pre;
+        private final Consumer<Vertex> post;
     }
 }

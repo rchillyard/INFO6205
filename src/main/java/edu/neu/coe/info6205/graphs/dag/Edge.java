@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.dag;
+package edu.neu.coe.info6205.graphs.dag;
 
 public class Edge<Vertex> {
 

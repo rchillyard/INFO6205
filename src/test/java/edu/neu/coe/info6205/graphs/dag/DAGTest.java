@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.dag;
+package edu.neu.coe.info6205.graphs.dag;
 
 import edu.neu.coe.info6205.bqs.BQSException;
 import edu.neu.coe.info6205.bqs.Stack;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.*;
 
@@ -87,14 +87,12 @@ public class DAGTest {
         Queue<Integer> postOrder = new LinkedList<>();
         Stack<Integer> reversePostOrder = new Stack_LinkedList<>();
         DAG_Impl<Integer> target = setupStandardDAG();
-        Function<Integer, Void> pre = (v) -> {
+        Consumer<Integer> pre = (v) -> {
             preOrder.add(v);
-            return null;
         };
-        Function<Integer, Void> post = (v) -> {
+        Consumer<Integer> post = (v) -> {
             postOrder.add(v);
             reversePostOrder.push(v);
-            return null;
         };
 
         target.dfs(0, pre, post);
