@@ -23,10 +23,10 @@ public class DAGTest {
      */
     @Test
     public void testDAG() {
-        DAG_Impl<Integer> target = new DAG_Impl<>();
+        DAG_Impl<Integer, Double> target = new DAG_Impl<>();
         assertNotNull(target);
-        assertEquals(0, target.E());
-        assertEquals(0, target.V());
+        assertEquals(0, target.edges().size());
+        assertEquals(0, target.vertices().size());
         assertFalse(target.edges().iterator().hasNext());
         assertFalse(target.vertices().iterator().hasNext());
     }
@@ -36,11 +36,11 @@ public class DAGTest {
      */
     @Test
     public void testAddEdge() {
-        DAG_Impl<Integer> target = new DAG_Impl<>();
-        Edge<Integer> edge = new Edge<>(1, 2);
+        DAG_Impl<Integer, Double> target = new DAG_Impl<>();
+        Edge<Integer, Double> edge = new Edge<>(1, 2, Math.PI);
         target.addEdge(edge);
-        assertEquals(1, target.E());
-        assertEquals(2, target.V());
+        assertEquals(1, target.edges().size());
+        assertEquals(2, target.vertices().size());
         assertTrue(target.edges().iterator().hasNext());
         assertTrue(target.vertices().iterator().hasNext());
         assertEquals(edge, target.edges().iterator().next());
@@ -52,9 +52,9 @@ public class DAGTest {
      */
     @Test
     public void testDag2() {
-        DAG_Impl<Integer> target = setupStandardDAG();
-        assertEquals(11, target.E());
-        assertEquals(7, target.V());
+        DAG_Impl<Integer, Double> target = setupStandardDAG();
+        assertEquals(11, target.edges().size());
+        assertEquals(7, target.vertices().size());
         assertEquals(Integer.valueOf(0), target.edges().iterator().next().getFrom());
         assertEquals(Integer.valueOf(0), target.vertices().iterator().next());
         assertEquals(Integer.valueOf(1), target.adjacent(0).iterator().next().getTo());
@@ -67,10 +67,10 @@ public class DAGTest {
      */
     @Test
     public void testReverse() {
-        DAG<Integer> target = setupStandardDAG();
-        DAG_Impl<Integer> integerDAG = (DAG_Impl<Integer>) target.reverse();
-        assertEquals(11, integerDAG.E());
-        assertEquals(7, integerDAG.V());
+        DAG<Integer, Double> target = setupStandardDAG();
+        DAG<Integer, Double> integerDAG =  target.reverse();
+        assertEquals(11, integerDAG.edges().size());
+        assertEquals(7, integerDAG.vertices().size());
         assertEquals(Integer.valueOf(0), integerDAG.edges().iterator().next().getFrom());
         assertEquals(Integer.valueOf(0), integerDAG.vertices().iterator().next());
         assertEquals(Integer.valueOf(6), integerDAG.adjacent(0).iterator().next().getTo());
@@ -86,7 +86,7 @@ public class DAGTest {
         Queue<Integer> preOrder = new LinkedList<>();
         Queue<Integer> postOrder = new LinkedList<>();
         Stack<Integer> reversePostOrder = new Stack_LinkedList<>();
-        DAG_Impl<Integer> target = setupStandardDAG();
+        DAG_Impl<Integer, Double> target = setupStandardDAG();
         Consumer<Integer> pre = (v) -> {
             preOrder.add(v);
         };
@@ -116,7 +116,7 @@ public class DAGTest {
      */
     @Test
     public void testSorted() {
-        DAG_Impl<Integer> target = setupStandardDAG();
+        DAG_Impl<Integer, Double> target = setupStandardDAG();
         Iterable<Integer> sorted = target.sorted();
         Iterator<Integer> iterator = sorted.iterator();
         assertEquals(Integer.valueOf(3), iterator.next());
@@ -129,19 +129,19 @@ public class DAGTest {
         assertFalse(iterator.hasNext());
     }
 
-    private DAG_Impl<Integer> setupStandardDAG() {
-        DAG_Impl<Integer> target = new DAG_Impl<>();
-        target.addEdge(0, 1);
-        target.addEdge(0, 2);
-        target.addEdge(0, 5);
-        target.addEdge(1, 4);
-        target.addEdge(3, 2);
-        target.addEdge(3, 4);
-        target.addEdge(3, 5);
-        target.addEdge(3, 6);
-        target.addEdge(5, 2);
-        target.addEdge(6, 0);
-        target.addEdge(6, 4);
+    private DAG_Impl<Integer, Double> setupStandardDAG() {
+        DAG_Impl<Integer, Double> target = new DAG_Impl<>();
+        target.addEdge(0, 1, 1.0);
+        target.addEdge(0, 2, 1.0);
+        target.addEdge(0, 5, 1.0);
+        target.addEdge(1, 4, 1.0);
+        target.addEdge(3, 2, 1.0);
+        target.addEdge(3, 4, 1.0);
+        target.addEdge(3, 5, 1.0);
+        target.addEdge(3, 6, 1.0);
+        target.addEdge(5, 2, 1.0);
+        target.addEdge(6, 0, 1.0);
+        target.addEdge(6, 4, 1.0);
         return target;
     }
 

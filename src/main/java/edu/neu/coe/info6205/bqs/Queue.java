@@ -4,7 +4,7 @@
 
 package edu.neu.coe.info6205.bqs;
 
-public interface Queue<Item> {
+public interface Queue<Item> extends Iterable<Item> {
 
     /**
      * Update this Queue by adding an item on the "newest" end.

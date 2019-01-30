@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.graphs.dag;
 
+import edu.neu.coe.info6205.SizedIterable;
+import edu.neu.coe.info6205.SizedIterableImpl;
 import edu.neu.coe.info6205.bqs.Bag;
 import edu.neu.coe.info6205.bqs.Bag_Array;
 import edu.neu.coe.info6205.bqs.Stack;
@@ -10,68 +12,61 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.function.Consumer;
 
-public class DAG_Impl<Vertex> implements DAG<Vertex> {
+/**
+ * TODO this should extend AbstractGraph
+ * @tparam V
+ * @tparam E
+ */
+public class DAG_Impl<V, E> implements DAG<V, E> {
 
     @Override
-    public Iterable<Vertex> vertices() {
-        return adjacentEdges.keySet();
+    public SizedIterable<V> vertices() {
+        return SizedIterableImpl.create(adjacentEdges.keySet());
     }
 
     @Override
-    public Iterable<Edge<Vertex>> adjacent(Vertex vertex) {
+    public Iterable<Edge<V, E>> adjacent(V vertex) {
         return adjacentEdges.get(vertex);
     }
 
     @Override
-    public void dfs(Vertex vertex, Consumer<Vertex> pre, Consumer<Vertex> post) {
+    public void dfs(V vertex, Consumer<V> pre, Consumer<V> post) {
         new DepthFirstSearch(pre, post).innerDfs(vertex);
     }
 
     @Override
-    public Iterable<Vertex> sorted() {
-        Stack<Vertex> postOrderStack = new Stack_LinkedList<>();
-        Consumer<Vertex> pre = (v) -> {};
-        Consumer<Vertex> post = postOrderStack::push;
+    public Iterable<V> sorted() {
+        Stack<V> postOrderStack = new Stack_LinkedList<>();
+        Consumer<V> pre = (v) -> {};
+        Consumer<V> post = postOrderStack::push;
         new DepthFirstSearch(pre, post).innerDfs();
         return postOrderStack;
     }
 
     @Override
-    public DAG<Vertex> reverse() {
-        DAG_Impl<Vertex> result = new DAG_Impl<>();
-        for (Edge<Vertex> e : edges()) result.addEdge(e.reverse());
+    public DAG<V, E> reverse() {
+        DAG_Impl<V, E> result = new DAG_Impl<>();
+        for (Edge<V, E> e : edges()) result.addEdge(e.reverse());
         return result;
     }
 
-    @Override
-    public int V() {
-        return adjacentEdges.keySet().size();
-    }
-
-    @Override
-    public int E() {
-        int e = 0;
-        for (Bag<Edge<Vertex>> b : adjacentEdges.values()) e += b.size();
-        return e;
-    }
-
-    public Iterable<Edge<Vertex>> edges() {
-        Bag<Edge<Vertex>> result = new Bag_Array<>();
-        for (Bag<Edge<Vertex>> b : adjacentEdges.values())
-            for (Edge<Vertex> e : b)
+    public SizedIterable<Edge<V, E>> edges() {
+        Bag<Edge<V, E>> result = new Bag_Array<>();
+        for (Bag<Edge<V, E>> b : adjacentEdges.values())
+            for (Edge<V, E> e : b)
                 result.add(e);
         return result;
     }
 
-    public void addEdge(Edge<Vertex> edge) {
+    public void addEdge(Edge<V, E> edge) {
         // First, we add the edge to the adjacency bag for the "from" vertex;
         getAdjacencyBag(edge.getFrom()).add(edge);
         // Then, we simply ensure that the "to" vertex has an adjacency bag (which might be empty)
         getAdjacencyBag(edge.getTo());
     }
 
-    public void addEdge(Vertex from, Vertex to) {
-        addEdge(new Edge<>(from, to));
+    public void addEdge(V from, V to, E attributes) {
+        addEdge(new Edge<>(from, to, attributes));
     }
 
     @Override
@@ -79,37 +74,37 @@ public class DAG_Impl<Vertex> implements DAG<Vertex> {
         return adjacentEdges.toString();
     }
 
-    private Bag<Edge<Vertex>> getAdjacencyBag(Vertex vertex) {
+    private Bag<Edge<V, E>> getAdjacencyBag(V vertex) {
         return adjacentEdges.computeIfAbsent(vertex, k -> new Bag_Array<>());
     }
 
-    private final Map<Vertex, Bag<Edge<Vertex>>> adjacentEdges = new HashMap<>();
+    private final Map<V, Bag<Edge<V, E>>> adjacentEdges = new HashMap<>();
 
     class DepthFirstSearch {
 
-        DepthFirstSearch(Consumer<Vertex> pre, Consumer<Vertex> post) {
+        DepthFirstSearch(Consumer<V> pre, Consumer<V> post) {
             this.pre = pre;
             this.post = post;
             this.marked = new TreeSet<>();
         }
 
         void innerDfs() {
-            for (Vertex v : vertices()) innerDfs(v);
+            for (V v : vertices()) innerDfs(v);
         }
 
-        void innerDfs(Vertex v) {
+        void innerDfs(V v) {
             if (marked.contains(v)) return;
             marked.add(v);
             pre.accept(v);
-            for (Edge<Vertex> e : adjacentEdges.get(v)) {
-                Vertex v1 = e.getTo();
+            for (Edge<V, E> e : adjacentEdges.get(v)) {
+                V v1 = e.getTo();
                 if (!marked.contains(v1)) innerDfs(v1);
             }
             post.accept(v);
         }
 
-        private final TreeSet<Vertex> marked;
-        private final Consumer<Vertex> pre;
-        private final Consumer<Vertex> post;
+        private final TreeSet<V> marked;
+        private final Consumer<V> pre;
+        private final Consumer<V> post;
     }
 }

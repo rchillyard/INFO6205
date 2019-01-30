@@ -44,4 +44,6 @@ public interface UF extends Connections {
     default boolean isConnected(int p, int q) {
         return find(p) == find(q);
     }
+
+    int size();
 }

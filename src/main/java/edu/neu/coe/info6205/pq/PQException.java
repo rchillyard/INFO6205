@@ -4,7 +4,7 @@
 
 package edu.neu.coe.info6205.pq;
 
-class PQException extends Exception {
+public class PQException extends Exception {
     public PQException(String msg) {
         super(msg);
     }
