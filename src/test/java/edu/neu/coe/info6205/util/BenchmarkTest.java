@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
 
