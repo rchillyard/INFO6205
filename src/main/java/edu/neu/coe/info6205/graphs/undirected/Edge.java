@@ -3,7 +3,8 @@ package edu.neu.coe.info6205.graphs.undirected;
 import java.util.Objects;
 
 /**
- * An undirected Edge
+ * An undirected Edge with attributes.
+ *
  * @tparam V the vertex type
  * @tparam E the attribute type
  */
