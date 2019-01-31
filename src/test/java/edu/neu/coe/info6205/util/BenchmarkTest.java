@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import java.util.Random;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
 
@@ -56,7 +55,7 @@ public class BenchmarkTest {
     }
 
     @Test
-    public void testQuickSort() throws Exception {
+    public void testBenchmarkWithQuickSort() throws Exception {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
         int n = 1000; // This is the size of the array to be sorted.
