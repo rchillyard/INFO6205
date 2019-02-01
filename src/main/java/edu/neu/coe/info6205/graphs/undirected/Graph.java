@@ -1,36 +1,25 @@
 package edu.neu.coe.info6205.graphs.undirected;
 
+import edu.neu.coe.info6205.SizedIterable;
+
 /**
  * Graph interface for undirected graphs.
  *
  * @tparam <Vertex> the type of a vertex.
  */
-public interface Graph<Vertex> {
+public interface Graph<Vertex, Adjacent> {
 
     /**
      * Get the vertices of this Graph as an Iterable.
      * @return the vertices
      */
-    Iterable<Vertex> vertices();
+    SizedIterable<Vertex> vertices();
 
     /**
-     * Get the vertices which are adjacent to the given vertex.
-     * @param vertex the vertex whose adjacent vertices we want.
-     * @return the adjacent vertices as an Iterable.
+     * Get the entities which are adjacent to the given vertex.
+     * @param vertex the vertex whose adjacent entities we want.
+     * @return the adjacent entities as an Iterable.
      */
-    Iterable<Edge<Vertex>> adjacent(Vertex vertex);
+    SizedIterable<Adjacent> adjacent(Vertex vertex);
 
-    /**
-     * Get the number of vertices.
-     *
-     * @return the number of vertices.
-     */
-    int V();
-
-    /**
-     * Get the number of edges.
-     *
-     * @return the number of edges.
-     */
-    int E();
 }

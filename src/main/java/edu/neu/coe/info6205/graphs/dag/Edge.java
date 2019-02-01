@@ -1,29 +1,31 @@
 package edu.neu.coe.info6205.graphs.dag;
 
-public class Edge<Vertex> {
+public class Edge<V, E> {
 
-    private final Vertex from;
-    private final Vertex to;
+    private final V from;
+    private final V to;
+    private final E attributes;
 
-    public Edge(Vertex from, Vertex to) {
+    public Edge(V from, V to, E attributes) {
         this.from = from;
         this.to = to;
+        this.attributes = attributes;
     }
 
-    public Vertex getFrom() {
+    public V getFrom() {
         return from;
     }
 
-    public Vertex getTo() {
+    public V getTo() {
         return to;
     }
 
-    public Edge<Vertex> reverse() {
-        return new Edge<>(to, from);
+    public Edge<V, E> reverse() {
+        return new Edge<>(to, from, attributes);
     }
 
     @Override
     public String toString() {
-        return from + "->" + to;
+        return attributes + ": " + from + "->" + to;
     }
 }
