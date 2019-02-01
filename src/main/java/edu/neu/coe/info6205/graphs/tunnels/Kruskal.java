@@ -35,6 +35,15 @@ public class Kruskal<Vertex> implements Iterable<Edge> {
         }
     }
 
+    public Queue<Edge> getMst() {
+        return mst;
+    }
+
+    @Override
+    public Iterator<Edge> iterator() {
+        return mst.iterator();
+    }
+
     private void runKruskal() throws PQException, UFException {
         while (!pq.isEmpty() && ((SizedIterable)mst).size() < size - 1) {
             Edge<Vertex, Double> edge = pq.take();
@@ -56,15 +65,11 @@ public class Kruskal<Vertex> implements Iterable<Edge> {
         return result;
     }
 
-    @Override
-    public Iterator<Edge> iterator() {
-        return mst.iterator();
-    }
-
     private final Queue<Edge> mst;
     private final PriorityQueue<Edge<Vertex, Double>> pq;
     private final TypedUF<Vertex> uf;
     private final int size;
+
 
     public static <Vertex> Edge<Vertex, Double> createEdge(Vertex v1, Vertex v2, double x) {
         return new Edge<>(v1, v2, x);
