@@ -22,11 +22,7 @@ import java.util.Iterator;
  */
 public class Kruskal<Vertex> implements Iterable<Edge> {
 
-    private final Queue<Edge> mst;
-    private final PriorityQueue<Edge<Vertex, Double>> pq;
-    private final TypedUF<Vertex> uf;
-    private final int size;
-
+    // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Kruskal(EdgeGraph<Vertex, Double> graph) {
         this.mst = new Queue_Elements<>();
         this.pq = createPQ(graph.edges());
@@ -43,7 +39,6 @@ public class Kruskal<Vertex> implements Iterable<Edge> {
         while (!pq.isEmpty() && ((SizedIterable)mst).size() < size - 1) {
             Edge<Vertex, Double> edge = pq.take();
             Vertex s1 = edge.get(), s2 = edge.getOther(s1);
-            // Maybe we should generalize UF to take a type rather than int.
             if (!uf.connected(s1, s2)) {
                 uf.union(s1, s2);
                 mst.enqueue(edge);
@@ -65,6 +60,11 @@ public class Kruskal<Vertex> implements Iterable<Edge> {
     public Iterator<Edge> iterator() {
         return mst.iterator();
     }
+
+    private final Queue<Edge> mst;
+    private final PriorityQueue<Edge<Vertex, Double>> pq;
+    private final TypedUF<Vertex> uf;
+    private final int size;
 
     public static <Vertex> Edge<Vertex, Double> createEdge(Vertex v1, Vertex v2, double x) {
         return new Edge<>(v1, v2, x);
