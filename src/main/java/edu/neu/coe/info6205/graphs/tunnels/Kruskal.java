@@ -10,23 +10,24 @@ import edu.neu.coe.info6205.pq.PriorityQueue;
 import edu.neu.coe.info6205.union_find.TypedUF;
 import edu.neu.coe.info6205.union_find.TypedUF_HWQUPC;
 import edu.neu.coe.info6205.union_find.UFException;
-import edu.neu.coe.info6205.union_find.UF_HWQUPC;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * This is a generic solution for Kruskal's algorithm to find the minimum spanning tree of an edge-weighted graph
+ *
+ * @tparam Vertex is the type of each vertex.
+ *
  */
-public class Kruskal implements Iterable<Edge>{
+public class Kruskal<Vertex> implements Iterable<Edge> {
 
     private final Queue<Edge> mst;
-    private final PriorityQueue<Edge<String, Double>> pq;
-    private final TypedUF<String> uf;
+    private final PriorityQueue<Edge<Vertex, Double>> pq;
+    private final TypedUF<Vertex> uf;
     private final int size;
 
-    public Kruskal(EdgeGraph<String, Double> graph) {
+    public Kruskal(EdgeGraph<Vertex, Double> graph) {
         this.mst = new Queue_Elements<>();
         this.pq = createPQ(graph.edges());
         this.uf = createUF(graph.vertices());
@@ -40,8 +41,8 @@ public class Kruskal implements Iterable<Edge>{
 
     private void runKruskal() throws PQException, UFException {
         while (!pq.isEmpty() && ((SizedIterable)mst).size() < size - 1) {
-            Edge<String, Double> edge = pq.take();
-            String s1 = edge.get(), s2 = edge.getOther(s1);
+            Edge<Vertex, Double> edge = pq.take();
+            Vertex s1 = edge.get(), s2 = edge.getOther(s1);
             // Maybe we should generalize UF to take a type rather than int.
             if (!uf.connected(s1, s2)) {
                 uf.union(s1, s2);
@@ -50,18 +51,13 @@ public class Kruskal implements Iterable<Edge>{
         }
     }
 
-    private TypedUF<String> createUF(SizedIterable<String> vertices) {
+    private TypedUF<Vertex> createUF(SizedIterable<Vertex> vertices) {
         return new TypedUF_HWQUPC<>(vertices);
     }
 
-    private PriorityQueue<Edge<String, Double>> createPQ(SizedIterable<Edge<String, Double>> edges) {
-        PriorityQueue<Edge<String, Double>> result = new PriorityQueue<>(edges.size(), false, new Comparator<Edge<String, Double>>() {
-            @Override
-            public int compare(Edge<String, Double> o1, Edge<String, Double> o2) {
-                return o1.getAttribute().compareTo(o2.getAttribute());
-            }
-        });
-        for (Edge<String, Double> e : edges) result.give(e);
+    private PriorityQueue<Edge<Vertex, Double>> createPQ(SizedIterable<Edge<Vertex, Double>> edges) {
+        PriorityQueue<Edge<Vertex, Double>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
+        for (Edge<Vertex, Double> e : edges) result.give(e);
         return result;
     }
 
@@ -70,7 +66,7 @@ public class Kruskal implements Iterable<Edge>{
         return mst.iterator();
     }
 
-    public static Edge<String, Double> createEdge(String s1, String s2, double x) {
-        return new Edge<String, Double>(s1, s2, x);
+    public static <Vertex> Edge<Vertex, Double> createEdge(Vertex v1, Vertex v2, double x) {
+        return new Edge<>(v1, v2, x);
     }
 }
