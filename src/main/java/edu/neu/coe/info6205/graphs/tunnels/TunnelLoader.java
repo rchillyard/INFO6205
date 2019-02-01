@@ -90,7 +90,7 @@ public class TunnelLoader {
         vertices.add(new Vertex("Hastings Hall at the YMCA (YMC)", 42.3407354, -71.0894811, false, false, false, false));
         vertices.add(new Vertex("177 Huntington (177)", 42.3449342, -71.0849756, false, false, false, true));
         vertices.add(new Vertex("140 The Fenway (TF )", 42.3407946, -71.093952, false, true, false, false));
-        vertices.add(new Vertex("236 Huntington (236)", 42.2722086, -71.120479, false, false, false, true));
+       // vertices.add(new Vertex("236 Huntington (236)", 42.2722086, -71.120479, false, false, false, true));
         vertices.add(new Vertex("East Village (EV)", 42.3404407, -71.0890679, false, false, false, false));
         vertices.add(new Vertex("Interdisciplinary Science and Engineering Complex (ISEC)", 42.3377374, -71.0891008, true, false, false, false));
         vertices.add(new Vertex("271 Huntington (271)", 42.3421028, -71.0884667, false, false, false, true));
@@ -127,17 +127,9 @@ public class TunnelLoader {
             }
         }
 
-        Kruskal kr = new Kruskal(graph);
-
-        System.out.println(kr.iterator());
-        while (kr.getMst().isEmpty() == false) {
-
-            System.out.println(kr.getMst().dequeue());
-        }
-
     }
     
-    // method to calculate dustance between given longitudes and latitudes
+    // method to calculate distance between given longitudes and latitudes
 
     public static double distance(double lat1, double lat2, double lon1, double lon2) {
 

@@ -27,6 +27,11 @@ public class Kruskal<Vertex> implements Iterable<Edge> {
     private final TypedUF<Vertex> uf;
     private final int size;
 
+    public Queue<Edge> getMst() {
+        return mst;
+    }
+    
+
     public Kruskal(EdgeGraph<Vertex, Double> graph) {
         this.mst = new Queue_Elements<>();
         this.pq = createPQ(graph.edges());
