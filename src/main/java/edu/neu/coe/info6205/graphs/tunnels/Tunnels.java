@@ -63,7 +63,7 @@ public class Tunnels implements Iterable<Edge> {
      * @param b2 building at other end.
      * @return the cost factor.
      */
-    private static double getCostFactor(Building b1, Building b2) {
+    private static int getCostFactor(Building b1, Building b2) {
         if (b1.isAlreadyTunneled && b2.isAlreadyTunneled) return 10;
         if (b1.zone==b2.zone) return 1000;
         return crossZoneExpense(b1.zone, b2.zone);

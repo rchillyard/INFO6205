@@ -21,17 +21,45 @@ public class Kml<V extends GeoPoint,E> {
         boolean x = file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write(preamble);
-        SizedIterable<Edge<V, E>> edges = graph.edges();
-//        for (Edge<V, E> edge : edges) System.out.println("edge: "+edge.toString());
-        for (Edge<V, E> edge : edges) writer.write(asLine(edge));
+        SizedIterable<V> vertices = graph.vertices();
+        for (V vertex : vertices) writer.write(asPoint(vertex));
+
+        for (Edge<V, E> edge : graph.edges()) writer.write(asLine(edge));
         writer.write(colophon);
         writer.close();
 
     }
 
+    private String asPoint(V vertex) {
+        return "      <Placemark>\n" +"      <name>" + vertex.getName() +
+                "</name>\n" +
+//                "      <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>\n" +
+                "      <Point>\n" +
+                "        <coordinates>\n" + vertex.getPosition() +
+                "         \n" +
+                "        </coordinates>\n" +
+                "      </Point>\n" +
+                "      </Placemark>\n";
+    }
+
     private String asLine(Edge<V, E> edge) {
-        GeoEdge<V, E> geoEdge = (GeoEdge<V, E>) edge;
-        return geoEdge.asLineSegment();
+        GeoEdge<V, E> e = (GeoEdge<V, E>) edge;
+        V v1 = e.get();
+        V v2 = e.getOther(v1);
+        E attribute = e.getAttribute();
+        String sb = "      <Placemark>\n" +"      <name>" + attribute +
+        "</name>\n" +
+                "      <LineString>\n" +
+                "        <tessellate>1</tessellate>\n" +
+                "        <coordinates>\n" +
+                v1.getPosition() +
+                "\n" +
+                v2.getPosition() +
+                "\n" +
+                "        </coordinates>\n" +
+                "      </LineString>\n" +
+                "      </Placemark>\n";
+        return sb;
     }
 
     private final static String preamble = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +

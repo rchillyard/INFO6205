@@ -43,12 +43,12 @@ public class BuildingLoader {
         buildings.add(new Building(56, "LC", "Center", 42.3381742, -71.0919376, false, "Latino/a Student Cultural Center"));
         buildings.add(new Building(57, "DA", "Center", 42.3380837, -71.0915343, false, "Dana Research Center"));
         buildings.add(new Building(58, "SN", "Center", 42.3382885, -71.0910495, true, "Snell Engineering Center"));
-        buildings.add(new Building(59, "SL", "Center", 42.3384001, -71.09026, true, "Snell Library"));
+        buildings.add(new Building(59, "SL", "Center", 42.33854, -71.08826, true, "Snell Library"));
         buildings.add(new Building(60, "EC", "Center", 42.3376711, -71.0910815, false, "Egan Engineering/ Science Research Center"));
         buildings.add(new Building(61, "RG", "Center", 42.3370771, -71.0913416, false, "Architecture Studio"));
         buildings.add(new Building(63, "RP", "Columbus", 42.3355765, -71.0903964, false, "Renaissance Park"));
         buildings.add(new Building(66, "CP", "Columbus", 42.3376757, -71.0874819, false, "Alumni Center at Columbus Place"));
-        buildings.add(new Building(68, "SB", "Strip", 42.3377009, -71.0940446, false, "Badger & Rosen SquashBusters Center"));
+        buildings.add(new Building(68, "SB", "Strip", 42.3377009, -71.0940446, false, "Badger and Rosen SquashBusters Center"));
         buildings.add(new Building(70, "AC", "Fenway", 42.3431744, -71.092534, false, "Asian American Center"));
         buildings.add(new Building(71, "FC", "St. Stephens", 42.3420912, -71.0901576, false, "Fenway Center"));
         buildings.add(new Building(72, "CC", "St. Stephens", 42.3416307, -71.0897127, false, "Catholic Center"));
