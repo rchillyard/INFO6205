@@ -79,7 +79,7 @@ public class Edge<V, E> {
         return a + "-" + b + ": " + attribute;
     }
 
-    private final V a;
-    private final V b;
-    private final E attribute;
+    protected final V a;
+    protected final V b;
+    protected final E attribute;
 }

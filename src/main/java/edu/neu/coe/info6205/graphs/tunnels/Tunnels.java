@@ -1,30 +1,32 @@
 package edu.neu.coe.info6205.graphs.tunnels;
 
-import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
-import edu.neu.coe.info6205.graphs.undirected.Graph_Edges;
+import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
+import edu.neu.coe.info6205.graphs.undirected.Position;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Tunnels implements Iterable<Edge> {
 
     public Tunnels(ArrayList<Building> buildings) {
-        kruskal = new Kruskal(createGraph(buildings));
+        kruskal = new GeoKruskal<>(createGraph(buildings));
     }
 
-    public Queue<Edge> getMst() {
-        return kruskal.getMst();
+    public EdgeGraph<Building, Double> getMst() {
+        return kruskal.getMST();
     }
 
     public Iterator<Edge> iterator() {
         return kruskal.iterator();
     }
 
-    private final Kruskal kruskal;
+    private final Kruskal<Building> kruskal;
 
-    public static Graph_Edges<String, Double> createGraph(ArrayList<Building> buildings) {
-        Graph_Edges<String, Double> graph = new Graph_Edges<>();
+    public static GeoGraph<Building, Double> createGraph(ArrayList<Building> buildings) {
+        GeoGraph<Building, Double> graph = new GeoGraph<>();
         int len = buildings.size();
         for (int i = 0; i < len; i++) {
             Building v1 = buildings.get(i);
@@ -33,22 +35,16 @@ public class Tunnels implements Iterable<Edge> {
                     continue;
                 }
                 Building v2 = buildings.get(j);
-                double dist = distance(v1.lat, v2.lat, v1.lon, v2.lon) * 1000;
-                double attribute = 0;
+                double dist = distance(v1.position, v2.position) * 1000;
+                Double attribute = 0.;
 
-                if (v1.isAlreadyTunneled && v2.isAlreadyTunneled) {
-                    attribute = 0.1 * dist;
-                } else if (v1.isHuntAve || v2.isHuntAve) {
-                    attribute = 3 * dist;
-                } else if (v1.isMassAveT ^ v2.isMassAveT) {
-                    attribute = 2 * dist;
-                } else if (v1.isRuggleT ^ v2.isRuggleT) {
-                    attribute = 2 * dist;
-                } else {
-                    attribute = dist;
-                }
-                graph.addEdge(v1.name, v2.name, attribute);
+                if (v1.isAlreadyTunneled && v2.isAlreadyTunneled) attribute = 0.1 * dist;
+                else if (v1.isHuntAve || v2.isHuntAve) attribute = 3 * dist;
+                else if (v1.isMassAveT ^ v2.isMassAveT) attribute = 2 * dist;
+                else if (v1.isRuggleT ^ v2.isRuggleT) attribute = 2 * dist;
+                else attribute = dist;
 
+                graph.addEdge(v1, v2, attribute);
             }
         }
         return graph;
@@ -57,23 +53,24 @@ public class Tunnels implements Iterable<Edge> {
     
     // method to calculate distance between given longitudes and latitudes
 
-    public static double distance(double lat1, double lat2, double lon1, double lon2) {
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
+    public static double distance(Position p1, Position p2) {
+        double latDistance = Math.toRadians(p2.x - p1.x);
+        double lonDistance = Math.toRadians(p2.y - p1.y);
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                + Math.cos(Math.toRadians(p1.x)) * Math.cos(Math.toRadians(p2.x))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         Tunnels ts = new Tunnels(BuildingLoader.createBuildings());
-        Graph_Edges<String, Double> graph = ts.createGraph(BuildingLoader.createBuildings());
         for (Edge t : ts) System.out.println(t);
-        while (ts.getMst().isEmpty() == false) {
-            System.out.println(ts.getMst().dequeue());
-        }
-
+        GeoKruskal<Building> kruskal = (GeoKruskal<Building>) ts.kruskal;
+        GeoGraph<Building, Double> mst = kruskal.getGeoMST();
+        Kml<Building, Double> kml = new Kml<>(mst);
+        String filename = "tunnels.kml";
+        kml.createKML(new File(filename));
+        System.out.println("Tunnels output to KML file: "+ filename);
     }
 
     final static int R = 6371000; // Radius of the earth (millimeters)
