@@ -30,3 +30,7 @@ bin/*
 .classpath
 .project
 .settings
+
+src/main/resources/sample\.kml
+
+tunnels\.kml

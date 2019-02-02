@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.graphs.tunnels;
+package edu.neu.coe.info6205.graphs.gis;
 
 import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.bqs.Queue;
@@ -22,7 +22,6 @@ import java.util.Iterator;
  *
  */
 public class Kruskal<V> implements Iterable<Edge> {
-
 
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Kruskal(EdgeGraph<V, Double> graph) {
@@ -56,7 +55,8 @@ public class Kruskal<V> implements Iterable<Edge> {
             }
         }
         EdgeGraph<V, Double> result = new Graph_Edges<>();
-        for (Edge edge : queue)  result.addEdge(edge);
+        for (Edge edge : queue)  //noinspection unchecked
+            result.addEdge(edge);
         return result;
     }
 

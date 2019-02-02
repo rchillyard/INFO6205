@@ -1,7 +1,7 @@
 package edu.neu.coe.info6205.graphs.tunnels;
 
-import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.SizedIterableImpl;
+import edu.neu.coe.info6205.graphs.gis.Kruskal;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
 import edu.neu.coe.info6205.graphs.undirected.Graph_Edges;
@@ -10,10 +10,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
-import static edu.neu.coe.info6205.graphs.tunnels.Kruskal.createEdge;
+import static edu.neu.coe.info6205.graphs.gis.Kruskal.createEdge;
 
 public class KruskalTest {
 

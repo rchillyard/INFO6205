@@ -1,9 +1,8 @@
-package edu.neu.coe.info6205.graphs.tunnels;
+package edu.neu.coe.info6205.graphs.gis;
 
 import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
-import edu.neu.coe.info6205.graphs.undirected.GeoPoint;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,7 +13,7 @@ public class Kml<V extends GeoPoint,E> {
 
     private final EdgeGraph<V, E> graph;
 
-    public Kml(GeoGraph<V,E> graph) {
+    public Kml(Geo<V,E> graph) {
         this.graph = graph;
     }
 
@@ -35,12 +34,12 @@ public class Kml<V extends GeoPoint,E> {
         return geoEdge.asLineSegment();
     }
 
-    public final static String preamble = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+    private final static String preamble = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n" +
             "  <Document>\n" +
             "    <name>NEU Tunnel System</name>\n";
 
-    public final static String colophon = "  </Document>\n" +
+    private final static String colophon = "  </Document>\n" +
             "</kml>\n";
 }
 

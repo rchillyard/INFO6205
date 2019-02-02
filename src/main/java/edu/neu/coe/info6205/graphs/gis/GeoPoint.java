@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.graphs.undirected;
+package edu.neu.coe.info6205.graphs.gis;
 
 import edu.neu.coe.info6205.graphs.undirected.Position;
 
