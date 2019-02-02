@@ -33,7 +33,7 @@ public class Tunnels implements Iterable<Edge> {
                     continue;
                 }
                 Building v2 = buildings.get(j);
-                double dist = distance(v1.lat, v2.lat, v1.lon, v2.lon) * 1000;
+                double dist = distance(v1.lat, v2.lat, v1.lon, v2.lon) * 1000;// converting calculted distance in millimetre
                 double attribute = 0;
 
                 if (v1.isAlreadyTunneled && v2.isAlreadyTunneled) {
@@ -76,5 +76,5 @@ public class Tunnels implements Iterable<Edge> {
 
     }
 
-    final static int R = 6371000; // Radius of the earth (millimeters)
+    final static int R = 6371000; // Radius of the earth (meters)
 }
