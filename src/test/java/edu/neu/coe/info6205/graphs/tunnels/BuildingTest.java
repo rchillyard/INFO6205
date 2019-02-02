@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BuildingTest {
 
@@ -15,7 +15,7 @@ public class BuildingTest {
     @Before
     public void setUp() throws Exception {
         snell = "Snell Engineering Center";
-        sn = new Building(54, "SN", "Center", 42.3382885, -71.0910495, false, false, false, true, snell);
+        sn = new Building(54, "SN", "Center", 42.3382885, -71.0910495, true, snell);
     }
 
     @After
