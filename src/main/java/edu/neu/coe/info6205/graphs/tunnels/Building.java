@@ -19,13 +19,16 @@ public class Building implements GeoPoint {
         return position;
     }
 
-    public Building(String name, double lat, double lon, boolean isRailroadT, boolean isMassAveT, boolean isAlreadyTunneled, boolean isHuntAve) {
+    public Building(int map, String code, String zone, double lat, double lon, boolean isRailroadT, boolean isMassAveT, boolean isHuntAveT, boolean isAlreadyTunneled, String name) {
+        this.map = map;
+        this.code = code;
+        this.zone = zone;
         this.name = name;
         this.position = new Position_Spherical(lat, lon);
         this.isRailroadT = isRailroadT;
         this.isMassAveT = isMassAveT;
         this.isAlreadyTunneled = isAlreadyTunneled;
-        this.isHuntAve = isHuntAve;
+        this.isHuntAveT = isHuntAveT;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class Building implements GeoPoint {
         Building building = (Building) o;
         return isRailroadT == building.isRailroadT &&
                 isMassAveT == building.isMassAveT &&
-                isHuntAve == building.isHuntAve &&
+                isHuntAveT == building.isHuntAveT &&
                 isAlreadyTunneled == building.isAlreadyTunneled &&
                 Objects.equals(name, building.name) &&
                 Objects.equals(position, building.position);
@@ -48,13 +51,16 @@ public class Building implements GeoPoint {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, position, isRailroadT, isMassAveT, isHuntAve, isAlreadyTunneled);
+        return Objects.hash(name, position, isRailroadT, isMassAveT, isHuntAveT, isAlreadyTunneled);
     }
 
     final boolean isRailroadT; // is it trans-Railroad?
     final boolean isMassAveT; // is it trans-Mass Ave?
-    final boolean isHuntAve; // is it trans-Huntington
+    final boolean isHuntAveT; // is it trans-Huntington
     final boolean isAlreadyTunneled; // is it already a node on an existing tunnel
+    final String zone;
+    private final int map;
+    private final String code;
     private final String name; // Building name
     private final Position position;
 }
