@@ -2,6 +2,7 @@ package edu.neu.coe.info6205.graphs.tunnels;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class BuildingLoader {
 
     public static ArrayList<Building> createBuildings() {
@@ -35,7 +36,6 @@ public class BuildingLoader {
         buildings.add(new Building("Mugar Life Sciences Building (MU)", 42.3397752, -71.0893004, false, false, true, false));
         buildings.add(new Building("Robinson Hall (RB)", 42.3392655, -71.0889125, false, false, false, false));
         buildings.add(new Building("Curry Student Center (CSC)", 42.3391489, -71.0897579, false, false, true, false));
-        buildings.add(new Building("Blackman Auditorium (AUDL)", 42.3395942, -71.0901278, false, false, true, false));
         buildings.add(new Building("Ell Hall (EL)", 42.3393659, -71.0899888, false, false, true, false));
         buildings.add(new Building("Hayden Hall (HA)", 42.3394668, -71.0907173, false, false, true, false));
         buildings.add(new Building("Churchill Hall (CH)", 42.3387774, -71.0911122, false, false, false, false));
@@ -48,7 +48,7 @@ public class BuildingLoader {
         buildings.add(new Building("Architecture Studio (RG)", 42.3370771, -71.0913416, false, false, false, false));
         buildings.add(new Building("Renaissance Park (RP)", 42.3355765, -71.0903964, true, false, false, false));
         buildings.add(new Building("Alumni Center at Columbus Place (CP)", 42.3376757, -71.0874819, true, false, false, false));
-        buildings.add(new Building("Columbus Place and Alumni Center (CP)", 42.3376814, -71.0874785, false, false, false, false));
+//        buildings.add(new Building("Columbus Place and Alumni Center (CP)", 42.3376814, -71.0874785, false, false, false, false));
         buildings.add(new Building("Badger & Rosen SquashBusters Center (SB)", 42.3377009, -71.0940446, true, false, false, false));
         buildings.add(new Building("Asian American Center (AC)", 42.3431744, -71.092534, false, true, false, false));
         buildings.add(new Building("Fenway Center (FC)", 42.3420912, -71.0901576, false, true, false, false));

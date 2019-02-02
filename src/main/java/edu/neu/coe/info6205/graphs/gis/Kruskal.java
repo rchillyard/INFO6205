@@ -12,6 +12,7 @@ import edu.neu.coe.info6205.union_find.TypedUF;
 import edu.neu.coe.info6205.union_find.TypedUF_HWQUPC;
 import edu.neu.coe.info6205.union_find.UFException;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -37,15 +38,21 @@ public class Kruskal<V> implements Iterable<Edge> {
     }
 
     public EdgeGraph<V, Double> getMST() {
-        return mst;
+        EdgeGraph<V, Double> result = new Graph_Edges<>();
+        for (Edge edge : queue)  //noinspection unchecked
+            result.addEdge(edge);
+        return result;
     }
 
     @Override
     public Iterator<Edge> iterator() {
-        return queue.iterator();
+        ArrayList<Edge> result = new ArrayList<>();
+        for (Edge<V, Double> edge : mst) result.add(edge);
+        return result.iterator();
     }
 
-    private EdgeGraph<V, Double> runKruskal() throws PQException, UFException {
+
+    private Iterable<Edge<V, Double>> runKruskal() throws PQException, UFException {
         while (!pq.isEmpty() && ((SizedIterable) queue).size() < size - 1) {
             Edge<V, Double> edge = pq.take();
             V s1 = edge.get(), s2 = edge.getOther(s1);
@@ -54,9 +61,9 @@ public class Kruskal<V> implements Iterable<Edge> {
                 queue.enqueue(edge);
             }
         }
-        EdgeGraph<V, Double> result = new Graph_Edges<>();
-        for (Edge edge : queue)  //noinspection unchecked
-            result.addEdge(edge);
+        ArrayList<Edge<V, Double>> result = new ArrayList<>();
+        //noinspection unchecked
+        for (Edge<V, Double> edge : queue) result.add(edge);
         return result;
     }
 
@@ -74,7 +81,7 @@ public class Kruskal<V> implements Iterable<Edge> {
     private final PriorityQueue<Edge<V, Double>> pq;
     private final TypedUF<V> uf;
     private final int size;
-    private EdgeGraph<V, Double> mst;
+    private Iterable<Edge<V, Double>> mst;
 
 
     public static <V> Edge<V, Double> createEdge(V v1, V v2, double x) {

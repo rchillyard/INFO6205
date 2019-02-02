@@ -54,7 +54,7 @@ public class Tunnels implements Iterable<Edge> {
         if (b1.isAlreadyTunneled && b2.isAlreadyTunneled) return 10;
         else if (b1.isHuntAve || b2.isHuntAve) return 3000;
         else if (b1.isMassAveT ^ b2.isMassAveT) return 2000;
-        else if (b1.isRuggleT ^ b2.isRuggleT) return 2000;
+        else if (b1.isRailroadT ^ b2.isRailroadT) return 2000;
         else return 1000;
     }
 
