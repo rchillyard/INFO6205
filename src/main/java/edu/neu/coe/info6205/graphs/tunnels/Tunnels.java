@@ -35,14 +35,14 @@ public class Tunnels implements Iterable<Edge> {
                     continue;
                 }
                 Building v2 = buildings.get(j);
-                double dist = distance(v1.position, v2.position) * 1000;
+                double length = distance(v1.position, v2.position) * 1000;
                 Double attribute = 0.;
 
-                if (v1.isAlreadyTunneled && v2.isAlreadyTunneled) attribute = 0.1 * dist;
-                else if (v1.isHuntAve || v2.isHuntAve) attribute = 3 * dist;
-                else if (v1.isMassAveT ^ v2.isMassAveT) attribute = 2 * dist;
-                else if (v1.isRuggleT ^ v2.isRuggleT) attribute = 2 * dist;
-                else attribute = dist;
+                if (v1.isAlreadyTunneled && v2.isAlreadyTunneled) attribute = 0.1 * length;
+                else if (v1.isHuntAve || v2.isHuntAve) attribute = 3 * length;
+                else if (v1.isMassAveT ^ v2.isMassAveT) attribute = 2 * length;
+                else if (v1.isRuggleT ^ v2.isRuggleT) attribute = 2 * length;
+                else attribute = length;
 
                 graph.addEdge(v1, v2, attribute);
             }
@@ -73,5 +73,5 @@ public class Tunnels implements Iterable<Edge> {
         System.out.println("Tunnels output to KML file: "+ filename);
     }
 
-    final static int R = 6371000; // Radius of the earth (millimeters)
+    final static int R = 6378100; // Radius of the earth (millimeters)
 }
