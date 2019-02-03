@@ -17,7 +17,7 @@ public class BuildingTest {
     public void setUp() throws Exception {
         snell = "Snell Engineering Center";
         sn = "SN";
-        snellLibrary = new Building(54, sn, "Center", 42.3382885, -71.0910495, true, snell);
+        snellLibrary = new Building(54, sn, "Center", -71.0910495, 42.3382885, true, snell);
     }
 
     @After

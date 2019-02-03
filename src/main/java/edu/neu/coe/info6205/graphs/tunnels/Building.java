@@ -25,12 +25,12 @@ public class Building implements GeoPoint {
      * @param map               the campus map reference of the building
      * @param code              the code of the building
      * @param zone              the zone of the building
-     * @param lat               the latitude of the building
      * @param lon               the longitude of the building
+     * @param lat               the latitude of the building
      * @param isAlreadyTunneled is there already a tunnel to this building?
      * @param name              the name of the building
      */
-    public Building(int map, String code, String zone, double lat, double lon, boolean isAlreadyTunneled, String name) {
+    public Building(int map, String code, String zone, double lon, double lat, boolean isAlreadyTunneled, String name) {
         this.map = map;
         this.code = code;
         this.zone = zone;

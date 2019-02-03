@@ -21,14 +21,14 @@ public class GeoGraphSphericalTest {
     private Building sn;
     private Tunnels ts;
     private GeoKruskal<Building, TunnelProperties> kruskal;
-    private Building la = new Building(34, "LA", "Centennial", 42.3384215, -71.0930697, false, "Lake Hall");
-    private Building ka = new Building(35, "KA", "Plaza", 42.3386223, -71.0931943, false, "Kariotis Hall");
+    private Building la = new Building(34, "LA", "Centennial", -71.0930697, 42.3384215, false, "Lake Hall");
+    private Building ka = new Building(35, "KA", "Plaza", -71.0931943, 42.3386223, false, "Kariotis Hall");
     private GeoEdge<Building, Double> laka = new GeoEdge<>(la, ka, 24591.98089386682);
-    private Building ri = new Building(42, "RI", "Center", 42.3399696, -71.0908448, true, "Richards Hall");
-    private Building ha = new Building(53, "HA", "Center", 42.3394668, -71.0907173, true, "Hayden Hall");
+    private Building ri = new Building(42, "RI", "Center", -71.0908448, 42.3399696, true, "Richards Hall");
+    private Building ha = new Building(53, "HA", "Center", -71.0907173, 42.3394668, true, "Hayden Hall");
     private GeoEdge<Building, Double> riha = new GeoEdge<>(ri, ha, 569.4583703646161);
-    private Building csc = new Building(50, "CSC", "Center", 42.3391489, -71.0897579, true, "Curry Student Center");
-    private Building el = new Building(52, "EL", "Center", 42.3393659, -71.0899888, true, "Ell Hall");
+    private Building csc = new Building(50, "CSC", "Center", -71.0897579, 42.3391489, true, "Curry Student Center");
+    private Building el = new Building(52, "EL", "Center", -71.0899888, 42.3393659, true, "Ell Hall");
     private Edge cheapest = new Edge(csc, el, new TunnelProperties(307L, 31, 0));
 
     @Before
