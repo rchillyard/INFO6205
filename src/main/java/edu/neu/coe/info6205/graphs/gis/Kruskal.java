@@ -22,12 +22,13 @@ import java.util.Iterator;
  * @tparam V is the type of each vertex.
  *
  */
-public class Kruskal<V> implements Iterable<Edge> {
+public class Kruskal<V, X extends Comparable<X>> implements Iterable<Edge> {
 
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
-    public Kruskal(EdgeGraph<V, Double> graph) {
+    public Kruskal(EdgeGraph<V, X> graph) {
         this.queue = new Queue_Elements<>();
         this.pq = createPQ(graph.edges());
+//        for (Object edge : pq) System.out.println(edge);
         this.uf = createUF(graph.vertices());
         this.size = uf.size();
         try {
@@ -37,8 +38,8 @@ public class Kruskal<V> implements Iterable<Edge> {
         }
     }
 
-    public EdgeGraph<V, Double> getMST() {
-        EdgeGraph<V, Double> result = new Graph_Edges<>();
+    public EdgeGraph<V, X> getMST() {
+        EdgeGraph<V, X> result = new Graph_Edges<>();
         for (Edge edge : queue)  //noinspection unchecked
             result.addEdge(edge);
         return result;
@@ -47,23 +48,23 @@ public class Kruskal<V> implements Iterable<Edge> {
     @Override
     public Iterator<Edge> iterator() {
         ArrayList<Edge> result = new ArrayList<>();
-        for (Edge<V, Double> edge : mst) result.add(edge);
+        for (Edge<V, X> edge : mst) result.add(edge);
         return result.iterator();
     }
 
 
-    private Iterable<Edge<V, Double>> runKruskal() throws PQException, UFException {
+    private Iterable<Edge<V, X>> runKruskal() throws PQException, UFException {
         while (!pq.isEmpty() && ((SizedIterable) queue).size() < size - 1) {
-            Edge<V, Double> edge = pq.take();
+            Edge<V, X> edge = pq.take();
             V s1 = edge.get(), s2 = edge.getOther(s1);
             if (!uf.connected(s1, s2)) {
                 uf.union(s1, s2);
                 queue.enqueue(edge);
             }
         }
-        ArrayList<Edge<V, Double>> result = new ArrayList<>();
+        ArrayList<Edge<V, X>> result = new ArrayList<>();
         //noinspection unchecked
-        for (Edge<V, Double> edge : queue) result.add(edge);
+        for (Edge<V, X> edge : queue) result.add(edge);
         return result;
     }
 
@@ -71,20 +72,20 @@ public class Kruskal<V> implements Iterable<Edge> {
         return new TypedUF_HWQUPC<>(vertices);
     }
 
-    private PriorityQueue<Edge<V, Double>> createPQ(SizedIterable<Edge<V, Double>> edges) {
-        PriorityQueue<Edge<V, Double>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
-        for (Edge<V, Double> e : edges) result.give(e);
+    private PriorityQueue<Edge<V, X>> createPQ(SizedIterable<Edge<V, X>> edges) {
+        PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
+        for (Edge<V, X> e : edges) result.give(e);
         return result;
     }
 
     private final Queue<Edge> queue;
-    private final PriorityQueue<Edge<V, Double>> pq;
+    private final PriorityQueue<Edge<V, X>> pq;
     private final TypedUF<V> uf;
     private final int size;
-    private Iterable<Edge<V, Double>> mst;
+    private Iterable<Edge<V, X>> mst;
 
 
-    public static <V> Edge<V, Double> createEdge(V v1, V v2, double x) {
+    public static <V, X extends Comparable<X>> Edge<V, X> createEdge(V v1, V v2, X x) {
         return new Edge<>(v1, v2, x);
     }
 }

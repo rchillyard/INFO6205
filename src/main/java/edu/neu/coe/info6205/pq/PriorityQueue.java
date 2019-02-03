@@ -1,6 +1,9 @@
 package edu.neu.coe.info6205.pq;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Priority Queue Data Structure which uses a binary heap.
@@ -17,7 +20,7 @@ import java.util.Comparator;
  *
  * @param <K>
  */
-public class PriorityQueue<K> {
+public class PriorityQueue<K> implements Iterable<K> {
 
     /**
      * Basic constructor that takes the max value, an actually array of elements, and a comparator.
@@ -185,4 +188,9 @@ public class PriorityQueue<K> {
     private final K[] binHeap; // binHeap[i] is ith element of binary heap (first element is reserved)
     private int last; // number of elements in the binary heap
 
+    @Override
+    public Iterator<K> iterator() {
+        ArrayList<K> result = new ArrayList<>(Arrays.asList(binHeap));
+        return result.iterator();
+    }
 }
