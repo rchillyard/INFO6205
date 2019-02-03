@@ -58,9 +58,7 @@ public class Tunnels implements Iterable<Edge> {
     }
 
     private static TunnelProperties getTunnelProperties(Building b1, Building b2, double length) {
-        TunnelProperties result = new TunnelProperties(Math.round(getCostFactor(b1, b2) * length), (int) Math.round(length), getPhase(b1, b2));
-//        System.out.println(b1+"-"+b2+": "+result);
-        return result;
+        return new TunnelProperties(Math.round(getCostFactor(b1, b2) * length), (int) Math.round(length), getPhase(b1, b2));
     }
 
     /**

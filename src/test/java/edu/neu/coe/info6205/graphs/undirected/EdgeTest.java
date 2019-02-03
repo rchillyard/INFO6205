@@ -4,12 +4,21 @@
 
 package edu.neu.coe.info6205.graphs.undirected;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class EdgeTest {
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
 
     /**
      * Test method for Edge
@@ -26,4 +35,18 @@ public class EdgeTest {
         assertEquals("hello", target.getAttribute());
     }
 
+    @Test
+    public void equalsTest() {
+        Edge<Integer, String> target1 = new Edge<>(1, 2, "hello");
+        Edge<Integer, String> target2 = new Edge<>(2, 1, "hello");
+        assertTrue(target1.equals(target2));
+    }
+
+    @Test
+    public void hashCodeTest() {
+    }
+
+    @Test
+    public void toStringTest() {
+    }
 }

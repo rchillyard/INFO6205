@@ -50,24 +50,24 @@ public class Edge<V, E> {
     /**
      * NOTE: edge is symmetric
      *
-     * @param o
-     * @return
+     * @param o the other edge
+     * @return true if the edges are equivalent
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge<?, ?> edge = (Edge<?, ?>) o;
-        return (Objects.equals(a, edge.a) &&
-                Objects.equals(b, edge.b) || Objects.equals(a, edge.b) &&
-                Objects.equals(b, edge.a)) &&
+        return ((Objects.equals(a, edge.a) && Objects.equals(this.b, edge.b) ||
+                Objects.equals(a, edge.b) &&
+                        Objects.equals(this.b, edge.a))) &&
                 Objects.equals(attribute, edge.attribute);
     }
 
     /**
      * NOTE: edge is symmetric
      *
-     * @return
+     * @return hashcode of this edge
      */
     @Override
     public int hashCode() {
