@@ -33,6 +33,8 @@ public class Kml<V extends GeoPoint,E> {
     private String asPoint(V vertex) {
         return "      <Placemark>\n" +"      <name>" + vertex.getName() +
                 "</name>\n" +
+                "      <description>" + vertex.toString() +
+                "</description>\n" +
 //                "      <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>\n" +
                 "      <Point>\n" +
                 "        <coordinates>\n" + vertex.getPosition() +
@@ -47,8 +49,10 @@ public class Kml<V extends GeoPoint,E> {
         V v1 = e.get();
         V v2 = e.getOther(v1);
         E attribute = e.getAttribute();
-        String sb = "      <Placemark>\n" +"      <name>" + attribute +
+        return "      <Placemark>\n" + "      <name>" + v1.getName() + "--" + v2.getName() +
         "</name>\n" +
+                "      <description>" + edge.toString() +
+                "</description>\n" +
                 "      <LineString>\n" +
                 "        <tessellate>1</tessellate>\n" +
                 "        <coordinates>\n" +
@@ -59,7 +63,6 @@ public class Kml<V extends GeoPoint,E> {
                 "        </coordinates>\n" +
                 "      </LineString>\n" +
                 "      </Placemark>\n";
-        return sb;
     }
 
     private final static String preamble = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +

@@ -9,13 +9,15 @@ import static org.junit.Assert.assertEquals;
 
 public class BuildingTest {
 
-    private Building sn;
+    private Building snellLibrary;
     private String snell;
+    private String sn;
 
     @Before
     public void setUp() throws Exception {
         snell = "Snell Engineering Center";
-        sn = new Building(54, "SN", "Center", 42.3382885, -71.0910495, true, snell);
+        sn = "SN";
+        snellLibrary = new Building(54, sn, "Center", 42.3382885, -71.0910495, true, snell);
     }
 
     @After
@@ -24,17 +26,17 @@ public class BuildingTest {
 
     @Test
     public void getName() {
-        assertEquals(snell, sn.getName());
+        assertEquals(sn, snellLibrary.getName());
     }
 
     @Test
     public void getPosition() {
-        assertEquals(new Position_Spherical(42.3382885, -71.0910495), sn.getPosition());
+        assertEquals(new Position_Spherical(42.3382885, -71.0910495), snellLibrary.getPosition());
     }
 
     @Test
     public void toStringTest() {
-        assertEquals(snell, sn.toString());
+        assertEquals(snell, snellLibrary.toString());
     }
 
 }

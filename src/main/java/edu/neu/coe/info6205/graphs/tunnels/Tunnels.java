@@ -25,6 +25,7 @@ public class Tunnels implements Iterable<Edge> {
 
     public Tunnels(ArrayList<Building> buildings) {
         setupZones();
+        setupTunnels();
         kruskal = new GeoKruskal<>(createGraph(buildings));
     }
 
@@ -47,8 +48,7 @@ public class Tunnels implements Iterable<Edge> {
         int len = buildings.size();
         for (int i = 0; i < len; i++) {
             Building b1 = buildings.get(i);
-            for (int j = 0; j < len; j++)
-                if (i != j) {
+            for (int j = i + 1; j < len; j++) {
                     Building b2 = buildings.get(j);
                     double length = graph.getDistance(b1, b2);
                     graph.addEdge(b1, b2, getTunnelProperties(b1, b2, length));
@@ -58,7 +58,9 @@ public class Tunnels implements Iterable<Edge> {
     }
 
     private static TunnelProperties getTunnelProperties(Building b1, Building b2, double length) {
-        return new TunnelProperties(Math.round(getCostFactor(b1, b2) * length), (int) Math.round(length), getPhase(b1, b2));
+        TunnelProperties result = new TunnelProperties(Math.round(getCostFactor(b1, b2) * length), (int) Math.round(length), getPhase(b1, b2));
+//        System.out.println(b1+"-"+b2+": "+result);
+        return result;
     }
 
     /**
@@ -68,8 +70,13 @@ public class Tunnels implements Iterable<Edge> {
      * @return 0 if the tunnel is existing
      */
     private static int getPhase(Building b1, Building b2) {
-        if (b1.isAlreadyTunneled && b2.isAlreadyTunneled) return 0;
+        if (b1.isAlreadyTunneled && b2.isAlreadyTunneled && connected(b1, b2)) return 0;
         return 1; // TODO create later phases
+    }
+
+    private static boolean connected(Building b1, Building b2) {
+        for (ExistingTunnel tunnel : tunnels) if (tunnel.matches(b1, b2)) return true;
+        return false;
     }
 
     /**
@@ -109,7 +116,7 @@ public class Tunnels implements Iterable<Edge> {
         private final int zone2;
         private final int costFactor;
 
-        public ZoneCross(int zone1, int zone2, int costFactor) {
+        ZoneCross(int zone1, int zone2, int costFactor) {
             this.zone1 = zone1;
             this.zone2 = zone2;
             this.costFactor = costFactor;
@@ -159,5 +166,33 @@ public class Tunnels implements Iterable<Edge> {
         zones.add(12,"Symphony");
     }
 
+    private static void setupTunnels() {
+        tunnels.add(new ExistingTunnel(55, 58));
+        tunnels.add(new ExistingTunnel(55, 54));
+        tunnels.add(new ExistingTunnel(53, 59));
+        tunnels.add(new ExistingTunnel(53, 55));
+        tunnels.add(new ExistingTunnel(53, 42));
+        tunnels.add(new ExistingTunnel(53, 41));
+        tunnels.add(new ExistingTunnel(53, 52));
+        tunnels.add(new ExistingTunnel(52, 50));
+        tunnels.add(new ExistingTunnel(52, 43));
+        tunnels.add(new ExistingTunnel(52, 48));
+    }
+
+    static class ExistingTunnel {
+        private final int map1;
+        private final int map2;
+
+        ExistingTunnel(int map1, int map2) {
+            this.map1 = map1;
+            this.map2 = map2;
+        }
+
+        boolean matches(Building b1, Building b2) {
+            return b1.getMap() == map1 && b2.getMap() == map2 || b1.getMap() == map2 && b2.getMap() == map1;
+        }
+    }
+
+    private static final ArrayList<ExistingTunnel> tunnels = new ArrayList<>();
     private static final ArrayList<String> zones = new ArrayList<>();
 }

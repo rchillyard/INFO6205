@@ -27,8 +27,8 @@ public class Kruskal<V, X extends Comparable<X>> implements Iterable<Edge> {
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Kruskal(EdgeGraph<V, X> graph) {
         this.queue = new Queue_Elements<>();
+//        showEdgesInSequence(graph);
         this.pq = createPQ(graph.edges());
-//        for (Object edge : pq) System.out.println(edge);
         this.uf = createUF(graph.vertices());
         this.size = uf.size();
         try {
@@ -76,6 +76,18 @@ public class Kruskal<V, X extends Comparable<X>> implements Iterable<Edge> {
         PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
         for (Edge<V, X> e : edges) result.give(e);
         return result;
+    }
+
+    private void showEdgesInSequence(EdgeGraph<V, X> graph) {
+        // TODO remove this debugging code
+        PriorityQueue<Edge<V, X>> tempPQ = createPQ(graph.edges());
+        while (!tempPQ.isEmpty()) {
+            try {
+                System.out.println(tempPQ.take());
+            } catch (PQException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private final Queue<Edge> queue;

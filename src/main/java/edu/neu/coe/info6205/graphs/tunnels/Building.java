@@ -13,7 +13,7 @@ public class Building implements GeoPoint {
 
     @Override
     public String getName() {
-        return name;
+        return code;
     }
 
     @Override
@@ -37,6 +37,14 @@ public class Building implements GeoPoint {
         this.name = name;
         this.position = new Position_Spherical(lat, lon);
         this.isAlreadyTunneled = isAlreadyTunneled;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public int getMap() {
+        return map;
     }
 
     @Override
