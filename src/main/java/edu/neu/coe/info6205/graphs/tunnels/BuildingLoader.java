@@ -7,6 +7,7 @@ public class BuildingLoader {
 
     public static ArrayList<Building> createBuildings() {
         //can be replaced with the code to load the buildings into array list from excel file.
+        //Adding Academic buildings
         ArrayList<Building> buildings = new ArrayList<>();
         buildings.add(new Building(6, "CU", "Fenway", -71.091542, 42.341667, false, "Cushing Hall"));
         buildings.add(new Building(7, "CA", "Fenway", -71.0916079, 42.3414373, false, "Cahners Hall"));
@@ -63,7 +64,7 @@ public class BuildingLoader {
         buildings.add(new Building(83, "ISEC", "Strip", -71.08703, 42.33748, false, "Interdisciplinary Science and Engineering Complex"));
         buildings.add(new Building(84, "271", "Symphony", -71.086247, 42.342090, false, "271 Huntington"));
 
-        // Added other buildings-- Residence Buildings &Parking Garages
+        // Adding Residence Buildings & Parking Garages
         
         buildings.add(new Building(21, "BU", "West Village", -71.09302, 42.338297, false, "Burstein Hall"));
         buildings.add(new Building(67, "DC", "Columbus", -71.08475, 42.337994, false, "Davenport Commons A, B"));
