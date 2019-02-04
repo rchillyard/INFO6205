@@ -48,7 +48,12 @@ public class Kml<V extends GeoPoint,E> {
         GeoEdge<V, E> e = (GeoEdge<V, E>) edge;
         V v1 = e.get();
         V v2 = e.getOther(v1);
-        E attribute = e.getAttribute();
+
+        // TODO understand why this doesn't work
+//        Tunnel e = (Tunnel) edge;
+//        Building v1 = e.get();
+//        Building v2 = e.getOther(v1);
+
         return "      <Placemark>\n" + "      <name>" + v1.getName() + "--" + v2.getName() +
         "</name>\n" +
                 "      <description>" + edge.toString() +

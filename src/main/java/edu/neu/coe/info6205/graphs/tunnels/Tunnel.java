@@ -9,9 +9,14 @@ public class Tunnel extends GeoEdge<Building, TunnelProperties> {
      *
      * @param a         a vertex.
      * @param b         the other vertex.
-     * @param attribute the attribute.
+     * @param properties the properties.
      */
-    public Tunnel(Building a, Building b, TunnelProperties attribute) {
-        super(a, b, attribute);
+    public Tunnel(Building a, Building b, TunnelProperties properties) {
+        super(a, b, properties);
+    }
+
+    @Override
+    public String toString() {
+        return "From " + a + " to " + b + " (" + attribute + ")";
     }
 }

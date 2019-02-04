@@ -85,13 +85,13 @@ public class BuildingLoader {
         buildings.add(new Building(8, "142-148", "Fenway", -71.090303, 42.341955, false, "142–148 Hemenway Street"));
         buildings.add(new Building(11, "319", "St. Stephens", -71.087907, 42.341018, false, "319 Huntington Avenue"));
         buildings.add(new Building(13, "337", "St. Stephens", -71.088916, 42.340685, false, "337 Huntington Avenue"));
-        buildings.add(new Building(19, "407", "Plaza", -71.091493, 42.339581, false, "407 Huntington Avenue"));
+        buildings.add(new Building(19, "407", "North", -71.091493, 42.339581, false, "407 Huntington Avenue"));
         buildings.add(new Building(76, "768", "Columbus", -71.08619, 42.337158, false, "768 Columbus Avenue"));
         buildings.add(new Building(64, "780", "Columbus", -71.086898, 42.336841, false, "780 Columbus Avenue"));
-        buildings.add(new Building(65, "CPG", "Columbus", -71.086658, 42.338165, false, "Columbus Parking Garage"));
+        buildings.add(new Building(65, "CPG", "Strip", -71.086658, 42.338165, false, "Columbus Parking Garage"));
         buildings.add(new Building(75, "BVG", "Pool", -71.084883, 42.343617, false, "Belvidere Parking Garage"));
         buildings.add(new Building(45, "GG", "Center", -71.085749, 42.340385, false, "Gainsborough Parking Garage"));
-        buildings.add(new Building(62, "RPG", "Columbus", -71.08839, 42.33629, false, "Renaissance Park Garage"));
+        buildings.add(new Building(62, "RPG", "Strip", -71.08839, 42.33629, false, "Renaissance Park Garage"));
         buildings.add(new Building(25, "WPG", "West Village", -71.091362, 42.336498, false, "West Village Parking Garage"));
 
         return buildings;

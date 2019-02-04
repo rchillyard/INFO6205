@@ -35,7 +35,7 @@ public class TunnelProperties implements Comparable<TunnelProperties> {
 
     @Override
     public String toString() {
-        return (phase == 0 ? "existing" : "new") + " Tunnel of length: " + length +
+        return (phase == 0 ? "existing" : "new") + " tunnel of length: " + length +
                 "m at cost: $" + String.format("%,d", cost);
     }
 }
