@@ -151,7 +151,7 @@ public class Tunnels implements Iterable<Edge> {
     private static final ZoneCross columbus = new ZoneCross(7, 8, 1750);
 
     private static void setupZones() {
-        zones.add(0, "Central");
+        zones.add(0, "Center");
         zones.add(1, "Fenway");
         zones.add(2, "North");
         zones.add(3,"Plaza");
