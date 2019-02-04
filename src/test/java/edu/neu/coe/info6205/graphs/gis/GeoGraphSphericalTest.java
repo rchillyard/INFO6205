@@ -50,7 +50,7 @@ public class GeoGraphSphericalTest {
     public void goeEdges() {
         Geo<Building, TunnelProperties> mst = kruskal.getGeoMST(new GeoGraphSpherical<>());
         SizedIterable<GeoEdge<Building, TunnelProperties>> edges = mst.goeEdges();
-        assertEquals(53, edges.size());
+        assertEquals(80, edges.size());
         Iterator<Edge> iterator = kruskal.iterator();
         assertTrue(iterator.hasNext());
         assertEquals(riha, iterator.next());
