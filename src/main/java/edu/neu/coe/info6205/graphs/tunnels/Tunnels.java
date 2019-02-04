@@ -106,6 +106,7 @@ public class Tunnels implements Iterable<Edge> {
         if (cross.equals(leon2)) return leon2.costFactor;
         if (cross.equals(leon3)) return leon3.costFactor;
         if (cross.equals(hemenway)) return hemenway.costFactor;
+        if (cross.equals(columbus)) return columbus.costFactor;
         return 10000;
     }
 
@@ -147,6 +148,7 @@ public class Tunnels implements Iterable<Edge> {
     private static final ZoneCross leon1 = new ZoneCross(4, 3, 1200);
     private static final ZoneCross leon2 = new ZoneCross(4, 5, 1200);
     private static final ZoneCross leon3 = new ZoneCross(3, 5, 1200);
+    private static final ZoneCross columbus = new ZoneCross(7, 8, 1750);
 
     private static void setupZones() {
         zones.add(0, "Central");
