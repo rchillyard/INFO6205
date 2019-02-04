@@ -155,8 +155,6 @@ public class Benchmark<T> {
     private final Consumer<T> fPost;
 
     /**
-     * ======================================= MAIN PROGRAM: NOT USED IN ASSIGNMENT 2 ========================================
-     *
      * Everything below this point has to do with a particular example of running a Benchmark
      * for various sort methods.
      * In this case, we time two types of simple sort on a random integer array of length 1000.
