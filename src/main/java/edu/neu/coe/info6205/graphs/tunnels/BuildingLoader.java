@@ -51,17 +51,17 @@ public class BuildingLoader {
         buildings.add(new Building(68, "SB", "Strip", -71.0861378,42.3380817, false, "Badger and Rosen SquashBusters Center"));
         buildings.add(new Building(70, "AC", "Fenway", -71.0903346,42.3433643, false, "Asian American Center"));
         buildings.add(new Building(71, "FC", "St. Stephens", -71.0877547,42.3419879, false, "Fenway Center"));
-        buildings.add(new Building(72, "CC", "St. Stephens", -71.089713,42.341631, false, "Catholic Center"));
-        buildings.add(new Building(73, "RO", "St. Stephens", -71.090692,42.340748, false, "ROTC Office"));
+        buildings.add(new Building(72, "CC", "St. Stephens", -71.087524,42.341640, false, "Catholic Center"));
+        buildings.add(new Building(73, "RO", "St. Stephens", -71.088500,42.340740, false, "ROTC Office"));
         buildings.add(new Building(74, "BV", "Pool", -71.0833205,42.3456273, false, "101 Belvidere"));
         buildings.add(new Building(77, "INV", "Strip", -71.089035,42.3352609, false, "International Village"));
-        buildings.add(new Building(78, "YMC", "Center", -71.0894811, 42.3407354, false, "Hastings Hall at the YMCA"));
+        buildings.add(new Building(78, "YMC", "Center", -71.087315, 42.340746, false, "Hastings Hall at the YMCA"));
         buildings.add(new Building(79, "177", "Pool", -71.0828624,42.3448626, false, "177 Huntington"));
         buildings.add(new Building(80, "TF", "Fenway", -71.09178, 42.34062, false, "140 The Fenway"));
-        buildings.add(new Building(81, "236", "Theater", -71.0842217,42.3425668, false, "236 Huntington"));
+        buildings.add(new Building(81, "236", "Theater", -71.084072,42.343023, false, "236 Huntington"));
         buildings.add(new Building(82, "EV", "Center", -71.087,42.34039, false, "East Village"));
         buildings.add(new Building(83, "ISEC", "Strip", -71.08703, 42.33748, false, "Interdisciplinary Science and Engineering Complex"));
-        buildings.add(new Building(84, "271", "Symphony", -71.0864607,42.341833, false, "271 Huntington"));
+        buildings.add(new Building(84, "271", "Symphony", -71.086247,42.342090, false, "271 Huntington"));
         return buildings;
     }
 }
