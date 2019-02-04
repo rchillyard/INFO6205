@@ -25,7 +25,7 @@ public class BuildingLoader {
         buildings.add(new Building(36, "CG", "Plaza", -71.0916846,42.3389628, false, "Cargill Hall"));
         buildings.add(new Building(37, "ST", "Plaza", -71.0914001,42.3390863, false, "Stearns Center"));
         buildings.add(new Building(38, "KN", "Plaza", -71.0908662,42.3392942, false, "Knowles Center"));
-        buildings.add(new Building(39, "DK", "Plaza", -71.092683,42.338684, false, "Dockser Hall"));
+        buildings.add(new Building(39, "DK", "Plaza", -71.090492,42.338687, false, "Dockser Hall"));
         buildings.add(new Building(40, "BN", "Center", -71.0900766,42.3390429, true, "Barletta Natatorium"));
         buildings.add(new Building(41, "CB", "Center", -71.0892023,42.3393182, true, "Cabot Physical Education Center (CB"));
         buildings.add(new Building(42, "RI", "Center", -71.0887314,42.3397321, true, "Richards Hall"));
