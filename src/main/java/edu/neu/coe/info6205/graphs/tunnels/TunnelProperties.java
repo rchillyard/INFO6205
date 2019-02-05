@@ -3,9 +3,9 @@ package edu.neu.coe.info6205.graphs.tunnels;
 import java.util.Objects;
 
 public class TunnelProperties implements Comparable<TunnelProperties> {
-    private final long cost;
-    private final int length;
-    private final int phase;
+     final long cost;
+     final int length;
+     final int phase;
 
     public TunnelProperties(long cost, int length, int phase) {
         this.cost = cost;

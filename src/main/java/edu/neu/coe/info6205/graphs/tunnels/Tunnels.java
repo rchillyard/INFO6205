@@ -14,13 +14,20 @@ public class Tunnels implements Iterable<Edge> {
 
     public static void main(String[] args) throws IOException {
         Tunnels ts = new Tunnels(BuildingLoader.createBuildings());
-        for (Edge t : ts) System.out.println(t);
+        double totalCost = 0.;
+        double totalLength = 0.;
         GeoKruskal<Building, TunnelProperties> kruskal = (GeoKruskal<Building, TunnelProperties>) ts.getKruskal();
         Geo<Building, TunnelProperties> mst = kruskal.getGeoMST(new GeoGraphSpherical<>());
+        for (GeoEdge<Building, TunnelProperties> e : mst.goeEdges()) {
+            totalCost += e.getAttribute().cost;
+            totalLength += e.getAttribute().length;
+            System.out.println(e);
+        }
         Kml<Building, TunnelProperties> kml = new Kml<>(mst);
         String filename = "tunnels.kml";
         kml.createKML(new File(filename));
         System.out.println("Tunnels output to KML file: "+ filename);
+        System.out.println("Total cost: "+totalCost+", total length: "+totalLength);
     }
 
     public Tunnels(ArrayList<Building> buildings) {
