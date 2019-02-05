@@ -9,7 +9,6 @@ public class WheelOfFortune<T> {
         this.random = random;
         this.events = events;
         this.total = getTotal();
-        return;
     }
 
     public WheelOfFortune(long seed, Event<T> ...events) {
@@ -66,7 +65,7 @@ public class WheelOfFortune<T> {
     }
 
     public static <E> Event<E> valueOf(E event, int frequency) {
-        return new Event<E>(event, frequency);
+        return new Event<>(event, frequency);
     }
 
 }

@@ -3,7 +3,7 @@ package edu.neu.coe.info6205.graphs.undirected;
 import edu.neu.coe.info6205.SizedIterable;
 
 /**
- * Interface to modle the behavior of an EdgeGraph.
+ * Interface to model the behavior of an EdgeGraph.
  *
  * @tparam V the vertex type
  * @tparam E the edge-attribute type

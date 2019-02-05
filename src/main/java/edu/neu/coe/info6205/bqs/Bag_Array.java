@@ -4,8 +4,6 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import edu.neu.coe.info6205.SizedIterable;
-
 import java.util.Arrays;
 import java.util.Iterator;
 
