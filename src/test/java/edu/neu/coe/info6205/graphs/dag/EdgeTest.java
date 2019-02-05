@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.dag;
+package edu.neu.coe.info6205.graphs.dag;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class EdgeTest {
      */
     @Test
     public void testEdge() {
-        Edge<Integer> target = new Edge<>(1, 2);
+        Edge<Integer, String> target = new Edge<>(1, 2, "hello");
         assertNotNull(target);
         assertEquals(Integer.valueOf(1), target.getFrom());
         assertEquals(Integer.valueOf(2), target.getTo());
@@ -27,8 +27,8 @@ public class EdgeTest {
      */
     @Test
     public void testEdgeReverse() {
-        Edge<Integer> target = new Edge<>(1, 2);
-        Edge<Integer> reverse = target.reverse();
+        Edge<Integer, String> target = new Edge<>(1, 2, "hello");
+        Edge<Integer, String> reverse = target.reverse();
         assertNotNull(reverse);
         assertEquals(Integer.valueOf(2), reverse.getFrom());
         assertEquals(Integer.valueOf(1), reverse.getTo());

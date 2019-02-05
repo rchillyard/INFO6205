@@ -21,6 +21,7 @@ public class FileHandlerImpl_CSV<T extends FileData> implements FileHandler<T> {
         File f = new File(fileName);
 
         try {
+            //noinspection ResultOfMethodCallIgnored
             f.createNewFile();
             FileWriter fWriter = new FileWriter(fileName);
             BufferedWriter bw = new BufferedWriter(fWriter);

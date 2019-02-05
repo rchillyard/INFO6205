@@ -4,7 +4,9 @@
 
 package edu.neu.coe.info6205.bqs;
 
-public interface Bag<Item> extends Iterable<Item> {
+import edu.neu.coe.info6205.SizedIterable;
+
+public interface Bag<Item> extends SizedIterable<Item> {
 
     /**
      * Update this Bag by adding item.
@@ -18,11 +20,6 @@ public interface Bag<Item> extends Iterable<Item> {
      * @return true if this bag is empty
      */
     boolean isEmpty();
-
-    /**
-     * @return the number of elements in this bag (not the capacity which is an implementation-dependent feature)
-     */
-    int size();
 
     /**
      * @param item an item which we want to find in this Bag.

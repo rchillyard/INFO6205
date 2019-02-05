@@ -20,6 +20,7 @@ public class Moves1 implements Moves {
     @Override
     public boolean valid(Point p) {
         if (p.x == tx && p.y == ty) return true;
+        //noinspection SimplifiableIfStatement
         if (p.x > tx || p.y > ty) return false;
         return valid(p.x, p.x + p.y) || valid(p.x + p.y, p.y);
     }

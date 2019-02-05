@@ -4,9 +4,12 @@
 
 package edu.neu.coe.info6205.bqs;
 
+import edu.neu.coe.info6205.SizedIterable;
+import edu.neu.coe.info6205.SizedIterableImpl;
+
 import java.util.Iterator;
 
-public class Queue_Elements<Item> implements Iterable<Item>, Queue<Item>  {
+public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
 
     /**
      * Construct a new (empty) queue.
@@ -73,6 +76,11 @@ public class Queue_Elements<Item> implements Iterable<Item>, Queue<Item>  {
     @Override
     public Iterator<Item> iterator() {
         return new QueueIterator();
+    }
+
+    @Override
+    public int size() {
+        return SizedIterableImpl.create(this).size();
     }
 
     class QueueIterator implements Iterator<Item> {

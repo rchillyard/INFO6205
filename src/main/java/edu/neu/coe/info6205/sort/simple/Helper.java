@@ -62,7 +62,7 @@ public class Helper<X extends Comparable<X>> {
 
     public X[] random(int n, Class<X> clazz, Function<Random, X> f) {
         setN(n);
-        X[] result = (X[]) Array.newInstance(clazz, n);
+        @SuppressWarnings("unchecked") X[] result = (X[]) Array.newInstance(clazz, n);
         for (int i = 0; i < n; i++) result[i] = f.apply(random);
         return result;
     }

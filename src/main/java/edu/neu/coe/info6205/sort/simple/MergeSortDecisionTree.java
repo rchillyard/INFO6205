@@ -22,8 +22,7 @@ public class MergeSortDecisionTree {
         int R[] = new int [n2];
 
         /*Copy data to temp arrays*/
-        for (int i=0; i<n1; ++i)
-            L[i] = arr[l + i];
+        System.arraycopy(arr, l, L, 0, n1);
         for (int j=0; j<n2; ++j)
             R[j] = arr[m + 1+ j];
 
@@ -89,8 +88,7 @@ public class MergeSortDecisionTree {
     static void printArray(int arr[])
     {
         int n = arr.length;
-        for (int i=0; i<n; ++i)
-            System.out.print(arr[i] + " ");
+        for (int anArr : arr) System.out.print(anArr + " ");
         System.out.println();
     }
 
