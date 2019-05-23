@@ -20,11 +20,13 @@ public class WheelOfFortune<T> {
     }
 
     public T get() {
+        // TO BE IMPLEMENTED ...
         int r = random.nextInt(total);
         for (Event<T> event : events) {
             if (r < event.frequency) return event.event;
             r -= event.frequency;
         }
+        // ... END IMPLEMENTATION
         throw new RuntimeException("logic error: "+r);
     }
 
