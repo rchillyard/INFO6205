@@ -58,8 +58,8 @@ public class PrivateMethodTester {
         } catch (NoSuchMethodException e) {
             StringBuffer sb = new StringBuffer();
             Method[] declaredMethods = clazz.getDeclaredMethods();
-            for (Method m : declaredMethods) sb.append(m+", ");
-            throw new RuntimeException(name + ": method not found for given " + classes.length +
+            for (Method m : declaredMethods) sb.append(m).append(", ");
+            throw new PrivateMethodTesterException(name + ": method not found for given " + classes.length +
                     " parameter classes [did you consider that the method might be declared for a superclass or interface of one or more of your parameters? If so, use the invokePrivateExplicit method]. Here is a list of declared methods: "+sb);
         }
     }
@@ -114,11 +114,11 @@ public class PrivateMethodTester {
         try {
             if (m != null)
                 return m.invoke(object, parameters);
-            else throw new RuntimeException("method to be invoked is null");
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            else throw new PrivateMethodTesterException("method to be invoked is null", null);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            throw new PrivateMethodTesterException(m, e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e.getTargetException());
+            throw new PrivateMethodTesterException(m, e.getTargetException());
         }
     }
 
@@ -157,5 +157,20 @@ public class PrivateMethodTester {
             return byte.class;
         else
             return clazz;
+    }
+
+    class PrivateMethodTesterException extends RuntimeException {
+        PrivateMethodTesterException(Class<?> clazz, String method, Throwable x) {
+            super("PrivateMethodTesterException: "+clazz.toString()+"."+method, x);
+        }
+        PrivateMethodTesterException(Method method, Throwable x) {
+            super("PrivateMethodTesterException: "+method, x);
+        }
+        PrivateMethodTesterException(String method, Throwable x) {
+            super("PrivateMethodTesterException: "+method, x);
+        }
+        PrivateMethodTesterException(String method) {
+            super("PrivateMethodTesterException: "+method, null);
+        }
     }
 }

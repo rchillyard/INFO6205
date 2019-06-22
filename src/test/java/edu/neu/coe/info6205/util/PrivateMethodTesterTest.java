@@ -48,6 +48,12 @@ public class PrivateMethodTesterTest {
         assertEquals(1, tester.invokePrivate("one"));
     }
 
+    @Test(expected = PrivateMethodTester.PrivateMethodTesterException.class)
+    public void testStaticFail() {
+        final PrivateMethodTester tester = new PrivateMethodTester(PrivateMethodTesterTest.class);
+        assertEquals(1, tester.invokePrivate("two"));
+    }
+
     /**
      * Test method for Mock
      */
