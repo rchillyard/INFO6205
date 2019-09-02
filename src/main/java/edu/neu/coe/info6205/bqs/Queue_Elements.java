@@ -83,6 +83,8 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
         return SizedIterableImpl.create(this).size();
     }
 
+    public void clear() { while(!isEmpty()) dequeue(); }
+
     class QueueIterator implements Iterator<Item> {
         public boolean hasNext() {
             return next!=null;
