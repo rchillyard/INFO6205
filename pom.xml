@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (c) 2017. Phasmid Software
+  -->
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.neu.coe.mgen</groupId>
+    <artifactId>INFO6205</artifactId>
+    <version>1</version>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+    </dependencies>
+</project>
