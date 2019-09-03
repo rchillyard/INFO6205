@@ -21,6 +21,8 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // TO BE IMPLEMENTED ...
+        x += dx;
+        y += dy;
         // ... END IMPLEMENTATION
     }
 
@@ -31,6 +33,8 @@ public class RandomWalk {
      */
     private void randomWalk(int m) {
         // TO BE IMPLEMENTED ...
+        for (int i = 0; i < m; i++)
+            randomMove();
         // ... END IMPLEMENTATION
     }
 
@@ -51,7 +55,7 @@ public class RandomWalk {
      */
     public double distance() {
         // TO BE IMPLEMENTED ...
-        return 0;
+        return Math.sqrt(x * x + y * y);
         // ... END IMPLEMENTATION
     }
 

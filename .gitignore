@@ -33,6 +33,7 @@ bin/*
 
 # Only for the public repository
 "Quizzes and Exams"/
+/Quizzes and Exams/
 
 src/main/java/edu/neu/coe/info6205/sort/simple/MergeSortDecisionTree\.java
 src/main/resources/sample\.kml

@@ -21,7 +21,12 @@ public class SelectionSort<X extends Comparable<X>> implements Sort<X> {
         for (int i = from; i < to; i++) {
             // Invariant 1: xs[from..i] are in (final) ascending order
             // Invariant 2: no element xs[i+1..to-1] is smaller than any element xs[from..i]
-       }
+            int min = i;
+            for (int j = i + 1; j < to; j++)
+                if (helper.less(xs[j], xs[min]))
+                    min = j;
+            helper.swap(xs, from, to, i, min);
+        }
         // ... END IMPLEMENTATION
     }
 
