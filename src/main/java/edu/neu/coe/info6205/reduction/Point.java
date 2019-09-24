@@ -4,7 +4,15 @@ import java.util.Objects;
 
 public class Point {
 
-    final int x;
+		public int getX() {
+				return x;
+		}
+
+		public int getY() {
+				return y;
+		}
+
+		final int x;
     final int y;
 
     public Point(int x, int y) {
@@ -12,7 +20,15 @@ public class Point {
         this.y = y;
     }
 
-    public boolean valid() {
+		public Point move(int x, int y) {
+				return new Point(this.x + x, this.y + y);
+		}
+
+		public Point move(Point p) {
+				return move(p.x, p.y);
+		}
+
+		public boolean valid() {
         return x > 0 && y > 0;
     }
 
