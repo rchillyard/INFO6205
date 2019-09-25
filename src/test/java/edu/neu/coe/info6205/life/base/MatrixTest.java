@@ -44,6 +44,15 @@ public class MatrixTest {
 		}
 
 		@Test
+		public void testRemoveCell() {
+				Matrix target = new Matrix(3, 3);
+				Point point = new Point(1, 1);
+				target.addCell(point);
+				target.removeCell(point);
+				assertFalse(target.isCell(point));
+		}
+
+		@Test
 		public void testCountNeighbors0() {
 				Matrix target = new Matrix(3, 3);
 				final Matrix.Neighbors neighbors = target.getNeighbors();
@@ -68,15 +77,27 @@ public class MatrixTest {
 				Matrix target = new Matrix(4, 4);
 				target.addCell(new Point(1, 1));
 				target.addCell(new Point(2, 2));
-				System.out.println("matrix: \n" + target.render());
+//				System.out.println("matrix: \n" + target.render());
 				final Matrix.Neighbors neighbors = target.getNeighbors();
-				System.out.println(target.getNeighbors());
+//				System.out.println(target.getNeighbors());
 				for (int k = 0; k < 4; k++)
 						for (int l = 0; l < 4; l++) {
 								final int expected = (k == 3 && l == 0 || k == 0 && l == 3) ? 0 : (k == 2 && l == 1 || k == 1 && l == 2) ? 2 : 1;
 								assertEquals("count for " + k + ", " + l,
 												expected, neighbors.getCount(new Point(k, l)));
 						}
+		}
+
+		@Test
+		public void testCountNeighbors3() {
+				Matrix target = new Matrix(5, 5);
+				target.addCell(new Point(1, 1));
+				target.addCell(new Point(2, 2));
+				target.addCell(new Point(2, 3));
+//				System.out.println("matrix: \n" + target.render());
+				final Matrix.Neighbors neighbors = target.getNeighbors();
+				assertTrue(neighbors.doCountsMatch());
+//				System.out.println(neighbors.toString());
 		}
 
 }

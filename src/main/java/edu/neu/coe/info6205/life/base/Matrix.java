@@ -11,6 +11,7 @@ class Matrix {
 		Matrix(int width, int height) {
 				this.width = width;
 				this.height = height;
+				this.count = 0;
 				this.cells = new long[height][width / Bit.BitsPerLong + 1];
 		}
 
@@ -22,6 +23,18 @@ class Matrix {
 		void addCell(Point p) {
 				Bit x = new Bit(p.getX());
 				x.or(row(p.getY()));
+				count++;
+		}
+
+		/**
+		 * Add a cell at Point p.
+		 *
+		 * @param p the point at which we want to remove a cell.
+		 */
+		void removeCell(Point p) {
+				Bit x = new Bit(p.getX());
+				x.flip().and(row(p.getY()));
+				count--;
 		}
 
 		/**
@@ -33,6 +46,15 @@ class Matrix {
 				Bit x = new Bit(p.getX());
 				long mask = x.test(row(p.getY()));
 				return mask != 0L;
+		}
+
+		/**
+		 * Method to get the current count of live cells in this Matrix.
+		 *
+		 * @return the count.
+		 */
+		int getCount() {
+				return count;
 		}
 
 		/**
@@ -111,6 +133,7 @@ class Matrix {
 				Neighbors() {
 						this.neighbors = new int[width][height];
 						countNeighbors();
+						assert (doCountsMatch());
 				}
 
 				/**
@@ -124,6 +147,7 @@ class Matrix {
 						else return -1;
 				}
 
+
 				@Override
 				public String toString() {
 						StringBuilder sb = new StringBuilder();
@@ -134,6 +158,14 @@ class Matrix {
 						}
 
 						return sb.toString();
+				}
+
+				boolean doCountsMatch() {
+						int total = 0;
+						for (int j = 0; j < height; j++)
+								for (int i = 0; i < width; i++)
+										total += neighbors[i][j];
+						return total == count * 8;
 				}
 
 				private void countNeighbors() {
@@ -203,29 +235,55 @@ class Matrix {
 
 				/**
 				 * Constructor:
+				 * @param bit the index of the bit (0..63) which this Bit represents.
+				 * @param index the index of long in the Matrix row which this Bit represents.
+				 * @param on is true if this represents an "on" bit.
+				 */
+				Bit(int bit, int index, boolean on) {
+						this.bit = bit;
+						this.index = index;
+						this.on = on;
+				}
+
+				/**
+				 * Constructor:
+				 *
+				 * @param x  is the (x) index of a point on the grid.
+				 * @param on is true if this represents an "on" bit.
+				 */
+				Bit(int x, boolean on) {
+						this(x % BitsPerLong, x / BitsPerLong, on);
+				}
+
+				/**
+				 * Constructor:
+				 *
 				 * @param x is the (x) index of a point on the grid.
 				 */
 				Bit(int x) {
-						bit = x % BitsPerLong;
-						index = x / BitsPerLong;
+						this(x, true);
 				}
 
 				private void or(long[] row) {
-						long mask = HighBit;
-						mask >>= bit;
+						long mask = getMask();
 						row[index] |= mask;
 				}
 
 				private void and(long[] row) {
-						long mask = HighBit;
-						mask >>= bit;
+						long mask = getMask();
 						row[index] &= mask;
 				}
 
 				private long test(long[] row) {
-						long mask = HighBit;
-						mask >>= bit;
+						long mask = getMask();
 						mask &= row[index];
+						return mask;
+				}
+
+				private long getMask() {
+						long mask = HighBit;
+						if (!on) mask = ~mask;
+						mask >>= bit;
 						return mask;
 				}
 
@@ -248,7 +306,16 @@ class Matrix {
 				 */
 				private final int index;
 
+				/**
+				 * True if this represents an "on" bit, else false.
+				 */
+				private final boolean on;
+
 				static final int BitsPerLong = 64;
+
+				Bit flip() {
+						return new Bit(bit, index, !on);
+				}
 		}
 
 		/**
@@ -281,4 +348,10 @@ class Matrix {
 		 * Ditto as for width.
 		 */
 		private final int height;
+
+		/**
+		 * This is the count of cells in this Matrix.
+		 *
+		 */
+		private int count;
 }
