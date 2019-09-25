@@ -10,13 +10,13 @@ public class MatrixTest {
 		@Test
 		public void testRender() {
 				Matrix target = new Matrix(10, 1);
-				assertEquals("__________\n" +
-								"          |\n" +
-								"__________\n", target.render());
+				assertEquals(" −−−−−−−−−−\n" +
+								"|..........|\n" +
+								" −−−−−−−−−−\n", target.render());
 				target.addCell(new Point(1, 0));
-				assertEquals("__________\n" +
-								" *        |\n" +
-								"__________\n", target.render());
+				assertEquals(" −−−−−−−−−−\n" +
+								"|.*........|\n" +
+								" −−−−−−−−−−\n", target.render());
 		}
 
 		@Test
@@ -46,10 +46,10 @@ public class MatrixTest {
 		@Test
 		public void testCountNeighbors0() {
 				Matrix target = new Matrix(3, 3);
-				int[][] counts = target.countNeighbors();
+				final Matrix.Neighbors neighbors = target.getNeighbors();
 				for (int k = 0; k < 3; k++)
 						for (int l = 0; l < 3; l++)
-								assertEquals(0, counts[k][l]);
+								assertEquals(0, neighbors.getCount(new Point(k, l)));
 		}
 
 		@Test
@@ -57,13 +57,26 @@ public class MatrixTest {
 				Matrix target = new Matrix(3, 3);
 				Point point = new Point(1, 1);
 				target.addCell(point);
-				int[][] counts = target.countNeighbors();
+				final Matrix.Neighbors neighbors = target.getNeighbors();
 				for (int k = 0; k < 3; k++)
 						for (int l = 0; l < 3; l++)
-								assertEquals(k == 1 && l == 1 ? 0 : 1, counts[k][l]);
+								assertEquals(k == 1 && l == 1 ? 0 : 1, neighbors.getCount(new Point(k, l)));
 		}
 
 		@Test
-		public void testNeighbors() {
+		public void testCountNeighbors2() {
+				Matrix target = new Matrix(4, 4);
+				target.addCell(new Point(1, 1));
+				target.addCell(new Point(2, 2));
+				System.out.println("matrix: \n" + target.render());
+				final Matrix.Neighbors neighbors = target.getNeighbors();
+				System.out.println(target.getNeighbors());
+				for (int k = 0; k < 4; k++)
+						for (int l = 0; l < 4; l++) {
+								final int expected = (k == 3 && l == 0 || k == 0 && l == 3) ? 0 : (k == 2 && l == 1 || k == 1 && l == 2) ? 2 : 1;
+								assertEquals("count for " + k + ", " + l,
+												expected, neighbors.getCount(new Point(k, l)));
+						}
 		}
+
 }
