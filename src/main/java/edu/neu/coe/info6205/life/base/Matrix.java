@@ -8,11 +8,31 @@ import edu.neu.coe.info6205.reduction.Point;
  */
 class Matrix {
 
-		Matrix(int width, int height) {
+		/**
+		 * Constructor designed for creating the next generation of a Matrix.
+		 * Note that only "fit" Matrix instances can be cloned in this way.
+		 *
+		 * @param width  the width.
+		 * @param height the height.
+		 * @param count  the count of live cells.
+		 * @param cells  the representation of cells.
+		 */
+		private Matrix(int width, int height, int count, Bits[][] cells) {
 				this.width = width;
 				this.height = height;
-				this.count = 0;
-				this.cells = new long[height][width / Bit.BitsPerLong + 1];
+				this.count = count;
+				this.cells = cells;
+				this.fit = true;
+		}
+
+		/**
+		 * Constructor designed for creating a blank Matrix.
+		 *
+		 * @param width  the width.
+		 * @param height the height.
+		 */
+		Matrix(int width, int height) {
+				this(width, height, 0, initializeCells(width, height));
 		}
 
 		/**
@@ -22,7 +42,8 @@ class Matrix {
 		 */
 		void addCell(Point p) {
 				Bit x = new Bit(p.getX());
-				x.or(row(p.getY()));
+				final Bits bits = getBits(p);
+				bits.or(x.getMask());
 				count++;
 		}
 
@@ -33,7 +54,8 @@ class Matrix {
 		 */
 		void removeCell(Point p) {
 				Bit x = new Bit(p.getX());
-				x.flip().and(row(p.getY()));
+				final Bits bits = getBits(p);
+				bits.and(x.flip().getMask());
 				count--;
 		}
 
@@ -44,7 +66,8 @@ class Matrix {
 		 */
 		boolean isCell(Point p) {
 				Bit x = new Bit(p.getX());
-				long mask = x.test(row(p.getY()));
+				final Bits bits = getBits(p);
+				long mask = bits.test(x.getMask());
 				return mask != 0L;
 		}
 
@@ -80,15 +103,15 @@ class Matrix {
 				StringBuilder sb = new StringBuilder();
 				for (int j = 0; j < height; j++)
 						for (int i = 0; i < row(j).length; i++)
-								sb.append(Long.toHexString(row(j)[i])).append(Newline);
+								sb.append(Long.toHexString(getBits(j, i).bits)).append(Newline);
 				return sb.toString();
 		}
 
-		private long[] row(int x) {
-				if (x >= 0 && x < cells.length)
-						return cells[x];
+		private Bits[] row(int y) {
+				if (y >= 0 && y < cells.length)
+						return cells[y];
 				else
-						throw new ArrayIndexOutOfBoundsException("No such row: " + x);
+						throw new ArrayIndexOutOfBoundsException("No such row: " + y);
 		}
 
 		/**
@@ -106,8 +129,8 @@ class Matrix {
 						sb.append(Newline);
 						for (int j = 0; j < height; j++) {
 								sb.append(Vbar);
-								final long[] row = row(j);
-								for (int i = 0; i < width; i++) sb.append(new Bit(i).getGlyph(row));
+								final Bits[] row = row(j);
+								for (Bits bits : row) sb.append(bits);
 								sb.append(Vbar).append(Newline);
 						}
 						sb.append(Space);
@@ -174,7 +197,7 @@ class Matrix {
 								long bits = HighBit;
 								for (int i = 0; i < width; i++) {
 										// NOTE: we do the logic here instead of in a Bit instance for performance reasons.
-										final long l = row(j)[i / Bit.BitsPerLong] & bits;
+										final long l = getBits(j, i / BitsPerLong).test(bits);
 										if (l != 0L) mask.updateNeighborhood(i, j);
 										bits >>= 1;
 								}
@@ -229,6 +252,67 @@ class Matrix {
 		}
 
 		/**
+		 * This static inner class represents a series of up to 64 bits in the matrix.
+		 */
+		private static class Bits {
+				private long bits; // the actual bit values.
+				private final int length; // the number of bits which are significant.
+
+				Bits(long bits, int length) {
+						this.bits = bits;
+						this.length = Math.min(length, BitsPerLong);
+				}
+
+				Bits(long bits) {
+						this(bits, BitsPerLong);
+				}
+
+				Bits(int length) {
+						this(0L, length);
+				}
+
+				static int index(int x) {
+						return x / BitsPerLong;
+				}
+
+				Bits() {
+						this(0L);
+				}
+
+				private void or(long mask) {
+						bits |= mask;
+				}
+
+				private void and(long mask) {
+						bits &= mask;
+				}
+
+				private long test(long mask) {
+						mask &= bits;
+						return mask;
+				}
+
+				@Override
+				public String toString() {
+						StringBuilder sb = new StringBuilder();
+						long mask = HighBit;
+						for (int i = 0; i < length; i++) {
+								sb.append(getGlyph(mask));
+								mask >>= 1;
+						}
+						return sb.toString();
+				}
+
+				private boolean isSet(long row) {
+						return test(row) != 0;
+				}
+
+				private String getGlyph(long row) {
+						return isSet(row) ? "*" : ".";
+				}
+
+		}
+		/**
 		 * This class deals with bit operations required for the row-representation of cells.
 		 */
 		private static class Bit {
@@ -264,35 +348,11 @@ class Matrix {
 						this(x, true);
 				}
 
-				private void or(long[] row) {
-						long mask = getMask();
-						row[index] |= mask;
-				}
-
-				private void and(long[] row) {
-						long mask = getMask();
-						row[index] &= mask;
-				}
-
-				private long test(long[] row) {
-						long mask = getMask();
-						mask &= row[index];
-						return mask;
-				}
-
 				private long getMask() {
 						long mask = HighBit;
 						if (!on) mask = ~mask;
 						mask >>= bit;
 						return mask;
-				}
-
-				private boolean isSet(long[] row) {
-						return test(row) != 0;
-				}
-
-				private String getGlyph(long[] row) {
-						return isSet(row) ? "*" : ".";
 				}
 
 				/**
@@ -311,17 +371,37 @@ class Matrix {
 				 */
 				private final boolean on;
 
-				static final int BitsPerLong = 64;
-
 				Bit flip() {
 						return new Bit(bit, index, !on);
 				}
+		}
+
+		private Bits getBits(int y, int index) {
+				return row(y)[index];
+		}
+
+		private Bits getBits(Point p) {
+				return getBits(p.getY(), Bits.index(p.getX()));
+		}
+
+		private static Bits[][] initializeCells(int width, int height) {
+				final Bits[][] bits = new Bits[height][width / BitsPerLong + 1];
+				for (int j = 0; j < height; j++) {
+						int w = width;
+						for (int i = 0; i < bits[j].length; i++, w -= BitsPerLong) bits[j][i] = new Bits(w);
+				}
+				return bits;
 		}
 
 		/**
 		 * This constant represents the side of the square of influence of a cell.
 		 */
 		private static final int Three = 3;
+
+		/**
+		 * The number of bits in a long word.
+		 */
+		private static final int BitsPerLong = 64;
 
 		/**
 		 * This constant represents a single bit at the high end of the 64 possible bits.
@@ -335,7 +415,7 @@ class Matrix {
 		/**
 		 * These represent the bits corresponding to cells.
 		 */
-		private final long[][] cells;
+		private final Bits[][] cells;
 
 		/**
 		 * This is the overall width of this Matrix.
@@ -351,7 +431,13 @@ class Matrix {
 
 		/**
 		 * This is the count of cells in this Matrix.
-		 *
 		 */
 		private int count;
+
+		/**
+		 * This indicates whether all of the points fit inside the single outer rows/columns of this Matrix.
+		 */
+		// TODO implement me
+		private boolean fit;
+
 }
