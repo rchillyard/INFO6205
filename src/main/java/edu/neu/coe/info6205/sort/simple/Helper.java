@@ -38,25 +38,43 @@ public class Helper<X extends Comparable<X>> {
     }
 
     /**
+     * Swap the adjacent elements of array a at indices i-1 and i.
+     * This type of swap is guaranteed to be stable.
+     *
+     * @param xs   the array.
+     * @param lo  the lowest index of interest (only used for checking).
+     * @param hi  one more than the highest index of interest (only used for checking).
+     * @param i   the index of the higher element to swap.
+     */
+    void swap(X[] xs, int lo, int hi, int i) {
+        swap(xs, lo, hi, i-1, i);
+    }
+
+    /**
      * Swap the elements of array a at indices i and j.
      *
-     * @param a   the array.
+     * @param xs   the array.
      * @param lo  the lowest index of interest (only used for checking).
      * @param hi  one more than the highest index of interest (only used for checking).
      * @param i   one of the indices.
      * @param j   the other index.
      */
-    void swap(X[] a, int lo, int hi, int i, int j) {
+    void swap(X[] xs, int lo, int hi, int i, int j) {
         swaps++;
         if (i < lo) throw new RuntimeException("i is out of range: i; " + i + "; lo=" + lo);
         if (j > hi) throw new RuntimeException("j is out of range: j; " + j + "; hi=" + hi);
-        X temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+        X temp = xs[i];
+        xs[i] = xs[j];
+        xs[j] = temp;
     }
 
-    public boolean sorted(X[] a) {
-        for (int i = 1; i < a.length; i++) if (a[i-1].compareTo(a[i])>0) return false;
+    void moveUp(X[] xs, int j) {
+        swaps++; // NOTE: really this is only a half-swap
+        xs[j] = xs[j - 1];
+    }
+
+    public boolean sorted(X[] xs) {
+        for (int i = 1; i < xs.length; i++) if (xs[i-1].compareTo(xs[i])>0) return false;
         return true;
     }
 

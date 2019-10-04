@@ -1,11 +1,67 @@
 package edu.neu.coe.info6205.life.base;
 
 import edu.neu.coe.info6205.reduction.Point;
+import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class MatrixTest {
+
+		@Test
+		public void testConstructor0() {
+				final Matrix target = new Matrix(3, 3);
+				assertEquals(0, target.getCount());
+				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
+				assertEquals(3, targetTester.invokePrivate("getWidth"));
+				assertEquals(3, targetTester.invokePrivate("getHeight"));
+				final Object[] objects = new Object[3];
+				Matrix.Bits[][] rowsExpected = Arrays.copyOf(objects, objects.length, Matrix.Bits[][].class);
+				Matrix.Bits[] row = Arrays.copyOf(objects, objects.length, Matrix.Bits[].class);
+				for (int i = 0; i < 3; i++) row[i] = new Matrix.Bits(3);
+				for (int i = 0; i < 3; i++) rowsExpected[i] = row;
+				final Matrix.Bits[][] rowsActual = (Matrix.Bits[][]) targetTester.invokePrivate("getCells");
+				for (int i = 0; i < 3; i++) assertArrayEquals(rowsExpected[i], rowsActual[i]);
+		}
+
+		@Test
+		public void testConstructor1() {
+				final Matrix matrix1 = new Matrix(3, 3);
+				Matrix target = new Matrix(matrix1, 0, 0, 0, 0);
+				assertEquals(matrix1, target);
+		}
+
+		@Test
+		public void testConstructor2() {
+				final Matrix matrix1 = new Matrix(3, 3);
+				Matrix target = new Matrix(matrix1, 1, 1, 1, 1);
+				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
+				assertEquals(5, targetTester.invokePrivate("getWidth"));
+				assertEquals(5, targetTester.invokePrivate("getHeight"));
+				final Object[] objects = new Object[5];
+				Matrix.Bits[][] rowsExpected = Arrays.copyOf(objects, objects.length, Matrix.Bits[][].class);
+				Matrix.Bits[] row = Arrays.copyOf(objects, objects.length, Matrix.Bits[].class);
+				for (int i = 0; i < 5; i++) row[i] = new Matrix.Bits(5);
+				for (int i = 0; i < 5; i++) rowsExpected[i] = row;
+				final Matrix.Bits[][] rowsActual = (Matrix.Bits[][]) targetTester.invokePrivate("getCells");
+				for (int i = 0; i < 5; i++) assertArrayEquals(rowsExpected[i], rowsActual[i]);
+
+		}
+
+		@Test
+		public void testConstructor3() {
+				// TODO introduce an assertion
+				final Matrix matrix3 = new Matrix(3, 3, (x, y) -> x * (y / 2), (x, y) -> y % 2 == 0 ? 0L : 0xFFFFFFFFL);
+		}
+
+		@Test
+		public void testConstructor4() {
+				// TODO introduce an assertion
+				final Matrix matrix2 = new Matrix(3, 3, (x, y) -> x * y, (x, y) -> 0xFFFFFFFFL);
+		}
+
 
 		@Test
 		public void testRender() {
@@ -28,11 +84,27 @@ public class MatrixTest {
 		}
 
 		@Test
-		public void testIsCell() {
+		public void testIsCell1() {
 				Matrix target = new Matrix(3, 3);
 				for (int k = 0; k < 3; k++)
 						for (int l = 0; l < 3; l++)
 								assertFalse(target.isCell(new Point(k, l)));
+		}
+
+		@Test
+		public void testIsCell2() {
+				Matrix target = new Matrix(3, 3, (x, y) -> x * y, (x, y) -> 0xFFFFFFFFL);
+				for (int k = 0; k < 3; k++)
+						for (int l = 0; l < 3; l++)
+								assertTrue(target.isCell(new Point(k, l)));
+		}
+
+		@Test
+		public void testIsCell3() {
+				Matrix target = new Matrix(3, 3, (x, y) -> x * (y / 2), (x, y) -> y % 2 == 0 ? 0L : 0xFFFFFFFFL);
+				for (int k = 0; k < 3; k++)
+						for (int l = 0; l < 3; l++)
+								assertEquals(l % 2 != 0, target.isCell(new Point(k, l)));
 		}
 
 		@Test
@@ -98,6 +170,13 @@ public class MatrixTest {
 				final Matrix.Neighbors neighbors = target.getNeighbors();
 				assertTrue(neighbors.doCountsMatch());
 //				System.out.println(neighbors.toString());
+		}
+
+		@Test
+		public void testGetCount() {
+				assertEquals(0, new Matrix(3, 3).getCount());
+				assertEquals(9, new Matrix(3, 3, (x, y) -> x * y, (x, y) -> 0xFFFFFFFFL).getCount());
+				assertEquals(3, new Matrix(3, 3, (x, y) -> x * (y / 2), (x, y) -> y % 2 == 0 ? 0L : 0xFFFFFFFFL).getCount());
 		}
 
 }

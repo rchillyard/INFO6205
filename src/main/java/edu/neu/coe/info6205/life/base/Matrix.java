@@ -2,11 +2,40 @@ package edu.neu.coe.info6205.life.base;
 
 import edu.neu.coe.info6205.reduction.Point;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.BiFunction;
+
 /**
  * This class represents the physical 2-dimensional layout of a Group.
  * By convention, it must have clear rows and columns around any live cells.
  */
 class Matrix {
+		/**
+		 * Constructor designed for creating a blank Matrix.
+		 *
+		 * @param width  the width.
+		 * @param height the height.
+		 */
+		Matrix(int width, int height) {
+				this(width, height, (x, y) -> 0, (x, y) -> 0L);
+		}
+
+		Matrix(Matrix source, int width0, int widthN, int height0, int heightN) {
+				this(source.width + width0 + widthN, source.height + height0 + heightN, source.count, shift(source.getCells(), width0, widthN, height0, heightN));
+		}
+
+		/**
+		 * Constructor designed for creating a blank Matrix.
+		 *
+		 * @param width         the width.
+		 * @param height        the height.
+		 * @param countFunction the count function.
+		 * @param bitsFunction  the initialization function.
+		 */
+		Matrix(int width, int height, BiFunction<Integer, Integer, Integer> countFunction, BiFunction<Integer, Integer, Long> bitsFunction) {
+				this(width, height, countFunction.apply(width, height), initializeCells(width, height, bitsFunction));
+		}
 
 		/**
 		 * Constructor designed for creating the next generation of a Matrix.
@@ -25,14 +54,23 @@ class Matrix {
 				this.fit = true;
 		}
 
-		/**
-		 * Constructor designed for creating a blank Matrix.
-		 *
-		 * @param width  the width.
-		 * @param height the height.
-		 */
-		Matrix(int width, int height) {
-				this(width, height, 0, initializeCells(width, height));
+		@Override
+		public boolean equals(Object o) {
+				if (this == o) return true;
+				if (o == null || getClass() != o.getClass()) return false;
+				Matrix matrix = (Matrix) o;
+				return width == matrix.width &&
+								height == matrix.height &&
+								count == matrix.count &&
+								fit == matrix.fit &&
+								Arrays.equals(cells, matrix.cells);
+		}
+
+		@Override
+		public int hashCode() {
+				int result = Objects.hash(width, height, count, fit);
+				result = 31 * result + Arrays.hashCode(cells);
+				return result;
 		}
 
 		/**
@@ -254,9 +292,9 @@ class Matrix {
 		/**
 		 * This static inner class represents a series of up to 64 bits in the matrix.
 		 */
-		private static class Bits {
+		static class Bits {
 				private long bits; // the actual bit values.
-				private final int length; // the number of bits which are significant.
+				private int length; // the number of bits which are significant.
 
 				Bits(long bits, int length) {
 						this.bits = bits;
@@ -271,12 +309,20 @@ class Matrix {
 						this(0L, length);
 				}
 
-				static int index(int x) {
-						return x / BitsPerLong;
-				}
-
 				Bits() {
 						this(0L);
+				}
+
+				Bits(Bits source) {
+						this(source.bits, source.length);
+				}
+
+				void shift(int places) {
+						bits >>= places;
+				}
+
+				void extend(int newLength) {
+						length = newLength;
 				}
 
 				private void or(long mask) {
@@ -311,6 +357,23 @@ class Matrix {
 						return isSet(row) ? "*" : ".";
 				}
 
+				static int index(int x) {
+						return x / BitsPerLong;
+				}
+
+				@Override
+				public boolean equals(Object o) {
+						if (this == o) return true;
+						if (o == null || getClass() != o.getClass()) return false;
+						Bits bits1 = (Bits) o;
+						return bits == bits1.bits &&
+										length == bits1.length;
+				}
+
+				@Override
+				public int hashCode() {
+						return Objects.hash(bits, length);
+				}
 		}
 		/**
 		 * This class deals with bit operations required for the row-representation of cells.
@@ -384,15 +447,59 @@ class Matrix {
 				return getBits(p.getY(), Bits.index(p.getX()));
 		}
 
-		private static Bits[][] initializeCells(int width, int height) {
+		private static Bits[][] initializeCells(int width, int height, BiFunction<Integer, Integer, Long> function) {
 				final Bits[][] bits = new Bits[height][width / BitsPerLong + 1];
 				for (int j = 0; j < height; j++) {
 						int w = width;
-						for (int i = 0; i < bits[j].length; i++, w -= BitsPerLong) bits[j][i] = new Bits(w);
+						for (int i = 0; i < bits[j].length; i++, w -= BitsPerLong) bits[j][i] = new Bits(function.apply(i,j), w);
 				}
 				return bits;
 		}
 
+		private static Bits[][] shift(Bits[][] cells, int width0, int widthN, int height0, int heightN) {
+				int cellsLen = cells.length;
+				final Object[] objects1 = new Object[cellsLen + height0 + heightN];
+				int objects1Len = objects1.length;
+				Bits[][] rows = Arrays.copyOf(objects1, objects1Len, Bits[][].class);
+				int rowsLen = rows.length;
+				final Object[] objects2 = new Object[cells[0].length];
+				int objects2Len = objects2.length;
+				Bits[] emptyRow = Arrays.copyOf(objects2, objects2Len, Bits[].class);
+				int emptyRowLen = emptyRow.length;
+				for (int i = 0; i < emptyRowLen; i++) emptyRow[i] = new Bits(cells[0][0].length);
+				System.arraycopy(cells, 0, rows, height0, cellsLen);
+				if (height0 > 0) rows[0] = emptyRow;
+				if (heightN > 0) rows[rowsLen - 1] = emptyRow;
+				for (Bits[] row : rows) {
+						final Bits bits = shift(row, width0, widthN);
+						if (bits.length > 0) // extend rows[j] with new element
+								throw new RuntimeException("NotYetImplemented");
+				}
+				return rows;
+		}
+
+		private static Bits shift(Bits[] row, int width0, int widthN) {
+				Bits bitsPre = new Bits(width0);
+				Bits bitsPost = new Bits(0);
+				for (int i = 0; i < row.length; i++) {
+						if (i == row.length - 1) bitsPost = new Bits(widthN);
+						bitsPre = shift(bitsPre, row[i], bitsPost);
+				}
+				return bitsPre;
+		}
+
+		private static Bits shift(Bits bitsPre, Bits bits, Bits bitsPost) {
+				final int newLength = bits.length + bitsPre.length + bitsPost.length;
+				int overflow = Math.max(newLength - BitsPerLong, 0);
+				long carryOver = bits.bits << BitsPerLong - overflow;
+				bits.shift(bitsPre.length);
+				bits.extend(newLength);
+				bits.or(bitsPre.bits);
+				final Bits bits1 = new Bits(bitsPost);
+				bits1.shift(bits.length + bitsPre.length);
+				bits.or(bits1.bits);
+				return new Bits(carryOver, overflow);
+		}
 		/**
 		 * This constant represents the side of the square of influence of a cell.
 		 */
@@ -416,6 +523,22 @@ class Matrix {
 		 * These represent the bits corresponding to cells.
 		 */
 		private final Bits[][] cells;
+
+		private Bits[][] getCells() {
+				return cells;
+		}
+
+		private int getWidth() {
+				return width;
+		}
+
+		private int getHeight() {
+				return height;
+		}
+
+		private boolean isFit() {
+				return fit;
+		}
 
 		/**
 		 * This is the overall width of this Matrix.
