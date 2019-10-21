@@ -47,19 +47,19 @@ public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
 
     public Partition partition(X[] a, int lo, int hi) {
         int lt = lo, gt = hi;
-        if (a[lo].compareTo(a[hi])>0) swap(a, lo,hi);
+        if (helper.less(a[hi], a[lo])) swap(a, lo,hi);
         X v = a[lo];
         int i = lo + 1;
         while (i <= gt) {
-            int cmp = a[i].compareTo(v);
-            if (cmp < 0) swap(a, lt++, i++);
-            else if (cmp > 0) swap(a, i, gt--);
+            int cmp = helper.compare(a[i],v);
+            if (cmp < 0) helper.swap(a, lo, hi, lt++, i++);
+            else if (cmp > 0) helper.swap(a, lo, hi, i, gt--);
             else i++;
         }
         return new Partition(lt, gt);
     }
 
-    // exchange a[i] and a[j]
+    // Used when we don't want to check or count swaps
     public static void swap(Object[] a, int i, int j) {
         Object temp = a[i];
         a[i] = a[j];

@@ -1,6 +1,8 @@
 package edu.neu.coe.info6205.sort.simple;
 
+import java.io.PrintStream;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -10,6 +12,9 @@ import java.util.function.Function;
  * @param <X> the underlying type (must be Comparable).
  */
 public class Helper<X extends Comparable<X>> {
+
+    // TODO also keep track of copies
+    // TODO also allow for multi-neighbor-swaps/copies (as in insertion sort)
 
     public Helper(String description, int n, long seed) {
         this.n = n;
@@ -25,6 +30,18 @@ public class Helper<X extends Comparable<X>> {
         this(description, 0);
     }
 
+    public X[] initialize(X[] xs) {
+        compares = 0;
+        swaps = 0;
+        return Arrays.copyOf(xs, xs.length);
+    }
+
+    public boolean cleanup(X[] xs, PrintStream ps)  {
+        if (ps!=null) ps.println(toString());
+        final boolean sorted = sorted(xs);
+        if (!sorted) ps.println(Arrays.toString(xs));
+        return sorted;
+    }
     /**
      * Method to determine if one X value is less than another.
      *
@@ -35,6 +52,18 @@ public class Helper<X extends Comparable<X>> {
     boolean less(X v, X w) {
         compares++;
         return v.compareTo(w) < 0;
+    }
+
+    /**
+     * Method to determine if one X value is less than another.
+     *
+     * @param v   the candidate element.
+     * @param w   the comparand element.
+     * @return the result of v.compareTo(w).
+     */
+    int compare(X v, X w) {
+        compares++;
+        return v.compareTo(w);
     }
 
     /**

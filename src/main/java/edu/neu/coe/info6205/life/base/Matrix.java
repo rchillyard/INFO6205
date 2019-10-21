@@ -22,11 +22,12 @@ class Matrix {
 		}
 
 		Matrix(Matrix source, int width0, int widthN, int height0, int heightN) {
-				this(source.width + width0 + widthN, source.height + height0 + heightN, source.count, shift(source.getCells(), width0, widthN, height0, heightN));
+				this(source.width + width0 + widthN, source.height + height0 + heightN, source.count, shift(source.copyCells(), width0, widthN, height0, heightN));
 		}
 
 		/**
 		 * Constructor designed for creating a blank Matrix.
+		 * NOTE: the count and bits functions must be consistent.
 		 *
 		 * @param width         the width.
 		 * @param height        the height.
@@ -411,6 +412,15 @@ class Matrix {
 						this(x, true);
 				}
 
+				/**
+				 * Constructor: for copying an existing Bit.
+				 *
+				 * @param bits the source instance of Bit.
+				 */
+				Bit(Bit bits) {
+						this(bits.bit, bits.index, bits.on);
+				}
+
 				private long getMask() {
 						long mask = HighBit;
 						if (!on) mask = ~mask;
@@ -464,13 +474,18 @@ class Matrix {
 				int rowsLen = rows.length;
 				final Object[] objects2 = new Object[cells[0].length];
 				int objects2Len = objects2.length;
-				Bits[] emptyRow = Arrays.copyOf(objects2, objects2Len, Bits[].class);
-				int emptyRowLen = emptyRow.length;
-				for (int i = 0; i < emptyRowLen; i++) emptyRow[i] = new Bits(cells[0][0].length);
+				Bits[] emptyRow0 = Arrays.copyOf(objects2, objects2Len, Bits[].class);
+				Bits[] emptyRowN = Arrays.copyOf(objects2, objects2Len, Bits[].class);
+				int emptyRowLen = emptyRow0.length;
+				for (int i = 0; i < emptyRowLen; i++) {
+						emptyRow0[i] = new Bits(cells[0][0].length);
+						emptyRowN[i] = new Bits(cells[0][0].length);
+				}
 				System.arraycopy(cells, 0, rows, height0, cellsLen);
-				if (height0 > 0) rows[0] = emptyRow;
-				if (heightN > 0) rows[rowsLen - 1] = emptyRow;
-				for (Bits[] row : rows) {
+				if (height0 > 0) rows[0] = emptyRow0;
+				if (heightN > 0) rows[rowsLen - 1] = emptyRowN;
+				for (int i = 0; i < rowsLen; i++) {
+						final Bits[] row = rows[i];
 						final Bits bits = shift(row, width0, widthN);
 						if (bits.length > 0) // extend rows[j] with new element
 								throw new RuntimeException("NotYetImplemented");
@@ -524,8 +539,14 @@ class Matrix {
 		 */
 		private final Bits[][] cells;
 
-		private Bits[][] getCells() {
-				return cells;
+		private Bits[][] copyCells() {
+				Matrix.Bits[][] result = Arrays.copyOf(new Object[cells.length], cells.length, Matrix.Bits[][].class);
+				for (int i = 0; i < cells.length; i++) {
+						result[i] = 	Arrays.copyOf(cells[i], cells[i].length, Bits[].class);
+						for (int j = 0; j < result[i].length; j++)
+								result[i][j] = new Bits(cells[i][j]);
+				};
+				return result;
 		}
 
 		private int getWidth() {
