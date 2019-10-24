@@ -64,7 +64,7 @@ class Matrix {
 								height == matrix.height &&
 								count == matrix.count &&
 								fit == matrix.fit &&
-								Arrays.equals(cells, matrix.cells);
+								cellsEqual(matrix);
 		}
 
 		@Override
@@ -117,6 +117,18 @@ class Matrix {
 		 */
 		int getCount() {
 				return count;
+		}
+
+		boolean cellsEqual(Matrix matrix) {
+				boolean ok = cells.length == matrix.cells.length;
+				for (int j = 0; ok && j < cells.length; j++) {
+						Bits[] rowA = row(j);
+						Bits[] rowB = matrix.row(j);
+						ok = rowA.length == rowB.length;
+						for (int i = 0; ok && i < rowA.length; i++)
+								ok = rowA[i].equals(rowB[i]);
+				}
+				return ok;
 		}
 
 		/**
@@ -447,6 +459,21 @@ class Matrix {
 				Bit flip() {
 						return new Bit(bit, index, !on);
 				}
+
+				@Override
+				public boolean equals(Object o) {
+						if (this == o) return true;
+						if (o == null || getClass() != o.getClass()) return false;
+						Bit bit1 = (Bit) o;
+						return bit == bit1.bit &&
+										index == bit1.index &&
+										on == bit1.on;
+				}
+
+				@Override
+				public int hashCode() {
+						return Objects.hash(bit, index, on);
+				}
 		}
 
 		private Bits getBits(int y, int index) {
@@ -484,8 +511,7 @@ class Matrix {
 				System.arraycopy(cells, 0, rows, height0, cellsLen);
 				if (height0 > 0) rows[0] = emptyRow0;
 				if (heightN > 0) rows[rowsLen - 1] = emptyRowN;
-				for (int i = 0; i < rowsLen; i++) {
-						final Bits[] row = rows[i];
+				for (final Bits[] row : rows) {
 						final Bits bits = shift(row, width0, widthN);
 						if (bits.length > 0) // extend rows[j] with new element
 								throw new RuntimeException("NotYetImplemented");
@@ -545,7 +571,7 @@ class Matrix {
 						result[i] = 	Arrays.copyOf(cells[i], cells[i].length, Bits[].class);
 						for (int j = 0; j < result[i].length; j++)
 								result[i][j] = new Bits(cells[i][j]);
-				};
+				}
 				return result;
 		}
 

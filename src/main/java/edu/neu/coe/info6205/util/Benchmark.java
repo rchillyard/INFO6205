@@ -4,12 +4,8 @@
 
 package edu.neu.coe.info6205.util;
 
-import edu.neu.coe.info6205.sort.simple.Helper;
-import edu.neu.coe.info6205.sort.simple.InsertionSort;
-import edu.neu.coe.info6205.sort.simple.SelectionSort;
-import edu.neu.coe.info6205.sort.simple.Sort;
+import edu.neu.coe.info6205.sort.simple.*;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -170,18 +166,20 @@ public class Benchmark<T> {
         for (int k = 0; k < 5; k++) {
             Integer[] array = new Integer[n];
             for (int i = 0; i < n; i++) array[i] = random.nextInt();
-            benchmarkSort(array, "InsertionSort: " + n, new InsertionSort<>(), m);
-            benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
+//            benchmarkSort(array, "InsertionSort: " + n, new InsertionSort<>(), m);
+//            benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
+            benchmarkSort(array, "QuickSort: " + n, new QuickSort_3way<>(), m);
+            benchmarkSort(array, "MergeSort: " + n, new MergeSortBasic<>(), m);
             n = n * 2;
         }
     }
 
     private static void benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
-        UnaryOperator<Integer[]> preFunction = (xs) -> Arrays.copyOf(array, array.length);
-        Consumer<Integer[]> sortFunction = (xs) -> sorter.sort(xs, false);
         final Helper<Integer> helper = sorter.getHelper();
+        UnaryOperator<Integer[]> preFunction = (xs) -> helper.initialize(array);
+        Consumer<Integer[]> sortFunction = (xs) -> sorter.sort(xs, false);
         Consumer<Integer[]> cleanupFunction = (xs) -> {
-            if (!helper.sorted(xs)) throw new RuntimeException("not sorted");
+            if (!helper.cleanup(xs, System.out)) throw new RuntimeException("not sorted");
         };
         Benchmark<Integer[]> bm = new Benchmark<>(preFunction, sortFunction, cleanupFunction);
         double x = bm.run(array, m);
