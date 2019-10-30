@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.reduction;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Point {
@@ -28,11 +30,37 @@ public class Point {
 				return move(p.x, p.y);
 		}
 
+		public Point relative(Point point) {
+				return move(-point.getX(), -point.getY());
+		}
+
+
 		public boolean valid() {
         return x > 0 && y > 0;
     }
 
-    @Override
+		/**
+		 * Method to compare two points
+		 *
+		 * @param p the other point.
+		 * @return as follows:
+		 * 0: points are the same; otherwise:
+		 * 1: p is due East of this;
+		 * 3: p is due North of this;
+		 * -1: p is due West of this;
+		 * -3: p is due South of this;
+		 * 4: p is NE of this;
+		 * 2: p is NW of this;
+		 * -4: p is SW of this;
+		 * -2: p is SE of this;
+		 */
+		public int compare(Point p) {
+				int cfX = Integer.compare(p.getX(), getX());
+				int cfY = Integer.compare(p.getY(), getY());
+				return cfX + 3 * cfY;
+		}
+
+		@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -51,7 +79,20 @@ public class Point {
         return "Point{" +
                 "x=" + x +
                 ", y=" + y +
-                '}';
-    }
+								'}';
+		}
+
+		public static List<Point> points(String s) {
+				List<Point> result = new ArrayList<>();
+				for (String w : s.split(", *")) result.add(point(w));
+				return result;
+		}
+
+		public static Point point(String s) {
+				String[] ws = s.split(" ");
+				int x = Integer.parseInt(ws[0]);
+				int y = Integer.parseInt(ws[1]);
+				return new Point(x, y);
+		}
 }
 

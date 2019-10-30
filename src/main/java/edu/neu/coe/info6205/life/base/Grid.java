@@ -47,7 +47,7 @@ public class Grid implements Generational<Group> {
 		 * @throws UnsupportedOperationException if the <tt>remove</tt> operation
 		 *                                       is not supported by this list
 		 */
-		public boolean remove(Object o) {
+		public boolean remove(Group o) {
 				return groups.remove(o);
 		}
 
@@ -76,6 +76,6 @@ public class Grid implements Generational<Group> {
 
 		@Override
 		public void generation(long generation, BiConsumer<Long, Group> monitor) {
-				forEach((g) -> monitor.accept(generation, g));
+				forEach(g -> monitor.accept(generation, g));
 		}
 }
