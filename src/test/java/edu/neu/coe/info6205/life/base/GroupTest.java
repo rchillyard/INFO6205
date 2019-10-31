@@ -7,11 +7,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.neu.coe.info6205.life.base.Grid.Origin;
+import static edu.neu.coe.info6205.life.library.Library.Beehive;
+import static edu.neu.coe.info6205.life.library.Library.Block;
 import static org.junit.Assert.*;
 
 public class GroupTest {
-
-		final static Point Origin = new Point(0, 0);
 
 		@Test
 		public void testConstructor() {
@@ -274,7 +275,7 @@ public class GroupTest {
 		public void testBlock() throws LifeException {
 				Group target = new Group(0L);
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
-				target.add("1 1, 1 2, 2 2, 2 1");
+				target.add(Block);
 				assertEquals(new Point(1, 1), target.getExtent1());
 				assertEquals(new Point(2, 2), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
@@ -289,6 +290,33 @@ public class GroupTest {
 				final PrivateMethodTester gen2Tester = new PrivateMethodTester(gen2);
 				assertEquals(newGeneration.getExtent1().move(-1, -1), gen2.getOrigin());
 				assertEquals(4, gen2.getCount());
+				final List<Point> cellsGen2 = (List<Point>) gen2Tester.invokePrivate("getPoints");
+				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i).relative(gen2.getOrigin()), cellsGen2.get(i));
+		}
+
+		@SuppressWarnings("unchecked")
+		@Test
+		public void testBeehive() throws LifeException {
+				Group target = new Group(0L);
+				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
+				target.add(Beehive);
+				System.out.println(target.render());
+				assertEquals(6, target.getCount());
+				assertEquals(new Point(1, 1), target.getExtent1());
+				assertEquals(new Point(4, 3), target.getExtent2());
+				final Group newGeneration = target.newGeneration(1L);
+				final PrivateMethodTester ngTester = new PrivateMethodTester(newGeneration);
+				assertEquals(target.getExtent1().move(-1, -1), newGeneration.getOrigin());
+				final int count = newGeneration.getCount();
+				assertEquals(6, count);
+				final List<Point> cellsTarget = (List<Point>) targetTester.invokePrivate("getPoints");
+				final List<Point> cellsNG = (List<Point>) ngTester.invokePrivate("getPoints");
+				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsNG.get(i));
+				final Group gen2 = newGeneration.newGeneration(1L);
+				final PrivateMethodTester gen2Tester = new PrivateMethodTester(gen2);
+				assertEquals(newGeneration.getExtent1().move(-1, -1), gen2.getOrigin());
+				System.out.println(newGeneration.render());
+				assertEquals(6, gen2.getCount());
 				final List<Point> cellsGen2 = (List<Point>) gen2Tester.invokePrivate("getPoints");
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i).relative(gen2.getOrigin()), cellsGen2.get(i));
 		}

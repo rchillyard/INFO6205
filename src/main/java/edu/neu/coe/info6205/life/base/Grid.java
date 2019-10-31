@@ -23,12 +23,10 @@ public class Grid implements Generational<Group> {
 		}
 
 		/**
-		 * Appends the specified element to the end of this list of groups.
+		 * Appends the specified element to the end of the list of groups.
 		 *
-		 * @param group element to be appended to this list
+		 * @param group element to be added to this Grid.
 		 * @return a boolean indicating whether the add changed this.
-		 * @throws UnsupportedOperationException if the <tt>add</tt> operation
-		 *                                       is not supported by this list
 		 * @throws ClassCastException            if the class of the specified element
 		 *                                       prevents it from being added to this list
 		 * @throws NullPointerException          if the specified element is null and this
@@ -37,25 +35,36 @@ public class Grid implements Generational<Group> {
 		 *                                       prevents it from being added to this list
 		 */
 		public boolean add(Group group) {
-				return groups.add(group);
+				List<Group> unmergedGroups = new ArrayList<>();
+				forEach(unmergedGroups::add);
+				groups.clear();
+				Group merged = null;
+				for (Group g : unmergedGroups)
+						if (merged != null || !g.overlap(group)) groups.add(g);
+						else merged = g.merge(group);
+
+				if (merged != null)
+						return add(merged);
+				else
+						return groups.add(group);
+		}
+
+		int getCount() {
+				int result = 0;
+				for (Group g : groups)
+						result += g.getCount();
+				return result;
 		}
 
 		/**
-		 * Removes the first occurrence of the specified element from groups,
+		 * Unsupported Operation,
 		 *
-		 * @param o element to be removed from this list, if present
-		 * @return <tt>true</tt> if this list contained the specified element
-		 * @throws ClassCastException            if the type of the specified element
-		 *                                       is incompatible with this list
-		 *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-		 * @throws NullPointerException          if the specified element is null and this
-		 *                                       list does not permit null elements
-		 *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
+		 * @param o an element.
 		 * @throws UnsupportedOperationException if the <tt>remove</tt> operation
 		 *                                       is not supported by this list
 		 */
-		public boolean remove(Group o) {
-				return groups.remove(o);
+		boolean remove(Group o) {
+				throw new UnsupportedOperationException("cannot remove a Group from a Grid");
 		}
 
 		/**
@@ -75,16 +84,16 @@ public class Grid implements Generational<Group> {
 		 * }</pre>
 		 * @since 1.8
 		 */
-		public void forEach(Consumer<? super Group> action) {
+		void forEach(Consumer<? super Group> action) {
 				groups.forEach(action);
 		}
-
-		private final List<Group> groups;
 
 		@Override
 		public void generation(long generation, BiConsumer<Long, Group> monitor) {
 				forEach(g -> monitor.accept(generation, g));
 		}
 
-		public static Point Origin = new Point(0, 0);
+		private final List<Group> groups;
+
+		static Point Origin = new Point(0, 0);
 }

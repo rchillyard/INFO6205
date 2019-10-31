@@ -30,7 +30,8 @@ public class Game implements Generational<Grid> {
 		}
 
 		public static void main(String[] args) {
-				Game game = new Game(new Grid(), (l, g) -> System.out.println("show grid for generation " + l));
+				final Grid grid = new Grid();
+				Game game = new Game(grid, (l, g) -> System.out.println("show grid for generation " + l));
 				game.run();
 		}
 }

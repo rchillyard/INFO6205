@@ -116,19 +116,62 @@ public class Group {
 		 * @return a new Group, which may possibly overlap with other Groups.
 		 */
 		Group newGeneration(long generation) {
-				// Height and Width account for the fact that the extents are inclusive.
-				int height = extent2.getY() - extent1.getY() + 1;
-				int width = extent2.getX() - extent1.getX() + 1;
-				// Neighbors is based on a grid that is appropriate for the new generation.
-				int[][] neighbors = new int[width + 2][height + 2];
-				// LiveCells is based on a grid that is appropriate to the current generation,
-				int[][] liveCells = new int[width][height];
+//				// Height and Width account for the fact that the extents are inclusive.
+//				int height = extent2.getY() - extent1.getY() + 1;
+//				int width = extent2.getX() - extent1.getX() + 1;
+//				// Neighbors is based on a grid that is appropriate for the new generation.
+//				int[][] neighbors = new int[width + 2][height + 2];
+//				// LiveCells is based on a grid that is appropriate to the current generation,
+//				int[][] liveCells = new int[width][height];
 				final Point newOrigin = extent1.move(-1, -1);
-				forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
+//				forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
+				final CellsAndNeighbors cellsAndNeighbors = new CellsAndNeighbors().cellsAndNeighbors();
 				// CONSIDER optimizing here if any outer edge will not generate any new liveCells.
 				Group result = new Group(generation, newOrigin, newOrigin, extent2.move(1, 1), moveCellsRelative(newOrigin));
-				result.updateCells(neighbors, liveCells, width, height);
+				// TODO make updateCells simply take the whole cellsAndNeighbors object
+				result.updateCells(cellsAndNeighbors.neighbors, cellsAndNeighbors.cells, cellsAndNeighbors.width, cellsAndNeighbors.height);
 				return result;
+		}
+
+		class CellsAndNeighbors {
+				private final int width;
+				private final int height;
+				private final int[][] cells;
+				private final int[][] neighbors;
+
+				public CellsAndNeighbors(int width, int height, int[][] cells, int[][] neighbors) {
+						this.width = width;
+						this.height = height;
+						this.cells = cells;
+						this.neighbors = neighbors;
+				}
+
+				public CellsAndNeighbors() {
+						this(0, 0, null, null);
+				}
+
+				public CellsAndNeighbors cellsAndNeighbors() {
+						// Height and Width account for the fact that the extents are inclusive.
+						int height = extent2.getY() - extent1.getY() + 1;
+						int width = extent2.getX() - extent1.getX() + 1;
+						// Neighbors is based on a grid that is appropriate for the new generation.
+						int[][] neighbors = new int[width + 2][height + 2];
+						// LiveCells is based on a grid that is appropriate to the current generation,
+						int[][] liveCells = new int[width][height];
+						forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
+						return new CellsAndNeighbors(width, height, liveCells, neighbors);
+				}
+
+				@Override
+				public String toString() {
+						final StringBuilder sb = new StringBuilder();
+						for (int j = height; j > 0; j--) {
+								for (int i = 0; i < width; i++)
+										sb.append(cells[i][j - 1] == 1 ? '*' : '.');
+								sb.append('\n');
+						}
+						return sb.toString();
+				}
 		}
 
 		/**
@@ -304,6 +347,11 @@ public class Group {
 		 */
 		int getCount() {
 				return points.size();
+		}
+
+		String render() {
+				final CellsAndNeighbors cellsAndNeighbors = new CellsAndNeighbors().cellsAndNeighbors();
+				return cellsAndNeighbors.toString();
 		}
 
 		@Override
