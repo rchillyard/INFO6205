@@ -93,7 +93,7 @@ public class Group {
 		 * @param generation the generation id.
 		 * @return a new Group, which may possibly overlap with other Groups.
 		 */
-		Group newGeneration(long generation) throws LifeException {
+		Group newGeneration(long generation) {
 				// Height and Width account for the fact that the extents are inclusive.
 				int height = extent2.getY() - extent1.getY() + 1;
 				int width = extent2.getX() - extent1.getX() + 1;
@@ -105,8 +105,7 @@ public class Group {
 				forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
 				// CONSIDER optimizing here if any outer edge will not generate any new liveCells.
 				Group result = new Group(generation, newOrigin, newOrigin, extent2.move(1, 1), moveCellsRelative(newOrigin));
-				boolean ok = result.updateCells(neighbors, liveCells, width, height);
-				if (!ok) throw new LifeException("Logic error in adding or removing a point");
+				result.updateCells(neighbors, liveCells, width, height);
 				return result;
 		}
 
@@ -130,21 +129,27 @@ public class Group {
 				return result;
 		}
 
-		private boolean updateCells(int[][] neighbors, int[][] cells, int width, int height) {
-				boolean result = true;
+		private void updateCells(int[][] neighbors, int[][] cells, int width, int height) {
 				// i, j and neighbors are in the coordinate system of the new generation
 				for (int i = 0; i <= width + 1; i++)
 						for (int j = 0; j <= height + 1; j++) {
-								final int count = neighbors[i][j];
-								// cells are in the coordinate system of the old generation.
-								final Point p = new Point(i, j);
-								if (i == 0 || i == width + 1 || j == 0 || j == height + 1 || cells[i - 1][j - 1] == 1) {
-										final boolean exists = this.cells.contains(p);
-										if (exists) System.out.println(p+" exists"); else System.out.println(p+" doesn't exist");
-										if (exists && (count < 2 || count > 3)) result = result && remove(p);
-								} else if (count == 3) result = result && add(p);
+								final boolean onEdge = i == 0 || i == width + 1 || j == 0 || j == height + 1;
+								updateCell(neighbors[i][j], onEdge, i, j, cells);
 						}
-				return result;
+		}
+
+		private void updateCell(int count, boolean onEdge, int i, int j, int[][] grid) {
+				// grid indices are in the coordinate system of the old generation.
+				final Point p = new Point(i, j);
+				if (onEdge || grid[i - 1][j - 1] == 0) {
+						assert !cells.contains(p) : "logic error: should not exist: " + p;
+						final boolean ok = (count != 3) || add(p);
+						assert ok : "Problem adding point: " + p;
+				} else {
+						assert cells.contains(p) : "logic error: should exist: " + p;
+						final boolean ok = (count >= 2 && count <= 3) || remove(p);
+						assert ok : "Problem removing point: " + p;
+				}
 		}
 
 		private void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
