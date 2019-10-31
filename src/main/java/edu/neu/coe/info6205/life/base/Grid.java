@@ -1,10 +1,17 @@
 package edu.neu.coe.info6205.life.base;
 
+import edu.neu.coe.info6205.reduction.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * This class represents an infinite grid on which the game of life can be played.
+ * There can be independent groups in the grid, but if they ever overlap, they must be merged.
+ * In practice, you will typically only have one group in a grid.
+ */
 public class Grid implements Generational<Group> {
 
 		public Grid(List<Group> groups) {
@@ -78,4 +85,6 @@ public class Grid implements Generational<Group> {
 		public void generation(long generation, BiConsumer<Long, Group> monitor) {
 				forEach(g -> monitor.accept(generation, g));
 		}
+
+		public static Point Origin = new Point(0, 0);
 }

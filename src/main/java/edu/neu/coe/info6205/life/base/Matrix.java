@@ -9,6 +9,9 @@ import java.util.function.BiFunction;
 /**
  * This class represents the physical 2-dimensional layout of a Group.
  * By convention, it must have clear rows and columns around any live cells.
+ *
+ * This class was designed to optimize the performance of Groups.
+ * However, it hasn't been thoroughly tested and I'm fairly sure it needs significant work.
  */
 class Matrix {
 		/**

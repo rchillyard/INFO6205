@@ -11,20 +11,41 @@ import java.util.function.Consumer;
  * Class to model a group of cells. Groups may not overlap. If an overlap occurs through expansion, then the groups must merge.
  */
 public class Group {
-		Group(long generation, Point origin, Point extent1, Point extent2, List<Point> cells) {
+		/**
+		 * Base constructor.
+		 *
+		 * @param generation the generation of this Group.
+		 * @param origin     the origin of this Group relative to the origin of the Grid.
+		 * @param extent1    the extent1 of this Group (i.e. the SW corner of the boundary).
+		 * @param extent2    the extent2 of this Group (i.e. the NE corner of the boundary).
+		 * @param points     a list of points, which are in the coordinate system of this Group.
+		 */
+		Group(long generation, Point origin, Point extent1, Point extent2, List<Point> points) {
 				this.generation = generation;
 				this.origin = origin;
 				this.extent1 = extent1;
 				this.extent2 = extent2;
-				this.cells = cells;
+				this.points = points;
 		}
 
+		/**
+		 * Constructor for an empty Group with Grid origin.
+		 *
+		 * 		 * @param generation the generation of this Group.
+		 */
 		Group(long generation) {
-				this(generation, new Point(0, 0), null, null, new ArrayList<>());
+				this(generation, Grid.Origin, new ArrayList<>());
 		}
 
-		Group(long generation, Point origin, List<Point> cells) {
-				this(generation, origin, null, null, cells);
+		/**
+		 * Constructor for a Group with a particular origin and a list of Points.
+		 *
+		 * @param generation the generation of this Group.
+		 * @param origin     the origin of this Group relative to the Grid.
+		 * @param points     the points in this Group, with coordinates relative to the origin.
+		 */
+		Group(long generation, Point origin, List<Point> points) {
+				this(generation, origin, null, null, points);
 				forEach(this::updateExtents);
 		}
 
@@ -44,7 +65,7 @@ public class Group {
 		 */
 		boolean add(Point point) {
 				updateExtents(point);
-				return cells.add(point);
+				return points.add(point);
 		}
 
 		boolean add(int x, int y) {
@@ -70,7 +91,7 @@ public class Group {
 		boolean overlap(Group group) {
 				if (extent1 == null || group.extent1 == null) return false;
 				if (extent2 == null || group.extent2 == null) return false;
-				return withinExtents(group.extent1) || withinExtents(group.extent2) || withinExtents(group.getDiagonal(true)) || withinExtents(group.getDiagonal(false));
+				return withinExtents(group.getExtent1()) || withinExtents(group.getExtent2()) || withinExtents(group.getDiagonal(true)) || withinExtents(group.getDiagonal(false));
 		}
 
 		/**
@@ -82,8 +103,9 @@ public class Group {
 		 */
 		Group merge(Group group) throws LifeException {
 				if (group == this) throw new LifeException("cannot merge with self");
-				Group result = new Group(generation, new Point(0, 0), extent1, extent2, cells);
-				group.forEach(result::add);
+				Point newOrigin = origin.compareTo(group.origin) <= 0 ? origin : group.origin;
+				Group result = new Group(generation, newOrigin, extent1, extent2, moveCellsRelative(newOrigin));
+				group.forEach(p -> result.add(p.relative(newOrigin)));
 				return result;
 		}
 
@@ -114,9 +136,18 @@ public class Group {
 		 */
 		@Override
 		public String toString() {
-				return "generation " + this.generation + ": origin=" + this.origin + ", extent1 = " + this.extent1 + ", extent2 = " + this.extent2 + "\n    " + this.cells;
+				return "generation " + this.generation + ": origin=" + this.origin + ", extent1 = " + this.extent1 + ", extent2 = " + this.extent2 + "\n    " + this.points;
 		}
 
+		List<Point> pointsAbsolute() {
+				List<Point> result = new ArrayList<>();
+				forEach(p -> result.add(p.move(origin)));
+				return result;
+		}
+
+		private Point getAbsolute(Point p) {
+				return p.move(origin);
+		}
 		/**
 		 * This method accounts for the change in origin as we go to the new generation.
 		 *
@@ -142,11 +173,11 @@ public class Group {
 				// grid indices are in the coordinate system of the old generation.
 				final Point p = new Point(i, j);
 				if (onEdge || grid[i - 1][j - 1] == 0) {
-						assert !cells.contains(p) : "logic error: should not exist: " + p;
+						assert !points.contains(p) : "logic error: should not exist: " + p;
 						final boolean ok = (count != 3) || add(p);
 						assert ok : "Problem adding point: " + p;
 				} else {
-						assert cells.contains(p) : "logic error: should exist: " + p;
+						assert points.contains(p) : "logic error: should exist: " + p;
 						final boolean ok = (count >= 2 && count <= 3) || remove(p);
 						assert ok : "Problem removing point: " + p;
 				}
@@ -163,12 +194,18 @@ public class Group {
 				}
 		}
 
+		/**
+		 * Get the absolute value of the diagonal of the boundary.
+		 * @param nw if true then the NW corner, else the SE corner.
+		 * @return a Point.
+		 */
 		private Point getDiagonal(boolean nw) {
-				if (nw) return extent1.move(0, extent2.getY());
-				else return extent1.move(extent2.getX(), 0);
+				if (nw) return getAbsolute(extent1.move(0, extent2.getY()));
+				else return getAbsolute(extent1.move(extent2.getX(), 0));
 		}
 
 		private void updateExtents(Point point) {
+				if (point == null) throw new LifeException("updateExtents: point is null");
 				if (extent2 == null) extent2 = point;
 				if (extent1 == null) extent1 = point;
 				if (point.getX() >= extent2.getX()) extent2 = new Point(point.getX(), extent2.getY());
@@ -177,12 +214,19 @@ public class Group {
 				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY());
 		}
 
+		/**
+		 * Method to determine if a point is within this Group.
+		 *
+		 * @param point a Point in absolute (Grid) coordinates.
+		 * @return true if point is within the extents of this Group.
+		 */
 		boolean withinExtents(Point point) {
+				if (point == null) throw new LifeException("withinExtents: point is null");
 				if (extent2 == null) return false;
 				if (extent1 == null) return false;
-				final int cfO = extent1.move(-1, -1).compare(point);
+				final int cfO = getExtent1().move(-1, -1).compare(point);
 				if (!(cfO == 0 || cfO == 1 || cfO == 3 || cfO == 4)) return false;
-				final int cfE = point.compare(extent2.move(1, 1));
+				final int cfE = point.compare(getExtent2().move(1, 1));
 				return cfE == 0 || cfE == 1 || cfE == 3 || cfE == 4;
 		}
 
@@ -202,7 +246,7 @@ public class Group {
 		 *                                       is not supported by this list
 		 */
 		public boolean remove(Point p) {
-				return cells.remove(p);
+				return points.remove(p);
 		}
 
 		/**
@@ -223,23 +267,43 @@ public class Group {
 		 * @since 1.8
 		 */
 		void forEach(Consumer<? super Point> action) {
-				cells.forEach(action);
+				points.forEach(action);
 		}
 
+		/**
+		 * Method to yield this Group's origin.
+		 *
+		 * @return the origin (relative to the Grid).
+		 */
 		Point getOrigin() {
 				return origin;
 		}
 
+		/**
+		 * Method to yield this Group's extent1.
+		 *
+		 * @return the extent1 (relative to the Grid).
+		 */
 		Point getExtent1() {
-				return extent1;
+				return extent1 != null ? getAbsolute(extent1) : null;
 		}
 
+		/**
+		 * Method to yield this Group's extent2.
+		 *
+		 * @return the extent2 (relative to the Grid).
+		 */
 		Point getExtent2() {
-				return extent2;
+				return extent2 != null ? getAbsolute(extent2) : null;
 		}
 
+		/**
+		 * Method to yield the number of points in this Group.
+		 *
+		 * @return the number of points.
+		 */
 		int getCount() {
-				return cells.size();
+				return points.size();
 		}
 
 		@Override
@@ -247,19 +311,26 @@ public class Group {
 				if (this == o) return true;
 				if (o == null || getClass() != o.getClass()) return false;
 				Group group = (Group) o;
-				return cells.equals(group.cells);
+				return points.equals(group.points);
 		}
 
 		@Override
 		public int hashCode() {
-				return Objects.hash(cells);
+				return Objects.hash(points);
 		}
 
-		private List<Point> getCells() {
-				return cells;
+		/**
+		 * This method is used by unit tests (via PrivateMethod Tester).
+		 * <p>
+		 * XXX Do not eliminate this method.
+		 *
+		 * @return the points in this Group.
+		 */
+		private List<Point> getPoints() {
+				return points;
 		}
 
-		private final List<Point> cells; // the list of non-empty cells within this group.
+		private final List<Point> points; // the list of non-empty cells within this group.
 		private final long generation; // the current generation of this Group.
 		private final Point origin; // the position of the origin relative to the grid.
 		// All cells have coordinates which are relative to the origin.

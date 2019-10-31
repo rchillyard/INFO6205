@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.reduction;
 
+import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -83,5 +84,19 @@ public class PointTest {
 		public void testRelative() {
 				Point origin = new Point(1, 1);
 				assertEquals(Origin, origin.relative(origin));
+		}
+
+		@Test
+		public void testCompareTo() {
+				Point p00 = Origin;
+				Point p01 = new Point(0, 1);
+				assertEquals(-1, p00.compareTo(p01));
+		}
+
+		@Test
+		public void testDistance() {
+				assertEquals(0.0, new PrivateMethodTester(Origin).invokePrivate("distance"));
+				assertEquals(1.0, new PrivateMethodTester(new Point(0, 1)).invokePrivate("distance"));
+				assertEquals(Math.sqrt(2), (Double) new PrivateMethodTester(new Point(1, 1)).invokePrivate("distance"), 0.00001);
 		}
 }

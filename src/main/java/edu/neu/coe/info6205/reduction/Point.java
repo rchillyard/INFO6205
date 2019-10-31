@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Point {
+public class Point implements Comparable<Point> {
 
 		public int getX() {
 				return x;
@@ -93,6 +93,31 @@ public class Point {
 				int x = Integer.parseInt(ws[0]);
 				int y = Integer.parseInt(ws[1]);
 				return new Point(x, y);
+		}
+
+		/**
+		 * Compares this Point with other.
+		 * The basis of comparison is the distance to the origin.
+		 *
+		 * @param other the Point to be compared.
+		 * @return a negative integer, zero, or a positive integer as this object
+		 * is less than, equal to, or greater than the specified object.
+		 * @throws NullPointerException if the specified object is null
+		 * @throws ClassCastException   if the specified object's type prevents it
+		 *                              from being compared to this object.
+		 */
+		@Override
+		public int compareTo(Point other) {
+				return Double.compare(this.distance(), other.distance());
+		}
+
+		/**
+		 * Calculate the distance this point is from the origin.
+		 *
+		 * @return the square root of x^2 + y^2.
+		 */
+		private double distance() {
+				return Math.sqrt(x * x + y * y);
 		}
 }
 
