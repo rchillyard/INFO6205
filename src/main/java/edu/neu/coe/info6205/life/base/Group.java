@@ -3,9 +3,11 @@ package edu.neu.coe.info6205.life.base;
 import edu.neu.coe.info6205.reduction.Point;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 /**
  * Class to model a group of cells. Groups may not overlap. If an overlap occurs through expansion, then the groups must merge.
@@ -47,6 +49,15 @@ public class Group {
 		Group(long generation, Point origin, List<Point> points) {
 				this(generation, origin, null, null, points);
 				forEach(this::updateExtents);
+		}
+
+		private Group changeOrigin(long generation, Point origin) {
+				Point vector = origin.vector(this.origin);
+				return new Group(generation, origin, extent1.move(vector), extent2.move(vector), mapPoints(p -> p.move(vector)));
+		}
+
+		private Group copy(long generation) {
+				return new Group(generation, origin, extent1, extent2, points);
 		}
 
 		/**
@@ -109,6 +120,24 @@ public class Group {
 				return result;
 		}
 
+		Group transpose() {
+				return map(p -> new Point(p.getY(), p.getX()));
+		}
+
+		private Group map(UnaryOperator<Point> f) {
+				// TODO used mapPoints
+				final List<Point> mapped = new ArrayList<>();
+				forEach(p -> mapped.add(f.apply(p)));
+				return new Group(generation, origin, mapped);
+		}
+
+		private List<Point> mapPoints(UnaryOperator<Point> f) {
+				final List<Point> mapped = new ArrayList<>();
+				points.forEach(p -> mapped.add(p.map(f)));
+				return mapped;
+		}
+
+
 		/**
 		 * Method to create a new generation from this.
 		 *
@@ -116,50 +145,70 @@ public class Group {
 		 * @return a new Group, which may possibly overlap with other Groups.
 		 */
 		Group newGeneration(long generation) {
-//				// Height and Width account for the fact that the extents are inclusive.
-//				int height = extent2.getY() - extent1.getY() + 1;
-//				int width = extent2.getX() - extent1.getX() + 1;
-//				// Neighbors is based on a grid that is appropriate for the new generation.
-//				int[][] neighbors = new int[width + 2][height + 2];
-//				// LiveCells is based on a grid that is appropriate to the current generation,
-//				int[][] liveCells = new int[width][height];
-				final Point newOrigin = extent1.move(-1, -1);
 //				forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
-				final CellsAndNeighbors cellsAndNeighbors = new CellsAndNeighbors().cellsAndNeighbors();
+//				final CellsAndNeighbors cellsAndNeighbors = new CellsAndNeighbors().cellsAndNeighbors();
 				// CONSIDER optimizing here if any outer edge will not generate any new liveCells.
-				Group result = new Group(generation, newOrigin, newOrigin, extent2.move(1, 1), moveCellsRelative(newOrigin));
+				Group result = copy(generation);
+				final CellsAndNeighbors cellsAndNeighbors = CellsAndNeighbors.create(result);
 				// TODO make updateCells simply take the whole cellsAndNeighbors object
-				result.updateCells(cellsAndNeighbors.neighbors, cellsAndNeighbors.cells, cellsAndNeighbors.width, cellsAndNeighbors.height);
+				final List<Point> points = result.updateCells(cellsAndNeighbors.neighbors, cellsAndNeighbors.cells, cellsAndNeighbors.width, cellsAndNeighbors.height);
+				final boolean ok = result.add(points);
+				assert ok : "Problem adding the new points: " + points;
 				return result;
 		}
 
-		class CellsAndNeighbors {
+		static class CellsAndNeighbors {
+				// CONSIDER do we really need width and height here?
 				private final int width;
 				private final int height;
 				private final int[][] cells;
 				private final int[][] neighbors;
 
-				public CellsAndNeighbors(int width, int height, int[][] cells, int[][] neighbors) {
+				/**
+				 * Constructor for a new CellsAndNeighbors object.
+				 *
+				 * @param width     the width of the cells array.
+				 * @param height    the height of the cells array.
+				 * @param cells     the (live) cells of the current generation.
+				 * @param neighbors the neighbor cells (with width and height extend one in each direction from cells).
+				 */
+				CellsAndNeighbors(int width, int height, int[][] cells, int[][] neighbors) {
 						this.width = width;
 						this.height = height;
 						this.cells = cells;
 						this.neighbors = neighbors;
 				}
 
-				public CellsAndNeighbors() {
+				CellsAndNeighbors() {
 						this(0, 0, null, null);
 				}
 
-				public CellsAndNeighbors cellsAndNeighbors() {
+				static CellsAndNeighbors create(Group group) {
+						if (group == null) throw new LifeException("CellsAndNeighbors.create: group must not be null");
+						assert group.extent1 != null && group.extent2 != null : "group extents must be set";
+						Point extents = group.extent1.vector(group.extent2);
 						// Height and Width account for the fact that the extents are inclusive.
-						int height = extent2.getY() - extent1.getY() + 1;
-						int width = extent2.getX() - extent1.getX() + 1;
+						int height = extents.getY() - 1;
+						int width = extents.getX() - 1;
 						// Neighbors is based on a grid that is appropriate for the new generation.
 						int[][] neighbors = new int[width + 2][height + 2];
 						// LiveCells is based on a grid that is appropriate to the current generation,
 						int[][] liveCells = new int[width][height];
-						forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
+						group.forEach(p -> incrementNeighborsAndNoteCell(p.relative(group.extent1), neighbors, liveCells));
 						return new CellsAndNeighbors(width, height, liveCells, neighbors);
+				}
+
+				private static void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
+						int px = p.getX();
+						int py = p.getY();
+						assert px > 0 && px < neighbors.length - 1 : px + " not in (exclusive) range 0.." + (neighbors.length - 1);
+						assert py > 0 && py < neighbors[0].length - 1 : py + " not in (exclusive) range 0.." + (neighbors[0].length - 1);
+						for (int i = -1; i < 2; i++) {
+								final int[] neighborArray = neighbors[i + px];
+								for (int j = -1; j < 2; j++)
+										if (i == 0 && j == 0) cells[px - 1][py - 1] = 1;
+										else neighborArray[j + py]++;
+						}
 				}
 
 				@Override
@@ -175,11 +224,11 @@ public class Group {
 		}
 
 		/**
-		 * @return a string representation of the object.
+		 * @return a string representation of the object, with all coordinates in absolute terms.
 		 */
 		@Override
 		public String toString() {
-				return "generation " + this.generation + ": origin=" + this.origin + ", extent1 = " + this.extent1 + ", extent2 = " + this.extent2 + "\n    " + this.points;
+				return "generation " + this.generation + ": extents = [" + getExtent1() + ", " + getExtent2() + "]\n    " + pointsAbsolute();
 		}
 
 		List<Point> pointsAbsolute() {
@@ -203,37 +252,34 @@ public class Group {
 				return result;
 		}
 
-		private void updateCells(int[][] neighbors, int[][] cells, int width, int height) {
-				// i, j and neighbors are in the coordinate system of the new generation
+		private List<Point> updateCells(int[][] neighbors, int[][] cells, int width, int height) {
+				List<Point> additions = new ArrayList<>();
+				// i, j and neighbors are in the coordinate system of the total extents.
 				for (int i = 0; i <= width + 1; i++)
 						for (int j = 0; j <= height + 1; j++) {
 								final boolean onEdge = i == 0 || i == width + 1 || j == 0 || j == height + 1;
-								updateCell(neighbors[i][j], onEdge, i, j, cells);
+								if (updateCell(neighbors[i][j], onEdge, i, j, cells) != null)
+										additions.add(updateCell(neighbors[i][j], onEdge, i, j, cells));
 						}
+				return additions;
 		}
 
-		private void updateCell(int count, boolean onEdge, int i, int j, int[][] grid) {
-				// grid indices are in the coordinate system of the old generation.
-				final Point p = new Point(i, j);
-				if (onEdge || grid[i - 1][j - 1] == 0) {
+		private Point updateCell(int count, boolean onEdge, int i, int j, int[][] grid) {
+				// grid indices are in the coordinate system of the cells (points).
+				final Point p = new Point(i, j).move(extent1);
+				// TODO simplify this
+				if (onEdge) {
+						if (count == 3) return p;
+						else return null;
+				} 		else		if (grid[i - 1][j - 1] == 0) {
 						assert !points.contains(p) : "logic error: should not exist: " + p;
-						final boolean ok = (count != 3) || add(p);
-						assert ok : "Problem adding point: " + p;
+						if (count == 3) return p;
+						else return null;
 				} else {
 						assert points.contains(p) : "logic error: should exist: " + p;
 						final boolean ok = (count >= 2 && count <= 3) || remove(p);
 						assert ok : "Problem removing point: " + p;
-				}
-		}
-
-		private void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
-				int px = p.getX();
-				int py = p.getY();
-				for (int i = -1; i < 2; i++) {
-						final int[] neighborArray = neighbors[i + px + 1];
-						for (int j = -1; j < 2; j++)
-								if (i == 0 && j == 0) cells[px][py] = 1;
-								else neighborArray[j + py + 1]++;
+						return null;
 				}
 		}
 
@@ -251,10 +297,10 @@ public class Group {
 				if (point == null) throw new LifeException("updateExtents: point is null");
 				if (extent2 == null) extent2 = point;
 				if (extent1 == null) extent1 = point;
-				if (point.getX() >= extent2.getX()) extent2 = new Point(point.getX(), extent2.getY());
-				if (point.getY() >= extent2.getY()) extent2 = new Point(extent2.getX(), point.getY());
-				if (point.getX() <= extent1.getX()) extent1 = new Point(point.getX(), extent1.getY());
-				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY());
+				if (point.getX() >= extent2.getX()) extent2 = new Point(point.getX() + 1, extent2.getY());
+				if (point.getY() >= extent2.getY()) extent2 = new Point(extent2.getX(), point.getY() + 1);
+				if (point.getX() <= extent1.getX()) extent1 = new Point(point.getX() - 1, extent1.getY());
+				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY()-1);
 		}
 
 		/**
@@ -263,13 +309,13 @@ public class Group {
 		 * @param point a Point in absolute (Grid) coordinates.
 		 * @return true if point is within the extents of this Group.
 		 */
-		boolean withinExtents(Point point) {
+		private boolean withinExtents(Point point) {
 				if (point == null) throw new LifeException("withinExtents: point is null");
 				if (extent2 == null) return false;
 				if (extent1 == null) return false;
-				final int cfO = getExtent1().move(-1, -1).compare(point);
+				final int cfO = getExtent1().compare(point);
 				if (!(cfO == 0 || cfO == 1 || cfO == 3 || cfO == 4)) return false;
-				final int cfE = point.compare(getExtent2().move(1, 1));
+				final int cfE = point.compare(getExtent2());
 				return cfE == 0 || cfE == 1 || cfE == 3 || cfE == 4;
 		}
 
@@ -350,7 +396,7 @@ public class Group {
 		}
 
 		String render() {
-				final CellsAndNeighbors cellsAndNeighbors = new CellsAndNeighbors().cellsAndNeighbors();
+				final CellsAndNeighbors cellsAndNeighbors = CellsAndNeighbors.create(this);
 				return cellsAndNeighbors.toString();
 		}
 
@@ -359,7 +405,7 @@ public class Group {
 				if (this == o) return true;
 				if (o == null || getClass() != o.getClass()) return false;
 				Group group = (Group) o;
-				return points.equals(group.points);
+				return pointsAbsolute().equals(group.pointsAbsolute());
 		}
 
 		@Override
@@ -379,6 +425,11 @@ public class Group {
 		}
 
 		private final List<Point> points; // the list of non-empty cells within this group.
+
+		long getGeneration() {
+				return generation;
+		}
+
 		private final long generation; // the current generation of this Group.
 		private final Point origin; // the position of the origin relative to the grid.
 		// All cells have coordinates which are relative to the origin.

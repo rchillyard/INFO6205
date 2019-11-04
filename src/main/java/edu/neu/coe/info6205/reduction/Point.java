@@ -3,6 +3,7 @@ package edu.neu.coe.info6205.reduction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 
 public class Point implements Comparable<Point> {
 
@@ -22,6 +23,10 @@ public class Point implements Comparable<Point> {
         this.y = y;
     }
 
+		public Point map(UnaryOperator<Point> f) {
+				return f.apply(this);
+		}
+
 		public Point move(int x, int y) {
 				return new Point(this.x + x, this.y + y);
 		}
@@ -34,6 +39,15 @@ public class Point implements Comparable<Point> {
 				return move(-point.getX(), -point.getY());
 		}
 
+		/**
+		 * Return the vector from this Point to other.
+		 *
+		 * @param other the other point.
+		 * @return a Point representing a vector which, if applied to this as a move, would result in "other".
+		 */
+		public Point vector(Point other) {
+				return (new Point(other.getX() - this.x, other.getY() - this.y));
+		}
 
 		public boolean valid() {
         return x > 0 && y > 0;
