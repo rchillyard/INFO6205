@@ -374,8 +374,7 @@ public class GroupTest {
 
 		@Test
 		public void testBlock() throws LifeException {
-				Group target = new Group(0L);
-				target.add(Block);
+				Group target = Group.create(Block);
 				assertEquals(new Point(0, 0), target.getExtent1());
 				assertEquals(new Point(3, 3), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
@@ -395,9 +394,8 @@ public class GroupTest {
 		@SuppressWarnings("unchecked")
 		@Test
 		public void testBeehive() throws LifeException {
-				Group target = new Group(0L);
+				Group target = Group.create(Beehive);
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
-				target.add(Beehive);
 				assertEquals(".**.\n" + "*..*\n" + ".**.\n",target.render());
 				assertEquals(6, target.getCount());
 				assertEquals(Origin, target.getExtent1());
@@ -422,9 +420,8 @@ public class GroupTest {
 		@SuppressWarnings("unchecked")
 		@Test
 		public void testLoaf() throws LifeException {
-				Group target = new Group(0L);
+				Group target = Group.create(Loaf);
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
-				target.add(Loaf);
 				System.out.println(target.render());
 				assertEquals(Origin, target.getExtent1());
 				assertEquals(new Point(5, 5), target.getExtent2());
@@ -447,8 +444,7 @@ public class GroupTest {
 
 		@Test
 		public void testBlinker() throws LifeException {
-				Group target = new Group(0L);
-				target.add(Blinker);
+				Group target = Group.create(Blinker);
 				assertEquals("*\n" + "*\n" + "*\n", target.render());
 				assertEquals(new Point(-1, -2), target.getExtent1());
 				assertEquals(new Point(1, 2), target.getExtent2());
@@ -466,6 +462,27 @@ public class GroupTest {
 				final List<Point> cellsGen2 = gen2.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(0, cellsGen2.get(i).getX());
 				for (int i = 0; i < count; i++) assertTrue(Math.abs(cellsNG.get(i).getY()) <= 1);
+		}
+
+		@Test
+		public void testGlider() throws LifeException {
+				Group gen0 = Group.create(Glider);
+				final String renderGen0 = gen0.render();
+				assertEquals(".*.\n" + "..*\n" + "***\n", renderGen0);
+				assertEquals(new Point(-1, -1), gen0.getExtent1());
+				assertEquals(new Point(3, 3), gen0.getExtent2());
+				final Group gen1 = gen0.newGeneration(1L);
+				assertEquals(Origin, gen1.getOrigin());
+				assertEquals("*.*\n" + ".**\n" + ".*.\n", gen1.render());
+				assertEquals(5, gen1.getCount());
+				final Group gen2 = gen1.newGeneration(2L);
+				assertEquals("..*\n" + "*.*\n" + ".**\n", gen2.render());
+				assertEquals(5, gen2.getCount());
+				final Group gen3 = gen2.newGeneration(3L);
+				assertEquals("*..\n" + ".**\n" + "**.\n", gen3.render());
+				assertEquals(5, gen3.getCount());
+				final Group gen4 = gen3.newGeneration(4L);
+				assertEquals(renderGen0, gen4.render());
 		}
 
 		@Test

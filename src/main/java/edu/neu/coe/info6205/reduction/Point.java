@@ -23,6 +23,10 @@ public class Point implements Comparable<Point> {
         this.y = y;
     }
 
+		public Point copy() {
+				return new Point(getX(), getY());
+		}
+
 		public Point transpose() {
 				return new Point(getY(), getX());
 		}

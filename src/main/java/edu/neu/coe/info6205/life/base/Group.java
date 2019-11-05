@@ -55,6 +55,19 @@ public class Group {
 		}
 
 		/**
+		 * Factory method to create a new Group at generation 0, from the given string.
+		 *
+		 * @param string a String, typically from the library of Group patterns.
+		 * @return a new Group.
+		 */
+		public static Group create(String string) {
+				Group result = new Group(0L);
+				final boolean ok = result.add(string);
+				assert ok : "create: problem adding: "+string;
+				return result;
+		}
+
+		/**
 		 * Appends the specified cell to the end of cells.
 		 *
 		 * @param point element to be appended to this list
@@ -195,7 +208,7 @@ public class Group {
 		}
 
 		private Group copy(long generation) {
-				return new Group(generation, origin, extent1, extent2, points);
+				return new Group(generation, origin.copy(), extent1.copy(), extent2.copy(), mapPoints(Point::copy));
 		}
 
 		private Point getAbsolute(Point p) {
@@ -327,8 +340,7 @@ public class Group {
 
 		String render() {
 				updateExtents();
-				final CellsAndNeighbors cellsAndNeighbors = CellsAndNeighbors.create(this);
-				return cellsAndNeighbors.toString();
+				return CellsAndNeighbors.create(this).toString();
 		}
 
 		@Override
