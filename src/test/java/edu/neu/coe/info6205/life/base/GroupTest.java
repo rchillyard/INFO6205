@@ -55,8 +55,7 @@ public class GroupTest {
 
 		@Test
 		public void testCellsAndNeighbors0() {
-				Group target = new Group(0L);
-				target.add(Origin);
+				Group target = Group.create(0L, Origin);
 				final Group.CellsAndNeighbors can = Group.CellsAndNeighbors.create(target);
 				assertEquals("*\n", can.toString());
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
@@ -67,8 +66,7 @@ public class GroupTest {
 
 		@Test
 		public void testCellsAndNeighbors1() {
-				Group target = new Group(0L);
-				target.add(Origin);
+				Group target = Group.create(0L, Origin);
 				target.add(new Point(-1, -1));
 				final Group.CellsAndNeighbors can = Group.CellsAndNeighbors.create(target);
 				assertEquals(".*\n" + "*.\n", can.toString());
@@ -84,8 +82,18 @@ public class GroupTest {
 				final Point point = new Point(1, 1);
 				points.add(point);
 				Group target = new Group(0L, Origin, points);
+				assertEquals("generation 0, origin = Point{x=1, y=1}, extents = [Point{x=-1, y=-1}, Point{x=1, y=1}]\n" +
+								"    [Point{x=0, y=0}]", target.toString());
+		}
+
+		@Test
+		public void testToStringInGrid() {
+				final List<Point> points = new ArrayList<>();
+				final Point point = new Point(1, 1);
+				points.add(point);
+				Group target = new Group(0L, Origin, points);
 				assertEquals("generation 0: extents = [Point{x=0, y=0}, Point{x=2, y=2}]\n" +
-								"    [Point{x=1, y=1}]", target.toString());
+								"    [Point{x=1, y=1}]", target.toStringInGrid());
 		}
 
 		@Test
@@ -99,10 +107,9 @@ public class GroupTest {
 
 		@Test
 		public void testChangeOrigin() {
-				Group target = new Group(0L);
+				Group target = Group.create(0L, Origin);
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
 				final Point point1 = new Point(1, 1);
-				target.add(Origin);
 				final String targetRendered = target.render();
 				assertEquals("*\n", targetRendered);
 				final Group changed = (Group) targetTester.invokePrivate("changeOrigin", 1L, point1);
@@ -111,8 +118,8 @@ public class GroupTest {
 				assertEquals(target.getExtent2(), changed.getExtent2());
 				assertEquals(target.pointsAbsolute(), changed.pointsAbsolute());
 				assertEquals(targetRendered, changed.render());
-				assertEquals("generation 1: extents = [Point{x=-1, y=-1}, Point{x=1, y=1}]\n" +
-								"    [Point{x=0, y=0}]", changed.toString());
+				assertEquals("generation 1, origin = Point{x=-1, y=-1}, extents = [Point{x=0, y=0}, Point{x=2, y=2}]\n" +
+								"    [Point{x=1, y=1}]", changed.toString());
 		}
 		@Test
 		public void testAdd() throws LifeException {
@@ -169,12 +176,14 @@ public class GroupTest {
 				final Point point0 = new Point(1, 1);
 				final Point point1 = new Point(2, 2);
 				target.add(point0);
+				System.out.println(target);
 				target.add(point1);
-				assertEquals(point0.move(-1, -1), targetTester.invokePrivate("getAbsolute", target.getExtent1()));
-				assertEquals(point1.move(1, 1), targetTester.invokePrivate("getAbsolute", target.getExtent2()));
+				System.out.println(target);
+				assertEquals(point0.move(-1, -1), target.getExtent1());
+				assertEquals(point1.move(1, 1), target.getExtent2());
 				final List<Point> cellsTarget = (List<Point>) targetTester.invokePrivate("getPoints");
-				assertEquals(point0, cellsTarget.get(0));
-				assertEquals(point1, cellsTarget.get(1));
+				assertEquals(point0.move(-1, -1), cellsTarget.get(0));
+				assertEquals(point1.move(-1, -1), cellsTarget.get(1));
 		}
 
 		@Test
@@ -286,8 +295,8 @@ public class GroupTest {
 				List<Point> points = Point.points(s);
 				Group target1 = new Group(0L);
 				assertTrue(target1.add(points));
-				Group target2 = new Group(0L, new Point(10, 10), new ArrayList<>());
-				assertTrue(target2.add(points));
+				final Point offset = new Point(10, 10);
+				Group target2 = target1.move(offset);
 				assertFalse(target1.overlap(target2));
 				Group merged = target1.merge(target2);
 				assertEquals(4, merged.getCount());
@@ -377,14 +386,15 @@ public class GroupTest {
 				assertEquals(new Point(0, 0), target.getExtent1());
 				assertEquals(new Point(3, 3), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
-				assertEquals(target.getExtent1(), newGeneration.getOrigin());
+				final Point p11 = new Point(1, 1);
+				assertEquals(p11, newGeneration.getOrigin());
 				final int count = newGeneration.getCount();
 				assertEquals(4, count);
 				final List<Point> cellsTarget = target.pointsAbsolute();
 				final List<Point> cellsNG = newGeneration.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsNG.get(i));
 				final Group gen2 = newGeneration.newGeneration(1L);
-				assertEquals(newGeneration.getExtent1(), gen2.getOrigin());
+				assertEquals(p11, gen2.getOrigin());
 				assertEquals(4, gen2.getCount());
 				final List<Point> cellsGen2 = gen2.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsGen2.get(i));
@@ -401,7 +411,8 @@ public class GroupTest {
 				assertEquals(new Point(5, 4), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
 				final PrivateMethodTester ngTester = new PrivateMethodTester(newGeneration);
-				assertEquals(target.getExtent1(), newGeneration.getOrigin());
+				final Point point12 = new Point(1, 2);
+				assertEquals(point12, newGeneration.getOrigin());
 				final int count = newGeneration.getCount();
 				assertEquals(6, count);
 				final List<Point> cellsTarget = (List<Point>) targetTester.invokePrivate("getPoints");
@@ -409,11 +420,11 @@ public class GroupTest {
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsNG.get(i));
 				final Group gen2 = newGeneration.newGeneration(1L);
 				final PrivateMethodTester gen2Tester = new PrivateMethodTester(gen2);
-				assertEquals(newGeneration.getExtent1(), gen2.getOrigin());
+				assertEquals(point12, gen2.getOrigin());
 				assertEquals(".**.\n" + "*..*\n" + ".**.\n",newGeneration.render());
 				assertEquals(6, gen2.getCount());
 				final List<Point> cellsGen2 = (List<Point>) gen2Tester.invokePrivate("getPoints");
-				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i).relative(gen2.getOrigin()), cellsGen2.get(i));
+				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsGen2.get(i));
 		}
 
 		@SuppressWarnings("unchecked")
@@ -426,7 +437,8 @@ public class GroupTest {
 				assertEquals(new Point(5, 5), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
 				final PrivateMethodTester ngTester = new PrivateMethodTester(newGeneration);
-				assertEquals(target.getExtent1(), newGeneration.getOrigin());
+				final Point p13 = new Point(1, 3);
+				assertEquals(p13, newGeneration.getOrigin());
 				final int count = newGeneration.getCount();
 				assertEquals(7, count);
 				final List<Point> cellsTarget = (List<Point>) targetTester.invokePrivate("getPoints");
@@ -434,21 +446,26 @@ public class GroupTest {
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsNG.get(i));
 				final Group gen2 = newGeneration.newGeneration(1L);
 				final PrivateMethodTester gen2Tester = new PrivateMethodTester(gen2);
-				assertEquals(newGeneration.getExtent1(), gen2.getOrigin());
+				assertEquals(p13, gen2.getOrigin());
 				System.out.println(newGeneration.render());
 				assertEquals(7, gen2.getCount());
 				final List<Point> cellsGen2 = (List<Point>) gen2Tester.invokePrivate("getPoints");
-				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i).relative(gen2.getOrigin()), cellsGen2.get(i));
+				System.out.println(cellsTarget);
+				System.out.println(cellsGen2);
+				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsGen2.get(i));
 		}
 
 		@Test
 		public void testBlinker() throws LifeException {
 				Group target = Group.create(Blinker);
+				System.out.println(target);
 				assertEquals("*\n" + "*\n" + "*\n", target.render());
 				assertEquals(new Point(-1, -2), target.getExtent1());
 				assertEquals(new Point(1, 2), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
-				assertEquals(Origin, newGeneration.getOrigin());
+				System.out.println(newGeneration);
+				final Point p01 = new Point(0, 1);
+				assertEquals(p01, newGeneration.getOrigin());
 				assertEquals("***\n", newGeneration.render());
 				final int count = newGeneration.getCount();
 				assertEquals(3, count);
@@ -466,21 +483,27 @@ public class GroupTest {
 		@Test
 		public void testGlider() throws LifeException {
 				Group gen0 = Group.create(Glider);
+				System.out.println(gen0.toStringInGrid());
 				final String renderGen0 = gen0.render();
 				assertEquals(".*.\n" + "..*\n" + "***\n", renderGen0);
 				assertEquals(new Point(-1, -1), gen0.getExtent1());
 				assertEquals(new Point(3, 3), gen0.getExtent2());
 				final Group gen1 = gen0.newGeneration(1L);
-				assertEquals(Origin, gen1.getOrigin());
+				System.out.println(gen1.toStringInGrid());
+				final Point p10 = new Point(1, 0);
+				assertEquals(p10, gen1.getOrigin());
 				assertEquals("*.*\n" + ".**\n" + ".*.\n", gen1.render());
 				assertEquals(5, gen1.getCount());
 				final Group gen2 = gen1.newGeneration(2L);
+				System.out.println(gen2.toStringInGrid());
 				assertEquals("..*\n" + "*.*\n" + ".**\n", gen2.render());
 				assertEquals(5, gen2.getCount());
 				final Group gen3 = gen2.newGeneration(3L);
+				System.out.println(gen3.toStringInGrid());
 				assertEquals("*..\n" + ".**\n" + "**.\n", gen3.render());
 				assertEquals(5, gen3.getCount());
 				final Group gen4 = gen3.newGeneration(4L);
+				System.out.println(gen4.toStringInGrid());
 				assertEquals(renderGen0, gen4.render());
 		}
 
