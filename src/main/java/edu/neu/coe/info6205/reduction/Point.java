@@ -23,6 +23,10 @@ public class Point implements Comparable<Point> {
         this.y = y;
     }
 
+		public Point transpose() {
+				return new Point(getY(), getX());
+		}
+
 		public Point map(UnaryOperator<Point> f) {
 				return f.apply(this);
 		}

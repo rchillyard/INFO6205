@@ -358,7 +358,7 @@ public class GroupTest {
 				cells1.add(new Point(5, 2));
 				Group target = new Group(0L, Origin, cells1);
 				final Group newGeneration = target.newGeneration(1L);
-				assertEquals("..*.**\n" + ".*....\n" + ".****.\n",newGeneration.render());
+				assertEquals(".*.**\n" + "*....\n" + "****.\n", newGeneration.render());
 				assertEquals(8, newGeneration.getCount());
 		}
 
@@ -368,11 +368,10 @@ public class GroupTest {
 				target.add(Origin);
 				target.add(new Point(-1, -1));
 				final Group newGeneration = target.newGeneration(1L);
-				assertEquals("..\n" + "..\n", newGeneration.render());
+				assertEquals("", newGeneration.render());
 				assertEquals(0, newGeneration.getCount());
 		}
 
-		@SuppressWarnings("unchecked")
 		@Test
 		public void testBlock() throws LifeException {
 				Group target = new Group(0L);
@@ -455,17 +454,31 @@ public class GroupTest {
 				assertEquals(new Point(1, 2), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
 				assertEquals(Origin, newGeneration.getOrigin());
-				assertEquals("...\n" + "***\n" + "...\n", newGeneration.render());
+				assertEquals("***\n", newGeneration.render());
 				final int count = newGeneration.getCount();
 				assertEquals(3, count);
 				final List<Point> cellsNG = newGeneration.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(0, cellsNG.get(i).getY());
 				for (int i = 0; i < count; i++) assertTrue(Math.abs(cellsNG.get(i).getX()) <= 1);
 				final Group gen2 = newGeneration.newGeneration(2L);
-				assertEquals(".*.\n" + ".*.\n" + ".*.\n", gen2.render());
+				assertEquals("*\n" + "*\n" + "*\n", gen2.render());
 				assertEquals(3, gen2.getCount());
 				final List<Point> cellsGen2 = gen2.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(0, cellsGen2.get(i).getX());
 				for (int i = 0; i < count; i++) assertTrue(Math.abs(cellsNG.get(i).getY()) <= 1);
+		}
+
+		@Test
+		public void transpose() {
+				Group target = new Group(0L);
+				target.add(Origin);
+				target.add(new Point(0, 1));
+				final List<Point> points = target.pointsAbsolute();
+				final Group transposed = target.transpose();
+				final List<Point> pointsT = transposed.pointsAbsolute();
+				assertEquals(Origin, pointsT.get(0));
+				assertEquals(new Point(1, 0), pointsT.get(1));
+				final Group transposedAgain = transposed.transpose();
+				assertEquals(target, transposedAgain);
 		}
 }

@@ -1,18 +1,21 @@
 package edu.neu.coe.info6205.life.base;
 
 import edu.neu.coe.info6205.reduction.Point;
+import edu.neu.coe.info6205.util.Range;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
+import static edu.neu.coe.info6205.life.base.Grid.Origin;
+
 /**
  * Class to model a group of cells. Groups may not overlap. If an overlap occurs through expansion, then the groups must merge.
  */
 public class Group {
+
 		/**
 		 * Base constructor.
 		 *
@@ -36,7 +39,7 @@ public class Group {
 		 * 		 * @param generation the generation of this Group.
 		 */
 		Group(long generation) {
-				this(generation, Grid.Origin, new ArrayList<>());
+				this(generation, Origin, new ArrayList<>());
 		}
 
 		/**
@@ -48,16 +51,7 @@ public class Group {
 		 */
 		Group(long generation, Point origin, List<Point> points) {
 				this(generation, origin, null, null, points);
-				forEach(this::updateExtents);
-		}
-
-		private Group changeOrigin(long generation, Point origin) {
-				Point vector = origin.vector(this.origin);
-				return new Group(generation, origin, extent1.move(vector), extent2.move(vector), mapPoints(p -> p.move(vector)));
-		}
-
-		private Group copy(long generation) {
-				return new Group(generation, origin, extent1, extent2, points);
+				updateExtents();
 		}
 
 		/**
@@ -120,15 +114,17 @@ public class Group {
 				return result;
 		}
 
+		/**
+		 * Method to transpose the points of this Group.
+		 *
+		 * @return a transposed version of this Group.
+		 */
 		Group transpose() {
-				return map(p -> new Point(p.getY(), p.getX()));
+				return map(Point::transpose);
 		}
 
 		private Group map(UnaryOperator<Point> f) {
-				// TODO used mapPoints
-				final List<Point> mapped = new ArrayList<>();
-				forEach(p -> mapped.add(f.apply(p)));
-				return new Group(generation, origin, mapped);
+				return new Group(generation, origin, mapPoints(f));
 		}
 
 		private List<Point> mapPoints(UnaryOperator<Point> f) {
@@ -137,7 +133,6 @@ public class Group {
 				return mapped;
 		}
 
-
 		/**
 		 * Method to create a new generation from this.
 		 *
@@ -145,82 +140,9 @@ public class Group {
 		 * @return a new Group, which may possibly overlap with other Groups.
 		 */
 		Group newGeneration(long generation) {
-//				forEach(p -> incrementNeighborsAndNoteCell(p.relative(extent1), neighbors, liveCells));
-//				final CellsAndNeighbors cellsAndNeighbors = new CellsAndNeighbors().cellsAndNeighbors();
-				// CONSIDER optimizing here if any outer edge will not generate any new liveCells.
 				Group result = copy(generation);
-				final CellsAndNeighbors cellsAndNeighbors = CellsAndNeighbors.create(result);
-				// TODO make updateCells simply take the whole cellsAndNeighbors object
-				final List<Point> points = result.updateCells(cellsAndNeighbors.neighbors, cellsAndNeighbors.cells, cellsAndNeighbors.width, cellsAndNeighbors.height);
-				final boolean ok = result.add(points);
-				assert ok : "Problem adding the new points: " + points;
+				result.applyLifeRules();
 				return result;
-		}
-
-		static class CellsAndNeighbors {
-				// CONSIDER do we really need width and height here?
-				private final int width;
-				private final int height;
-				private final int[][] cells;
-				private final int[][] neighbors;
-
-				/**
-				 * Constructor for a new CellsAndNeighbors object.
-				 *
-				 * @param width     the width of the cells array.
-				 * @param height    the height of the cells array.
-				 * @param cells     the (live) cells of the current generation.
-				 * @param neighbors the neighbor cells (with width and height extend one in each direction from cells).
-				 */
-				CellsAndNeighbors(int width, int height, int[][] cells, int[][] neighbors) {
-						this.width = width;
-						this.height = height;
-						this.cells = cells;
-						this.neighbors = neighbors;
-				}
-
-				CellsAndNeighbors() {
-						this(0, 0, null, null);
-				}
-
-				static CellsAndNeighbors create(Group group) {
-						if (group == null) throw new LifeException("CellsAndNeighbors.create: group must not be null");
-						assert group.extent1 != null && group.extent2 != null : "group extents must be set";
-						Point extents = group.extent1.vector(group.extent2);
-						// Height and Width account for the fact that the extents are inclusive.
-						int height = extents.getY() - 1;
-						int width = extents.getX() - 1;
-						// Neighbors is based on a grid that is appropriate for the new generation.
-						int[][] neighbors = new int[width + 2][height + 2];
-						// LiveCells is based on a grid that is appropriate to the current generation,
-						int[][] liveCells = new int[width][height];
-						group.forEach(p -> incrementNeighborsAndNoteCell(p.relative(group.extent1), neighbors, liveCells));
-						return new CellsAndNeighbors(width, height, liveCells, neighbors);
-				}
-
-				private static void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
-						int px = p.getX();
-						int py = p.getY();
-						assert px > 0 && px < neighbors.length - 1 : px + " not in (exclusive) range 0.." + (neighbors.length - 1);
-						assert py > 0 && py < neighbors[0].length - 1 : py + " not in (exclusive) range 0.." + (neighbors[0].length - 1);
-						for (int i = -1; i < 2; i++) {
-								final int[] neighborArray = neighbors[i + px];
-								for (int j = -1; j < 2; j++)
-										if (i == 0 && j == 0) cells[px - 1][py - 1] = 1;
-										else neighborArray[j + py]++;
-						}
-				}
-
-				@Override
-				public String toString() {
-						final StringBuilder sb = new StringBuilder();
-						for (int j = height; j > 0; j--) {
-								for (int i = 0; i < width; i++)
-										sb.append(cells[i][j - 1] == 1 ? '*' : '.');
-								sb.append('\n');
-						}
-						return sb.toString();
-				}
 		}
 
 		/**
@@ -231,15 +153,55 @@ public class Group {
 				return "generation " + this.generation + ": extents = [" + getExtent1() + ", " + getExtent2() + "]\n    " + pointsAbsolute();
 		}
 
+		/**
+		 * Removes the first occurrence of the specified element from cells.
+		 * Remove does not change the origin or extent but will reduce the count.
+		 *
+		 * @param p element to be removed from this list, if present
+		 * @return <tt>true</tt> if this list contained the specified element
+		 * @throws ClassCastException            if the type of the specified element
+		 *                                       is incompatible with this list
+		 *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
+		 * @throws NullPointerException          if the specified element is null and this
+		 *                                       list does not permit null elements
+		 *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
+		 * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+		 *                                       is not supported by this list
+		 */
+		public boolean remove(Point p) {
+				return points.remove(p);
+		}
+
 		List<Point> pointsAbsolute() {
 				List<Point> result = new ArrayList<>();
 				forEach(p -> result.add(p.move(origin)));
 				return result;
 		}
 
+		private void updateExtents() {
+				forEach(this::updateExtents);
+		}
+
+		/**
+		 * NOTE: this is used by unit tests -- do not eliminate.
+		 *
+		 * @param generation the new generation.
+		 * @param origin     the new origin.
+		 * @return a new Group based on this, generation, and origin.
+		 */
+		private Group changeOrigin(long generation, Point origin) {
+				Point vector = origin.vector(this.origin);
+				return new Group(generation, origin, extent1.move(vector), extent2.move(vector), mapPoints(p -> p.move(vector)));
+		}
+
+		private Group copy(long generation) {
+				return new Group(generation, origin, extent1, extent2, points);
+		}
+
 		private Point getAbsolute(Point p) {
 				return p.move(origin);
 		}
+
 		/**
 		 * This method accounts for the change in origin as we go to the new generation.
 		 *
@@ -252,32 +214,17 @@ public class Group {
 				return result;
 		}
 
-		private List<Point> updateCells(int[][] neighbors, int[][] cells, int width, int height) {
-				List<Point> additions = new ArrayList<>();
-				// i, j and neighbors are in the coordinate system of the total extents.
-				for (int i = 0; i <= width + 1; i++)
-						for (int j = 0; j <= height + 1; j++) {
-								final boolean onEdge = i == 0 || i == width + 1 || j == 0 || j == height + 1;
-								if (updateCell(neighbors[i][j], onEdge, i, j, cells) != null)
-										additions.add(updateCell(neighbors[i][j], onEdge, i, j, cells));
-						}
-				return additions;
-		}
-
 		private Point updateCell(int count, boolean onEdge, int i, int j, int[][] grid) {
 				// grid indices are in the coordinate system of the cells (points).
 				final Point p = new Point(i, j).move(extent1);
-				// TODO simplify this
-				if (onEdge) {
-						if (count == 3) return p;
-						else return null;
-				} 		else		if (grid[i - 1][j - 1] == 0) {
-						assert !points.contains(p) : "logic error: should not exist: " + p;
-						if (count == 3) return p;
-						else return null;
-				} else {
+				if (onEdge || grid[i - 1][j - 1] == 0)
+						if (count == BirthNeighborCount) {
+								assert onEdge || !points.contains(p) : "logic error: should not exist: " + p;
+								return p;
+						} else return null;
+				else {
 						assert points.contains(p) : "logic error: should exist: " + p;
-						final boolean ok = (count >= 2 && count <= 3) || remove(p);
+						final boolean ok = DeathRange.contains(count) || remove(p);
 						assert ok : "Problem removing point: " + p;
 						return null;
 				}
@@ -320,25 +267,6 @@ public class Group {
 		}
 
 		/**
-		 * Removes the first occurrence of the specified element from cells.
-		 * Remove does not change the origin or extent but will reduce the count.
-		 *
-		 * @param p element to be removed from this list, if present
-		 * @return <tt>true</tt> if this list contained the specified element
-		 * @throws ClassCastException            if the type of the specified element
-		 *                                       is incompatible with this list
-		 *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-		 * @throws NullPointerException          if the specified element is null and this
-		 *                                       list does not permit null elements
-		 *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-		 * @throws UnsupportedOperationException if the <tt>remove</tt> operation
-		 *                                       is not supported by this list
-		 */
-		public boolean remove(Point p) {
-				return points.remove(p);
-		}
-
-		/**
 		 * Performs the given action for each element of the {@code Iterable}
 		 * until all elements have been processed or the action throws an
 		 * exception.  Unless otherwise specified by the implementing class,
@@ -370,6 +298,7 @@ public class Group {
 
 		/**
 		 * Method to yield this Group's extent1.
+		 * TODO make private
 		 *
 		 * @return the extent1 (relative to the Grid).
 		 */
@@ -379,6 +308,7 @@ public class Group {
 
 		/**
 		 * Method to yield this Group's extent2.
+		 * TODO make private
 		 *
 		 * @return the extent2 (relative to the Grid).
 		 */
@@ -396,6 +326,7 @@ public class Group {
 		}
 
 		String render() {
+				updateExtents();
 				final CellsAndNeighbors cellsAndNeighbors = CellsAndNeighbors.create(this);
 				return cellsAndNeighbors.toString();
 		}
@@ -413,10 +344,14 @@ public class Group {
 				return Objects.hash(points);
 		}
 
+		long getGeneration() {
+				return generation;
+		}
+
 		/**
 		 * This method is used by unit tests (via PrivateMethod Tester).
 		 * <p>
-		 * XXX Do not eliminate this method.
+		 * NOTE Do not eliminate this method.
 		 *
 		 * @return the points in this Group.
 		 */
@@ -424,13 +359,13 @@ public class Group {
 				return points;
 		}
 
-		private final List<Point> points; // the list of non-empty cells within this group.
-
-		long getGeneration() {
-				return generation;
-		}
+		private static final int BirthNeighborCount = 3;
+		private static final int LonelinessNeighborThreshold = 2;
+		private static final int OvercrowdingNeighborThreshold = 3;
+		private static final Range DeathRange = Range.valueOf(LonelinessNeighborThreshold, OvercrowdingNeighborThreshold);
 
 		private final long generation; // the current generation of this Group.
+		private final List<Point> points; // the list of non-empty cells within this group.
 		private final Point origin; // the position of the origin relative to the grid.
 		// All cells have coordinates which are relative to the origin.
 		private transient Point extent1; // the position of the corner of the enclosing rectangle of this Group,
@@ -439,4 +374,92 @@ public class Group {
 		private transient Point extent2; // the position of the corner of the enclosing rectangle of this Group,
 		// which is furthest from the origin of the coordinate system.
 		// All cells have negative coordinates compared to extent2.
+
+		private void applyLifeRules() {
+				final List<Point> points = CellsAndNeighbors.create(this).updateCells();
+				resetExtents();
+				final boolean ok = add(points);
+				assert ok : "Problem adding the new points: " + points;
+		}
+
+		private void resetExtents() {
+				extent1 = extent2 = null;
+				updateExtents();
+		}
+
+		static class CellsAndNeighbors {
+				private final int width;
+				private final int height;
+				private final int[][] cells;
+				private final int[][] neighbors;
+				private final Group group;
+
+				/**
+				 * Constructor for a new CellsAndNeighbors object.
+				 *
+				 * @param group     the group to which this CellsAndNeighbors object pertains.
+				 * @param width     the width of the cells array.
+				 * @param height    the height of the cells array.
+				 * @param cells     the (live) cells of the current generation.
+				 * @param neighbors the neighbor cells (with width and height extend one in each direction from cells).
+				 */
+				CellsAndNeighbors(Group group, int width, int height, int[][] cells, int[][] neighbors) {
+						this.width = width;
+						this.height = height;
+						this.cells = cells;
+						this.neighbors = neighbors;
+						this.group = group;
+				}
+
+				@Override
+				public String toString() {
+						final StringBuilder sb = new StringBuilder();
+						for (int j = height; j > 0; j--) {
+								for (int i = 0; i < width; i++)
+										sb.append(cells[i][j - 1] == 1 ? '*' : '.');
+								sb.append('\n');
+						}
+						return sb.toString();
+				}
+
+				static CellsAndNeighbors create(Group group) {
+						if (group == null) throw new LifeException("CellsAndNeighbors.create: group must not be null");
+						Point extents = group.extent1 != null && group.extent2 != null ? group.extent1.vector(group.extent2) : new Point(1, 1);
+						// Height and Width account for the fact that the extents are inclusive.
+						int height = extents.getY() - 1;
+						int width = extents.getX() - 1;
+						// Neighbors is based on a grid that is appropriate for the new generation.
+						int[][] neighbors = new int[width + 2][height + 2];
+						// LiveCells is based on a grid that is appropriate to the current generation,
+						int[][] liveCells = new int[width][height];
+						group.forEach(p -> incrementNeighborsAndNoteCell(p.relative(group.extent1), neighbors, liveCells));
+						return new CellsAndNeighbors(group, width, height, liveCells, neighbors);
+				}
+
+				private static void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
+						int px = p.getX();
+						int py = p.getY();
+						assert px > 0 && px < neighbors.length - 1 : px + " not in (exclusive) range 0.." + (neighbors.length - 1);
+						assert py > 0 && py < neighbors[0].length - 1 : py + " not in (exclusive) range 0.." + (neighbors[0].length - 1);
+						for (int i = -1; i < 2; i++) {
+								final int[] neighborArray = neighbors[i + px];
+								for (int j = -1; j < 2; j++)
+										if (i == 0 && j == 0) cells[px - 1][py - 1] = 1;
+										else neighborArray[j + py]++;
+						}
+				}
+
+				private List<Point> updateCells() {
+						// CONSIDER optimizing here if any outer edge will not generate any new liveCells.
+						List<Point> additions = new ArrayList<>();
+						// i, j and neighbors are in the coordinate system of the total extents.
+						for (int i = 0; i <= width + 1; i++)
+								for (int j = 0; j <= height + 1; j++) {
+										final boolean onEdge = i == 0 || i == width + 1 || j == 0 || j == height + 1;
+										final Point p = group.updateCell(neighbors[i][j], onEdge, i, j, cells);
+										if (p != null) additions.add(p);
+								}
+						return additions;
+				}
+		}
 }
