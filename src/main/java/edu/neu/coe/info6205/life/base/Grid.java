@@ -1,7 +1,5 @@
 package edu.neu.coe.info6205.life.base;
 
-import edu.neu.coe.info6205.reduction.Point;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;

@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.reduction;
+package edu.neu.coe.info6205.life.base;
 
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;

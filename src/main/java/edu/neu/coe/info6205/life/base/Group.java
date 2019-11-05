@@ -1,6 +1,5 @@
 package edu.neu.coe.info6205.life.base;
 
-import edu.neu.coe.info6205.reduction.Point;
 import edu.neu.coe.info6205.util.Range;
 
 import java.util.ArrayList;
