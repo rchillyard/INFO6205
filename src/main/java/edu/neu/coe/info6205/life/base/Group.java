@@ -40,10 +40,10 @@ public class Group {
 		}
 
 		/**
-		 * Appends the specified point to the list of points.
+		 * Appends the specified point to the list of points and normalizes the Group.
 		 *
 		 * @param point the point to be added in coordinates relative to the Grid.
-		 * @return a boolean indicating whether the add changed this.
+		 * @return true.
 		 * @throws UnsupportedOperationException if the <tt>add</tt> operation
 		 *                                       is not supported by this list
 		 * @throws ClassCastException            if the class of the specified element
@@ -59,10 +59,24 @@ public class Group {
 				return true;
 		}
 
+		/**
+		 * Method to add a point expressed in absolute coordinates (relative to Grid).
+		 *
+		 * @param x the x-coordinate.
+		 * @param y the y-coordinate.
+		 * @return an indication of success.
+		 */
 		boolean add(int x, int y) {
 				return add(new Point(x, y));
 		}
 
+		/**
+		 * Method to add points to this Group where the points are expressed as a String.
+		 *
+		 * @param s a comma-separated list of coordinate pairs (separated by a space)
+		 *          with x coming before y.
+		 * @return an indication of the success of the operation.
+		 */
 		boolean add(String s) {
 				return add(Point.points(s));
 		}
@@ -237,10 +251,12 @@ public class Group {
 		 * Cells are marked '*' unless the cell is at the origin, in which case it is marked 'O'.
 		 *
 		 * @return a String.
+		 * @param withOrigin if true, then the location of the origin is shown also.
 		 */
-		String render() {
+		String render(boolean withOrigin) {
 				normalize();
-				return CellsAndNeighbors.create(this).toString();
+				final String result = CellsAndNeighbors.create(this).toString();
+				return withOrigin ? result + "Origin: " + origin+"\n" : result;
 		}
 
 		@Override

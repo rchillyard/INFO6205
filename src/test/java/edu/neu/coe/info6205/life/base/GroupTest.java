@@ -84,8 +84,8 @@ public class GroupTest {
 				points.add(Origin);
 				points.add(point);
 				Group target = new Group(0L, Origin, points);
-				assertEquals("generation 0, origin = Point{x=0, y=0}, extents = [Point{x=-1, y=-1}, Point{x=2, y=2}]\n" +
-								"    [Point{x=0, y=0}, Point{x=1, y=1}]", target.toString());
+				assertEquals("generation 0, origin = {0, 0}, extents = [{-1, -1}, {2, 2}]\n" +
+								"    [{0, 0}, {1, 1}]", target.toString());
 		}
 
 		@Test
@@ -94,8 +94,8 @@ public class GroupTest {
 				final Point point = new Point(1, 1);
 				points.add(point);
 				Group target = new Group(0L, Origin, points);
-				assertEquals("generation 0: extents = [Point{x=0, y=0}, Point{x=2, y=2}]\n" +
-								"    [Point{x=1, y=1}]", target.toStringInGrid());
+				assertEquals("generation 0: extents = [{0, 0}, {2, 2}]\n" +
+								"    [{1, 1}]", target.toStringInGrid());
 		}
 
 		@Test
@@ -104,7 +104,7 @@ public class GroupTest {
 				final Point point = new Point(1, 1);
 				points.add(point);
 				Group target = new Group(0L, Origin, points);
-				assertEquals("O\n", target.render());
+				assertEquals("O\n", target.render(false));
 		}
 
 		@Test
@@ -113,16 +113,16 @@ public class GroupTest {
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
 				final Point point1 = new Point(1, 1);
 				target.add(point1);
-				final String targetRendered = target.render();
+				final String targetRendered = target.render(false);
 				assertEquals(".*\n" + "O.\n", targetRendered);
 				final Group changed = (Group) targetTester.invokePrivate("changeOrigin", 1L, point1);
 				assertEquals(point1, changed.getOrigin());
 				assertEquals(target.getExtent1(), changed.getExtent1());
 				assertEquals(target.getExtent2(), changed.getExtent2());
 				assertEquals(target.pointsAbsolute(), changed.pointsAbsolute());
-				assertEquals(".O\n" + "*.\n", changed.render());
-				assertEquals("generation 1, origin = Point{x=1, y=1}, extents = [Point{x=-2, y=-2}, Point{x=1, y=1}]\n" +
-								"    [Point{x=-1, y=-1}, Point{x=0, y=0}]", changed.toString());
+				assertEquals(".O\n" + "*.\n", changed.render(false));
+				assertEquals("generation 1, origin = {1, 1}, extents = [{-2, -2}, {1, 1}]\n" +
+								"    [{-1, -1}, {0, 0}]", changed.toString());
 		}
 		@Test
 		public void testAdd() throws LifeException {
@@ -367,9 +367,9 @@ public class GroupTest {
 				cells1.add(new Point(5, 2));
 				Group target = new Group(0L, Origin, cells1);
 				assertEquals(9, target.getCount());
-				assertEquals("..*.**\n" + ".*.**.\n" + "O.*..*\n", target.render());
+				assertEquals("..*.**\n" + ".*.**.\n" + "O.*..*\n", target.render(false));
 				final Group newGeneration = target.newGeneration(1L);
-				assertEquals(".*.**\n" + "O....\n" + "****.\n", newGeneration.render());
+				assertEquals(".*.**\n" + "O....\n" + "****.\n", newGeneration.render(false));
 				assertEquals(8, newGeneration.getCount());
 		}
 
@@ -379,8 +379,22 @@ public class GroupTest {
 				target.add(Origin);
 				target.add(new Point(-1, -1));
 				final Group newGeneration = target.newGeneration(1L);
-				assertEquals("", newGeneration.render());
+				assertEquals("", newGeneration.render(false));
 				assertEquals(0, newGeneration.getCount());
+		}
+
+		@Test
+		public void transpose() {
+				Group target = new Group(0L);
+				target.add(Origin);
+				target.add(new Point(0, 1));
+				final List<Point> points = target.pointsAbsolute();
+				final Group transposed = target.transpose();
+				final List<Point> pointsT = transposed.pointsAbsolute();
+				assertEquals(Origin, pointsT.get(0));
+				assertEquals(new Point(1, 0), pointsT.get(1));
+				final Group transposedAgain = transposed.transpose();
+				assertEquals(target, transposedAgain);
 		}
 
 		@Test
@@ -408,7 +422,7 @@ public class GroupTest {
 		public void testBeehive() throws LifeException {
 				Group target = Group.create(Beehive);
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
-				assertEquals(".**.\n" + "O..*\n" + ".**.\n", target.render());
+				assertEquals(".**.\n" + "O..*\n" + ".**.\n", target.render(false));
 				assertEquals(6, target.getCount());
 				assertEquals(Origin, target.getExtent1());
 				assertEquals(new Point(5, 4), target.getExtent2());
@@ -424,7 +438,7 @@ public class GroupTest {
 				final Group gen2 = newGeneration.newGeneration(1L);
 				final PrivateMethodTester gen2Tester = new PrivateMethodTester(gen2);
 				assertEquals(point12, gen2.getOrigin());
-				assertEquals(".**.\n" + "O..*\n" + ".**.\n", newGeneration.render());
+				assertEquals(".**.\n" + "O..*\n" + ".**.\n", newGeneration.render(false));
 				assertEquals(6, gen2.getCount());
 				final List<Point> cellsGen2 = (List<Point>) gen2Tester.invokePrivate("getPoints");
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsGen2.get(i));
@@ -435,7 +449,7 @@ public class GroupTest {
 		public void testLoaf() throws LifeException {
 				Group target = Group.create(Loaf);
 				final PrivateMethodTester targetTester = new PrivateMethodTester(target);
-				assertEquals(".**.\n" + "O..*\n" + ".*.*\n" + "..*.\n", target.render());
+				assertEquals(".**.\n" + "O..*\n" + ".*.*\n" + "..*.\n", target.render(false));
 				assertEquals(Origin, target.getExtent1());
 				assertEquals(new Point(5, 5), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
@@ -450,7 +464,7 @@ public class GroupTest {
 				final Group gen2 = newGeneration.newGeneration(1L);
 				final PrivateMethodTester gen2Tester = new PrivateMethodTester(gen2);
 				assertEquals(p13, gen2.getOrigin());
-				assertEquals(".**.\n" + "O..*\n" + ".*.*\n" + "..*.\n", newGeneration.render());
+				assertEquals(".**.\n" + "O..*\n" + ".*.*\n" + "..*.\n", newGeneration.render(false));
 				assertEquals(7, gen2.getCount());
 				final List<Point> cellsGen2 = (List<Point>) gen2Tester.invokePrivate("getPoints");
 				for (int i = 0; i < count; i++) assertEquals(cellsTarget.get(i), cellsGen2.get(i));
@@ -459,20 +473,20 @@ public class GroupTest {
 		@Test
 		public void testBlinker() throws LifeException {
 				Group target = Group.create(Blinker);
-				assertEquals("*\n" + "O\n" + "*\n", target.render());
+				assertEquals("*\n" + "O\n" + "*\n", target.render(false));
 				assertEquals(new Point(-1, -2), target.getExtent1());
 				assertEquals(new Point(1, 2), target.getExtent2());
 				final Group newGeneration = target.newGeneration(1L);
 				final Point p01 = new Point(0, 1);
 				assertEquals(Origin, newGeneration.getOrigin());
-				assertEquals("*O*\n", newGeneration.render());
+				assertEquals("*O*\n", newGeneration.render(false));
 				final int count = newGeneration.getCount();
 				assertEquals(3, count);
 				final List<Point> cellsNG = newGeneration.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(0, cellsNG.get(i).getY());
 				for (int i = 0; i < count; i++) assertTrue(Math.abs(cellsNG.get(i).getX()) <= 1);
 				final Group gen2 = newGeneration.newGeneration(2L);
-				assertEquals("*\n" + "O\n" + "*\n", gen2.render());
+				assertEquals("*\n" + "O\n" + "*\n", gen2.render(false));
 				assertEquals(3, gen2.getCount());
 				final List<Point> cellsGen2 = gen2.pointsAbsolute();
 				for (int i = 0; i < count; i++) assertEquals(0, cellsGen2.get(i).getX());
@@ -480,32 +494,35 @@ public class GroupTest {
 		}
 
 		@Test
-		public void testGlider() throws LifeException {
-				Group glider0 = Group.create(Glider);
-//				System.out.println(glider0.toStringInGrid());
-				final String renderGen0 = glider0.render();
+		public void testGlider1() throws LifeException {
+				Group glider0 = Group.create(Glider1);
+				System.out.println(glider0.toStringInGrid());
+				final String renderGlider0 = glider0.render(true);
+				System.out.println(renderGlider0);
 				assertEquals(5, glider0.getCount());
-				assertEquals(".*.\n" + "..*\n" + "O**\n", renderGen0);
-				assertEquals(new Point(-1, -1), glider0.getExtent1());
-				assertEquals(new Point(3, 3), glider0.getExtent2());
-				Group expected = glider0.move(-1, -1);
+				assertEquals("O**\n" + "..*\n" + ".*.\nOrigin: {0, 0}\n", renderGlider0);
+				assertEquals(new Point(-1, -3), glider0.getExtent1());
+				assertEquals(new Point(3, 1), glider0.getExtent2());
+				Group expected = glider0.move(-1, 1);
 				final Group glider1 = glider0.newGeneration(1L);
-//				System.out.println(glider1.toStringInGrid());
+				System.out.println(glider1.toStringInGrid());
 				final Point p10 = new Point(1, 0);
 				assertEquals(p10, glider1.getOrigin());
-				assertEquals("*.*\n" + ".O*\n" + ".*.\n", glider1.render());
+				assertEquals(".*.\n" + ".O*\n" + "*.*\nOrigin: {1, 0}\n", glider1.render(true));
 				assertEquals(5, glider1.getCount());
 				final Group glider2 = glider1.newGeneration(2L);
-//				System.out.println(glider2.toStringInGrid());
-				assertEquals("..*\n" + "*.O\n" + ".**\n", glider2.render());
+				System.out.println(glider2.toStringInGrid());
+				assertEquals(".**\n" + "*.O\n" + "..*\nOrigin: {1, 0}\n", glider2.render(true));
 				assertEquals(5, glider2.getCount());
 				final Group glider3 = glider2.newGeneration(3L);
-//				System.out.println(glider3.toStringInGrid());
-				assertEquals("*..\n" + ".O*\n" + "**.\n", glider3.render());
+				System.out.println(glider3.toStringInGrid());
+				assertEquals("**.\n" + ".O*\n" + "*..\nOrigin: {1, 0}\n", glider3.render(true));
 				assertEquals(5, glider3.getCount());
 				final Group glider4 = glider3.newGeneration(4L);
-//				System.out.println(glider4.toStringInGrid());
-				assertEquals(renderGen0, glider4.render());
+				System.out.println(glider4.toStringInGrid());
+				final String glider4Render = glider4.render(true);
+				System.out.println(glider4Render);
+				assertEquals("O**\n" + "..*\n" + ".*.\n" + "Origin: {-1, 1}\n", glider4Render);
 				assertEquals(5, glider4.getCount());
 				final List<Point> expectedPoints = expected.pointsAbsolute();
 				Collections.sort(expectedPoints);
@@ -515,16 +532,75 @@ public class GroupTest {
 		}
 
 		@Test
-		public void transpose() {
-				Group target = new Group(0L);
-				target.add(Origin);
-				target.add(new Point(0, 1));
-				final List<Point> points = target.pointsAbsolute();
-				final Group transposed = target.transpose();
-				final List<Point> pointsT = transposed.pointsAbsolute();
-				assertEquals(Origin, pointsT.get(0));
-				assertEquals(new Point(1, 0), pointsT.get(1));
-				final Group transposedAgain = transposed.transpose();
-				assertEquals(target, transposedAgain);
+		public void testGlider2() throws LifeException {
+				Group glider0 = Group.create(Glider2);
+				System.out.println(glider0.toStringInGrid());
+				final String renderGlider0 = glider0.render(true);
+				System.out.println(renderGlider0);
+				assertEquals(5, glider0.getCount());
+				assertEquals("O**\n" + "*..\n" + ".*.\n" + "Origin: {0, 0}\n", renderGlider0);
+				assertEquals(new Point(-1, -3), glider0.getExtent1());
+				assertEquals(new Point(3, 1), glider0.getExtent2());
+				Group expected = glider0.move(-1, 1);
+				final Group glider1 = glider0.newGeneration(1L);
+				System.out.println(glider1.toStringInGrid());
+				final Point p10 = new Point(1, 0);
+				assertEquals(Origin, glider1.getOrigin());
+				assertEquals(".*.\n" + "O*.\n" + "*.*\n" + "Origin: {0, 0}\n", glider1.render(true));
+				assertEquals(5, glider1.getCount());
+				final Group glider2 = glider1.newGeneration(2L);
+				System.out.println(glider2.toStringInGrid());
+				assertEquals("**.\n" + "O.*\n" + "*..\n" + "Origin: {0, 0}\n", glider2.render(true));
+				assertEquals(5, glider2.getCount());
+				final Group glider3 = glider2.newGeneration(3L);
+				System.out.println(glider3.toStringInGrid());
+				assertEquals(".**\n" + "*O.\n" + "..*\n" + "Origin: {0, 0}\n", glider3.render(true));
+				assertEquals(5, glider3.getCount());
+				final Group glider4 = glider3.newGeneration(4L);
+				System.out.println(glider4.toStringInGrid());
+				final String glider4Render = glider4.render(true);
+				System.out.println(glider4Render);
+				assertEquals("**O\n" + "*..\n" + ".*.\n" + "Origin: {1, 1}\n", glider4Render);
+				assertEquals(5, glider4.getCount());
+				final List<Point> expectedPoints = expected.pointsAbsolute();
+				Collections.sort(expectedPoints);
+				final List<Point> glider4Points = glider4.pointsAbsolute();
+				Collections.sort(glider4Points);
+				assertEquals(expectedPoints, glider4Points);
+		}
+
+		@Test
+		public void testGlider3() throws LifeException {
+				Group glider0 = Group.create(Glider3);
+//				System.out.println(glider0.toStringInGrid());
+				final String renderGlider0 = glider0.render(false);
+				assertEquals(5, glider0.getCount());
+				assertEquals(".*.\n" + "..*\n" + "O**\n", renderGlider0);
+				assertEquals(new Point(-1, -1), glider0.getExtent1());
+				assertEquals(new Point(3, 3), glider0.getExtent2());
+				Group expected = glider0.move(-1, -1);
+				final Group glider1 = glider0.newGeneration(1L);
+//				System.out.println(glider1.toStringInGrid());
+				final Point p10 = new Point(1, 0);
+				assertEquals(p10, glider1.getOrigin());
+				assertEquals("*.*\n" + ".O*\n" + ".*.\n", glider1.render(false));
+				assertEquals(5, glider1.getCount());
+				final Group glider2 = glider1.newGeneration(2L);
+//				System.out.println(glider2.toStringInGrid());
+				assertEquals("..*\n" + "*.O\n" + ".**\n", glider2.render(false));
+				assertEquals(5, glider2.getCount());
+				final Group glider3 = glider2.newGeneration(3L);
+//				System.out.println(glider3.toStringInGrid());
+				assertEquals("*..\n" + ".O*\n" + "**.\n", glider3.render(false));
+				assertEquals(5, glider3.getCount());
+				final Group glider4 = glider3.newGeneration(4L);
+//				System.out.println(glider4.toStringInGrid());
+				assertEquals(renderGlider0, glider4.render(false));
+				assertEquals(5, glider4.getCount());
+				final List<Point> expectedPoints = expected.pointsAbsolute();
+				Collections.sort(expectedPoints);
+				final List<Point> glider4Points = glider4.pointsAbsolute();
+				Collections.sort(glider4Points);
+				assertEquals(expectedPoints, glider4Points);
 		}
 }

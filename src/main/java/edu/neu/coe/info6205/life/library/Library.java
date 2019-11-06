@@ -10,5 +10,9 @@ public class Library {
 
 		final public static String Blinker = "0 -1, 0 0, 0 1";
 
-		final public static String Glider = "0 0, 1 0, 2 0, 2 1, 1 2";
+		final public static String Glider1 = "0 0, 1 0, 2 0, 2 -1, 1 -2";
+
+		final public static String Glider2 = "2 0, 1 0, 0 0, 0 -1, 1 -2";
+
+		final public static String Glider3 = "0 0, 1 0, 2 0, 2 1, 1 2";
 }

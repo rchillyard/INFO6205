@@ -98,9 +98,9 @@ public class Point implements Comparable<Point> {
 
 		@Override
 		public String toString() {
-				return "Point{" +
-								"x=" + x +
-								", y=" + y +
+				return "{" +
+								x +
+								", " + y +
 								'}';
 		}
 
@@ -135,6 +135,14 @@ public class Point implements Comparable<Point> {
 				return Math.sqrt(x * x + y * y);
 		}
 
+		/**
+		 * Method to create a point from a String.
+		 *
+		 * @param s a String representing a coordinate pair (x first) separated by a space.
+		 * @return a new Point corresponding to the given String s.
+		 * @throws NumberFormatException          if one of the coordinates cannot be parsed as an integer.
+		 * @throws ArrayIndexOutOfBoundsException if the string cannot be split into two sub-strings.
+		 */
 		private static Point point(String s) {
 				String[] ws = s.split(" ");
 				int x = Integer.parseInt(ws[0]);
