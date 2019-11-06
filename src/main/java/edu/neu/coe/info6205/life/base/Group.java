@@ -16,46 +16,6 @@ import static edu.neu.coe.info6205.life.base.Grid.Origin;
 public class Group {
 
 		/**
-		 * Base constructor.
-		 *
-		 * @param generation the generation of this Group.
-		 * @param origin     the origin of this Group relative to the origin of the Grid.
-		 * @param extent1    the extent1 of this Group (i.e. the SW corner of the boundary).
-		 * @param extent2    the extent2 of this Group (i.e. the NE corner of the boundary).
-		 * @param points     a list of points, which are in the coordinate system of this Group.
-		 */
-		Group(long generation, Point origin, Point extent1, Point extent2, List<Point> points) {
-				this.generation = generation;
-				this.origin = origin;
-				this.extent1 = extent1;
-				this.extent2 = extent2;
-				this.points = points;
-		}
-
-		/**
-		 * Constructor for an empty Group with Grid origin.
-		 *
-		 * TODO make this private.
-		 *
-		 * @param generation the generation of this Group.
-		 */
-		Group(long generation) {
-				this(generation, Origin, new ArrayList<>());
-		}
-
-		/**
-		 * Constructor for a Group with a particular origin and a list of Points.
-		 *
-		 * @param generation the generation of this Group.
-		 * @param origin     the origin of this Group relative to the Grid (it is required that the origin is one of the points)
-		 * @param points     the points in this Group, with coordinates relative to the origin.
-		 */
-		Group(long generation, Point origin, List<Point> points) {
-				this(generation, origin, null, null, points);
-				normalize();
-		}
-
-		/**
 		 * Constructor for a Group with a particular origin and a list of Points.
 		 *
 		 * @param generation the generation of this Group.
@@ -94,8 +54,7 @@ public class Group {
 		 *                                       prevents it from being added to this list
 		 */
 		boolean add(Point point) {
-				Point o = origin != null ? origin : Origin; // CONSIDER may not be necessary
-				points.add(point.relative(o));
+				addPoint(point);
 				normalize();
 				return true;
 		}
@@ -108,9 +67,18 @@ public class Group {
 				return add(Point.points(s));
 		}
 
-		boolean add(List<Point> points) {
+		/**
+		 * Method to add a collection of points.
+		 * <p>
+		 * CONSIDER invoking the add without the normalize, and then do normalize at the end.
+		 *
+		 * @param points the points, in absolute (Grid) coordinates.
+		 * @return an indication of success.
+		 */
+		boolean add(Iterable<Point> points) {
 				boolean r = true;
-				for (Point p : points) r = r && add(p);
+				for (Point p : points) r = r && addPoint(p);
+				normalize();
 				return r;
 		}
 
@@ -156,22 +124,17 @@ public class Group {
 		 * @return a transposed version of this Group.
 		 */
 		Group move(Point vector) {
-				return map(p -> p.move(vector));
+				return new Group(generation, origin.move(vector), points);
 		}
 
 		/**
-		 * Method to create a new Group by mapping the current points.
-		 * @param f the function to apply to the points.
-		 * @return a new Group based on the mapped points.
+		 * Method to create a new version of this Group but translated by x and y with respect to the Grid.
+		 * @param x the x coordinate of the move.
+		 * @param y the y coordinate of the move.
+		 * @return a new Group, moved according to x and y.
 		 */
-		private Group map(UnaryOperator<Point> f) {
-				return new Group(generation, origin, mapPoints(f));
-		}
-
-		private List<Point> mapPoints(UnaryOperator<Point> f) {
-				final List<Point> mapped = new ArrayList<>();
-				points.forEach(p -> mapped.add(p.map(f)));
-				return mapped;
+		Group move(int x, int y) {
+				return move(new Point(x, y));
 		}
 
 		/**
@@ -184,6 +147,36 @@ public class Group {
 				Group result = copy(generation);
 				result.applyLifeRules();
 				return result;
+		}
+
+		/**
+		 * Performs the given action for each element of the {@code Iterable}
+		 * until all elements have been processed or the action throws an
+		 * exception.  Unless otherwise specified by the implementing class,
+		 * actions are performed in the order of iteration (if an iteration order
+		 * is specified).  Exceptions thrown by the action are relayed to the
+		 * caller.
+		 *
+		 * @param action The action to be performed for each element
+		 * @throws NullPointerException if the specified action is null
+		 * @implSpec <p>The default implementation behaves as if:
+		 * <pre>{@code
+		 *     for (T t : this)
+		 *         action.accept(t);
+		 * }</pre>
+		 * @since 1.8
+		 */
+		void forEach(Consumer<? super Point> action) {
+				points.forEach(action);
+		}
+
+		/**
+		 * Method to yield this Group's origin.
+		 *
+		 * @return the origin (relative to the Grid).
+		 */
+		Point getOrigin() {
+				return origin;
 		}
 
 		/**
@@ -220,10 +213,77 @@ public class Group {
 				return points.remove(p);
 		}
 
+		/**
+		 * Method to yield the points in this Group with coordinates relative to the Grid.
+		 * @return a List of points relative to Grid.
+		 */
 		List<Point> pointsAbsolute() {
 				List<Point> result = new ArrayList<>();
 				forEach(p -> result.add(p.move(origin)));
 				return result;
+		}
+
+		/**
+		 * Method to yield the number of points in this Group.
+		 *
+		 * @return the number of points.
+		 */
+		int getCount() {
+				return points.size();
+		}
+
+		/**
+		 * Method to yield a String which represents the cells of this Group.
+		 * Cells are marked '*' unless the cell is at the origin, in which case it is marked 'O'.
+		 *
+		 * @return a String.
+		 */
+		String render() {
+				normalize();
+				return CellsAndNeighbors.create(this).toString();
+		}
+
+		@Override
+		public boolean equals(Object o) {
+				if (this == o) return true;
+				if (o == null || getClass() != o.getClass()) return false;
+				Group group = (Group) o;
+				return pointsAbsolute().equals(group.pointsAbsolute());
+		}
+
+		@Override
+		public int hashCode() {
+				return Objects.hash(points);
+		}
+
+		/**
+		 * Method to get the generation of this Group.
+		 * @return the generation.
+		 */
+		long getGeneration() {
+				return generation;
+		}
+
+		// Private methods and fields...
+
+		private boolean addPoint(Point point) {
+				Point o = origin != null ? origin : Origin; // CONSIDER may not be necessary
+				return points.add(point.relative(o));
+		}
+
+		/**
+		 * Method to create a new Group by mapping the current points.
+		 * @param f the function to apply to the points.
+		 * @return a new Group based on the mapped points.
+		 */
+		private Group map(UnaryOperator<Point> f) {
+				return new Group(generation, origin, mapPoints(f));
+		}
+
+		private List<Point> mapPoints(UnaryOperator<Point> f) {
+				final List<Point> mapped = new ArrayList<>();
+				points.forEach(p -> mapped.add(p.map(f)));
+				return mapped;
 		}
 
 		private void normalize() {
@@ -237,9 +297,9 @@ public class Group {
 				Point o = origin != null ? origin : Origin;  // CONSIDER may not be necessary
 				Point vector = point.vector(o);
 				origin = point;
-				extent1 = extent1.move(vector);
-				extent2 = extent2.move(vector);
-				points = mapPoints(p -> p.move(vector));
+				extent1 = extent1.relative(point);
+				extent2 = extent2.relative(point);
+				points = mapPoints(p -> p.relative(point));
 		}
 
 		/**
@@ -328,36 +388,6 @@ public class Group {
 		}
 
 		/**
-		 * Performs the given action for each element of the {@code Iterable}
-		 * until all elements have been processed or the action throws an
-		 * exception.  Unless otherwise specified by the implementing class,
-		 * actions are performed in the order of iteration (if an iteration order
-		 * is specified).  Exceptions thrown by the action are relayed to the
-		 * caller.
-		 *
-		 * @param action The action to be performed for each element
-		 * @throws NullPointerException if the specified action is null
-		 * @implSpec <p>The default implementation behaves as if:
-		 * <pre>{@code
-		 *     for (T t : this)
-		 *         action.accept(t);
-		 * }</pre>
-		 * @since 1.8
-		 */
-		void forEach(Consumer<? super Point> action) {
-				points.forEach(action);
-		}
-
-		/**
-		 * Method to yield this Group's origin.
-		 *
-		 * @return the origin (relative to the Grid).
-		 */
-		Point getOrigin() {
-				return origin;
-		}
-
-		/**
 		 * Method to yield this Group's extent1.
 		 * TODO make private
 		 *
@@ -378,37 +408,6 @@ public class Group {
 		}
 
 		/**
-		 * Method to yield the number of points in this Group.
-		 *
-		 * @return the number of points.
-		 */
-		int getCount() {
-				return points.size();
-		}
-
-		String render() {
-				normalize();
-				return CellsAndNeighbors.create(this).toString();
-		}
-
-		@Override
-		public boolean equals(Object o) {
-				if (this == o) return true;
-				if (o == null || getClass() != o.getClass()) return false;
-				Group group = (Group) o;
-				return pointsAbsolute().equals(group.pointsAbsolute());
-		}
-
-		@Override
-		public int hashCode() {
-				return Objects.hash(points);
-		}
-
-		long getGeneration() {
-				return generation;
-		}
-
-		/**
 		 * This method is used by unit tests (via PrivateMethod Tester).
 		 * <p>
 		 * NOTE Do not eliminate this method.
@@ -418,12 +417,28 @@ public class Group {
 		private List<Point> getPoints() {
 				return points;
 		}
+		// which is furthest from the origin of the coordinate system.
+		// All cells have negative coordinates compared to extent2.
+
+		private void applyLifeRules() {
+				final List<Point> points = CellsAndNeighbors.create(this).updateCells();
+				// add points after moving relative to origin
+				final List<Point> absPoints = new ArrayList<>();
+				for (Point p : points) absPoints.add(p.move(origin));
+				boolean ok = add(absPoints);
+				assert ok : "Problem adding the new points: " + points;
+				resetExtents();
+		}
+
+		private void resetExtents() {
+				extent1 = extent2 = null;
+				normalize();
+		}
 
 		private static final int BirthNeighborCount = 3;
 		private static final int LonelinessNeighborThreshold = 2;
 		private static final int OvercrowdingNeighborThreshold = 3;
 		private static final Range DeathRange = Range.valueOf(LonelinessNeighborThreshold, OvercrowdingNeighborThreshold);
-
 		private final long generation; // the current generation of this Group.
 		private List<Point> points; // the list of non-empty cells within this group (must include one point at the origin).
 		private Point origin; // the position of the origin relative to the grid.
@@ -432,24 +447,49 @@ public class Group {
 		// which is closest to the origin of the coordinate system.
 		// All cells have positive coordinates compared to extent1.
 		private transient Point extent2; // the position of the corner of the enclosing rectangle of this Group,
-		// which is furthest from the origin of the coordinate system.
-		// All cells have negative coordinates compared to extent2.
 
-		private void applyLifeRules() {
-				final List<Point> points = CellsAndNeighbors.create(this).updateCells();
-				boolean ok = true;
-				// add points after moving relative to origin
-				final List<Point> absPoints = new ArrayList<>();
-				for (Point p : points) absPoints.add(p.move(origin));
-				for (Point p : absPoints) ok = ok && add(p);
-//				final boolean ok = add(points);
-				assert ok : "Problem adding the new points: " + points;
-				resetExtents();
+		/**
+		 * Base constructor.
+		 *
+		 * TODO make this private.
+		 *
+		 * @param generation the generation of this Group.
+		 * @param origin     the origin of this Group relative to the origin of the Grid.
+		 * @param extent1    the extent1 of this Group (i.e. the SW corner of the boundary).
+		 * @param extent2    the extent2 of this Group (i.e. the NE corner of the boundary).
+		 * @param points     a list of points, which are in the coordinate system of this Group.
+		 */
+		Group(long generation, Point origin, Point extent1, Point extent2, List<Point> points) {
+				this.generation = generation;
+				this.origin = origin;
+				this.extent1 = extent1;
+				this.extent2 = extent2;
+				this.points = points;
 		}
 
-		private void resetExtents() {
-				extent1 = extent2 = null;
-				normalize();
+		/**
+		 * Constructor for an empty Group with Grid origin.
+		 *
+		 * TODO make this private.
+		 *
+		 * @param generation the generation of this Group.
+		 */
+		Group(long generation) {
+				this(generation, Origin, new ArrayList<>());
+		}
+
+		/**
+		 * Constructor for a Group with a particular origin and a list of Points.
+		 *
+		 * TODO make this private.
+		 *
+		 * @param generation the generation of this Group.
+		 * @param origin     the origin of this Group relative to the Grid (it is required that the origin is one of the points).
+		 * @param points     the points in this Group, with coordinates relative to the origin (points MUST include 0,0).
+		 */
+		Group(long generation, Point origin, List<Point> points) {
+				this(generation, origin, null, null, points);
+				forEach(this::updateExtents);
 		}
 
 		/**
@@ -479,17 +519,6 @@ public class Group {
 						this.group = group;
 				}
 
-				@Override
-				public String toString() {
-						final StringBuilder sb = new StringBuilder();
-						for (int j = height; j > 0; j--) {
-								for (int i = 0; i < width; i++)
-										sb.append(cells[i][j - 1] == 1 ? '*' : '.');
-								sb.append('\n');
-						}
-						return sb.toString();
-				}
-
 				static CellsAndNeighbors create(Group group) {
 						if (group == null) throw new LifeException("CellsAndNeighbors.create: group must not be null");
 						Point extents = group.extent1 != null && group.extent2 != null ? group.extent1.vector(group.extent2) : new Point(1, 1);
@@ -507,6 +536,7 @@ public class Group {
 				private static void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
 						int px = p.getX();
 						int py = p.getY();
+						// TODO use withinExtents or similar
 						assert px > 0 && px < neighbors.length - 1 : px + " not in (exclusive) range 0.." + (neighbors.length - 1);
 						assert py > 0 && py < neighbors[0].length - 1 : py + " not in (exclusive) range 0.." + (neighbors[0].length - 1);
 						for (int i = -1; i < 2; i++) {
@@ -515,6 +545,18 @@ public class Group {
 										if (i == 0 && j == 0) cells[px - 1][py - 1] = 1;
 										else neighborArray[j + py]++;
 						}
+				}
+
+				@Override
+				public String toString() {
+						Point z = group.extent1;
+						final StringBuilder sb = new StringBuilder();
+						for (int j = height; j > 0; j--) {
+								for (int i = 0; i < width; i++)
+										sb.append(cells[i][j - 1] == 1 ? i + z.getX() + 1 == 0 && j + z.getY() == 0 ? 'O' : '*' : '.');
+								sb.append('\n');
+						}
+						return sb.toString();
 				}
 
 				private List<Point> updateCells() {
