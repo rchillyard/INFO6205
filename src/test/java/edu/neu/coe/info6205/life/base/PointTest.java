@@ -12,14 +12,17 @@ public class PointTest {
 
 		@Test
 		public void getXTest() {
+				// TODO implement test
 		}
 
 		@Test
 		public void getYTest() {
+				// TODO implement test
 		}
 
 		@Test
 		public void moveTest() {
+				// TODO implement test
 		}
 
 		@Test
@@ -36,6 +39,7 @@ public class PointTest {
 
 		@Test
 		public void validTest() {
+				// TODO implement test
 		}
 
 		@Test
@@ -74,10 +78,12 @@ public class PointTest {
 
 		@Test
 		public void testHashCode() {
+				// TODO implement test
 		}
 
 		@Test
 		public void testToString() {
+				// TODO implement test
 		}
 
 		@Test

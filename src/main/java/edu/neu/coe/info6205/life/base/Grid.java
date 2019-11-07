@@ -89,6 +89,8 @@ public class Grid implements Generational<Group> {
 		@Override
 		public void generation(long generation, BiConsumer<Long, Group> monitor) {
 				forEach(g -> monitor.accept(generation, g));
+//				grid.generation(generation, this.monitor);
+
 		}
 
 		private final List<Group> groups;
