@@ -45,5 +45,10 @@ public interface UF extends Connections {
         return find(p) == find(q);
     }
 
+    /**
+     * Returns the number of sites (objects) in this UF object.
+     *
+     * @return the number of sites.
+     */
     int size();
 }

@@ -102,7 +102,6 @@ public class MyTree<X> {
 		public Node<X> getRoot() {
 				return root;
 		}
-
 		/**
 		 * Method to add a child of value X to this tree.
 		 * @param y a Node.

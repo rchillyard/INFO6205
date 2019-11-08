@@ -168,11 +168,11 @@ public class Benchmark<T> {
     }
 
     private static void benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
-        UnaryOperator<Integer[]> preFunction = (xs) -> Arrays.copyOf(array, array.length);
-        Consumer<Integer[]> sortFunction = (xs) -> sorter.sort(xs, false);
         final Helper<Integer> helper = sorter.getHelper();
+        UnaryOperator<Integer[]> preFunction = (xs) -> helper.initialize(array);
+        Consumer<Integer[]> sortFunction = (xs) -> sorter.sort(xs, false);
         Consumer<Integer[]> cleanupFunction = (xs) -> {
-            if (!helper.sorted(xs)) throw new RuntimeException("not sorted");
+            if (!helper.cleanup(xs, System.out)) throw new RuntimeException("not sorted");
         };
         Benchmark<Integer[]> bm = new Benchmark<>(preFunction, sortFunction, cleanupFunction);
         double x = bm.run(array, m);
