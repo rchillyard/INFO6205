@@ -95,13 +95,13 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
         H(int N) {
             switch (m) {
                 case 1:
-                    h = 1;
+                    // TO BE IMPLEMENTED
                     break;
                 case 2:
-                    while (h <= N) h = 2 * (h + 1) - 1;
+                    // TO BE IMPLEMENTED
                     break;
                 case 3:
-                    while (h <= N / 3) h = h * 3 + 1;
+                    // TO BE IMPLEMENTED
                     break;
                 default:
                     throw new RuntimeException("invalid m value: " + m);
@@ -130,14 +130,14 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
             if (started) {
                 switch (m) {
                     case 1:
-                        // TO IMPLEMENT
+                        // TO BE IMPLEMENTED
                         return 0;
                     case 2:
-                        h = (h + 1) / 2 - 1;
-                        return h;
+                        // TO BE IMPLEMENTED
+                        return 0;
                     case 3:
-                        h = h / 3;
-                        return h;
+                        // TO BE IMPLEMENTED
+                        return 0;
                     default:
                         throw new RuntimeException("invalid m value: " + m);
                 }

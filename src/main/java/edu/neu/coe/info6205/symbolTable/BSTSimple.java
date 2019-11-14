@@ -122,21 +122,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     private Node delete(Node x, Key key) {
         // TO BE IMPLEMENTED ...
-        if (x == null) return null;
-        int cmp = key.compareTo(x.key);
-        if (cmp < 0) x.smaller = delete(x.smaller, key);
-        else if (cmp > 0) x.larger = delete(x.larger, key);
-        else {
-            if (x.larger == null) return x.smaller;
-            if (x.smaller == null) return x.larger;
-
-            Node t = x;
-            x = min(t.larger);
-            x.larger = deleteMin(t.larger);
-            x.smaller = t.smaller;
-        }
-        x.count = size(x.smaller) + size(x.larger) + 1;
-        return x;
+        return null;
         // ... END IMPLEMENTATION
     }
 

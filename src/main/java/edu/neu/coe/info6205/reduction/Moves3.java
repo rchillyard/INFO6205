@@ -20,11 +20,7 @@ public class Moves3 implements Moves {
         Point p = t;
         while (true) {
             // TO BE IMPLEMENTED ...  Sorry, but you have to do this one yourself!
-            // In the following line, don't be tempted to skip the p.y==s.y test!
-            if (p.x == s.x) return p.y == s.y || (p.y - s.y) % s.x == 0; // Vertically aligned area
-            if (p.y == s.y) return (p.x - s.x) % s.y == 0; // Horizontally aligned area
-            if (p.x < s.x || p.y < s.y) return false; // Missed area
-            p = move(p, true); // Area needing at least one more move.
+            return false;
             // ... END IMPLEMENTATION
         }
     }

@@ -126,23 +126,14 @@ public class Benchmark<T> {
      */
     private long doRun(T t, boolean warmup) {
         // TO BE IMPLEMENTED: if fPre isn't null, then invoke it (using "apply") and memoize its result as "t1". Otherwise, assign "t" to "t1."
-        T t1 = fPre != null ? fPre.apply(t) : t;
 
         // TO BE IMPLEMENTED: if warmup is true, simply invoke fRun with t1 (using "accept") and return 0.
-        if (warmup) {
-            fRun.accept(t1);
-            return 0;
-        }
 
         // TO BE IMPLEMENTED: start the timer, invoke fRun on t1 (using "accept"), stop the timer,
         // ... invoke fPost (if not-null) on t1 (using "accept").
-        long start = System.nanoTime();
-        fRun.accept(t1);
-        long nanos = System.nanoTime() - start;
-        if (fPost != null) fPost.accept(t1);
 
         // TO BE IMPLEMENTED: return the number of nanoseconds elapsed.
-        return nanos;
+        return 0L;
     }
 
     private final UnaryOperator<T> fPre;

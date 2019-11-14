@@ -14,19 +14,8 @@ public class BinarySearch {
 
     static int binarySearch(int[] a, int low, int high, int key)
     {
-        int lo = low;
-        int hi = high;
-        while (hi >= lo) {
-            //TO BE IMPLEMENTED :: implement binary search
-            int mid = lo + (hi - lo) / 2;
-            int cf = Integer.compare(key, a[mid]);
-            if (cf == 0)
-                return mid;
-            else if (cf > 0)
-                lo = mid + 1;
-            else
-                hi = mid - 1;
-        }
+        //TO BE IMPLEMENTED :: implement binary search
+
         // ... end of TO BE IMPLEMENTED
         return -1;
 

@@ -47,9 +47,8 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
 
 		public void increment(Key s) {
         // TO BE IMPLEMENTED ...
-        int x = get(s);
-        map.put(s, x + 1);
-				total++;
+        // What do we need?   current value for key; "1"; anything else? No.
+        // What have we got? result of get(key); literal 1; we're good!!
         // ... END IMPLEMENTATION
     }
 
