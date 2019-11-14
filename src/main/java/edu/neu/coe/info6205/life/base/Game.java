@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-public class Game implements Generational<Game, Grid>, Countable {
+public class Game implements Generational<Game, Grid>, Countable, Renderable {
 
 		/**
 		 * Method to get the cell count.
@@ -30,6 +30,7 @@ public class Game implements Generational<Game, Grid>, Countable {
 
 		/**
 		 * Method to test equality, ignoring generation.
+		 *
 		 * @param o the other Game.
 		 * @return true if this and o are equivalent.
 		 */
@@ -43,6 +44,7 @@ public class Game implements Generational<Game, Grid>, Countable {
 
 		/**
 		 * Method to generate a hashCode, ignoring generation.
+		 *
 		 * @return hashCode for this.
 		 */
 		@Override
@@ -56,14 +58,19 @@ public class Game implements Generational<Game, Grid>, Countable {
 				return new Game(generation + 1, grid.generation(this.monitor), this.monitor);
 		}
 
+		@Override
+		public String render() {
+				return grid.render();
+		}
+
 		public static final int MaxGenerations = 1000;
 
 		// CONSIDER making this a priority queue so that the older generations can be discarded.
-		public static Map<Game, Long> generations = new HashMap<>();
+		public static final Map<Game, Long> generations = new HashMap<>();
 
 		public static void main(String[] args) {
-				String patternName = args.length>0 ? args[0].toLowerCase() : "blip";
-				System.out.println("Game of Life with starting pattern: "+patternName);
+				String patternName = args.length > 0 ? args[0] : "Blip";
+				System.out.println("Game of Life with starting pattern: " + patternName);
 				final String pattern = Library.get(patternName);
 				run(pattern);
 		}
@@ -77,9 +84,10 @@ public class Game implements Generational<Game, Grid>, Countable {
 				Game game = new Game(generation, grid, groupMonitor);
 				while (!game.terminated()) {
 						generations.put(game, game.generation);
+						System.out.println(game.render());
 						game = game.generation(gridMonitor);
 				}
-				System.out.println("Ending Game of Life after "+game.generation+" generations and with "+game.getCount()+" cells");
+				System.out.println("Ending Game of Life after " + game.generation + " generations and with " + game.getCount() + " cells");
 		}
 
 		private Game(long generation, BiConsumer<Long, Group> monitor) {
@@ -95,18 +103,18 @@ public class Game implements Generational<Game, Grid>, Countable {
 		private boolean terminated() {
 				return testTerminationPredicate(g -> g.generation >= MaxGenerations, "having exceeded " + MaxGenerations + " generations") ||
 								testTerminationPredicate(g -> g.getCount() == 0, "no cells") ||
-								testTerminationPredicate(g -> generations.containsKey(g), "having previous equivalent game");
+								testTerminationPredicate(generations::containsKey, "having previous equivalent game");
 		}
 
 		private boolean testTerminationPredicate(Predicate<Game> predicate, String message) {
 				if (predicate.test(this)) {
-						System.out.println("Terminating due to: "+message);
+						System.out.println("Terminating due to: " + message);
 						return true;
 				}
 				return false;
 		}
+
 		private final Grid grid;
 		private final BiConsumer<Long, Group> monitor;
 		private final long generation;
-
 }

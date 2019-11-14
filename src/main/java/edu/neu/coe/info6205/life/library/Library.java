@@ -26,18 +26,22 @@ public class Library {
 		final public static Map<String, String> map = new HashMap<>();
 
 		public static String get(String key) {
-				return map.get(key);
+				return map.get(key.toLowerCase());
+		}
+
+		public static String put(String key, String value) {
+				return map.put(key.toLowerCase(), value);
 		}
 
 		static {
-				map.put("blip", Blip);
-				map.put("blip2", Blip2);
-				map.put("block", Block);
-				map.put("beehive", Beehive);
-				map.put("loaf", Loaf);
-				map.put("blinker", Blinker);
-				map.put("glider1", Glider1);
-				map.put("glider2", Glider2);
-				map.put("glider3", Glider3);
+				put("Blip", Blip);
+				put("Blip2", Blip2);
+				put("Block", Block);
+				put("Beehive", Beehive);
+				put("Loaf", Loaf);
+				put("Blinker", Blinker);
+				put("Glider1", Glider1);
+				put("Glider2", Glider2);
+				put("Glider3", Glider3);
 		}
 }

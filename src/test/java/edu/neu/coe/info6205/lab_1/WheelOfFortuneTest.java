@@ -6,22 +6,22 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class WheelOfFortuneTest {
 
     WheelOfFortune<String> wheel; // This wheel is not random: seed is always 0L
-    private static WheelOfFortune.Event<String> heads = WheelOfFortune.valueOf("Heads", 1);
-    private static WheelOfFortune.Event<String> tails = WheelOfFortune.valueOf("Tails", 1);
+    private static final WheelOfFortune.Event<String> heads = WheelOfFortune.valueOf("Heads", 1);
+    private static final WheelOfFortune.Event<String> tails = WheelOfFortune.valueOf("Tails", 1);
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         wheel = new WheelOfFortune<>(0L, heads, tails);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         wheel = null;
     }
 
@@ -83,22 +83,22 @@ public class WheelOfFortuneTest {
 
     @Test
     public void videoPoker() {
-        WheelOfFortune.Event<String> highcard = WheelOfFortune.valueOf("highcard", 1302540);
+        WheelOfFortune.Event<String> highCard = WheelOfFortune.valueOf("highCard", 1302540);
         WheelOfFortune.Event<String> pair = WheelOfFortune.valueOf("pair", 1098240);
-        WheelOfFortune.Event<String> twoPair = WheelOfFortune.valueOf("twopair", 123552);
+        WheelOfFortune.Event<String> twoPair = WheelOfFortune.valueOf("twoPair", 123552);
         WheelOfFortune.Event<String> trips = WheelOfFortune.valueOf("trips", 54912);
         WheelOfFortune.Event<String> straight = WheelOfFortune.valueOf("straight", 10200);
         WheelOfFortune.Event<String> flush = WheelOfFortune.valueOf("flush", 5108);
-        WheelOfFortune.Event<String> fullhouse = WheelOfFortune.valueOf("fullhouse", 3744);
+        WheelOfFortune.Event<String> fullHouse = WheelOfFortune.valueOf("fullHouse", 3744);
         WheelOfFortune.Event<String> quads = WheelOfFortune.valueOf("quads", 624);
-        WheelOfFortune.Event<String> straightflush = WheelOfFortune.valueOf("straightflush", 36);
+        WheelOfFortune.Event<String> straightFlush = WheelOfFortune.valueOf("straightFlush", 36);
         WheelOfFortune.Event<String> royal = WheelOfFortune.valueOf("royal", 4);
-        WheelOfFortune<String> wheel1 = new WheelOfFortune<>(highcard, pair, twoPair, trips, straight, flush, fullhouse, quads, straightflush, royal);
+        WheelOfFortune<String> wheel1 = new WheelOfFortune<>(highCard, pair, twoPair, trips, straight, flush, fullHouse, quads, straightFlush, royal);
         for (int j = 0; j < 10; j++) {
             FrequencyCounter<String> frequencyCounter = new FrequencyCounter<>();
             for (int i = 0; i < 1000000; i++) frequencyCounter.increment(wheel1.get());
-            assertEquals(50.1, frequencyCounter.relativeFrequencyAsPercentage("highcard"), 1.6);
-            assertEquals(5, frequencyCounter.relativeFrequencyAsPercentage("twopair"), 1);
+            assertEquals(50.1, frequencyCounter.relativeFrequencyAsPercentage("highCard"), 1.6);
+            assertEquals(5, frequencyCounter.relativeFrequencyAsPercentage("twoPair"), 1);
             assertEquals(2, frequencyCounter.relativeFrequencyAsPercentage("trips"), 0.7);
         }
     }

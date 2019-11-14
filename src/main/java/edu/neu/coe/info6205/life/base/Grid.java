@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * There can be independent groups in the grid, but if they ever overlap, they must be merged.
  * In practice, you will typically only have one group in a grid.
  */
-public class Grid implements Generational<Grid, Group>, Countable {
+public class Grid implements Generational<Grid, Group>, Countable, Renderable {
 
 		Grid(long generation) {
 				this(generation, new ArrayList<>());
@@ -26,17 +26,24 @@ public class Grid implements Generational<Grid, Group>, Countable {
 								'}';
 		}
 
+		@Override
+		public String render() {
+				Group group = new Group(generation);
+				for (Group g : groups) group = group.merge(g);
+				return group.render();
+		}
+
 		/**
 		 * Appends the specified element to the end of the list of groups.
 		 *
 		 * @param group element to be added to this Grid.
 		 * @return a boolean indicating whether the add changed this.
-		 * @throws ClassCastException            if the class of the specified element
-		 *                                       prevents it from being added to this list
-		 * @throws NullPointerException          if the specified element is null and this
-		 *                                       list does not permit null elements
-		 * @throws IllegalArgumentException      if some property of this element
-		 *                                       prevents it from being added to this list
+		 * @throws ClassCastException       if the class of the specified element
+		 *                                  prevents it from being added to this list
+		 * @throws NullPointerException     if the specified element is null and this
+		 *                                  list does not permit null elements
+		 * @throws IllegalArgumentException if some property of this element
+		 *                                  prevents it from being added to this list
 		 */
 		public boolean add(Group group) {
 				List<Group> unmergedGroups = new ArrayList<>();
@@ -62,6 +69,7 @@ public class Grid implements Generational<Grid, Group>, Countable {
 
 		/**
 		 * Test for equality, ignoring the generation.
+		 *
 		 * @param o the other Grid.
 		 * @return true if they are the same.
 		 */
@@ -75,6 +83,7 @@ public class Grid implements Generational<Grid, Group>, Countable {
 
 		/**
 		 * Get the hash code, ignoring the generation.
+		 *
 		 * @return the hash code.
 		 */
 		@Override
@@ -119,8 +128,8 @@ public class Grid implements Generational<Grid, Group>, Countable {
 				forEach(g -> monitor.accept(generation, g));
 				if (groups == null)
 						throw new LifeException("logic error: groups is null");
-				final List<Group> newGroups = this.groups.stream().map(g -> g.generation((l, group) -> System.out.println("Group generation: "+l))).collect(Collectors.toList());
-				return new Grid(generation+1, mergeGroups(newGroups));
+				final List<Group> newGroups = this.groups.stream().map(g -> g.generation((l, group) -> System.out.println("Group generation: " + l))).collect(Collectors.toList());
+				return new Grid(generation + 1, mergeGroups(newGroups));
 		}
 
 		/**

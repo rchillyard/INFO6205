@@ -31,14 +31,14 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 		 * Factory method to create a new Group at generation 0, from the given string.
 		 *
 		 * @param generation the current generation.
-		 * @param string a String, typically from the library of Group patterns.
+		 * @param string     a String, typically from the library of Group patterns.
 		 * @return a new Group.
 		 */
 		public static Group create(long generation, String string) {
 				Group result = new Group(0L);
-				if (string==null) throw new LifeException("create: was given null string");
+				if (string == null) throw new LifeException("create: was given null string");
 				final boolean ok = result.add(string);
-				assert ok : "create: problem adding: "+string;
+				assert ok : "create: problem adding: " + string;
 				return result;
 		}
 
@@ -146,6 +146,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Method to create a new version of this Group but translated by x and y with respect to the Grid.
+		 *
 		 * @param x the x coordinate of the move.
 		 * @param y the y coordinate of the move.
 		 * @return a new Group, moved according to x and y.
@@ -232,6 +233,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Method to yield the points in this Group with coordinates relative to the Grid.
+		 *
 		 * @return a List of points relative to Grid.
 		 */
 		List<Point> pointsAbsolute() {
@@ -276,6 +278,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Method to get the generation of this Group.
+		 *
 		 * @return the generation.
 		 */
 		long getGeneration() {
@@ -304,6 +307,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Method to create a new Group by mapping the current points.
+		 *
 		 * @param f the function to apply to the points.
 		 * @return a new Group based on the mapped points.
 		 */
@@ -318,7 +322,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 		}
 
 		private void normalize() {
-				if (points.size()==0) return;
+				if (points.size() == 0) return;
 				forEach(this::updateExtents);
 				if (origin != null && points.contains(Origin)) return;  // CONSIDER null check of origin may not be necessary
 				updateOrigin(points.get(0));
@@ -384,6 +388,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Get the absolute value of the diagonal of the boundary.
+		 *
 		 * @param nw if true then the NW corner, else the SE corner.
 		 * @return a Point.
 		 */
@@ -399,7 +404,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 				if (point.getX() >= extent2.getX()) extent2 = new Point(point.getX() + 1, extent2.getY());
 				if (point.getY() >= extent2.getY()) extent2 = new Point(extent2.getX(), point.getY() + 1);
 				if (point.getX() <= extent1.getX()) extent1 = new Point(point.getX() - 1, extent1.getY());
-				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY()-1);
+				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY() - 1);
 		}
 
 		/**
@@ -481,7 +486,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Base constructor.
-		 *
+		 * <p>
 		 * TODO make this private.
 		 *
 		 * @param generation the generation of this Group.
@@ -500,7 +505,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Constructor for an empty Group with Grid origin.
-		 *
+		 * <p>
 		 * TODO make this private.
 		 *
 		 * @param generation the generation of this Group.
@@ -511,7 +516,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Constructor for a Group with a particular origin and a list of Points.
-		 *
+		 * <p>
 		 * TODO make this private.
 		 *
 		 * @param generation the generation of this Group.
@@ -526,7 +531,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 		@Override
 		public Group generation(BiConsumer<Long, Void> monitor) {
 				monitor.accept(generation, null);
-				return newGeneration(generation+1);
+				return newGeneration(generation + 1);
 		}
 
 		/**
