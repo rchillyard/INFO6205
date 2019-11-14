@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 /**
  * This class represents the physical 2-dimensional layout of a Group.
  * By convention, it must have clear rows and columns around any live cells.
- *
+ * <p>
  * This class was designed to optimize the performance of Groups.
  * However, it hasn't been thoroughly tested and I'm fairly sure it needs significant work.
  */
@@ -101,6 +101,7 @@ class Matrix {
 
 		/**
 		 * Method to determine if point p is a cell.
+		 *
 		 * @param p the point in question.
 		 * @return true if p is alive, false if not.
 		 */
@@ -389,6 +390,7 @@ class Matrix {
 						return Objects.hash(bits, length);
 				}
 		}
+
 		/**
 		 * This class deals with bit operations required for the row-representation of cells.
 		 */
@@ -396,9 +398,10 @@ class Matrix {
 
 				/**
 				 * Constructor:
-				 * @param bit the index of the bit (0..63) which this Bit represents.
+				 *
+				 * @param bit   the index of the bit (0..63) which this Bit represents.
 				 * @param index the index of long in the Matrix row which this Bit represents.
-				 * @param on is true if this represents an "on" bit.
+				 * @param on    is true if this represents an "on" bit.
 				 */
 				Bit(int bit, int index, boolean on) {
 						this.bit = bit;
@@ -489,7 +492,7 @@ class Matrix {
 				final Bits[][] bits = new Bits[height][width / BitsPerLong + 1];
 				for (int j = 0; j < height; j++) {
 						int w = width;
-						for (int i = 0; i < bits[j].length; i++, w -= BitsPerLong) bits[j][i] = new Bits(function.apply(i,j), w);
+						for (int i = 0; i < bits[j].length; i++, w -= BitsPerLong) bits[j][i] = new Bits(function.apply(i, j), w);
 				}
 				return bits;
 		}
@@ -542,6 +545,7 @@ class Matrix {
 				bits.or(bits1.bits);
 				return new Bits(carryOver, overflow);
 		}
+
 		/**
 		 * This constant represents the side of the square of influence of a cell.
 		 */
@@ -569,7 +573,7 @@ class Matrix {
 		private Bits[][] copyCells() {
 				Matrix.Bits[][] result = Arrays.copyOf(new Object[cells.length], cells.length, Matrix.Bits[][].class);
 				for (int i = 0; i < cells.length; i++) {
-						result[i] = 	Arrays.copyOf(cells[i], cells[i].length, Bits[].class);
+						result[i] = Arrays.copyOf(cells[i], cells[i].length, Bits[].class);
 						for (int j = 0; j < result[i].length; j++)
 								result[i][j] = new Bits(cells[i][j]);
 				}

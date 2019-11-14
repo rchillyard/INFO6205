@@ -5,6 +5,7 @@ import edu.neu.coe.info6205.util.Range;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
@@ -13,7 +14,7 @@ import static edu.neu.coe.info6205.life.base.Grid.Origin;
 /**
  * Class to model a group of cells. Groups may not overlap. If an overlap occurs through expansion, then the groups must merge.
  */
-public class Group {
+public class Group implements Generational<Group, Void>, Renderable, Countable {
 
 		/**
 		 * Constructor for a Group with a particular origin and a list of Points.
@@ -29,13 +30,15 @@ public class Group {
 		/**
 		 * Factory method to create a new Group at generation 0, from the given string.
 		 *
-		 * @param string a String, typically from the library of Group patterns.
+		 * @param generation the current generation.
+		 * @param string     a String, typically from the library of Group patterns.
 		 * @return a new Group.
 		 */
-		public static Group create(String string) {
+		public static Group create(long generation, String string) {
 				Group result = new Group(0L);
+				if (string == null) throw new LifeException("create: was given null string");
 				final boolean ok = result.add(string);
-				assert ok : "create: problem adding: "+string;
+				assert ok : "create: problem adding: " + string;
 				return result;
 		}
 
@@ -143,6 +146,7 @@ public class Group {
 
 		/**
 		 * Method to create a new version of this Group but translated by x and y with respect to the Grid.
+		 *
 		 * @param x the x coordinate of the move.
 		 * @param y the y coordinate of the move.
 		 * @return a new Group, moved according to x and y.
@@ -229,6 +233,7 @@ public class Group {
 
 		/**
 		 * Method to yield the points in this Group with coordinates relative to the Grid.
+		 *
 		 * @return a List of points relative to Grid.
 		 */
 		List<Point> pointsAbsolute() {
@@ -242,7 +247,8 @@ public class Group {
 		 *
 		 * @return the number of points.
 		 */
-		int getCount() {
+		@Override
+		public int getCount() {
 				return points.size();
 		}
 
@@ -251,12 +257,10 @@ public class Group {
 		 * Cells are marked '*' unless the cell is at the origin, in which case it is marked 'O'.
 		 *
 		 * @return a String.
-		 * @param withOrigin if true, then the location of the origin is shown also.
 		 */
-		String render(boolean withOrigin) {
-				normalize();
-				final String result = CellsAndNeighbors.create(this).toString();
-				return withOrigin ? result + "Origin: " + origin+"\n" : result;
+		@Override
+		public String render() {
+				return doRender(true);
 		}
 
 		@Override
@@ -274,10 +278,24 @@ public class Group {
 
 		/**
 		 * Method to get the generation of this Group.
+		 *
 		 * @return the generation.
 		 */
 		long getGeneration() {
 				return generation;
+		}
+
+		/**
+		 * Method to yield a String which represents the cells of this Group.
+		 * Cells are marked '*' unless the cell is at the origin, in which case it is marked 'O'.
+		 *
+		 * @param withOrigin if true, then the location of the origin is shown also.
+		 * @return a String.
+		 */
+		String doRender(boolean withOrigin) {
+				normalize();
+				final String result = CellsAndNeighbors.create(this).toString();
+				return withOrigin ? result + "Origin: " + origin + "\n" : result;
 		}
 
 		// Private methods and fields...
@@ -289,6 +307,7 @@ public class Group {
 
 		/**
 		 * Method to create a new Group by mapping the current points.
+		 *
 		 * @param f the function to apply to the points.
 		 * @return a new Group based on the mapped points.
 		 */
@@ -303,7 +322,7 @@ public class Group {
 		}
 
 		private void normalize() {
-				if (points.size()==0) return;
+				if (points.size() == 0) return;
 				forEach(this::updateExtents);
 				if (origin != null && points.contains(Origin)) return;  // CONSIDER null check of origin may not be necessary
 				updateOrigin(points.get(0));
@@ -369,6 +388,7 @@ public class Group {
 
 		/**
 		 * Get the absolute value of the diagonal of the boundary.
+		 *
 		 * @param nw if true then the NW corner, else the SE corner.
 		 * @return a Point.
 		 */
@@ -384,7 +404,7 @@ public class Group {
 				if (point.getX() >= extent2.getX()) extent2 = new Point(point.getX() + 1, extent2.getY());
 				if (point.getY() >= extent2.getY()) extent2 = new Point(extent2.getX(), point.getY() + 1);
 				if (point.getX() <= extent1.getX()) extent1 = new Point(point.getX() - 1, extent1.getY());
-				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY()-1);
+				if (point.getY() <= extent1.getY()) extent1 = new Point(extent1.getX(), point.getY() - 1);
 		}
 
 		/**
@@ -466,7 +486,7 @@ public class Group {
 
 		/**
 		 * Base constructor.
-		 *
+		 * <p>
 		 * TODO make this private.
 		 *
 		 * @param generation the generation of this Group.
@@ -485,7 +505,7 @@ public class Group {
 
 		/**
 		 * Constructor for an empty Group with Grid origin.
-		 *
+		 * <p>
 		 * TODO make this private.
 		 *
 		 * @param generation the generation of this Group.
@@ -496,7 +516,7 @@ public class Group {
 
 		/**
 		 * Constructor for a Group with a particular origin and a list of Points.
-		 *
+		 * <p>
 		 * TODO make this private.
 		 *
 		 * @param generation the generation of this Group.
@@ -506,6 +526,12 @@ public class Group {
 		Group(long generation, Point origin, List<Point> points) {
 				this(generation, origin, null, null, points);
 				forEach(this::updateExtents);
+		}
+
+		@Override
+		public Group generation(BiConsumer<Long, Void> monitor) {
+				monitor.accept(generation, null);
+				return newGeneration(generation + 1);
 		}
 
 		/**

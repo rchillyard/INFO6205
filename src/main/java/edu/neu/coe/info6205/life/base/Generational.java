@@ -2,7 +2,7 @@ package edu.neu.coe.info6205.life.base;
 
 import java.util.function.BiConsumer;
 
-interface Generational<T> {
+interface Generational<Parent, Child> {
 
-		void generation(long generation, BiConsumer<Long, T> monitor);
+		Parent generation(BiConsumer<Long, Child> monitor);
 }

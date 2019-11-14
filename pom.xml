@@ -19,6 +19,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+        <!-- The following dependency is required ONLY for MyTree and MyTreeTest in lab_1 package. -->
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>

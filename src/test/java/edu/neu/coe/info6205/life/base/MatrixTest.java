@@ -49,7 +49,7 @@ public class MatrixTest {
 
 		}
 
-//		@Test
+		//		@Test
 		public void testConstructor3() {
 				final Matrix matrix3 = new Matrix(3, 3, (x, y) -> x * (y / 2), (x, y) -> y % 2 == 0 ? 0L : 0xFFFFFFFFL);
 				Matrix target = new Matrix(matrix3, 1, 1, 1, 1);

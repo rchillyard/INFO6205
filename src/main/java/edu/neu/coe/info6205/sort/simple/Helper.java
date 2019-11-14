@@ -3,6 +3,7 @@ package edu.neu.coe.info6205.sort.simple;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -13,10 +14,10 @@ import java.util.function.Function;
  */
 public class Helper<X extends Comparable<X>> {
 
-    // TODO also keep track of copies
-    // TODO also allow for multi-neighbor-swaps/copies (as in insertion sort)
+		// TODO also keep track of copies
+		// TODO also allow for multi-neighbor-swaps/copies (as in insertion sort)
 
-    public Helper(String description, int n, long seed) {
+		public Helper(String description, int n, long seed) {
         this.n = n;
         this.description = description;
         this.random = new Random(seed);
@@ -30,18 +31,18 @@ public class Helper<X extends Comparable<X>> {
         this(description, 0);
     }
 
-    public X[] initialize(X[] xs) {
-        compares = 0;
-        swaps = 0;
-        return Arrays.copyOf(xs, xs.length);
-    }
+		public X[] initialize(X[] xs) {
+				compares = 0;
+				swaps = 0;
+				return Arrays.copyOf(xs, xs.length);
+		}
 
-    public boolean cleanup(X[] xs, PrintStream ps)  {
-        if (ps!=null) ps.println(toString());
-        final boolean sorted = sorted(xs);
-        if (!sorted) ps.println(Arrays.toString(xs));
-        return sorted;
-    }
+		public boolean cleanup(X[] xs, PrintStream ps) {
+				if (ps != null) ps.println(toString());
+				final boolean sorted = sorted(xs);
+				if (!sorted) Objects.requireNonNull(ps).println(Arrays.toString(xs));
+				return sorted;
+		}
     /**
      * Method to determine if one X value is less than another.
      *
@@ -54,57 +55,57 @@ public class Helper<X extends Comparable<X>> {
         return v.compareTo(w) < 0;
     }
 
-    /**
-     * Method to determine if one X value is less than another.
-     *
-     * @param v   the candidate element.
-     * @param w   the comparand element.
-     * @return the result of v.compareTo(w).
-     */
-    int compare(X v, X w) {
-        compares++;
-        return v.compareTo(w);
-    }
+		/**
+		 * Method to determine if one X value is less than another.
+		 *
+		 * @param v the candidate element.
+		 * @param w the comparand element.
+		 * @return the result of v.compareTo(w).
+		 */
+		int compare(X v, X w) {
+				compares++;
+				return v.compareTo(w);
+		}
 
-    /**
-     * Swap the adjacent elements of array a at indices i-1 and i.
-     * This type of swap is guaranteed to be stable.
-     *
-     * @param xs   the array.
-     * @param lo  the lowest index of interest (only used for checking).
-     * @param hi  one more than the highest index of interest (only used for checking).
-     * @param i   the index of the higher element to swap.
-     */
-    void swap(X[] xs, int lo, int hi, int i) {
-        swap(xs, lo, hi, i-1, i);
-    }
+		/**
+		 * Swap the adjacent elements of array a at indices i-1 and i.
+		 * This type of swap is guaranteed to be stable.
+		 *
+		 * @param xs the array.
+		 * @param lo the lowest index of interest (only used for checking).
+		 * @param hi one more than the highest index of interest (only used for checking).
+		 * @param i  the index of the higher element to swap.
+		 */
+		void swap(X[] xs, int lo, int hi, int i) {
+				swap(xs, lo, hi, i - 1, i);
+		}
 
-    /**
-     * Swap the elements of array a at indices i and j.
-     *
-     * @param xs   the array.
-     * @param lo  the lowest index of interest (only used for checking).
-     * @param hi  one more than the highest index of interest (only used for checking).
-     * @param i   one of the indices.
-     * @param j   the other index.
-     */
-    void swap(X[] xs, int lo, int hi, int i, int j) {
-        swaps++;
-        if (i < lo) throw new RuntimeException("i is out of range: i; " + i + "; lo=" + lo);
-        if (j > hi) throw new RuntimeException("j is out of range: j; " + j + "; hi=" + hi);
-        X temp = xs[i];
-        xs[i] = xs[j];
-        xs[j] = temp;
-    }
+		/**
+		 * Swap the elements of array a at indices i and j.
+		 *
+		 * @param xs   the array.
+		 * @param lo  the lowest index of interest (only used for checking).
+		 * @param hi  one more than the highest index of interest (only used for checking).
+		 * @param i   one of the indices.
+		 * @param j   the other index.
+		 */
+		void swap(X[] xs, int lo, int hi, int i, int j) {
+				swaps++;
+				if (i < lo) throw new RuntimeException("i is out of range: i; " + i + "; lo=" + lo);
+				if (j > hi) throw new RuntimeException("j is out of range: j; " + j + "; hi=" + hi);
+				X temp = xs[i];
+				xs[i] = xs[j];
+				xs[j] = temp;
+		}
 
-    void moveUp(X[] xs, int j) {
-        swaps++; // NOTE: really this is only a half-swap
-        xs[j] = xs[j - 1];
-    }
+		void moveUp(X[] xs, int j) {
+				swaps++; // NOTE: really this is only a half-swap
+				xs[j] = xs[j - 1];
+		}
 
-    public boolean sorted(X[] xs) {
-        for (int i = 1; i < xs.length; i++) if (xs[i-1].compareTo(xs[i])>0) return false;
-        return true;
+		public boolean sorted(X[] xs) {
+				for (int i = 1; i < xs.length; i++) if (xs[i - 1].compareTo(xs[i]) > 0) return false;
+				return true;
     }
 
     public X[] random(int n, Class<X> clazz, Function<Random, X> f) {

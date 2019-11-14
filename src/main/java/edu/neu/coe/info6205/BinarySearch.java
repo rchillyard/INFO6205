@@ -3,7 +3,7 @@ package edu.neu.coe.info6205;
 import java.util.Arrays;
 
 public class BinarySearch {
-    public static void main (String args[]){
+    public static void main (String[] args){
         int[] ar = {1,2,3,4,5,6,7,8,9};
         int res1 = binarySearch(ar,0,ar.length-1,3);
         System.out.println(res1);
@@ -12,10 +12,21 @@ public class BinarySearch {
     }
 
 
-    static int binarySearch(int a[], int lo, int hi, int key)
+    static int binarySearch(int[] a, int low, int high, int key)
     {
-        //TO BE IMPLEMENTED :: implement binary search
-
+        int lo = low;
+        int hi = high;
+        while (hi >= lo) {
+            //TO BE IMPLEMENTED :: implement binary search
+            int mid = lo + (hi - lo) / 2;
+            int cf = Integer.compare(key, a[mid]);
+            if (cf == 0)
+                return mid;
+            else if (cf > 0)
+                lo = mid + 1;
+            else
+                hi = mid - 1;
+        }
         // ... end of TO BE IMPLEMENTED
         return -1;
 

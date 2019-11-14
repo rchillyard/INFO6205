@@ -16,7 +16,7 @@ public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
         this(new Helper<>("3-way QuickSort"));
     }
 
-    class Partition {
+    static class Partition {
         final int lt;
         final int gt;
 

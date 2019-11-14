@@ -4,12 +4,8 @@
 
 package edu.neu.coe.info6205.util;
 
-import edu.neu.coe.info6205.sort.simple.Helper;
-import edu.neu.coe.info6205.sort.simple.InsertionSort;
-import edu.neu.coe.info6205.sort.simple.SelectionSort;
-import edu.neu.coe.info6205.sort.simple.Sort;
+import edu.neu.coe.info6205.sort.simple.*;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -130,14 +126,23 @@ public class Benchmark<T> {
      */
     private long doRun(T t, boolean warmup) {
         // TO BE IMPLEMENTED: if fPre isn't null, then invoke it (using "apply") and memoize its result as "t1". Otherwise, assign "t" to "t1."
+        T t1 = fPre != null ? fPre.apply(t) : t;
 
         // TO BE IMPLEMENTED: if warmup is true, simply invoke fRun with t1 (using "accept") and return 0.
+        if (warmup) {
+            fRun.accept(t1);
+            return 0;
+        }
 
         // TO BE IMPLEMENTED: start the timer, invoke fRun on t1 (using "accept"), stop the timer,
         // ... invoke fPost (if not-null) on t1 (using "accept").
+        long start = System.nanoTime();
+        fRun.accept(t1);
+        long nanos = System.nanoTime() - start;
+        if (fPost != null) fPost.accept(t1);
 
         // TO BE IMPLEMENTED: return the number of nanoseconds elapsed.
-        return 0L;
+        return nanos;
     }
 
     private final UnaryOperator<T> fPre;
@@ -156,13 +161,16 @@ public class Benchmark<T> {
      */
     public static void main(String[] args) {
         Random random = new Random();
-        int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
+        int m = 50; // This is the number of repetitions: sufficient to give a good mean value of timing
         int n = 1000; // This is the size of the array
         for (int k = 0; k < 5; k++) {
             Integer[] array = new Integer[n];
             for (int i = 0; i < n; i++) array[i] = random.nextInt();
+            // TODO Choose from among the following...
             benchmarkSort(array, "InsertionSort: " + n, new InsertionSort<>(), m);
             benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
+            benchmarkSort(array, "QuickSort: " + n, new QuickSort_3way<>(), m*2);
+            benchmarkSort(array, "MergeSort: " + n, new MergeSortBasic<>(), m*2);
             n = n * 2;
         }
     }
