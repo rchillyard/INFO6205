@@ -55,7 +55,7 @@ public class Game implements Generational<Game, Grid>, Countable, Renderable {
 		@Override
 		public Game generation(BiConsumer<Long, Grid> monitor) {
 				monitor.accept(generation, grid);
-				return new Game(generation + 1, grid.generation(this.monitor), this.monitor);
+				return new Game(generation + 1, grid.generation(this.monitor), this, this.monitor);
 		}
 
 		@Override
@@ -81,7 +81,7 @@ public class Game implements Generational<Game, Grid>, Countable, Renderable {
 				grid.add(Group.create(generation, pattern));
 				BiConsumer<Long, Grid> gridMonitor = (l, g) -> System.out.println("generation " + l + "; grid=" + g);
 				BiConsumer<Long, Group> groupMonitor = (l, g) -> System.out.println("generation " + l + ";\ngroup=\n" + g.render());
-				Game game = new Game(generation, grid, groupMonitor);
+				Game game = new Game(generation, grid, null, groupMonitor);
 				while (!game.terminated()) {
 						generations.put(game, game.generation);
 						System.out.println(game.render());
@@ -91,19 +91,76 @@ public class Game implements Generational<Game, Grid>, Countable, Renderable {
 		}
 
 		private Game(long generation, BiConsumer<Long, Group> monitor) {
-				this(generation, new Grid(generation), monitor);
+				this(generation, new Grid(generation), null, monitor);
 		}
 
-		private Game(long generation, Grid grid, BiConsumer<Long, Group> monitor) {
+		private Game(long generation, Grid grid, Game previous, BiConsumer<Long, Group> monitor) {
 				this.grid = grid;
 				this.generation = generation;
+				this.previous = previous;
 				this.monitor = monitor;
 		}
 
 		private boolean terminated() {
 				return testTerminationPredicate(g -> g.generation >= MaxGenerations, "having exceeded " + MaxGenerations + " generations") ||
-								testTerminationPredicate(g -> g.getCount() == 0, "no cells") ||
-								testTerminationPredicate(generations::containsKey, "having previous equivalent game");
+								testTerminationPredicate(g -> g.getCount() <= 1, "extinction") ||
+								// TODO now we look for two consecutive equivalent games...
+								testTerminationPredicate(Game::previousMatchingCycle, "having matching previous games");
+		}
+
+		/**
+		 * Check to see if there is a previous pair of matching games.
+		 *
+		 * NOTE this method of checking for cycles is not guaranteed to work!
+		 * NOTE this method may be very inefficient.
+		 *
+		 * TODO project teams may need to fix this method.
+		 *
+		 * @param game the game to check.
+		 * @return a Boolean.
+		 */
+		private static boolean previousMatchingCycle(Game game) {
+				MatchingGame matchingGame = findCycle(game);
+				int cycles = matchingGame.k;
+				Game history = matchingGame.match;
+				if (history==null) return false;
+				Game current = game;
+				while (current !=null && history !=null && cycles > 0) {
+						if (current.equals(history)) {
+								current = current.previous;
+								history = history.previous;
+								cycles--;
+						}
+						else
+								return false;
+				}
+				return true;
+		}
+
+		/**
+		 * Find a game which matches the given game.
+		 * @param game the game to match.
+		 * @return a MatchingGame object: if the match field is null it means that we did not find a match;
+		 * the k field is the number of generations between game and the matching game.
+		 */
+		private static MatchingGame findCycle(Game game) {
+				int k = 1;
+				Game candidate = game.previous;
+				while (candidate!=null && !game.equals(candidate)) {
+						candidate = candidate.previous;
+						k++;
+				}
+				return new MatchingGame(k, candidate);
+		}
+
+		private static class MatchingGame {
+				private final int k;
+				private final Game match;
+
+				public MatchingGame(int k, Game match) {
+						this.k = k;
+						this.match = match;
+				}
 		}
 
 		private boolean testTerminationPredicate(Predicate<Game> predicate, String message) {
@@ -115,6 +172,7 @@ public class Game implements Generational<Game, Grid>, Countable, Renderable {
 		}
 
 		private final Grid grid;
+		private final Game previous;
 		private final BiConsumer<Long, Group> monitor;
 		private final long generation;
 }

@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.life.base;
 
+import com.google.common.collect.HashMultiset;
 import edu.neu.coe.info6205.util.Range;
 
 import java.util.ArrayList;
@@ -268,12 +269,16 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 				if (this == o) return true;
 				if (o == null || getClass() != o.getClass()) return false;
 				Group group = (Group) o;
-				return pointsAbsolute().equals(group.pointsAbsolute());
+				if (points.size()!=group.points.size()) return false;
+				final List<Point> elements1 = pointsAbsolute();
+				final List<Point> elements2 = group.pointsAbsolute();
+				final boolean same = HashMultiset.create(elements1).equals(HashMultiset.create(elements2));
+				return same;
 		}
 
 		@Override
 		public int hashCode() {
-				return Objects.hash(points);
+				return Objects.hash(pointsAbsolute());
 		}
 
 		/**
