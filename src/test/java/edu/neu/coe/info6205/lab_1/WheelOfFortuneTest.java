@@ -82,6 +82,14 @@ public class WheelOfFortuneTest {
     }
 
     @Test
+    public void getWheelOfFortuneBoolean() {
+        WheelOfFortune.Event<Boolean> t = WheelOfFortune.valueOf(true, 1);
+        WheelOfFortune.Event<Boolean> f = WheelOfFortune.valueOf(false, 2);
+        WheelOfFortune<Boolean> wheel = new WheelOfFortune<>(0L, t, f);
+        assertEquals(Boolean.FALSE, wheel.get());
+    }
+
+    @Test
     public void videoPoker() {
         WheelOfFortune.Event<String> highCard = WheelOfFortune.valueOf("highCard", 1302540);
         WheelOfFortune.Event<String> pair = WheelOfFortune.valueOf("pair", 1098240);
