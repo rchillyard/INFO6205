@@ -13,6 +13,7 @@ public class HeapSort<X extends Comparable<X>> implements Sort<X> {
 
     public HeapSort() {
         this(new Helper<>("HeapSort"));
+        getHelper().setComparisonFunction( (c,n) -> c / Math.log(n) / n * Math.log(2));
     }
 
     @Override

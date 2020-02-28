@@ -4,7 +4,6 @@ package edu.neu.coe.info6205.heapsort;
 
 
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -162,12 +161,11 @@ public class Benchmark<T> {
     public static void main(String[] args) {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
-        int n = 1000; // This is the size of the array
+        int n = 1024; // This is the size of the array
         for (int k = 0; k < 10; k++) {
             Integer[] array = new Integer[n];
             for (int i = 0; i < n; i++) array[i] = random.nextInt();
             benchmarkSort(array, "random: " + n, new HeapSort<>(), m);
-            //benchmarkSort(array, "SelectionSort: " + n, new HeapSort<>(), m);
          n = n * 2;
         }
 
@@ -197,16 +195,15 @@ public class Benchmark<T> {
     }
 
     private static void benchmarkSort(Integer[] array, String name, Sort<Integer> sorter, int m) {
-        UnaryOperator<Integer[]> preFunction = (xs) -> Arrays.copyOf(array, array.length);
-        Consumer<Integer[]> sortFunction = (xs) -> sorter.sort(xs, false);
         final Helper<Integer> helper = sorter.getHelper();
-        Consumer<Integer[]> cleanupFunction = (xs) -> {
-            if (!helper.sorted(xs)) throw new RuntimeException("not sorted");
-        };
+        UnaryOperator<Integer[]> preFunction = helper::initialize;
+        Consumer<Integer[]> sortFunction = (xs) -> sorter.sort(xs, false);
+        Consumer<Integer[]> cleanupFunction = helper::cleanup;
         Benchmark<Integer[]> bm = new Benchmark<>(preFunction, sortFunction, cleanupFunction);
         double x = bm.run(array, m);
         System.out.println(name + ": " + x + " millisecs");
         System.out.println(name + ": " + helper.toString() );
+        System.out.println(name + ": " + helper.applyComparisonFunction() );
        ;
         
     }

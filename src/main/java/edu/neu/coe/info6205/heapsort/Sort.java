@@ -13,6 +13,7 @@ public interface Sort<X extends Comparable<X>> {
      */
     default X[] sort(X[] xs, boolean makeCopy) {
         getHelper().setN(xs.length);
+        getHelper().incrementTrials();
         X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
         sort(result, 0, result.length);
         return result;
