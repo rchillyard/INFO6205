@@ -15,7 +15,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
      */
     @Override
     public void putAll(Map<Key, Value> map) {
-        @SuppressWarnings("unchecked") List<Key> ks = new ArrayList(map.keySet());
+        List<Key> ks = new ArrayList<>(map.keySet());
         Collections.shuffle(ks);
         for (Key k : ks) put(k, map.get(k));
     }
@@ -57,8 +57,18 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         return null;
     }
 
+    /**
+     * Method to yield the depth of a key, relative to the root.
+     *
+     * @param key the key whose depth we are interested in.
+     * @return the depth of the key (root: 0) otherwise -1 if key is not found.
+     */
     public int depth(Key key) {
-        return depth(getNode(root, key));
+        try {
+            return depth(root, key);
+        } catch (DepthException e) {
+            return -1;
+        }
     }
 
     public BSTSimple() {
@@ -122,7 +132,21 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     private Node delete(Node x, Key key) {
         // TO BE IMPLEMENTED ...
-        return null;
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.smaller = delete(x.smaller, key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+
+            Node t = x;
+            x = min(t.larger);
+            x.larger = deleteMin(t.larger);
+            x.smaller = t.smaller;
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
         // ... END IMPLEMENTATION
     }
 
@@ -151,15 +175,27 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
      */
     private void doTraverse(int q, Node node, BiFunction<Key, Value, Void> f) {
         if (node == null) return;
-        if (q<0) f.apply(node.key, node.value);
+        if (q < 0) f.apply(node.key, node.value);
         doTraverse(q, node.smaller, f);
-        if (q==0) f.apply(node.key, node.value);
+        if (q == 0) f.apply(node.key, node.value);
         doTraverse(q, node.larger, f);
-        if (q>0) f.apply(node.key, node.value);
+        if (q > 0) f.apply(node.key, node.value);
     }
 
-    private int depth(Node key) {
-        return 0;
+    /**
+     * Yield the total depth of this BST. If root is null, then depth will be 0.
+     *
+     * @return the total number of levels in this BST.
+     */
+    public int depth() {
+        return depth(root);
+    }
+
+    private int depth(Node node) {
+        if (node == null) return 0;
+        int depthS = depth(node.smaller);
+        int depthL = depth(node.larger);
+        return 1 + Math.max(depthL, depthS);
     }
 
     private class NodeValue {
@@ -194,8 +230,8 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder("Node: " + key + ":" + value);
-            if (smaller != null) sb.append(", smaller: " + smaller.key);
-            if (larger != null) sb.append(", larger: " + larger.key);
+            if (smaller != null) sb.append(", smaller: ").append(smaller.key);
+            if (larger != null) sb.append(", larger: ").append(larger.key);
             return sb.toString();
         }
 
@@ -240,5 +276,18 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         StringBuffer sb = new StringBuffer();
         show(root, sb, 0);
         return sb.toString();
+    }
+
+    private int depth(Node node, Key key) throws DepthException {
+        if (node == null) throw new DepthException();
+        int cf = key.compareTo(node.key);
+        if (cf < 0) return 1 + depth(node.smaller, key);
+        else if (cf > 0) return 1 + depth(node.larger, key);
+        else return 0;
+    }
+
+    private static class DepthException extends Exception {
+        public DepthException() {
+        }
     }
 }
