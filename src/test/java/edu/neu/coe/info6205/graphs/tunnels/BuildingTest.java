@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.graphs.tunnels;
 
+import edu.neu.coe.info6205.graphs.gis.GeoPoint;
 import edu.neu.coe.info6205.graphs.gis.Position_Spherical;
 import org.junit.After;
 import org.junit.Before;
@@ -9,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BuildingTest {
 
-    private Building snellLibrary;
+    private GeoPoint snellLibrary;
     private String snell;
     private String sn;
 

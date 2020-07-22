@@ -31,7 +31,7 @@ public class Position_Spherical implements Position {
 
     @Override
     public String toString() {
-        return longitude +","+ latitude +",0";
+        return longitude + "," + latitude + ",0";
     }
 
     @Override

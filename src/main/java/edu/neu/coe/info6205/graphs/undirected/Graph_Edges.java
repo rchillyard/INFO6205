@@ -4,13 +4,13 @@ import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.bqs.Bag;
 import edu.neu.coe.info6205.bqs.Bag_Array;
 
-public class Graph_Edges<V, E> extends AbstractGraph<V, Edge<V,E>> implements EdgeGraph<V, E> {
+public class Graph_Edges<V, E> extends AbstractGraph<V, Edge<V, E>> implements EdgeGraph<V, E> {
 
     @Override
-    public SizedIterable<Edge<V,E>> edges() {
-        Bag<Edge<V,E>> result = new Bag_Array<>();
-        for (Bag<Edge<V,E>> b : adjacentEdges.values())
-            for (Edge<V,E> e : b)
+    public SizedIterable<Edge<V, E>> edges() {
+        Bag<Edge<V, E>> result = new Bag_Array<>();
+        for (Iterable<Edge<V, E>> b : adjacentEdges.values())
+            for (Edge<V, E> e : b)
                 result.add(e);
         return result;
     }

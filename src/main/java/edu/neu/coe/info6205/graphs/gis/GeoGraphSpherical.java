@@ -22,6 +22,7 @@ public class GeoGraphSpherical<V extends GeoPoint, E> extends BaseGeoGraph<V, E>
 
     /**
      * Method to calculate distance between given longitudes and latitudes.
+     *
      * @param p1 The first point.
      * @param p2 The second point.
      * @return the distance between the points in meters.
