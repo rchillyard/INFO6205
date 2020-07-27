@@ -14,10 +14,11 @@ import java.util.function.Consumer;
 
 /**
  * TODO this should extend AbstractGraph
+ *
  * @tparam V
  * @tparam E
  */
-public class DAG_Impl<V, E> implements DAG<V, E> {
+public class DAG_Impl<V extends Comparable<V>, E> implements DAG<V, E> {
 
     @Override
     public SizedIterable<V> vertices() {

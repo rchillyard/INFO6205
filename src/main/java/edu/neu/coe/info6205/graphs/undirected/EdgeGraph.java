@@ -15,7 +15,7 @@ public interface EdgeGraph<V, E> extends Graph<V, Edge<V, E>> {
      *
      * @return a SizedIterable
      */
-    SizedIterable<Edge<V,E>> edges();
+    SizedIterable<Edge<V, E>> edges();
 
     /**
      * Method to add an edge to this EdgeGraph.
@@ -28,8 +28,8 @@ public interface EdgeGraph<V, E> extends Graph<V, Edge<V, E>> {
      * Method to add an edge in the form of two vertices and an attribute.
      * NOTE: Questionable whether this is a proper method for this interface.
      *
-     * @param from the from vertex.
-     * @param to the to vertex.
+     * @param from      the from vertex.
+     * @param to        the to vertex.
      * @param attribute the attribute.
      */
     void addEdge(V from, V to, E attribute);

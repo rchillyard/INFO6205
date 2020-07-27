@@ -23,7 +23,7 @@ public class DAGTest {
      */
     @Test
     public void testDAG() {
-        DAG_Impl<Integer, Double> target = new DAG_Impl<>();
+        DAG<Integer, Double> target = new DAG_Impl<>();
         assertNotNull(target);
         assertEquals(0, target.edges().size());
         assertEquals(0, target.vertices().size());
@@ -68,7 +68,7 @@ public class DAGTest {
     @Test
     public void testReverse() {
         DAG<Integer, Double> target = setupStandardDAG();
-        DAG<Integer, Double> integerDAG =  target.reverse();
+        DAG<Integer, Double> integerDAG = target.reverse();
         assertEquals(11, integerDAG.edges().size());
         assertEquals(7, integerDAG.vertices().size());
         assertEquals(Integer.valueOf(0), integerDAG.edges().iterator().next().getFrom());
@@ -116,7 +116,7 @@ public class DAGTest {
      */
     @Test
     public void testSorted() {
-        DAG_Impl<Integer, Double> target = setupStandardDAG();
+        DAG<Integer, Double> target = setupStandardDAG();
         Iterable<Integer> sorted = target.sorted();
         Iterator<Integer> iterator = sorted.iterator();
         assertEquals(Integer.valueOf(3), iterator.next());
