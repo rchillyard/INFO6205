@@ -28,7 +28,7 @@ public class WheelOfFortuneTest {
     @Test
     public void getTotal() {
         PrivateMethodTester tester = new PrivateMethodTester(wheel);
-        assertEquals("total", 2, (int) (Integer)tester.invokePrivate("getTotal"));
+        assertEquals("total", 2, (int) (Integer) tester.invokePrivate("getTotal"));
     }
 
     @Test
@@ -86,7 +86,14 @@ public class WheelOfFortuneTest {
         WheelOfFortune.Event<Boolean> t = WheelOfFortune.valueOf(true, 1);
         WheelOfFortune.Event<Boolean> f = WheelOfFortune.valueOf(false, 2);
         WheelOfFortune<Boolean> wheel = new WheelOfFortune<>(0L, t, f);
+        assertEquals(Boolean.TRUE, wheel.get());
         assertEquals(Boolean.FALSE, wheel.get());
+        assertEquals(Boolean.FALSE, wheel.get());
+        assertEquals(Boolean.FALSE, wheel.get());
+        assertEquals(Boolean.FALSE, wheel.get());
+        assertEquals(Boolean.FALSE, wheel.get());
+        assertEquals(Boolean.FALSE, wheel.get());
+        assertEquals(Boolean.TRUE, wheel.get());
     }
 
     @Test

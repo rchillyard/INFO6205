@@ -9,19 +9,19 @@ import static org.junit.Assert.assertTrue;
 
 public class MyTreeTest {
 
-		@Test
-		public void Node0() {
-				MyTree<Integer> tree = new MyTree<>(1);
-				Integer x = tree.getRoot().x;
-				assertEquals("x", Integer.valueOf(1), x);
-		}
+    @Test
+    public void Node0() {
+        MyTree<Integer> tree = new MyTree<>(1);
+        Integer x = tree.getRoot().x;
+        assertEquals("x", Integer.valueOf(1), x);
+    }
 
-		@Ignore
-		public void Node1() {
-				MyTree<Integer> tree = new MyTree<>(1).addChild(new MyTree.Node<>(2));
-				ImmutableList<MyTree.Node<Integer>> x = tree.getRoot().children;
-				assertTrue(x.iterator().hasNext());
-				assertEquals(Integer.valueOf(2), x.iterator().next().x);
-		}
+    @Ignore
+    public void Node1() {
+        MyTree<Integer> tree = new MyTree<>(1).addChild(new MyTree.Node<>(2));
+        ImmutableList<MyTree.Node<Integer>> x = tree.getRoot().children;
+        assertTrue(x.iterator().hasNext());
+        assertEquals(Integer.valueOf(2), x.iterator().next().x);
+    }
 
 }

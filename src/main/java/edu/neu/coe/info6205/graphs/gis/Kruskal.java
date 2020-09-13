@@ -20,9 +20,8 @@ import java.util.Iterator;
  * This is a generic solution for Kruskal's algorithm to find the minimum spanning tree of an edge-weighted graph
  *
  * @tparam V is the type of each vertex.
- *
  */
-public class Kruskal<V, X extends Comparable<X>> implements Iterable<Edge> {
+public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable<Edge<V, X>> {
 
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Kruskal(EdgeGraph<V, X> graph) {
@@ -39,24 +38,34 @@ public class Kruskal<V, X extends Comparable<X>> implements Iterable<Edge> {
     }
 
     public EdgeGraph<V, X> getMST() {
+        int sequence = 0;
         EdgeGraph<V, X> result = new Graph_Edges<>();
-        for (Edge edge : queue)  //noinspection unchecked
+        for (Edge<V, X> edge : queue) {
+            edge.getAttribute().setSequence(sequence++);
             result.addEdge(edge);
+        }
         return result;
     }
 
     @Override
-    public Iterator<Edge> iterator() {
-        ArrayList<Edge> result = new ArrayList<>();
+    public Iterator<Edge<V, X>> iterator() {
+        ArrayList<Edge<V, X>> result = new ArrayList<>();
         for (Edge<V, X> edge : mst) result.add(edge);
         return result.iterator();
     }
 
 
     private Iterable<Edge<V, X>> runKruskal() throws PQException, UFException {
+        while (!pq.isEmpty() && ((SizedIterable<?>) queue).size() < size - 1) {
+            Edge<V, X> edge = pq.take();
+            V s1 = edge.get(), s2 = edge.getOther(s1);
+            if (!uf.connected(s1, s2)) {
+                uf.union(s1, s2);
+                queue.enqueue(edge);
+            }
+        }
         ArrayList<Edge<V, X>> result = new ArrayList<>();
-        // TO BE IMPLEMENTED ...
-        // ... END IMPLEMENTATION
+        for (Edge<V, X> edge : queue) result.add(edge);
         return result;
     }
 
@@ -82,7 +91,7 @@ public class Kruskal<V, X extends Comparable<X>> implements Iterable<Edge> {
         }
     }
 
-    private final Queue<Edge> queue;
+    private final Queue<Edge<V, X>> queue;
     private final PriorityQueue<Edge<V, X>> pq;
     private final TypedUF<V> uf;
     private final int size;

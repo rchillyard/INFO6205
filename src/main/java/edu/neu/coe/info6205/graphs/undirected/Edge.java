@@ -12,8 +12,9 @@ public class Edge<V, E> {
 
     /**
      * Edge constructor.
-     * @param a a vertex.
-     * @param b the other vertex.
+     *
+     * @param a         a vertex.
+     * @param b         the other vertex.
      * @param attribute the attribute.
      */
     public Edge(V a, V b, E attribute) {
@@ -24,6 +25,7 @@ public class Edge<V, E> {
 
     /**
      * Get the attribute.
+     *
      * @return the attribute.
      */
     public E getAttribute() {
@@ -32,6 +34,7 @@ public class Edge<V, E> {
 
     /**
      * Get a vertex.
+     *
      * @return a vertex.
      */
     public V get() {
@@ -40,6 +43,7 @@ public class Edge<V, E> {
 
     /**
      * Get the other vertex.
+     *
      * @param v the vertex at one end or the other.
      * @return the vertex at the opposite end of the edge to v.
      */

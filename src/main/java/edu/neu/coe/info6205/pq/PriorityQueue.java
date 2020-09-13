@@ -1,9 +1,6 @@
 package edu.neu.coe.info6205.pq;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Priority Queue Data Structure which uses a binary heap.
@@ -190,7 +187,7 @@ public class PriorityQueue<K> implements Iterable<K> {
 
     @Override
     public Iterator<K> iterator() {
-        ArrayList<K> result = new ArrayList<>(Arrays.asList(binHeap));
+        Collection<K> result = new ArrayList<>(Arrays.asList(binHeap));
         return result.iterator();
     }
 }

@@ -23,7 +23,7 @@ public class BagTest {
         assertEquals(1, bag.size());
         assertFalse(bag.isEmpty());
         assertTrue((bag.iterator()).hasNext());
-        assertEquals(new Integer(1), bag.iterator().next());
+        assertEquals(Integer.valueOf(1), bag.iterator().next());
     }
 
     /**
@@ -41,7 +41,7 @@ public class BagTest {
         assertEquals(33, bag.size());
         assertFalse(bag.isEmpty());
         assertTrue((bag.iterator()).hasNext());
-        assertEquals(new Integer(0), bag.iterator().next());
+        assertEquals(Integer.valueOf(0), bag.iterator().next());
     }
 
     /**
@@ -58,4 +58,43 @@ public class BagTest {
         assertEquals(10, sum);
     }
 
+    @Test
+    public void clear() {
+        Bag<Integer> bag = new Bag_Array<>();
+        for (int i = 0; i < 10; i++)
+            bag.add(i);
+        assertEquals(10, bag.size());
+        bag.clear();
+        assertTrue(bag.isEmpty());
+    }
+
+    @Test
+    public void contains() {
+        Bag<Integer> bag = new Bag_Array<>();
+        for (int i = 0; i < 10; i++)
+            bag.add(i);
+        assertTrue(bag.contains(0));
+        assertTrue(bag.contains(9));
+        assertFalse(bag.contains(10));
+    }
+
+    @Test
+    public void multiplicity() {
+        Bag<Integer> bag = new Bag_Array<>();
+        for (int i = 0; i < 10; i++)
+            bag.add(i);
+        for (int i = 0; i < 10; i += 2)
+            bag.add(i);
+        assertEquals(2, bag.multiplicity(0));
+        assertEquals(1, bag.multiplicity(9));
+        assertEquals(0, bag.multiplicity(10));
+    }
+
+    @Test
+    public void testToString() {
+        Bag<Integer> bag = new Bag_Array<>();
+        for (int i = 0; i < 10; i++)
+            bag.add(i);
+        assertEquals("Bag_Array{items=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], count=10}", bag.toString());
+    }
 }

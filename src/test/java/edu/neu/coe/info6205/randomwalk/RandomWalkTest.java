@@ -21,6 +21,7 @@ public class RandomWalkTest {
     }
 
     /**
+     *
      */
     @Test
     public void testMove1() {
@@ -37,6 +38,7 @@ public class RandomWalkTest {
     }
 
     /**
+     *
      */
     @Test
     public void testMove2() {
@@ -53,6 +55,7 @@ public class RandomWalkTest {
     }
 
     /**
+     *
      */
     @Test
     public void testMove3() {
@@ -70,6 +73,7 @@ public class RandomWalkTest {
     }
 
     /**
+     *
      */
     @Test
     public void testRandomWalk() {

@@ -5,6 +5,7 @@
 package edu.neu.coe.info6205.sort.hashCode;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class HashCodeSort<X extends Comparable<X>> {
@@ -60,7 +61,7 @@ public class HashCodeSort<X extends Comparable<X>> {
     }
 
     // Initialize the indices and hashes arrays from the list "a"
-    private void init(List<X> a, int[] indices, int[] hashes) {
+    private void init(Collection<X> a, int[] indices, int[] hashes) {
         int index = 0;
         for (Object x : a) {
             indices[index] = index;

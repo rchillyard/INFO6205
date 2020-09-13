@@ -2,7 +2,7 @@ package edu.neu.coe.info6205.coupling;
 
 public class CouplingNone {
 
-    class A {
+    static class A {
         public A(int a) {
             this.a = a;
         }
@@ -14,7 +14,7 @@ public class CouplingNone {
         private final int a;
     }
 
-    class B {
+    static class B {
         public B(int b) {
             this.b = b;
         }
@@ -28,9 +28,9 @@ public class CouplingNone {
 
     public static void main(String[] args) {
         CouplingNone c = new CouplingNone();
-        A a = c.new A(0);
+        A a = new A(0);
         int x = a.getA();
-        B b = c.new B(1);
+        B b = new B(1);
         int y = b.getB();
     }
 }

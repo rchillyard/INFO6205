@@ -4,13 +4,13 @@ import org.junit.Test;
 
 public class GameTest {
 
-		@Test
-		public void run() {
-				// TODO implement test
-		}
+    @Test
+    public void run() {
+        // TODO implement test
+    }
 
-		@Test
-		public void generation() {
-				// TODO implement test
-		}
+    @Test
+    public void generation() {
+        // TODO implement test
+    }
 }

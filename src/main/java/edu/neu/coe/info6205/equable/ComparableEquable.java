@@ -21,9 +21,9 @@ public class ComparableEquable extends Equable implements Comparable<ComparableE
             if (thatIterator.hasNext()) {
                 final Object next1 = thisIterator.next();
                 final Object next2 = thatIterator.next();
-                if (next1 instanceof Comparable) {
-                    final Comparable comparable1 = (Comparable) next1;
+                if (next1 instanceof Comparable<?>) {
                     //noinspection unchecked
+                    final Comparable<Object> comparable1 = (Comparable<Object>) next1;
                     int cf = comparable1.compareTo(next2);
                     if (cf != 0)
                         return cf;
@@ -35,7 +35,7 @@ public class ComparableEquable extends Equable implements Comparable<ComparableE
         return 0;
     }
 
-    public class ComparableEquableException extends RuntimeException {
+    public static class ComparableEquableException extends RuntimeException {
         public ComparableEquableException(String s) {
             super(s);
         }

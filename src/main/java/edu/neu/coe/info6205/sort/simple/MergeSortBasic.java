@@ -1,28 +1,44 @@
 package edu.neu.coe.info6205.sort.simple;
 
+import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.SortWithHelper;
+import edu.neu.coe.info6205.util.Config;
+
 import java.util.Arrays;
 
-public class MergeSortBasic<X extends Comparable<X>> implements Sort<X> {
+public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
+
+    public static final String DESCRIPTION = "MergeSort";
 
     /**
-     * Constructor for InsertionSort
+     * Constructor for MergeSort
+     * <p>
+     * NOTE this is used only by unit tests, using its own instrumented helper.
      *
      * @param helper an explicit instance of Helper to be used.
      */
     public MergeSortBasic(Helper<X> helper) {
-        this.helper = helper;
+        super(helper);
+        insertionSort = new InsertionSort<>(helper);
     }
 
-    public MergeSortBasic() {
-        this(new Helper<>("MergeSort"));
+    /**
+     * Constructor for MergeSort
+     *
+     * @param N      the number elements we expect to sort.
+     * @param config the configuration.
+     */
+    public MergeSortBasic(int N, Config config) {
+        super(DESCRIPTION, N, config);
+        insertionSort = new InsertionSort<>(getHelper());
     }
 
     @Override
     public X[] sort(X[] xs, boolean makeCopy) {
-        getHelper().setN(xs.length);
+        getHelper().init(xs.length);
         X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
-        aux = Arrays.copyOf(xs, xs.length); // TODO don't copy but just allocate
-        // TODO make this consistent with other uses of sort where the upper limit of the range is result.length
+        // TODO don't copy but just allocate according to the xs/aux interchange optimization
+        aux = Arrays.copyOf(xs, xs.length);
         sort(result, 0, result.length);
         return result;
     }
@@ -30,31 +46,34 @@ public class MergeSortBasic<X extends Comparable<X>> implements Sort<X> {
     @Override
     public void sort(X[] a, int from, int to) {
         @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
-        int hi = to;
-        if (hi <= lo + 1) return;
-        int mid = from + (to - from)/2;
+        if (to <= lo + getHelper().cutoff()) {
+            insertionSort.sort(a, from, to);
+            return;
+        }
+        int mid = from + (to - from) / 2;
         sort(a, lo, mid);
-        sort(a, mid, hi);
+        sort(a, mid, to);
         System.arraycopy(a, from, aux, from, to - from);
-        merge(aux, a, lo, mid, hi);
+        getHelper().incrementCopies(to - from);
+        merge(aux, a, lo, mid, to);
     }
 
     private void merge(X[] aux, X[] a, int lo, int mid, int hi) {
+        final Helper<X> helper = getHelper();
         int i = lo;
         int j = mid;
-        for (int k = lo; k < hi; k++)
-            if (i >= mid) a[k] = aux[j++];
-        else if (j >= hi) a[k] = aux[i++];
-        else if (helper.less(aux[j], aux[i])) a[k] = aux[j++];
-        else a[k] = aux[i++];
+        int k = lo;
+        for (; k < hi; k++)
+            if (i >= mid) helper.copy(aux, j++, a, k);
+            else if (j >= hi) helper.copy(aux, i++, a, k);
+            else if (helper.less(aux[j], aux[i])) {
+                helper.incrementFixes(mid - i);
+                helper.copy(aux, j++, a, k);
+            } else helper.copy(aux, i++, a, k);
     }
 
-    @Override
-    public Helper<X> getHelper() {
-        return helper;
-    }
 
     private X[] aux = null;
-    private final Helper<X> helper;
+    private final InsertionSort<X> insertionSort;
 }
 

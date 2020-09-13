@@ -15,6 +15,7 @@ public interface ST<Key, Value> extends ImmutableSymbolTable<Key, Value> {
     /**
      * Insert a key/value pair.
      * If the key already exists, then its value will simply be overwritten.
+     *
      * @param key the key.
      * @param val the value.
      */

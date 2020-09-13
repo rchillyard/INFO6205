@@ -9,18 +9,18 @@ import java.util.Set;
  * @param <Value> value type.
  */
 public interface ImmutableSymbolTable<Key, Value> {
-		/**
-		 * Retrieve the value for a given key.
-		 *
-		 * @param key the key.
-		 * @return the value, if key is present, else null.
-		 */
-		Value get(Key key);
+    /**
+     * Retrieve the value for a given key.
+     *
+     * @param key the key.
+     * @return the value, if key is present, else null.
+     */
+    Value get(Key key);
 
-		/**
-		 * Get the set of keys in this symbol table.
-		 *
-		 * @return the Set of keys.
-		 */
-		Set<Key> keys();
+    /**
+     * Get the set of keys in this symbol table.
+     *
+     * @return the Set of keys.
+     */
+    Set<Key> keys();
 }

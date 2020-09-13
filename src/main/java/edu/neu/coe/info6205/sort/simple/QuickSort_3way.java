@@ -1,76 +1,111 @@
 package edu.neu.coe.info6205.sort.simple;
 
-import java.util.Arrays;
+import edu.neu.coe.info6205.sort.BaseHelper;
+import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.InstrumentedHelper;
+import edu.neu.coe.info6205.util.Config;
 
-public class QuickSort_3way<X extends Comparable<X>> implements Sort<X> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuickSort_3way<X extends Comparable<X>> extends QuickSort<X> {
+
+    public static final String DESCRIPTION = "QuickSort 3 way";
+
     /**
-     * Constructor for InsertionSort
+     * Constructor for QuickSort_3way
      *
      * @param helper an explicit instance of Helper to be used.
      */
     public QuickSort_3way(Helper<X> helper) {
-        this.helper = helper;
+        super(helper);
+        setPartitioner(createPartitioner());
     }
 
     public QuickSort_3way() {
-        this(new Helper<>("3-way QuickSort"));
+        this(new BaseHelper<>(DESCRIPTION));
     }
 
-    static class Partition {
-        final int lt;
-        final int gt;
+    /**
+     * Constructor for QuickSort_3way
+     *
+     * @param N      the number elements we expect to sort.
+     * @param config the configuration.
+     */
+    public QuickSort_3way(int N, Config config) {
+        super(DESCRIPTION, N, config);
+        setPartitioner(createPartitioner());
+    }
 
-        public Partition(int lt, int gt) {
-            this.lt = lt;
-            this.gt = gt;
+    /**
+     * Constructor for QuickSort_3way which always uses an instrumented helper with a specific seed.
+     * <p>
+     * NOTE used by unit tests.
+     *
+     * @param N    the number of elements to be sorted.
+     * @param seed the seed for the random number generator.
+     */
+    public QuickSort_3way(int N, long seed, Config config) {
+        this(new InstrumentedHelper<>(DESCRIPTION, N, config));
+    }
+
+    public Partitioner<X> createPartitioner() {
+        return new Partitioner_3Way(getHelper());
+    }
+
+    class Partitioner_3Way implements Partitioner<X> {
+
+        /**
+         * Method to partition the given partition into smaller partitions.
+         *
+         * @param partition the partition to divide up.
+         * @return an array of partitions, whose length depends on the sorting method being used.
+         */
+        public List<Partition<X>> partition(Partition<X> partition) {
+            // CONSIDER merge with Partitioner_DualPivot
+            X[] xs = partition.xs;
+            int lt = partition.from;
+            int gt = partition.to - 1;
+            helper.swapConditional(xs, lt, gt);
+            X v = xs[lt];
+            int i = lt + 1;
+            // NOTE: we are trying to avoid checking on instrumented for every time in the inner loop for performance reasons (probably a silly idea).
+            // NOTE: if we were using Scala, it would be easy to set up a comparer function and a swapper function. With java, it's possible but much messier.
+            if (helper.instrumented())
+                while (i <= gt) {
+                    int cmp = helper.compare(xs[i], v);
+                    if (cmp < 0) helper.swap(xs, lt++, i++);
+                    else if (cmp > 0) helper.swap(xs, i, gt--);
+                    else i++;
+                }
+            else
+                while (i <= gt) {
+                    int cmp = xs[i].compareTo(v);
+                    if (cmp < 0) swap(xs, lt++, i++);
+                    else if (cmp > 0) swap(xs, i, gt--);
+                    else i++;
+                }
+
+            List<Partition<X>> partitions = new ArrayList<>();
+            partitions.add(new Partition<>(xs, partition.from, lt));
+            partitions.add(new Partition<>(xs, gt + 1, partition.to));
+            return partitions;
         }
-    }
 
-    @Override
-    public X[] sort(X[] xs, boolean makeCopy) {
-        getHelper().setN(xs.length);
-        X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
-        // TODO make this consistent with other uses of sort where the upper limit of the range is result.length
-        sort(result, 0, result.length - 1);
-        return result;
-    }
-
-    @Override
-    public void sort(X[] a, int from, int to) {
-        @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
-        int hi = to;
-        if (hi <= lo) return;
-        Partition partition = partition(a, lo, hi);
-        sort(a, lo, partition.lt - 1);
-        sort(a, partition.gt + 1, hi);
-    }
-
-    public Partition partition(X[] a, int lo, int hi) {
-        int lt = lo, gt = hi;
-        if (helper.less(a[hi], a[lo])) swap(a, lo,hi);
-        X v = a[lo];
-        int i = lo + 1;
-        while (i <= gt) {
-            int cmp = helper.compare(a[i],v);
-            if (cmp < 0) helper.swap(a, lo, hi, lt++, i++);
-            else if (cmp > 0) helper.swap(a, lo, hi, i, gt--);
-            else i++;
+        public Partitioner_3Way(Helper<X> helper) {
+            this.helper = helper;
         }
-        return new Partition(lt, gt);
-    }
 
-    // Used when we don't want to check or count swaps
-    public static void swap(Object[] a, int i, int j) {
-        Object temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
-    }
+        private void swap(X[] ys, int i, int j) {
+            if (helper != null) helper.swap(ys, i, j);
+            else {
+                X temp = ys[i];
+                ys[i] = ys[j];
+                ys[j] = temp;
+            }
+        }
 
-    @Override
-    public Helper<X> getHelper() {
-        return helper;
+        private final Helper<X> helper;
     }
-
-    private final Helper<X> helper;
 }
 

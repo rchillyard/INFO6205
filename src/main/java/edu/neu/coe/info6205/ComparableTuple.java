@@ -5,13 +5,14 @@
 package edu.neu.coe.info6205;
 
 import edu.neu.coe.info6205.equable.BaseComparableEquable;
+import edu.neu.coe.info6205.equable.BaseEquable;
 import edu.neu.coe.info6205.equable.ComparableEquable;
 import edu.neu.coe.info6205.equable.Equable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ComparableTuple extends BaseComparableEquable implements Comparable<ComparableTuple> {
+public class ComparableTuple extends BaseComparableEquable implements Comparable<BaseEquable> {
 
     private final int x;
     private final double y;
@@ -27,14 +28,14 @@ public class ComparableTuple extends BaseComparableEquable implements Comparable
     }
 
     public Equable getEquable() {
-        @SuppressWarnings("unchecked") Collection<Object> elements = new ArrayList();
+        Collection<Object> elements = new ArrayList<>();
         elements.add(x);
         elements.add(y);
         return new ComparableEquable(elements);
     }
 
     @Override
-    public int compareTo(ComparableTuple o) {
+    public int compareTo(BaseEquable o) {
         return super.compareTo(o);
     }
 }

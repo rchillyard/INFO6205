@@ -72,7 +72,7 @@ public class GraphTest {
 //        }
 //    }
 
-    private EdgeGraph<Integer, Double> setupStandardDAG() {
+    private Graph<Integer, Edge<Integer, Double>> setupStandardDAG() {
         EdgeGraph<Integer, Double> target = new Graph_Edges<>();
         target.addEdge(0, 1, 1.0);
         target.addEdge(0, 2, 1.0);

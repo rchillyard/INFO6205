@@ -19,9 +19,7 @@ public class Moves3 implements Moves {
         // DO NOT PUBLISH THIS IN PUBLIC REPO!!!!
         Point p = t;
         while (true) {
-            // TO BE IMPLEMENTED ...  Sorry, but you have to do this one yourself!
-            return false;
-            // ... END IMPLEMENTATION
+            // TO BE IMPLEMENTED  Sorry, but you have to do this one yourself!
         }
     }
 

@@ -4,7 +4,9 @@
 
 package edu.neu.coe.info6205.bqs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class LinkedList_Elements<Item> implements LinkedList<Item> {
 
@@ -24,7 +26,6 @@ public class LinkedList_Elements<Item> implements LinkedList<Item> {
 
     @Override
     public Item getHead() {
-        //noinspection ConstantConditions
         return isEmpty() ? null : head.item;
     }
 

@@ -5,6 +5,7 @@
 package edu.neu.coe.info6205;
 
 import edu.neu.coe.info6205.equable.BaseComparableEquable;
+import edu.neu.coe.info6205.equable.BaseEquable;
 import edu.neu.coe.info6205.equable.ComparableEquable;
 import edu.neu.coe.info6205.equable.Equable;
 import org.junit.Test;
@@ -22,9 +23,9 @@ public class ComparableTupleTest {
     @Test
     public void testComparableTuple1() {
         ComparableTuple tuple1 = new ComparableTuple(1, Math.PI);
-        ComparableTuple tuple2 = new ComparableTuple(2, Math.E);
+        BaseEquable tuple2 = new ComparableTuple(2, Math.E);
         assertEquals(Integer.compare(1, 2), tuple1.compareTo(tuple2));
-        ComparableTuple tuple3 = new ComparableTuple(1, Math.E);
+        BaseEquable tuple3 = new ComparableTuple(1, Math.E);
         assertEquals(Double.compare(Math.PI, Math.E), tuple1.compareTo(tuple3));
     }
 
