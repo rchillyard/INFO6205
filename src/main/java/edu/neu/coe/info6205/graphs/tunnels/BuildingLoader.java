@@ -1,14 +1,15 @@
 package edu.neu.coe.info6205.graphs.tunnels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class BuildingLoader {
 
-    public static ArrayList<Building> createBuildings() {
+    public static List<Building> createBuildings() {
         //can be replaced with the code to load the buildings into array list from excel file.
         //Adding Academic buildings
-        ArrayList<Building> buildings = new ArrayList<>();
+        List<Building> buildings = new ArrayList<>();
         buildings.add(new Building(6, "CU", "Fenway", -71.091542, 42.341667, false, "Cushing Hall"));
         buildings.add(new Building(7, "CA", "Fenway", -71.0916079, 42.3414373, false, "Cahners Hall"));
         buildings.add(new Building(10, "HF", "St. Stephens", -71.087652, 42.3416555, false, "Hillel-Frager"));
@@ -41,8 +42,8 @@ public class BuildingLoader {
         buildings.add(new Building(53, "HA", "Center", -71.0885712, 42.3395146, true, "Hayden Hall"));
         buildings.add(new Building(54, "CH", "Center", -71.0888053, 42.3387453, true, "Churchill Hall"));
         buildings.add(new Building(55, "FR", "Center", -71.0893246, 42.3385076, true, "Forsyth Building"));
-        buildings.add(new Building(56, "LC", "Center", -71.0899532, 42.3386181, false, "Latino/a Student Cultural Center"));
-        buildings.add(new Building(57, "DA", "Center", -71.0898067, 42.3384012, false, "Dana Research Center"));
+        buildings.add(new Building(56, "LC", "Center", -71.08973, 42.33809, false, "Latino/a Student Cultural Center"));
+//        buildings.add(new Building(57, "DA", "Center", -71.08952, 42.33805, false, "Dana Research Center"));
         buildings.add(new Building(58, "SN", "Center", -71.0889364, 42.3382166, true, "Snell Engineering Center"));
         buildings.add(new Building(59, "SL", "Center", -71.08826, 42.33854, true, "Snell Library"));
         buildings.add(new Building(60, "EC", "Center", -71.0888596, 42.337741, false, "Egan Engineering/ Science Research Center"));
@@ -65,7 +66,7 @@ public class BuildingLoader {
         buildings.add(new Building(84, "271", "Symphony", -71.086247, 42.342090, false, "271 Huntington"));
 
         // Adding Residence Buildings & Parking Garages
-        
+
         buildings.add(new Building(21, "BU", "West Village", -71.09302, 42.338297, false, "Burstein Hall"));
         buildings.add(new Building(67, "DC", "Columbus", -71.08475, 42.337994, false, "Davenport Commons A, B"));
         buildings.add(new Building(1, "KDY", "Fenway", -71.090403, 42.34289, false, "Kennedy Hall"));

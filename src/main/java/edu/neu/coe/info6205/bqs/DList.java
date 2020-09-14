@@ -6,6 +6,7 @@ package edu.neu.coe.info6205.bqs;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -85,8 +86,7 @@ public class DList<Item> implements Iterable<Item> {
      * @param next may be null, in which case the item will be the only item on the list
      */
     public void addBeforeElement(Item item, D_Element next) {
-        // TO BE IMPLEMENTED ...
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
     /**
@@ -96,8 +96,7 @@ public class DList<Item> implements Iterable<Item> {
      * @param prev may NOT be null
      */
     public void addAfterElement(Item item, D_Element prev) {
-        // TO BE IMPLEMENTED ...
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
     /**
@@ -106,20 +105,15 @@ public class DList<Item> implements Iterable<Item> {
      * @param element the element to be removed.
      */
     public void remove(D_Element element) {
-        // TO BE IMPLEMENTED ...
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
     public D_Element findFirst(Item item) {
-        // TO BE IMPLEMENTED ...
-        return null;
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
     public D_Element findLast(Item item) {
-        // TO BE IMPLEMENTED ...
-        return null;
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
     public boolean isEmpty() {
@@ -139,7 +133,7 @@ public class DList<Item> implements Iterable<Item> {
 
     @Override
     public Iterator<Item> iterator() {
-        return head != null ? head.iterator() : new ArrayList<Item>().iterator();
+        return head != null ? head.iterator() : Collections.emptyIterator();
     }
 
     class D_Element implements Iterable<Item> {

@@ -1,27 +1,48 @@
+/*
+  (c) Copyright 2018, 2019 Phasmid Software
+ */
 package edu.neu.coe.info6205.sort.simple;
 
-import java.util.Arrays;
+import edu.neu.coe.info6205.sort.BaseHelper;
+import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.SortWithHelper;
+import edu.neu.coe.info6205.util.Config;
 
 /**
  * Class to implement Shell Sort.
  *
  * @param <X> the type of element on which we will be sorting (must implement Comparable).
  */
-public class ShellSort<X extends Comparable<X>> implements Sort<X> {
+public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     /**
      * Constructor for ShellSort
      *
-     * @param m the "gap" (h) sequence to follow:
-     *          1: ordinary insertion sort;
-     *          2: use powers of two less one;
-     *          3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
-     *          4: Sedgewick's sequence (not implemented).
+     * @param N      the number elements we expect to sort.
+     * @param config the configuration.
+     */
+    public ShellSort(int m, int N, Config config) {
+        super(DESCRIPTION, N, config);
+        this.m = m;
+    }
+
+    public ShellSort() {
+        this(3, new BaseHelper<>(DESCRIPTION));
+    }
+
+    /**
+     * Constructor for ShellSort
+     *
+     * @param m      the "gap" (h) sequence to follow:
+     *               1: ordinary insertion sort;
+     *               2: use powers of two less one;
+     *               3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
+     *               4: Sedgewick's sequence (not implemented).
      * @param helper an explicit instance of Helper to be used.
      */
     public ShellSort(int m, Helper<X> helper) {
+        super(helper);
         this.m = m;
-        this.helper = helper;
     }
 
     /**
@@ -34,7 +55,7 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
      *          4: Sedgewick's sequence (not implemented).
      */
     public ShellSort(int m) {
-        this(m, new Helper<>("ShellSort"));
+        this(m, new BaseHelper<>(DESCRIPTION));
     }
 
     /**
@@ -44,7 +65,6 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
      *
      * @param xs an array of Xs to be sorted in place.
      */
-    @Override
     public void sort(X[] xs, int from, int to) {
         int N = to - from;
         H hh = new H(N);
@@ -55,19 +75,10 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
         }
     }
 
-    @Override
-    public Helper<X> getHelper() {
-        return helper;
-    }
-
-    @Override
-    public String toString() {
-        return helper.toString();
-    }
+    public static final String DESCRIPTION = "Shell sort";
 
     /**
      * Private method to h-sort an array.
-     * TODO use private method tester to test this
      *
      * @param h    the stride (gap) of the h-sort.
      * @param xs   the array to be sorted.
@@ -75,14 +86,14 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
      * @param to   one plus the last index to be considered in array xs.
      */
     private void hSort(int h, X[] xs, int from, int to) {
-        for (int i = h + from; i < to; i++)
-            for (int j = i; j >= h + from && helper.less(xs[j], xs[j - h]); j -= h) {
-                helper.swap(xs, from, to, j, j - h);
-            }
+        final Helper<X> helper = getHelper();
+        for (int i = h + from; i < to; i++) {
+            int j = i;
+            while (j >= h + from && helper.swapConditional(xs, j - h, j)) j -= h;
+        }
     }
 
     private final int m;
-    private final Helper<X> helper;
 
     /**
      * Private inner class to provide h (gap) values.
@@ -95,7 +106,6 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
         H(int N) {
             switch (m) {
                 case 1:
-                    // TO BE IMPLEMENTED
                     break;
                 case 2:
                     // TO BE IMPLEMENTED
@@ -131,13 +141,12 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
                 switch (m) {
                     case 1:
                         // TO BE IMPLEMENTED
-                        return 0;
                     case 2:
                         // TO BE IMPLEMENTED
-                        return 0;
+                        return h;
                     case 3:
                         // TO BE IMPLEMENTED
-                        return 0;
+                        return h;
                     default:
                         throw new RuntimeException("invalid m value: " + m);
                 }
@@ -146,17 +155,5 @@ public class ShellSort<X extends Comparable<X>> implements Sort<X> {
                 return h;
             }
         }
-    }
-
-    /**
-     * An example main program.
-     * @param args the command-line args (ignored).
-     */
-    public static void main(String[] args) {
-        ShellSort<Integer> s = new ShellSort<>(2);
-        Integer[] array = {5, 3, 0, 2, 4, 1, 0, 5, 2, 3, 1, 4};
-        System.out.println("Before:\t\t\t\t\t" + Arrays.toString(array));
-        s.sort(array, false);
-        System.out.println("After:\t\t\t\t\t" + Arrays.toString(array));
     }
 }

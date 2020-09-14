@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.graphs.gis;
 
+import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.Position;
 
 /**
@@ -10,7 +11,7 @@ import edu.neu.coe.info6205.graphs.undirected.Position;
  */
 public class GeoGraphSpherical<V extends GeoPoint, E> extends BaseGeoGraph<V, E> {
     @Override
-    public double length(GeoEdge<V, E> edge) {
+    public double length(Edge<V, E> edge) {
         V v1 = edge.get();
         V v2 = edge.getOther(v1);
         return getDistance(v1, v2);
@@ -22,6 +23,7 @@ public class GeoGraphSpherical<V extends GeoPoint, E> extends BaseGeoGraph<V, E>
 
     /**
      * Method to calculate distance between given longitudes and latitudes.
+     *
      * @param p1 The first point.
      * @param p2 The second point.
      * @return the distance between the points in meters.

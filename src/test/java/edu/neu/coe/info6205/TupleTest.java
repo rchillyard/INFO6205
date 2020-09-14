@@ -4,6 +4,7 @@
 
 package edu.neu.coe.info6205;
 
+import edu.neu.coe.info6205.equable.BaseEquable;
 import org.junit.Test;
 
 import java.util.Random;
@@ -19,8 +20,8 @@ public class TupleTest {
     @SuppressWarnings("EqualsWithItself")
     @Test
     public void testTuple1() {
-        Tuple tuple1 = new Tuple(1, Math.PI);
-        Tuple tuple2 = new Tuple(2, Math.E);
+        BaseEquable tuple1 = new Tuple(1, Math.PI);
+        BaseEquable tuple2 = new Tuple(2, Math.E);
         assertEquals("tuple1.hashCode()==340594883", 340594883, tuple1.hashCode());
         assertEquals("tuple2.hashCode()==-888017822", -888017822, tuple2.hashCode());
         assertEquals("tuple1.hashCode()==tuple1.hashCode()", tuple1.hashCode(), tuple1.hashCode());
@@ -41,11 +42,11 @@ public class TupleTest {
             ints[i] = random.nextInt(10);
             doubles[i] = random.nextDouble();
         }
-        Tuple tuple = new Tuple(ints[0], doubles[0]);
+        BaseEquable tuple = new Tuple(ints[0], doubles[0]);
         final int hashTuple = tuple.hashCode();
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++) {
-                Tuple t = new Tuple(ints[i], doubles[j]);
+                BaseEquable t = new Tuple(ints[i], doubles[j]);
                 final int h = t.hashCode();
                 final boolean eq = t.equals(tuple);
                 boolean ok = eq == (h == hashTuple);
@@ -59,8 +60,8 @@ public class TupleTest {
     @SuppressWarnings("EqualsWithItself")
     @Test
     public void testTuple2() {
-        Tuple tuple1 = new Tuple(1, 1.0);
-        Tuple tuple2 = new Tuple(1, 1.0);
+        BaseEquable tuple1 = new Tuple(1, 1.0);
+        BaseEquable tuple2 = new Tuple(1, 1.0);
         assertEquals("tuple1.hashCode()==1072694240", 1072694240, tuple1.hashCode());
         assertEquals("tuple2.hashCode()==1072694240", 1072694240, tuple2.hashCode());
         assertEquals("tuple1.hashCode()==tuple1.hashCode()", tuple1.hashCode(), tuple1.hashCode());

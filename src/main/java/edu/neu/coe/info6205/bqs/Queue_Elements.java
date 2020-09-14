@@ -9,7 +9,7 @@ import edu.neu.coe.info6205.SizedIterableImpl;
 
 import java.util.Iterator;
 
-public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
+public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
 
     /**
      * Construct a new (empty) queue.
@@ -25,8 +25,7 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
      * @param item the item to add
      */
     public void enqueue(Item item) {
-        // TO BE IMPLEMENTED ...
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
 
@@ -38,9 +37,7 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
     public Item dequeue() {
         if (isEmpty()) return null;
         else {
-            // TO BE IMPLEMENTED ...
-            return null;
-            // ... END IMPLEMENTATION
+            // TO BE IMPLEMENTED
         }
     }
 
@@ -58,7 +55,7 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
 
     @Override
     public String toString() {
-        return (oldest!=null?"Queue: next: "+oldest+(oldest.next!=null?" and others...":""):"empty");
+        return (oldest != null ? "Queue: next: " + oldest + (oldest.next != null ? " and others..." : "") : "empty");
     }
 
     @Override
@@ -71,17 +68,21 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item>  {
         return SizedIterableImpl.create(this).size();
     }
 
-    public void clear() { while(!isEmpty()) dequeue(); }
+    public void clear() {
+        while (!isEmpty()) dequeue();
+    }
 
     class QueueIterator implements Iterator<Item> {
         public boolean hasNext() {
-            return next!=null;
+            return next != null;
         }
+
         public Item next() {
             Item result = next.item;
             next = next.next;
             return result;
         }
+
         Element<Item> next = oldest;
 
     }

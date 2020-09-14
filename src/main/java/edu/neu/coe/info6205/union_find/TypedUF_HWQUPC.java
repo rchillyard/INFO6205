@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TypedUF_HWQUPC<T> extends UF_HWQUPC implements TypedUF<T> {
 
-    final private Map<T,Integer> map;
+    final private Map<T, Integer> map;
 
     public TypedUF_HWQUPC(SizedIterable<T> ts) {
         super(ts.size());
@@ -28,7 +28,7 @@ public class TypedUF_HWQUPC<T> extends UF_HWQUPC implements TypedUF<T> {
 
     private int lookup(T t) throws UFException {
         Integer x = map.get(t);
-        if (x!=null) return x;
-        else throw new UFException("Element "+t+" does not exist");
+        if (x != null) return x;
+        else throw new UFException("Element " + t + " does not exist");
     }
 }

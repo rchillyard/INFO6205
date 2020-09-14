@@ -48,9 +48,7 @@ public class Fibonacci {
     // This is the definition of the Fibonacci series.
     // NOTE: caller must ensure that 2 <= i <= fibonacci.length
     private long calculate(int i) {
-        // TO BE IMPLEMENTED ...
-        return 0L;
-        // END IMPLEMENTATION
+        return 0; // TO BE IMPLEMENTED
     }
 
     // for testing only

@@ -3,6 +3,7 @@ package edu.neu.coe.info6205.greedy;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
@@ -33,13 +34,13 @@ public class GreedyTest {
          * @param x the value for which we want the Zeckendorf representation.
          * @return the Zeckendorf representation.
          */
-        ArrayList<Long> run(Long x) {
+        Collection<Long> run(Long x) {
             fibonacci.ensure(x);
             return greedy.run(x, new ArrayList<>());
         }
 
         // We have to do it this cumbersome way because Java is not really a functional language
-        private ArrayList<Long> concatenate(Long l, ArrayList<Long> ls) {
+        private Collection<Long> concatenate(Long l, Collection<Long> ls) {
             ArrayList<Long> r = new ArrayList<>(ls);
             r.add(l);
             return r;
@@ -51,7 +52,7 @@ public class GreedyTest {
         }
 
         private final Fibonacci fibonacci;
-        private final Greedy<Long, ArrayList<Long>> greedy;
+        private final Greedy<Long, Collection<Long>> greedy;
     }
 
     /**

@@ -1,16 +1,20 @@
 package edu.neu.coe.info6205.graphs.tunnels;
 
+import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.graphs.gis.*;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
+import edu.neu.coe.info6205.graphs.undirected.Graph;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
-public class Tunnels implements Iterable<Edge> {
+public class Tunnels implements Iterable<Edge<Building, TunnelProperties>> {
 
     public static void main(String[] args) throws IOException {
         Tunnels ts = new Tunnels(BuildingLoader.createBuildings());
@@ -18,7 +22,7 @@ public class Tunnels implements Iterable<Edge> {
         double totalLength = 0.;
         GeoKruskal<Building, TunnelProperties> kruskal = (GeoKruskal<Building, TunnelProperties>) ts.getKruskal();
         Geo<Building, TunnelProperties> mst = kruskal.getGeoMST(new GeoGraphSpherical<>());
-        for (GeoEdge<Building, TunnelProperties> e : mst.goeEdges()) {
+        for (Edge<Building, TunnelProperties> e : mst.goeEdges()) {
             totalCost += e.getAttribute().cost;
             totalLength += e.getAttribute().length;
             System.out.println(e);
@@ -26,21 +30,28 @@ public class Tunnels implements Iterable<Edge> {
         Kml<Building, TunnelProperties> kml = new Kml<>(mst);
         String filename = "tunnels.kml";
         kml.createKML(new File(filename));
-        System.out.println("Tunnels output to KML file: "+ filename);
-        System.out.println("Total cost: "+totalCost+", total length: "+totalLength);
+        System.out.println("Tunnels output to KML file: " + filename);
+        System.out.println("Total cost: " + totalCost + ", total length: " + totalLength);
     }
 
-    public Tunnels(ArrayList<Building> buildings) {
+    public Tunnels(List<Building> buildings) {
         setupZones();
         setupTunnels();
-        kruskal = new GeoKruskal<>(createGraph(buildings));
+        // We arbitrarily limit the the length of any tunnel to 250m
+        kruskal = new GeoKruskal<>(createGraph(buildings, e -> e.getAttribute().length <= 250));
     }
 
-    public EdgeGraph<Building, TunnelProperties> getMst() {
+    public Graph<Building, Edge<Building, TunnelProperties>> getMst() {
         return getKruskal().getMST();
     }
 
-    public Iterator<Edge> iterator() {
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<Edge<Building, TunnelProperties>> iterator() {
         return getKruskal().iterator();
     }
 
@@ -50,26 +61,37 @@ public class Tunnels implements Iterable<Edge> {
 
     private final Kruskal<Building, TunnelProperties> kruskal;
 
-    private static Geo<Building, TunnelProperties> createGraph(ArrayList<Building> buildings) {
+    /**
+     * Create a graph consisting of all possible edges connection the buildings.
+     * The resulting graph should contain N(N-1)/2 edges where N is length of the list buildings.
+     *
+     * @param buildings a list of Buildings.
+     * @param predicate the predicate: only edges satisfying this predicate will be added to the graph.
+     * @return a Geo&lt;Building, TunnelProperties&gt;
+     */
+    private static EdgeGraph<Building, TunnelProperties> createGraph(List<Building> buildings, Predicate<Edge<Building, TunnelProperties>> predicate) {
         GeoGraphSpherical<Building, TunnelProperties> graph = new GeoGraphSpherical<>();
         int len = buildings.size();
         for (int i = 0; i < len; i++) {
             Building b1 = buildings.get(i);
             for (int j = i + 1; j < len; j++) {
-                    Building b2 = buildings.get(j);
-                    double length = graph.getDistance(b1, b2);
-                    graph.addEdge(b1, b2, getTunnelProperties(b1, b2, length));
-                }
+                Building b2 = buildings.get(j);
+                double length = graph.getDistance(b1, b2);
+                graph.addEdge(b1, b2, getTunnelProperties(b1, b2, length), predicate);
+            }
         }
+        SizedIterable<Edge<Building, TunnelProperties>> edges = graph.edges();
+        System.out.println("created " + edges.size() + " edges");
         return graph;
     }
 
     private static TunnelProperties getTunnelProperties(Building b1, Building b2, double length) {
-        return new TunnelProperties(Math.round(getCostFactor(b1, b2) * length), (int) Math.round(length), getPhase(b1, b2));
+        return new TunnelProperties(Math.round(getCostFactor(b1, b2) * length), (int) Math.round(length), getPhase(b1, b2), 0);
     }
 
     /**
      * Determine when the tunnel should be built (0 implies existing).
+     *
      * @param b1 building at one end.
      * @param b2 building at other end.
      * @return 0 if the tunnel is existing
@@ -163,16 +185,16 @@ public class Tunnels implements Iterable<Edge> {
         zones.add(0, "Center");
         zones.add(1, "Fenway");
         zones.add(2, "North");
-        zones.add(3,"Plaza");
-        zones.add(4,"West Village");
-        zones.add(5,"Centennial");
-        zones.add(6,"Matthews");
-        zones.add(7,"Columbus");
-        zones.add(8,"Strip");
-        zones.add(9,"St. Stephens");
-        zones.add(10,"Pool");
-        zones.add(11,"Theater");
-        zones.add(12,"Symphony");
+        zones.add(3, "Plaza");
+        zones.add(4, "West Village");
+        zones.add(5, "Centennial");
+        zones.add(6, "Matthews");
+        zones.add(7, "Columbus");
+        zones.add(8, "Strip");
+        zones.add(9, "St. Stephens");
+        zones.add(10, "Pool");
+        zones.add(11, "Theater");
+        zones.add(12, "Symphony");
     }
 
     private static void setupTunnels() {

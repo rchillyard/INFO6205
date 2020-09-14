@@ -14,9 +14,8 @@ public class GeoEdge<V extends GeoPoint, E> extends Edge<V, E> {
         super(a, b, attribute);
     }
 
-    public static <V extends GeoPoint, E> GeoEdge<V, E> create(Edge<V, E> edge) {
+    public static <V extends GeoPoint, E> Edge<V, E> create(Edge<V, E> edge) {
         V v = edge.get();
-        //noinspection unchecked
-        return new GeoEdge(v, edge.getOther(v), edge.getAttribute());
+        return new GeoEdge<>(v, edge.getOther(v), edge.getAttribute());
     }
 }

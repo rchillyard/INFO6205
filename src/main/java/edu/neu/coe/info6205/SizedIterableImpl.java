@@ -31,9 +31,13 @@ public class SizedIterableImpl<T> implements SizedIterable<T> {
     public static <T> SizedIterable<T> create(Iterable<T> iterable) {
         return new SizedIterableImpl<>(iterable);
     }
+
     public static <T> int getSize(Iterator<T> iterator) {
         int size = 0;
-        while (iterator.hasNext()) {size ++; iterator.next(); }
+        while (iterator.hasNext()) {
+            size++;
+            iterator.next();
+        }
         return size;
     }
 
@@ -42,7 +46,7 @@ public class SizedIterableImpl<T> implements SizedIterable<T> {
 
     private static <T> int getSize(Iterable<T> iterable) {
         int size = 0;
-        for (T t : iterable) size ++;
+        for (T t : iterable) size++;
         return size;
     }
 }

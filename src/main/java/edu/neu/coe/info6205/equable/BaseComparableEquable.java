@@ -6,7 +6,7 @@ package edu.neu.coe.info6205.equable;
 
 public abstract class BaseComparableEquable extends BaseEquable {
 
-    protected int compareTo(BaseComparableEquable o) {
+    protected int compareTo(BaseEquable o) {
         return ((ComparableEquable) getEquable()).compareTo((ComparableEquable) o.getEquable());
     }
 }

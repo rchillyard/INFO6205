@@ -97,7 +97,7 @@ public class HashTable {
                 System.out.println("i: " + i + ": hash: " + hashes[i] + ", key: " + keys[i] + ", value: " + values[i]);
     }
 
-    private class HashTableException extends RuntimeException {
+    private static class HashTableException extends RuntimeException {
         public HashTableException(String s) {
             super(s);
         }

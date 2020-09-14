@@ -17,11 +17,10 @@ class ParSort {
             CompletableFuture<int[]> parsort1 = parsort(array, from, from + (to - from) / 2); // TO IMPLEMENT
             CompletableFuture<int[]> parsort2 = parsort(array, from + (to - from) / 2, to); // TO IMPLEMENT
             CompletableFuture<int[]> parsort = parsort1.thenCombine(parsort2, (xs1, xs2) -> {
-                        int[] result = new int[xs1.length + xs2.length];
-                        // TO BE IMPLEMENTED ...
-                        // ... END IMPLEMENTATION
-                        return result;
-                    });
+                int[] result = new int[xs1.length + xs2.length];
+                // TO IMPLEMENT
+                return result;
+            });
 
             parsort.whenComplete((result, throwable) -> System.arraycopy(result, 0, array, from, result.length));
 //            System.out.println("# threads: "+ ForkJoinPool.commonPool().getRunningThreadCount());
@@ -33,8 +32,9 @@ class ParSort {
         return CompletableFuture.supplyAsync(
                 () -> {
                     int[] result = new int[to - from];
-                    // TO BE IMPLEMENTED ...
-                    // ... END IMPLEMENTATION
+                    // TO IMPLEMENT
+                    System.arraycopy(array, from, result, 0, result.length);
+                    sort(result, 0, to - from);
                     return result;
                 }
         );

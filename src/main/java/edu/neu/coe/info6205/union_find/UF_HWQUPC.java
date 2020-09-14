@@ -15,8 +15,9 @@ import java.util.Arrays;
 public class UF_HWQUPC implements UF {
     /**
      * Ensure that site p is connected to site q,
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     *
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      */
     public void connect(int p, int q) {
         if (!isConnected(p, q)) union(p, q);
@@ -27,7 +28,7 @@ public class UF_HWQUPC implements UF {
      * {@code 0} through {@code n-1}. Each site is initially in its own
      * component.
      *
-     * @param  n the number of sites
+     * @param n               the number of sites
      * @param pathCompression whether to use path compression
      * @throws IllegalArgumentException if {@code n < 0}
      */
@@ -48,7 +49,7 @@ public class UF_HWQUPC implements UF {
      * component.
      * This data structure uses path compression
      *
-     * @param  n the number of sites
+     * @param n the number of sites
      * @throws IllegalArgumentException if {@code n < 0}
      */
     public UF_HWQUPC(int n) {
@@ -73,27 +74,26 @@ public class UF_HWQUPC implements UF {
     /**
      * Returns the component identifier for the component containing site {@code p}.
      *
-     * @param  p the integer representing one site
+     * @param p the integer representing one site
      * @return the component identifier for the component containing site {@code p}
      * @throws IllegalArgumentException unless {@code 0 <= p < n}
      */
     public int find(int p) {
         validate(p);
         int root = p;
-        // TO BE IMPLEMENTED ...
-         // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
         return root;
     }
 
     /**
      * Returns true if the the two sites are in the same component.
      *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      * @return {@code true} if the two sites {@code p} and {@code q} are in the same component;
-     *         {@code false} otherwise
+     * {@code false} otherwise
      * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
+     *                                  both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     public boolean connected(int p, int q) {
         return find(p) == find(q);
@@ -103,10 +103,10 @@ public class UF_HWQUPC implements UF {
      * Merges the component containing site {@code p} with the
      * the component containing site {@code q}.
      *
-     * @param  p the integer representing one site
-     * @param  q the integer representing the other site
+     * @param p the integer representing one site
+     * @param q the integer representing the other site
      * @throws IllegalArgumentException unless
-     *         both {@code 0 <= p < n} and {@code 0 <= q < n}
+     *                                  both {@code 0 <= p < n} and {@code 0 <= q < n}
      */
     public void union(int p, int q) {
         // CONSIDER can we avoid doing find again?
@@ -121,6 +121,7 @@ public class UF_HWQUPC implements UF {
 
     /**
      * Used only by testing code
+     *
      * @param pathCompression true if you want path compression
      */
     public void setPathCompression(boolean pathCompression) {
@@ -129,12 +130,10 @@ public class UF_HWQUPC implements UF {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("UF_HWQUPC:");
-        stringBuilder.append("\n  count: ").append(count);
-        stringBuilder.append("\n  path compression? ").append(pathCompression);
-        stringBuilder.append("\n  parents: ").append(Arrays.toString(parent));
-        stringBuilder.append("\n  heights: ").append(Arrays.toString(height));
-        return stringBuilder.toString();
+        return "UF_HWQUPC:" + "\n  count: " + count +
+                "\n  path compression? " + pathCompression +
+                "\n  parents: " + Arrays.toString(parent) +
+                "\n  heights: " + Arrays.toString(height);
     }
 
     // validate that p is a valid index
@@ -155,6 +154,7 @@ public class UF_HWQUPC implements UF {
 
     /**
      * Used only by testing code
+     *
      * @param i the component
      * @return the parent of the component
      */
@@ -165,11 +165,10 @@ public class UF_HWQUPC implements UF {
     private final int[] parent;   // parent[i] = parent of i
     private final int[] height;   // height[i] = height of subtree rooted at i
     private int count;  // number of components
-    private boolean pathCompression = false;
+    private boolean pathCompression;
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED make shorter root point to taller one
-        // ... END IMPLEMENTATION
     }
 
     /**
@@ -177,6 +176,5 @@ public class UF_HWQUPC implements UF {
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED update parent to value of grandparent
-        // ... END IMPLEMENTATION
     }
 }

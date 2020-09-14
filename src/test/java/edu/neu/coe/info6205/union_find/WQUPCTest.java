@@ -12,6 +12,7 @@ import static org.junit.Assert.assertFalse;
 public class WQUPCTest {
 
     /**
+     *
      */
     @Test
     public void testFind0() {
@@ -20,6 +21,7 @@ public class WQUPCTest {
     }
 
     /**
+     *
      */
     @Test
     public void testFind1() {
@@ -30,6 +32,7 @@ public class WQUPCTest {
     }
 
     /**
+     *
      */
     @Test
     public void testFind2() {
@@ -44,6 +47,7 @@ public class WQUPCTest {
     }
 
     /**
+     *
      */
     @SuppressWarnings("Duplicates")
     @Test
@@ -95,6 +99,7 @@ public class WQUPCTest {
     }
 
     /**
+     *
      */
     @Test
     public void testConnected01() {

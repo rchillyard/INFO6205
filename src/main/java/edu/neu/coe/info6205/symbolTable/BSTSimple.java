@@ -3,7 +3,7 @@ package edu.neu.coe.info6205.symbolTable;
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<Key, Value> {
+public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
     @Override
     public Boolean contains(Key key) {
         return get(key) != null;
@@ -11,6 +11,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     /**
      * This implementation of putAll ensures that the keys are inserted into this BST in random order.
+     *
      * @param map a map of key value pairs
      */
     @Override
@@ -39,7 +40,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     public Value put(Key key, Value value) {
         NodeValue nodeValue = put(root, key, value);
         if (root == null) root = nodeValue.node;
-        if (nodeValue.value==null) root.count++;
+        if (nodeValue.value == null) root.count++;
         return nodeValue.value;
     }
 
@@ -83,7 +84,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     private Value get(Node node, Key key) {
         Node result = getNode(node, key);
-        return result!=null ? result.value : null;
+        return result != null ? result.value : null;
     }
 
     private Node getNode(Node node, Key key) {
@@ -116,7 +117,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             NodeValue result = put(node.smaller, key, value);
             if (node.smaller == null)
                 node.smaller = result.node;
-            if (result.value==null)
+            if (result.value == null)
                 result.node.count++;
             return result;
         } else {
@@ -124,16 +125,14 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             NodeValue result = put(node.larger, key, value);
             if (node.larger == null)
                 node.larger = result.node;
-            if (result.value==null)
+            if (result.value == null)
                 result.node.count++;
             return result;
         }
     }
 
     private Node delete(Node x, Key key) {
-        // TO BE IMPLEMENTED ...
-        return null;
-        // ... END IMPLEMENTATION
+        // TO BE IMPLEMENTED
     }
 
     private Node deleteMin(Node x) {
@@ -155,9 +154,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     /**
      * Do a generic traverse of the binary tree starting with node
-     * @param q determines when the function f is invoked ( lt 0: pre, ==0: in, gt 0: post)
+     *
+     * @param q    determines when the function f is invoked ( lt 0: pre, ==0: in, gt 0: post)
      * @param node the node
-     * @param f the function to be invoked
+     * @param f    the function to be invoked
      */
     private void doTraverse(int q, Node node, BiFunction<Key, Value, Void> f) {
         if (node == null) return;
@@ -232,10 +232,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     private void setRoot(Node node) {
-        if(root==null){
+        if (root == null) {
             root = node;
             root.count++;
-        }else
+        } else
             root = node;
     }
 

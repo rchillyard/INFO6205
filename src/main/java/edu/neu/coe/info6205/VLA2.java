@@ -1,9 +1,12 @@
 package edu.neu.coe.info6205;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class VLA2 {
-    public VLA2(int d) { dishSize = d; }
+    public VLA2(int d) {
+        dishSize = d;
+    }
 
     public static void main(String[] args) {
         Comparator<VLA2> cf = Comparator.comparingInt(o -> o.dishSize);
@@ -12,8 +15,8 @@ public class VLA2 {
         int index = Arrays.binarySearch(va, new VLA2(40), cf);
         System.out.print(index + " ");
         index = Arrays.binarySearch(va, new VLA2(80), cf);
-        System.out.print(index>=0);
+        System.out.print(index >= 0);
     }
 
-    private int dishSize;
+    private final int dishSize;
 }

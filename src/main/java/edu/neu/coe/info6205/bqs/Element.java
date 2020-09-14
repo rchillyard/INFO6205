@@ -19,6 +19,6 @@ public class Element<Item> {
 
     @Override
     public String toString() {
-        return item+(next==null?" (last)":"");
+        return item + (next == null ? " (last)" : "");
     }
 }
