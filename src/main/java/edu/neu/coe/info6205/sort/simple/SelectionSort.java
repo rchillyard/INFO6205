@@ -35,14 +35,8 @@ public class SelectionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public void sort(X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
-        for (int i = from; i < to; i++) {
-            int min = i;
-            for (int j = i + 1; j < to; j++)
-                if (helper.less(xs[j], xs[min]))
-                    min = j;
-            helper.swap(xs, i, min);
-        }
-    }
+        // TO BE IMPLEMENTED
+     }
 
     /**
      * This is used by unit tests.
