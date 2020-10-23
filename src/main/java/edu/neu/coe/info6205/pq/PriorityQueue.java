@@ -3,7 +3,7 @@ package edu.neu.coe.info6205.pq;
 import java.util.*;
 
 /**
- * Priority Queue Data Structure which uses a binary heap.
+ * Priority Queue Data Structure which uses a d-way heap.
  * <p>
  * It is unlimited in capacity, although there is no code to grow it after it has been constructed.
  * It can serve as a minPQ or a maxPQ (define "max" as either false or true, respectively).
@@ -18,47 +18,6 @@ import java.util.*;
  * @param <K>
  */
 public class PriorityQueue<K> implements Iterable<K> {
-
-    /**
-     * Basic constructor that takes the max value, an actually array of elements, and a comparator.
-     *
-     * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
-     * @param binHeap    a pre-formed array with length one greater than the required capacity.
-     * @param last       the number of elements in binHeap
-     * @param comparator a comparator for the type K
-     */
-    public PriorityQueue(boolean max, Object[] binHeap, int last, Comparator<K> comparator) {
-
-        this.max = max;
-        this.comparator = comparator;
-        this.last = last;
-        //noinspection unchecked
-        this.binHeap = (K[]) binHeap;
-    }
-
-    /**
-     * Constructor which takes only the priority queue's maximum capacity and a comparator
-     *
-     * @param n          the desired maximum capacity.
-     * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
-     * @param comparator a comparator for the type K
-     */
-    public PriorityQueue(int n, boolean max, Comparator<K> comparator) {
-
-        // NOTE that we reserve the first element of the binary heap, so the length must be n+1, not n
-        this(max, new Object[n + 1], 0, comparator);
-    }
-
-    /**
-     * Constructor which takes only the priority queue's maximum capacity and a comparator
-     *
-     * @param n          the desired maximum capacity.
-     * @param comparator a comparator for the type K
-     */
-    public PriorityQueue(int n, Comparator<K> comparator) {
-
-        this(n, true, comparator);
-    }
 
     /**
      * @return true if the current size is zero.
@@ -80,15 +39,15 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @param key the value of the key to give
      */
     public void give(K key) {
-        if (last == binHeap.length - 1)
+        if (last == dHeap.length - 1)
             last--; // if we are already at capacity, then we arbitrarily trash the least eligible element
         // (even if it's more eligible than key).
-        binHeap[++last] = key; // insert the key into the binary heap just after the last element
-        swimUp(last); // reorder the binary heap
+        dHeap[++last] = key; // insert the key into the heap just after the last element
+        swimUp(last); // reorder the d-way heap
     }
 
     /**
-     * Remove the root element from this Priority Queue and adjust the binary heap accordingly.
+     * Remove the root element from this Priority Queue and adjust the d-way heap accordingly.
      * If max is true, then the result will be the maximum element, else the minimum element.
      * NOTE that this method is called DelMax (or DelMin) in the book.
      *
@@ -97,11 +56,50 @@ public class PriorityQueue<K> implements Iterable<K> {
      */
     public K take() throws PQException {
         if (isEmpty()) throw new PQException("Priority queue is empty");
-        K result = binHeap[1]; // get the root element (the largest or smallest, according to field max)
+        K result = dHeap[1]; // get the root element (the largest or smallest, according to field max)
         swap(1, last--); // swap the root element with the last element
         sink(1); // adjust the heap so that it is ordered again
-        binHeap[last + 1] = null; // prevent loitering
+        dHeap[last + 1] = null; // prevent loitering
         return result;
+    }
+
+    /**
+     * Basic constructor that takes the max value, an actual array of elements, and a comparator.
+     *  @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
+     * @param dHeap    a pre-formed array with length one greater than the required capacity.
+     * @param d     the max number of children for a node.
+     * @param last       the number of elements in d-way heap.
+     * @param comparator a comparator for the type K.
+     */
+    public PriorityQueue(boolean max, Object[] dHeap, int d, int last, Comparator<K> comparator) {
+        this.max = max;
+        this.d = d;
+        this.comparator = comparator;
+        this.last = last;
+        //noinspection unchecked
+        this.dHeap = (K[]) dHeap;
+    }
+
+    /**
+     * Constructor which takes only the priority queue's maximum capacity and a comparator
+     *  @param m          the desired maximum capacity.
+     * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
+     * @param d     the max number of children for a node.
+     * @param comparator a comparator for the type K
+     */
+    public PriorityQueue(int m, boolean max, int d, Comparator<K> comparator) {
+        // NOTE that we reserve the first element of the d-way heap, so the length must be m+1, not m
+        this(max, new Object[m + 1], d, 0, comparator);
+    }
+
+    /**
+     * Constructor which creates a binary-heap-based PQ and takes only the PQ's maximum capacity and a comparator.
+     *
+     * @param n          the desired maximum capacity.
+     * @param comparator a comparator for the type K
+     */
+    public PriorityQueue(int n, Comparator<K> comparator) {
+        this(n, true, 2, comparator);
     }
 
     /**
@@ -109,8 +107,8 @@ public class PriorityQueue<K> implements Iterable<K> {
      */
     private void sink(@SuppressWarnings("SameParameterValue") int k) {
         int i = k;
-        while (firstChild(i) <= last) {
-            int j = firstChild(i);
+        while (lthChild(i, 1) <= last) {
+            int j = designatedChild(i);
             if (j < last && unordered(j, j + 1)) j++;
             if (!unordered(i, j)) break;
             swap(i, j);
@@ -133,11 +131,17 @@ public class PriorityQueue<K> implements Iterable<K> {
      * Exchange the values at indices i and j
      */
     private void swap(int i, int j) {
-        K tmp = binHeap[i];
-        binHeap[i] = binHeap[j];
-        binHeap[j] = tmp;
+        K tmp = dHeap[i];
+        dHeap[i] = dHeap[j];
+        dHeap[j] = tmp;
     }
 
+    private int designatedChild(int k) {
+        int first = k * d;
+        int result = first;
+        for (int i = 0; i < d; i++) if (unordered(result, first+i)) result = first+i;
+        return result;
+    }
     /**
      * Compare the elements at indices i and j.
      * We expect the first index (the smaller one) to be greater than the second, assuming that max is true.
@@ -148,22 +152,21 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @return true if the values are out of order.
      */
     private boolean unordered(int i, int j) {
-        return (comparator.compare(binHeap[i], binHeap[j]) > 0) ^ max;
+        return (comparator.compare(dHeap[i], dHeap[j]) > 0) ^ max;
     }
 
     /**
      * Get the index of the parent of the element at index k
      */
     private int parent(int k) {
-        return k / 2;
+        return k / d;
     }
 
     /**
-     * Get the index of the first child of the element at index k.
-     * The index of the second child will be one greater than the result.
+     * Get the index of the l-th child of the element at index k.
      */
-    private int firstChild(int k) {
-        return k * 2;
+    private int lthChild(int k, int l) {
+        return k * d + l;
     }
 
     /**
@@ -172,7 +175,7 @@ public class PriorityQueue<K> implements Iterable<K> {
 
     @SuppressWarnings("unused")
     private K peek(int k) {
-        return binHeap[k];
+        return dHeap[k];
     }
 
     @SuppressWarnings("unused")
@@ -180,14 +183,15 @@ public class PriorityQueue<K> implements Iterable<K> {
         return max;
     }
 
+    private final int d;
     private final boolean max;
     private final Comparator<K> comparator;
-    private final K[] binHeap; // binHeap[i] is ith element of binary heap (first element is reserved)
-    private int last; // number of elements in the binary heap
+    private final K[] dHeap; // dHeap[i] is ith element of d-way heap (first element is reserved)
+    private int last; // number of elements in the d-way heap
 
     @Override
     public Iterator<K> iterator() {
-        Collection<K> result = new ArrayList<>(Arrays.asList(binHeap));
+        Collection<K> result = new ArrayList<>(Arrays.asList(dHeap));
         return result.iterator();
     }
 }

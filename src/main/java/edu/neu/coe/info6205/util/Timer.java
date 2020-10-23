@@ -55,6 +55,7 @@ public class Timer {
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         logger.trace("repeat: with " + n + " runs");
         // TO BE IMPLEMENTED: note that the timer is running when this method is called and should still be running when it returns.
+        return 0;
     }
 
     /**
@@ -173,6 +174,7 @@ public class Timer {
      */
     private static long getClock() {
         // TO BE IMPLEMENTED
+        return 0;
     }
 
     /**
@@ -184,6 +186,7 @@ public class Timer {
      */
     private static double toMillisecs(long ticks) {
         // TO BE IMPLEMENTED
+        return 0;
     }
 
     final static LazyLogger logger = new LazyLogger(Timer.class);

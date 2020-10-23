@@ -66,7 +66,7 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
     }
 
     private PriorityQueue<Edge<V, X>> createPQ(SizedIterable<Edge<V, X>> edges) {
-        PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
+        PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, 2, Comparator.comparing(Edge::getAttribute));
         for (Edge<V, X> e : edges) result.give(e);
         return result;
     }

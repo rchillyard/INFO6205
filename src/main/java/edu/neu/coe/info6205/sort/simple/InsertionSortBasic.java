@@ -9,10 +9,10 @@ import java.util.Arrays;
 public class InsertionSortBasic {
 
     public void sort(Object[] a) {
-        for (int i = 1; i < a.length; i++) swap(i, a);
+        for (int i = 1; i < a.length; i++) insert(i, a);
     }
 
-    private void swap(int i, Object[] a) {
+    private void insert(int i, Object[] a) {
         // TO BE IMPLEMENTED
     }
 
