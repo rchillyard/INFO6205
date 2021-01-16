@@ -4,8 +4,11 @@
 
 package edu.neu.coe.info6205.randomwalk;
 
+import com.google.common.math.IntMath;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
+
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -85,5 +88,17 @@ public class RandomWalkTest {
     public void testRandomWalk2() {
         for (int i = 0; i < 5000; i++)
             assertNotSame(0, RandomWalk.randomWalkMulti(1, 1));
+    }
+
+    @Test
+    public void testRandomWalk3() {
+        Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            int steps = random.nextInt(200);
+            double expected = Math.sqrt(steps);
+            double average = RandomWalk.randomWalkMulti(steps, 10000);
+            System.out.printf("steps: %d Expected value: %.4f Actual value: %.4f Difference: %.4f\n", steps, expected, average, expected-average);
+            assertEquals(expected, average, 4);
+        }
     }
 }
