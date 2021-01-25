@@ -3,10 +3,20 @@
  */
 package edu.neu.coe.info6205.sort.simple;
 
-import edu.neu.coe.info6205.sort.BaseHelper;
-import edu.neu.coe.info6205.sort.Helper;
-import edu.neu.coe.info6205.sort.SortWithHelper;
+import edu.neu.coe.info6205.sort.*;
 import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.LazyLogger;
+import edu.neu.coe.info6205.util.Timer;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Random;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.junit.Assert.assertTrue;
 
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
@@ -52,9 +62,18 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
      * @param to   the index of the first element not to sort
      */
     public void sort(X[] xs, int from, int to) {
+        rangeCheck(xs.length, from, to);
         final Helper<X> helper = getHelper();
-
         // TO BE IMPLEMENTED
+        for (int i = from+1; i < to; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (xs[j].compareTo(xs[j + 1]) > 0) {
+                    helper.swap(xs, j, j + 1);
+                } else {
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -69,4 +88,76 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public static final String DESCRIPTION = "Insertion sort";
 
+
+    static void rangeCheck(int arrayLength, int fromIndex, int toIndex) {
+        if (fromIndex > toIndex) {
+            throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
+        } else if (fromIndex < 0) {
+            throw new ArrayIndexOutOfBoundsException(fromIndex);
+        } else if (toIndex > arrayLength) {
+            throw new ArrayIndexOutOfBoundsException(toIndex);
+        }
+    }
+
+    final static LazyLogger logger = new LazyLogger(InsertionSort.class);
+
+    public static void main(String[] args) throws IOException {
+//        partially-ordered and
+//        Use the doubling method for choosing n
+//        and test for at least five values of n.
+        int repeatTimes = 5;
+        int n = 100;
+
+        Config config = Config.load();
+        Helper<Integer> helper = HelperFactory.create("InsertionSort", n, config);
+        helper.init(n);
+        Integer[] nums = helper.random(Integer.class, r -> r.nextInt(1000));
+        // random
+        double meanTime = new Timer().repeat(repeatTimes, () -> nums, t -> {
+            SortWithHelper<Integer> sorter = new InsertionSort<>(helper);
+            t = sorter.sort(t);
+            assertTrue(helper.sorted(t));
+            return null;
+        });
+        logger.info("random: "+meanTime);
+
+        // ordered
+        meanTime = new Timer().repeat(repeatTimes, () -> nums, t -> {
+            SortWithHelper<Integer> sorter = new InsertionSort<>(helper);
+            t = sorter.sort(t);
+            assertTrue(helper.sorted(t));
+            return null;
+        });
+        logger.info("ordered: "+meanTime);
+
+        // partially-order
+        UnaryOperator<Integer[]> partiallySort = t->{
+            SortWithHelper<Integer> sorter = new InsertionSort<>(helper);
+            Random random = new Random();
+            int max = random.nextInt(t.length);
+            int min = random.nextInt(max);
+            sorter.sort(t, min, max);
+            return t;
+        };
+        meanTime = new Timer().repeat(repeatTimes, () -> nums, t -> {
+            SortWithHelper<Integer> sorter = new InsertionSort<>(helper);
+            t = sorter.sort(t);
+            assertTrue(helper.sorted(t));
+            return null;
+        }, partiallySort, null);
+        logger.info("partially-order: "+meanTime);
+
+        // reversed-order
+        UnaryOperator<Integer[]> totalSort = t -> {
+            return Arrays.stream(t).sorted(Comparator.reverseOrder()).toArray(Integer[]::new);
+        };
+        meanTime = new Timer().repeat(repeatTimes, () -> nums, t -> {
+            SortWithHelper<Integer> sorter = new InsertionSort<>(helper);
+            t = sorter.sort(t);
+            assertTrue(helper.sorted(t));
+            return null;
+        }, totalSort, null);
+        logger.info("reversed-order: "+meanTime);
+
+    }
 }
