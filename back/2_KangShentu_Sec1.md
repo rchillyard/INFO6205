@@ -1,66 +1,53 @@
-/*
-  (c) Copyright 2018, 2019 Phasmid Software
- */
-package edu.neu.coe.info6205.sort.simple;
+#### Author
 
-import edu.neu.coe.info6205.sort.*;
-import edu.neu.coe.info6205.util.Config;
-import edu.neu.coe.info6205.util.LazyLogger;
-import edu.neu.coe.info6205.util.Timer;
+[Kang Shentu](shentu.k@northeastern.edu)
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Random;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+001569432
 
-import static org.junit.Assert.assertTrue;
+### Part1
 
-public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
+#### Implement Code
 
-    /**
-     * Constructor for any sub-classes to use.
-     *
-     * @param description the description.
-     * @param N           the number of elements expected.
-     * @param config      the configuration.
-     */
-    protected InsertionSort(String description, int N, Config config) {
-        super(description, N, config);
+```java
+		// 1. 
+    private static long getClock() {
+        // TO BE IMPLEMENTED
+        return System.nanoTime();
     }
-
-    /**
-     * Constructor for InsertionSort
-     *
-     * @param N      the number elements we expect to sort.
-     * @param config the configuration.
-     */
-    public InsertionSort(int N, Config config) {
-        this(DESCRIPTION, N, config);
+    // 2. 
+    private static double toMillisecs(long ticks) {
+        // TO BE IMPLEMENTED
+        return ticks * 1E-6;
     }
-
-    public InsertionSort() {
-        this(new BaseHelper<>(DESCRIPTION));
+    // 3. 
+    public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
+        logger.trace("repeat: with " + n + " runs");
+        this.running = false;
+        this.ticks = 0;
+        for (int i = 0; i < n; i++) {
+            T value = supplier.get();
+            if(Objects.nonNull(preFunction))
+                value = preFunction.apply(value);
+            resume();
+            U result = function.apply(value);
+            pauseAndLap();
+            if(Objects.nonNull(postFunction))
+                postFunction.accept(result);
+        }
+        return meanLapTime();
     }
+```
 
-    /**
-     * Constructor for InsertionSort
-     *
-     * @param helper an explicit instance of Helper to be used.
-     */
-    public InsertionSort(Helper<X> helper) {
-        super(helper);
-    }
+##### Passed Test
 
-    /**
-     * Sort the sub-array xs:from:to using insertion sort.
-     *
-     * @param xs   sort the array xs from "from" to "to".
-     * @param from the index of the first element to sort
-     * @param to   the index of the first element not to sort
-     */
+![截屏2021-01-26 上午3.13.59](https://tva1.sinaimg.cn/large/008eGmZEly1gn0kfs4e0pj31l50u0anh.jpg)
+
+#### Part2
+
+##### Implement Code
+
+```java
+    // 1.  
     public void sort(X[] xs, int from, int to) {
         rangeCheck(xs.length, from, to);
         final Helper<X> helper = getHelper();
@@ -68,7 +55,7 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
         for (int i = from+1; i < to; i++) {
             for (int j = i - 1; j >= 0; j--) {
                 if(helper.compare(xs, j, j+1) > 0) {
-//                if (xs[j].compareTo(xs[j + 1]) > 0) {
+                // if (xs[j].compareTo(xs[j + 1]) > 0) {
                     helper.swap(xs, j, j + 1);
                 } else {
                     break;
@@ -76,20 +63,7 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
             }
         }
     }
-
-    /**
-     * This is used by unit tests.
-     *
-     * @param ys  the array to be sorted.
-     * @param <Y> the underlying element type.
-     */
-    public static <Y extends Comparable<Y>> void mutatingInsertionSort(Y[] ys) {
-        new InsertionSort<Y>().mutatingSort(ys);
-    }
-
-    public static final String DESCRIPTION = "Insertion sort";
-
-
+    // 2. 
     static void rangeCheck(int arrayLength, int fromIndex, int toIndex) {
         if (fromIndex > toIndex) {
             throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
@@ -99,10 +73,8 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
             throw new ArrayIndexOutOfBoundsException(toIndex);
         }
     }
-
-    final static LazyLogger logger = new LazyLogger(InsertionSort.class);
-
-    public static void main(String[] args) throws IOException {
+		// 3. main method
+public static void main(String[] args) throws IOException {
         int repeatTimes = 5;
         int n = 100;
 
@@ -157,4 +129,24 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
         }, totalSort, null);
         logger.info("reversed-order: "+meanTime);
     }
-}
+
+```
+
+##### Screenshot
+
+![截屏2021-01-26 上午3.19.46](https://tva1.sinaimg.cn/large/008eGmZEly1gn0kfnv92sj31c00u016c.jpg)
+
+##### Passed Test
+
+![截屏2021-01-26 上午3.24.23](https://tva1.sinaimg.cn/large/008eGmZEly1gn0kfkmuufj31c00u0h2w.jpg)
+
+![截屏2021-01-26 上午3.17.57](https://tva1.sinaimg.cn/large/008eGmZEly1gn0kfbc05dj31ze0h0n1b.jpg)
+
+#### Conclusion
+
+As the screenshot shown, the reversed-order array is the most time-consuming.
+
+The number of comparisons is not certain. The less the number of comparisons, the more the data movement after the insertion point, especially when the total amount of data is huge.
+
+The best time complexity is O(n) when the array is in order, and the worst time complexity is O(n^2) when the array is in reverse order. It is known that the average time complexity of inserting an element into an ordered array is O(n), then n operations are performed, so the average time complexity is O(n^2).
+
