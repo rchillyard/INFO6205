@@ -110,10 +110,12 @@ public class DList<Item> implements Iterable<Item> {
 
     public D_Element findFirst(Item item) {
         // TO BE IMPLEMENTED
+        throw new UnsupportedOperationException();
     }
 
     public D_Element findLast(Item item) {
         // TO BE IMPLEMENTED
+        throw new UnsupportedOperationException();
     }
 
     public boolean isEmpty() {
