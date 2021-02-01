@@ -5,8 +5,15 @@ package edu.neu.coe.info6205.sort.simple;
 
 import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.HelperFactory;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.StatPack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
@@ -54,7 +61,14 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
     public void sort(X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
 
-        // TO BE IMPLEMENTED
+        for(int i = from + 1; i < to; i++){
+            X temp = xs[i];
+            int j;
+            for(j = i; j > from && helper.compare(xs[j-1],temp)==1; j--){
+                helper.swap(xs,j-1,j);
+            }
+            xs[j] = temp;
+        }
     }
 
     /**
@@ -69,4 +83,22 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public static final String DESCRIPTION = "Insertion sort";
 
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(1);
+        list.add(9);
+        list.add(6);
+        list.add(8);
+        list.add(4);
+        Integer[] xs = list.toArray(new Integer[list.size()]);
+        InsertionSort<Integer> s = new InsertionSort<>();
+        s.sort(xs,0,8);
+        for (Integer num: xs
+             ) {
+            System.out.println(num);
+        }
+    }
 }
