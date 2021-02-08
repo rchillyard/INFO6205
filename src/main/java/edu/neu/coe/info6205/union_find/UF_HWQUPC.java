@@ -7,7 +7,9 @@
  */
 package edu.neu.coe.info6205.union_find;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Height-weighted Quick Union with Path Compression
@@ -81,7 +83,12 @@ public class UF_HWQUPC implements UF {
     public int find(int p) {
         validate(p);
         int root = p;
-        // TO BE IMPLEMENTED
+        while (root != getParent(root)) {
+            if (pathCompression) {
+                doPathCompression(root);
+            }
+            root = getParent(root);
+        }
         return root;
     }
 
@@ -169,6 +176,13 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED make shorter root point to taller one
+        if (height[i] < height[j]) {
+            updateParent(i, j);
+            updateHeight(j, i);
+        } else {
+            updateParent(j, i);
+            updateHeight(i, j);
+        }
     }
 
     /**
@@ -176,5 +190,33 @@ public class UF_HWQUPC implements UF {
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED update parent to value of grandparent
+        updateParent(i, getParent(getParent(i)));
+    }
+
+    public static void main(String[] args) throws IOException {
+        Random random = new Random();
+        for (int times = 0; times < 100; times++) {
+            int n = random.nextInt(100);
+            int count = count(n);
+            System.out.printf("n is %d, count is %d\n", n, count);
+        }
+    }
+
+    /**
+     * @param n the number of sites
+     * @return the number of connections
+     */
+    private static int count(int n) {
+        UF_HWQUPC client = new UF_HWQUPC(n);
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (!client.isConnected(i,j)){
+                    client.union(i,j);
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }
