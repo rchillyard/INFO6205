@@ -96,7 +96,7 @@ public class WheelOfFortuneTest {
         assertEquals(Boolean.TRUE, wheel.get());
     }
 
-    @Test
+    @Test // Slow
     public void videoPoker() {
         WheelOfFortune.Event<String> highCard = WheelOfFortune.valueOf("highCard", 1302540);
         WheelOfFortune.Event<String> pair = WheelOfFortune.valueOf("pair", 1098240);
@@ -121,6 +121,6 @@ public class WheelOfFortuneTest {
     @Test
     public void valueOf() {
         WheelOfFortune.Event<String> event = WheelOfFortune.valueOf("event", 99);
-        assertEquals(new WheelOfFortune.Event("event", 99), event);
+        assertEquals(new WheelOfFortune.Event<>("event", 99), event);
     }
 }

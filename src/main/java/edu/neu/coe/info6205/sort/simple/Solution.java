@@ -8,7 +8,20 @@ public class Solution {
     }
 
     static int binarySearch(int[] array, int key) {
-        // TO BE IMPLEMENTED
+        //TODO:: implement binary search
+        if (array.length == 0) return -1;
+        int left = 0;
+        int right = array.length - 1;
+        while (left < right) {
+            int temp = (left + right) / 2;
+            if (array[temp] == key)
+                return temp;
+            else if (array[temp] > key) {
+                left = temp + 1;
+            } else if (array[temp] < key) {
+                right = temp - 1;
+            }
+        }
         return -1;
 
     }

@@ -43,8 +43,8 @@ public class IntroSort<X extends Comparable<X>> extends QuickSort_DualPivot<X> {
         super(DESCRIPTION, N, config);
     }
 
-    public IntroSort() {
-        this(new BaseHelper<>(DESCRIPTION));
+    public IntroSort(Config config) {
+        this(new BaseHelper<>(DESCRIPTION, config));
     }
 
     @Override

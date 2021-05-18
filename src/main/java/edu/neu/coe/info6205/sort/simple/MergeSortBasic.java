@@ -29,8 +29,14 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
      * @param config the configuration.
      */
     public MergeSortBasic(int N, Config config) {
-        super(DESCRIPTION, N, config);
+        super(DESCRIPTION + ":" + getConfigString(config), N, config);
         insertionSort = new InsertionSort<>(getHelper());
+    }
+
+    private static String getConfigString(Config config) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (config.getBoolean("mergesort", "insurance")) stringBuilder.append(" with insurance comparison");
+        return stringBuilder.toString();
     }
 
     @Override

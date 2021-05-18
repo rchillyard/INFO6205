@@ -1,6 +1,6 @@
 package edu.neu.coe.info6205.sort;
 
-import edu.neu.coe.info6205.sort.simple.MergeSortBasicTest;
+import edu.neu.coe.info6205.sort.simple.MergeSortTest;
 import edu.neu.coe.info6205.util.Config;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class SortTest {
 
     static class TestSorter extends SortWithHelper<Integer> {
-        public TestSorter(String description, int N, boolean instrumenting, Config config) {
+        public TestSorter(String description, int N, Config config) {
             super(description, N, config);
         }
 
@@ -34,7 +34,7 @@ public class SortTest {
 
     @Test
     public void testSort1() {
-        final TestSorter sorter = new TestSorter("test", 100, true, config);
+        final TestSorter sorter = new TestSorter("test", 100, config);
         final Helper<Integer> helper = sorter.getHelper();
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000000));
         final Integer[] ys = sorter.sort(xs);
@@ -45,7 +45,7 @@ public class SortTest {
     @Test
     public void testSort2() {
         final int N = 100;
-        final TestSorter sorter = new TestSorter("test", N, true, config);
+        final TestSorter sorter = new TestSorter("test", N, config);
         final Helper<Integer> helper = sorter.getHelper();
         helper.init(N);
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000000));
@@ -84,7 +84,7 @@ public class SortTest {
 
     @Test
     public void mutatingSort() {
-        final TestSorter sorter = new TestSorter("test", 100, true, config);
+        final TestSorter sorter = new TestSorter("test", 100, config);
         final Helper<Integer> helper = sorter.getHelper();
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000000));
         sorter.mutatingSort(xs);
@@ -94,7 +94,7 @@ public class SortTest {
 
     @Test
     public void testSort4() {
-        final TestSorter sorter = new TestSorter("test", 100, true, config);
+        final TestSorter sorter = new TestSorter("test", 100, config);
         final Helper<Integer> helper = sorter.getHelper();
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000000));
         final Integer[] ys = sorter.sort(xs, false);
@@ -105,7 +105,7 @@ public class SortTest {
 
     @Test
     public void testSort5() {
-        final TestSorter sorter = new TestSorter("test", 100, true, config);
+        final TestSorter sorter = new TestSorter("test", 100, config);
         final Helper<Integer> helper = sorter.getHelper();
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000000));
         final Collection<Integer> list = Arrays.asList(xs);
@@ -117,18 +117,22 @@ public class SortTest {
     }
 
     @Test
+    // TEST
     public void getHelper() {
     }
 
     @Test
+    // TEST
     public void init() {
     }
 
     @Test
+    // TEST
     public void preProcess() {
     }
 
     @Test
+    // TEST
     public void close() {
     }
 
@@ -136,7 +140,7 @@ public class SortTest {
 
     @BeforeClass
     public static void beforeClass() throws IOException {
-        config = Config.load(MergeSortBasicTest.class);
+        config = Config.load(MergeSortTest.class);
     }
 
 }

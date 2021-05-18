@@ -8,6 +8,7 @@ import edu.neu.coe.info6205.sort.*;
 import edu.neu.coe.info6205.util.*;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class BubbleSortTest {
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        BaseHelper<Integer> helper = new BaseHelper<>("BubbleSort", xs.length);
+        BaseHelper<Integer> helper = new BaseHelper<>("BubbleSort", xs.length, Config.load(BubbleSortTest.class));
         GenericSort<Integer> sorter = new BubbleSort<Integer>(helper);
         Integer[] ys = sorter.sort(xs);
         assertTrue(helper.sorted(ys));
@@ -59,14 +60,14 @@ public class BubbleSortTest {
     }
 
     @Test
-    public void testMutatingBubbleSort() {
+    public void testMutatingBubbleSort() throws IOException {
         final List<Integer> list = new ArrayList<>();
         list.add(3);
         list.add(4);
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        BaseHelper<Integer> helper = new BaseHelper<>("BubbleSort", xs.length);
+        BaseHelper<Integer> helper = new BaseHelper<>("BubbleSort", xs.length, Config.load(BubbleSortTest.class));
         GenericSort<Integer> sorter = new BubbleSort<Integer>(helper);
         sorter.mutatingSort(xs);
         assertTrue(helper.sorted(xs));

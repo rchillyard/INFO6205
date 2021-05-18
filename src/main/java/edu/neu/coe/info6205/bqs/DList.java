@@ -106,16 +106,17 @@ public class DList<Item> implements Iterable<Item> {
      */
     public void remove(D_Element element) {
         // TO BE IMPLEMENTED
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public D_Element findFirst(Item item) {
         // TO BE IMPLEMENTED
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public D_Element findLast(Item item) {
         // TO BE IMPLEMENTED
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public boolean isEmpty() {

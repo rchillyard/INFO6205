@@ -24,7 +24,7 @@ public class PriorityQueueTest {
         binHeap[1] = "A";
         binHeap[2] = "B";
         boolean max = false;
-        PriorityQueue<String> pq = new PriorityQueue<>(max, binHeap, 2, Comparator.comparing(String::toString));
+        PriorityQueue<String> pq = new PriorityQueue<>(max, binHeap, 2, Comparator.comparing(String::toString), false);
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         assertEquals(max, tester.invokePrivate("unordered", 1, 2));
     }
@@ -35,7 +35,7 @@ public class PriorityQueueTest {
         binHeap[1] = "A";
         binHeap[2] = "B";
         boolean max = true;
-        PriorityQueue<String> pq = new PriorityQueue<>(max, binHeap, 2, Comparator.comparing(String::toString));
+        PriorityQueue<String> pq = new PriorityQueue<>(max, binHeap, 2, Comparator.comparing(String::toString), false);
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         assertEquals(max, tester.invokePrivate("unordered", 1, 2));
     }
@@ -47,7 +47,7 @@ public class PriorityQueueTest {
         String b = "B";
         binHeap[1] = a;
         binHeap[2] = b;
-        PriorityQueue<String> pq = new PriorityQueue<>(true, binHeap, 2, Comparator.comparing(String::toString));
+        PriorityQueue<String> pq = new PriorityQueue<>(true, binHeap, 2, Comparator.comparing(String::toString), false);
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         assertEquals(a, tester.invokePrivate("peek", 1));
         tester.invokePrivate("swimUp", 2);
@@ -63,7 +63,7 @@ public class PriorityQueueTest {
         binHeap[1] = a;
         binHeap[2] = b;
         binHeap[3] = c;
-        PriorityQueue<String> pq = new PriorityQueue<>(true, binHeap, 3, Comparator.comparing(String::toString));
+        PriorityQueue<String> pq = new PriorityQueue<>(true, binHeap, 3, Comparator.comparing(String::toString), false);
         final PrivateMethodTester tester = new PrivateMethodTester(pq);
         tester.invokePrivate("sink", 1);
         assertEquals(c, tester.invokePrivate("peek", 1));

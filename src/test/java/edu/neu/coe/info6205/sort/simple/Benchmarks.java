@@ -3,13 +3,13 @@ package edu.neu.coe.info6205.sort.simple;
 import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.GenericSort;
 import edu.neu.coe.info6205.sort.Helper;
-import edu.neu.coe.info6205.util.Benchmark;
-import edu.neu.coe.info6205.util.Benchmark_Timer;
-import edu.neu.coe.info6205.util.LazyLogger;
-import edu.neu.coe.info6205.util.Utilities;
+import edu.neu.coe.info6205.util.*;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.function.Supplier;
 
 /**
@@ -18,10 +18,19 @@ import java.util.function.Supplier;
  */
 public class Benchmarks {
 
-    @Test
+    @BeforeClass
+    public static void setupClass() {
+        try {
+            config = Config.load(Benchmarks.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test // Slow
     public void testBubbleSortBenchmark() {
         String description = "BubbleSort";
-        Helper<Integer> helper = new BaseHelper<>(description, N);
+        Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new BubbleSort<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -29,7 +38,7 @@ public class Benchmarks {
     @Test
     public void testInsertionSortBenchmark() {
         String description = "Insertion sort";
-        Helper<Integer> helper = new BaseHelper<>(description, N);
+        Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new InsertionSort<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -37,7 +46,7 @@ public class Benchmarks {
     @Test
     public void testInsertionSortOptBenchmark() {
         String description = "Optimized Insertion sort";
-        Helper<Integer> helper = new BaseHelper<>(description, N);
+        Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new InsertionSortOpt<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -45,7 +54,7 @@ public class Benchmarks {
     @Test
     public void testIntroSortBenchmark() {
         String description = "Intro sort";
-        final Helper<Integer> helper = new BaseHelper<>(description, N);
+        final Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new IntroSort<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -53,15 +62,15 @@ public class Benchmarks {
     @Test
     public void testMergeSortBenchmark() {
         String description = "Merge sort";
-        final Helper<Integer> helper = new BaseHelper<>(description, N);
-        final GenericSort<Integer> sort = new MergeSortBasic<>(helper);
+        final Helper<Integer> helper = new BaseHelper<>(description, N, config);
+        final GenericSort<Integer> sort = new MergeSort<>(helper);
         runBenchmark(description, sort, helper);
     }
 
     @Test
     public void testQuickSort3WayBenchmark() {
         String description = "3-way Quick sort";
-        final Helper<Integer> helper = new BaseHelper<>(description, N);
+        final Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new QuickSort_3way<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -69,7 +78,7 @@ public class Benchmarks {
     @Test
     public void testQuickSortDualPivotSortBenchmark() {
         String description = "Dual-pivot Quick sort";
-        final Helper<Integer> helper = new BaseHelper<>(description, N);
+        final Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new QuickSort_DualPivot<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -77,7 +86,7 @@ public class Benchmarks {
     @Test
     public void testSelectionSortBenchmark() {
         String description = "Selection sort";
-        Helper<Integer> helper = new BaseHelper<>(description, N);
+        Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new SelectionSort<>(helper);
         runBenchmark(description, sort, helper);
     }
@@ -85,14 +94,14 @@ public class Benchmarks {
     @Test
     public void testShellSortBenchmark() {
         String description = "3Shell sort";
-        final Helper<Integer> helper = new BaseHelper<>(description, N);
+        final Helper<Integer> helper = new BaseHelper<>(description, N, config);
         final GenericSort<Integer> sort = new ShellSort<>(3, helper);
         runBenchmark(description, sort, helper);
     }
 
     public void runBenchmark(String description, GenericSort<Integer> sort, Helper<Integer> helper) {
         helper.init(N);
-        Supplier<Integer[]> supplier = () -> helper.random(Integer.class, r -> r.nextInt());
+        Supplier<Integer[]> supplier = () -> helper.random(Integer.class, Random::nextInt);
         final Benchmark<Integer[]> benchmark = new Benchmark_Timer<>(
                 description + " for " + N + " Integers",
                 (xs) -> Arrays.copyOf(xs, xs.length),
@@ -105,4 +114,7 @@ public class Benchmarks {
     final static LazyLogger logger = new LazyLogger(Benchmarks.class);
 
     public static final int N = 2000;
+
+    private static Config config;
+
 }

@@ -75,7 +75,7 @@ public class RandomWalkTest {
     /**
      *
      */
-    @Test
+    @Test // Slow
     public void testRandomWalk() {
         for (int i = 0; i < 5000; i++)
             assertEquals(10, RandomWalk.randomWalkMulti(100, 100), 4);

@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.sort;
 
+import edu.neu.coe.info6205.util.Config;
 import edu.neu.coe.info6205.util.Utilities;
 
 import java.util.Random;
@@ -109,7 +110,8 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     public X[] random(Class<X> clazz, Function<Random, X> f) {
         if (n <= 0) throw new HelperException("Helper.random: not initialized");
-        return Utilities.fillRandomArray(clazz, random, n, f);
+        randomArray = Utilities.fillRandomArray(clazz, random, n, f);
+        return randomArray;
     }
 
     /**
@@ -129,6 +131,10 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     public String getDescription() {
         return description;
+    }
+
+    public Config getConfig() {
+        return config;
     }
 
     /**
@@ -154,10 +160,11 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
      * @param n           the number of elements expected to be sorted. The field n is mutable so can be set after the constructor.
      * @param random      a random number generator.
      */
-    public BaseHelper(String description, int n, Random random) {
+    public BaseHelper(String description, int n, Random random, Config config) {
         this.n = n;
         this.description = description;
         this.random = random;
+        this.config = config;
     }
 
     /**
@@ -167,8 +174,8 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
      * @param n           the number of elements expected to be sorted. The field n is mutable so can be set after the constructor.
      * @param seed        the seed for the random number generator.
      */
-    public BaseHelper(String description, int n, long seed) {
-        this(description, n, new Random(seed));
+    public BaseHelper(String description, int n, long seed, Config config) {
+        this(description, n, new Random(seed), config);
     }
 
     /**
@@ -177,8 +184,8 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
      * @param description the description of this Helper (for humans).
      * @param n           the number of elements expected to be sorted. The field n is mutable so can be set after the constructor.
      */
-    public BaseHelper(String description, int n) {
-        this(description, n, System.currentTimeMillis());
+    public BaseHelper(String description, int n, Config config) {
+        this(description, n, System.currentTimeMillis(), config);
     }
 
     /**
@@ -186,11 +193,16 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
      *
      * @param description the description of this Helper (for humans).
      */
-    public BaseHelper(String description) {
-        this(description, 0);
+    public BaseHelper(String description, Config config) {
+        this(description, 0, config);
     }
 
     public static final String INSTRUMENT = "instrument";
+
+    /**
+     * Keep track of the random array that was generated. This is available via the InstrumentedHelper class.
+     */
+    protected X[] randomArray;
 
     public static class HelperException extends RuntimeException {
 
@@ -213,5 +225,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     protected final String description;
     protected final Random random;
+
+    protected final Config config;
     protected int n;
 }

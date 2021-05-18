@@ -319,6 +319,15 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
         super.close();
     }
 
+    /**
+     * Method which retrieves the current value of randomArray.
+     *
+     * @return an X[] unless random() was never invoked in which case we return null.
+     */
+    public X[] getRandomArray() {
+        return randomArray;
+    }
+
     public StatPack getStatPack() {
         return statPack;
     }
@@ -332,7 +341,8 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param config      the configuration (note that the seed value is ignored).
      */
     public InstrumentedHelper(String description, int n, Random random, Config config) {
-        super(description, n, random);
+        // CONSIDER using config.toString here somewhere.
+        super(description, n, random, config);
         this.countCopies = config.getBoolean(INSTRUMENTING, COPIES);
         this.countSwaps = config.getBoolean(INSTRUMENTING, SWAPS);
         this.countCompares = config.getBoolean(INSTRUMENTING, COMPARES);
@@ -384,11 +394,11 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
 
     // NOTE: the following private methods are only for testing.
 
-    private int getCompares() {
+    public int getCompares() {
         return compares;
     }
 
-    private int getSwaps() {
+    public int getSwaps() {
         return swaps;
     }
 

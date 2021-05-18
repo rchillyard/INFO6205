@@ -6,8 +6,10 @@ import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.GenericSort;
 import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.Sort;
+import edu.neu.coe.info6205.util.Config;
 import edu.neu.coe.info6205.util.LazyLogger;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -74,16 +76,16 @@ public class BucketSort<X extends Comparable<X>> implements Sort<X> {
         if (closeHelper) helper.close();
     }
 
-    BucketSort(int buckets, BaseHelper<X> helper) {
+    BucketSort(int buckets, BaseHelper<X> helper) throws IOException {
         //noinspection unchecked
         bucket = (Bag<X>[]) Array.newInstance(Bag.class, buckets);
         for (int i = 0; i < buckets; i++) bucket[i] = new Bag_Array<>();
         this.helper = helper;
-        sort = new InsertionSort<>();
+        sort = new InsertionSort<>(Config.load(getClass()));
     }
 
-    BucketSort(int buckets) {
-        this(buckets, new BaseHelper<>(DESCRIPTION));
+    BucketSort(int buckets) throws IOException {
+        this(buckets, new BaseHelper<>(DESCRIPTION, Config.load(BucketSort.class)));
         closeHelper = true;
     }
 

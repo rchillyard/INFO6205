@@ -122,7 +122,7 @@ public class TimerTest {
         assertEquals(0, post);
     }
 
-    @Test
+    @Test // Slow
     public void testRepeat3() {
         final Timer timer = new Timer();
         final int zzz = 20;

@@ -8,10 +8,13 @@ import java.util.Arrays;
  */
 public class InsertionSortBasic {
 
-    public void sort(Object[] a) {
-        for (int i = 1; i < a.length; i++) swap(i, a);
+    public void sort(Comparable[] a) {
+        sort(a, 0, a.length);
     }
 
+    public void sort(Comparable[] a, int lo, int hi) {
+        for (int i = lo+1; i < hi; i++) swap(i, a);
+    }
     private void swap(int i, Object[] a) {
         // TO BE IMPLEMENTED
     }

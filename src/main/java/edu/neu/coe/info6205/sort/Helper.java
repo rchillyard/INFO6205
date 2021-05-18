@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.sort;
 
+import edu.neu.coe.info6205.util.Config;
+
 import java.util.Random;
 import java.util.function.Function;
 
@@ -204,6 +206,13 @@ public interface Helper<X extends Comparable<X>> {
      * @return the description of this Helper.
      */
     String getDescription();
+
+    /**
+     * Get the configuration associated with this Helper.
+     *
+     * @return an instance of Config.
+     */
+    Config getConfig();
 
     default int cutoff() {
         return 7;
