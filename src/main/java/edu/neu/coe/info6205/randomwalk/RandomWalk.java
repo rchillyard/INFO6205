@@ -21,6 +21,8 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // TO BE IMPLEMENTED
+        this.x += dx;
+        this.y += dy;
     }
 
     /**
@@ -30,6 +32,9 @@ public class RandomWalk {
      */
     private void randomWalk(int m) {
         // TO BE IMPLEMENTED
+        for (int i = 0; i < m; i++) {
+            randomMove();
+        }
     }
 
     /**
@@ -37,9 +42,15 @@ public class RandomWalk {
      * That's to say, moves can be (+-1, 0) or (0, +-1).
      */
     private void randomMove() {
+        // ns can be true/ false
         boolean ns = random.nextBoolean();
+
         int step = random.nextBoolean() ? 1 : -1;
         move(ns ? step : 0, ns ? 0 : step);
+        //if ns true
+        //move(step, 0) => (1,0) (-1,0)
+        //if ns false
+        //move(0, step) => (0,1) (0, -1)
     }
 
     /**
@@ -49,7 +60,8 @@ public class RandomWalk {
      */
     public double distance() {
         // TO BE IMPLEMENTED
-        throw new UnsupportedOperationException("Not implemented yet");
+        // will be x^2 + y^2
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
     }
 
     /**
@@ -69,14 +81,22 @@ public class RandomWalk {
         return totalDistance / n;
     }
 
-    public static void main(String[] args) {
-        if (args.length == 0)
-            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
-        int m = Integer.parseInt(args[0]);
-        int n = 30;
-        if (args.length > 1) n = Integer.parseInt(args[1]);
-        double meanDistance = randomWalkMulti(m, n);
-        System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
-    }
 
+    //at least six values of n and will run each of these at least ten times.
+    public static void main(String[] args) {
+//        if (args.length == 0)
+//            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
+//        int m = Integer.parseInt(args[0]);
+
+        // number of steps
+        int[] m = new int[]{1, 30, 40 , 50, 60, 70, 80, 90, 100,
+                110, 120, 130, 140, 150,1000, 2000, 5000, 10000, 20000, 30000, 40000, 50000};
+        // n experience times
+        int n = 1000;
+
+        for(int i = 0; i < m.length; i++) {
+            double meanDistance = randomWalkMulti(m[i], n);
+            System.out.println(  m[i]  + " " + meanDistance  );
+        }
+    }
 }
