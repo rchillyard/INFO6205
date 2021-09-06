@@ -4,6 +4,11 @@ public class Edge<V, E> {
 
     private final V from;
     private final V to;
+
+    public E getAttributes() {
+        return attributes;
+    }
+
     private final E attributes;
 
     public Edge(V from, V to, E attributes) {

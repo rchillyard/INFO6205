@@ -8,6 +8,9 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
 
+import java.io.IOException;
+import java.util.function.Consumer;
+
 /**
  * Class to implement Shell Sort.
  *
@@ -26,8 +29,12 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
         this.m = m;
     }
 
-    public ShellSort() {
-        this(3, new BaseHelper<>(DESCRIPTION));
+    public ShellSort() throws IOException {
+        this(3);
+    }
+
+    public ShellSort(int m) throws IOException {
+        this(m, new BaseHelper<>(DESCRIPTION, Config.load(ShellSort.class)));
     }
 
     /**
@@ -52,10 +59,10 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
      *          1: ordinary insertion sort;
      *          2: use powers of two less one;
      *          3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
-     *          4: Sedgewick's sequence (not implemented).
+     *          4: Sedgewick's sequence.
      */
-    public ShellSort(int m) {
-        this(m, new BaseHelper<>(DESCRIPTION));
+    public ShellSort(int m, Config config) {
+        this(m, new BaseHelper<>(DESCRIPTION, config));
     }
 
     /**
@@ -71,8 +78,21 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
         int h = hh.first();
         while (h > 0) {
             hSort(h, xs, from, to);
+            if (shellFunction != null)
+                shellFunction.accept(getHelper());
             h = hh.next();
         }
+    }
+
+    /**
+     * Set the "shell" function which is invoked on the helper after each shell (i.e. each value of h).
+     * Yes, I do realize that shell was the name of the inventor, Donald Shell.
+     * But it's also a convenient name of a (set of) h-sorts which one particular h-value.
+     *
+     * @param shellFunction a consumer of Helper of X.
+     */
+    public void setShellFunction(Consumer<Helper<X>> shellFunction) {
+        this.shellFunction = shellFunction;
     }
 
     public static final String DESCRIPTION = "Shell sort";
@@ -95,12 +115,15 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     private final int m;
 
+    private Consumer<Helper<X>> shellFunction = null;
+
     /**
      * Private inner class to provide h (gap) values.
      */
-    private class H {
+    class H {
         @SuppressWarnings("CanBeFinal")
         private int h = 1;
+        private int i;
         private boolean started = false;
 
         H(int N) {
@@ -108,10 +131,16 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
                 case 1:
                     break;
                 case 2:
-                    // TO BE IMPLEMENTED
+                    while (h <= N) h = 2 * (h + 1) - 1;
                     break;
                 case 3:
-                    // TO BE IMPLEMENTED
+                    while (h <= N / 3) h = h * 3 + 1;
+                    break;
+                case 4:
+                    i = 0;
+                    while (sedgewick(i) < N) i++;
+                    i--;
+                    h = (int) sedgewick(i); // Note there will be loss of precision for large i
                     break;
                 default:
                     throw new RuntimeException("invalid m value: " + m);
@@ -140,13 +169,16 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
             if (started) {
                 switch (m) {
                     case 1:
-                        // TO BE IMPLEMENTED
+                        return 0;
                     case 2:
-                        // TO BE IMPLEMENTED
+                        h = (h + 1) / 2 - 1;
                         return h;
                     case 3:
-                        // TO BE IMPLEMENTED
+                        h = h / 3;
                         return h;
+                    case 4:
+                        i--;
+                        return (int) sedgewick(i);
                     default:
                         throw new RuntimeException("invalid m value: " + m);
                 }
@@ -154,6 +186,18 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
                 started = true;
                 return h;
             }
+        }
+
+        long sedgewick(int k) {
+            if (k < 0) return 0;
+            if (k % 2 == 0) return 9L * (powerOf2(k) - powerOf2(k / 2)) + 1;
+            else return 8L * powerOf2(k) - 6 * powerOf2((k + 1) / 2) + 1;
+        }
+
+        private long powerOf2(int k) {
+            long value = 1;
+            for (int i = 0; i < k; i++) value *= 2;
+            return value;
         }
     }
 }

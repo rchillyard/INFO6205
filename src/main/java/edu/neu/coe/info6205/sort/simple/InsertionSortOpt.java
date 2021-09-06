@@ -7,6 +7,8 @@ import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.util.Config;
 
+import java.io.IOException;
+
 public class InsertionSortOpt<X extends Comparable<X>> extends InsertionSort<X> {
 
     /**
@@ -19,8 +21,8 @@ public class InsertionSortOpt<X extends Comparable<X>> extends InsertionSort<X> 
         super(DESCRIPTION, N, config);
     }
 
-    public InsertionSortOpt() {
-        this(new BaseHelper<>(DESCRIPTION));
+    public InsertionSortOpt(Config config) {
+        this(new BaseHelper<>(DESCRIPTION, config));
     }
 
     /**
@@ -52,8 +54,8 @@ public class InsertionSortOpt<X extends Comparable<X>> extends InsertionSort<X> 
      * @param ys  the array to be sorted.
      * @param <Y> the underlying element type.
      */
-    public static <Y extends Comparable<Y>> void mutatingInsertionSort(Y[] ys) {
-        new InsertionSortOpt<Y>().mutatingSort(ys);
+    public static <Y extends Comparable<Y>> void mutatingInsertionSort(Y[] ys) throws IOException {
+        new InsertionSortOpt<Y>(Config.load(InsertionSortOpt.class)).mutatingSort(ys);
     }
 
     public static final String DESCRIPTION = "Insertion sort optimized";

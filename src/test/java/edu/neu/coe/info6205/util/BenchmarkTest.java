@@ -15,7 +15,7 @@ public class BenchmarkTest {
     int run = 0;
     int post = 0;
 
-    @Test
+    @Test // Slow
     public void testWaitPeriods() throws Exception {
         int nRuns = 2;
         int warmups = 2;

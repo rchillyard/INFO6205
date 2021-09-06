@@ -1,6 +1,6 @@
 package edu.neu.coe.info6205.sort;
 
-import edu.neu.coe.info6205.sort.simple.MergeSortBasic;
+import edu.neu.coe.info6205.sort.simple.MergeSort;
 import edu.neu.coe.info6205.util.*;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -279,7 +279,7 @@ public class InstrumentedHelperTest {
         int N = 8;
         final Helper<Integer> helper = new InstrumentedHelper<>("test", config);
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
-        Sort<Integer> s = new MergeSortBasic<>(helper);
+        Sort<Integer> s = new MergeSort<>(helper);
         s.init(N);
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000));
         s.sort(xs);
@@ -287,13 +287,14 @@ public class InstrumentedHelperTest {
         assertTrue(compares <= 20 && compares >= 11);
     }
 
+    @SuppressWarnings("unused")
     @Ignore // TODO fix this test
     public void testMergeSortMany() {
         int N = 8;
         int m = 10;
         final Helper<Integer> helper = new InstrumentedHelper<>("test", config);
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
-        Sort<Integer> s = new MergeSortBasic<>(helper);
+        Sort<Integer> s = new MergeSort<>(helper);
         s.init(N);
         for (int i = 0; i < m; i++) {
             final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000));
@@ -315,7 +316,9 @@ public class InstrumentedHelperTest {
 
     private static Config config;
 
+    @SuppressWarnings("EmptyMethod")
     @Test
+    // TEST
     public void swapInto() {
     }
 
@@ -332,42 +335,53 @@ public class InstrumentedHelperTest {
     }
 
     @Test
+    // TEST
     public void swapStableConditional() {
     }
 
     @Test
+    // TEST
     public void copy() {
     }
 
     @Test
+    // TEST
     public void incrementCopies() {
     }
 
     @Test
+    // TEST
     public void incrementFixes() {
     }
 
     @Test
+    // TEST
     public void testCompare1() {
     }
 
     @Test
+    // TEST
     public void cutoff() {
     }
 
     @Test
+    // TEST
     public void testToString1() {
     }
 
     @Test
+    // TEST
     public void init() {
     }
 
     @Test
+    // TEST
     public void preProcess() {
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Test
+    // TEST
     public void postProcess() {
     }
 }

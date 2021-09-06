@@ -10,6 +10,9 @@ import java.util.Iterator;
 
 /**
  * Concrete class which implements LinkedList of Item as a sequence of Elements.
+ * This implementation of LinkedList could theoretically allow items to be added or removed elsewhere than the head.
+ * If we wanted to be strict and allow addition/removal at the head only, we would have to make the next field of
+ * Element final.
  *
  * @param <Item> the underlying type of this list.
  */

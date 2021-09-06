@@ -8,11 +8,10 @@ import java.util.Iterator;
 import java.util.Objects;
 
 public class Stack_LinkedList<Item> implements Stack<Item> {
-
     /**
-     * push method, delegates to list as add
+     * push method, delegates to list as add.
      *
-     * @param item the item to add
+     * @param item the item to push.
      */
     public void push(Item item) {
         list.add(item);
@@ -38,7 +37,7 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
     }
 
     /**
-     * isEmtpy method, delegates to list.
+     * isEmpty method, delegates to list.
      *
      * @return true if this stack is empty
      */
@@ -60,12 +59,19 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
         if (this == o) return true;
         if (!(o instanceof Stack_LinkedList)) return false;
         Stack_LinkedList<?> that = (Stack_LinkedList<?>) o;
-        return Objects.equals(list, that.list);
+        return list.equals(that.list);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(list);
+    }
+
+    @Override
+    public String toString() {
+        return "Stack_LinkedList{" +
+                "list=" + list +
+                '}';
     }
 
     /**

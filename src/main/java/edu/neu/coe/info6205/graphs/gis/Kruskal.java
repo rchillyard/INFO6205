@@ -56,8 +56,16 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
 
 
     private Iterable<Edge<V, X>> runKruskal() throws PQException, UFException {
+        while (!pq.isEmpty() && ((SizedIterable<?>) queue).size() < size - 1) {
+            Edge<V, X> edge = pq.take();
+            V s1 = edge.get(), s2 = edge.getOther(s1);
+            if (!uf.connected(s1, s2)) {
+                uf.union(s1, s2);
+                queue.enqueue(edge);
+            }
+        }
         ArrayList<Edge<V, X>> result = new ArrayList<>();
-        // TO BE IMPLEMENTED
+        for (Edge<V, X> edge : queue) result.add(edge);
         return result;
     }
 
@@ -66,7 +74,7 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
     }
 
     private PriorityQueue<Edge<V, X>> createPQ(SizedIterable<Edge<V, X>> edges) {
-        PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
+        PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute), false);
         for (Edge<V, X> e : edges) result.give(e);
         return result;
     }

@@ -31,8 +31,8 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
         this(DESCRIPTION, N, config);
     }
 
-    public InsertionSort() {
-        this(new BaseHelper<>(DESCRIPTION));
+    public InsertionSort(Config config) {
+        this(new BaseHelper<>(DESCRIPTION, config));
     }
 
     /**
@@ -60,16 +60,16 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
             while (j > from && helper.swapStableConditional(xs, j)) j--;
         }
     }
-
-    /**
-     * This is used by unit tests.
-     *
-     * @param ys  the array to be sorted.
-     * @param <Y> the underlying element type.
-     */
-    public static <Y extends Comparable<Y>> void mutatingInsertionSort(Y[] ys) {
-        new InsertionSort<Y>().mutatingSort(ys);
-    }
+//
+//    /**
+//     * This is used by unit tests.
+//     *
+//     * @param ys  the array to be sorted.
+//     * @param <Y> the underlying element type.
+//     */
+//    public static <Y extends Comparable<Y>> void mutatingInsertionSort(Y[] ys) {
+//        new InsertionSort<Y>().mutatingSort(ys);
+//    }
 
     public static final String DESCRIPTION = "Insertion sort";
 

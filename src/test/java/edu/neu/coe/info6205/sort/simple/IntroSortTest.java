@@ -24,7 +24,7 @@ public class IntroSortTest {
         xs[1] = 4;
         xs[2] = 2;
         xs[3] = 1;
-        GenericSort<Integer> s = new IntroSort<>();
+        GenericSort<Integer> s = new IntroSort<>(Config.load(getClass()));
         Integer[] ys = s.sort(xs);
         assertEquals(Integer.valueOf(1), ys[0]);
         assertEquals(Integer.valueOf(2), ys[1]);
@@ -96,7 +96,7 @@ public class IntroSortTest {
 
     @Test
     public void testHeapSort() throws Exception {
-        SortWithHelper<Integer> sorter = new IntroSort<>();
+        SortWithHelper<Integer> sorter = new IntroSort<>(Config.load(getClass()));
         PrivateMethodTester t = new PrivateMethodTester(sorter);
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Class[] classes = {Comparable[].class, int.class, int.class};
@@ -106,7 +106,7 @@ public class IntroSortTest {
 
     @Test
     public void testInsertionSort() throws Exception {
-        SortWithHelper<Integer> sorter = new IntroSort<>();
+        SortWithHelper<Integer> sorter = new IntroSort<>(Config.load(getClass()));
         PrivateMethodTester t = new PrivateMethodTester(sorter);
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         GenericSort<Integer> insertionSort = (GenericSort<Integer>) t.invokePrivate("getInsertionSort");
@@ -120,7 +120,7 @@ public class IntroSortTest {
         char[] charArray = testString.toCharArray();
         Character[] array = new Character[charArray.length];
         for (int i = 0; i < array.length; i++) array[i] = charArray[i];
-        GenericSort<Character> s = new IntroSort<>();
+        GenericSort<Character> s = new IntroSort<>(Config.load(getClass()));
         Partition<Character> partition = new Partition<>(array, 0, array.length);
         List<Partition<Character>> partitions = ((QuickSort<Character>) s).partitioner.partition(partition);
         assertEquals(0, partitions.get(0).from);

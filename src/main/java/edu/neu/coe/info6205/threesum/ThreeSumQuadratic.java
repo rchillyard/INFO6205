@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Implementation of ThreeSum which follows the approach of dividing the solution-space into
  * N sub-spaces where each sub-space corresponds to a fixed value for the middle index of the three values.
- * Each subs-pace is then solved by expanding the scope of the other two indices outwards from the starting point.
+ * Each sub-space is then solved by expanding the scope of the other two indices outwards from the starting point.
  * Since each sub-space can be solved in O(N) time, the overall complexity is O(N^2).
  * <p>
  * The array provided in the constructor MUST be ordered.
@@ -38,8 +38,7 @@ public class ThreeSumQuadratic implements ThreeSum {
      */
     public List<Triple> getTriples(int j) {
         List<Triple> triples = new ArrayList<>();
-        // SOLUTION : implement getTriples
-        // END SOLUTION
+        // TO BE IMPLEMENTED : implement getTriples
         return triples;
     }
 

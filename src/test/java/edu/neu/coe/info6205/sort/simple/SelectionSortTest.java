@@ -52,7 +52,7 @@ public class SelectionSortTest {
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        BaseHelper<Integer> helper = new BaseHelper<>("SelectionSort", xs.length);
+        BaseHelper<Integer> helper = new BaseHelper<>("SelectionSort", xs.length, Config.load(SelectionSortTest.class));
         GenericSort<Integer> sorter = new SelectionSort<Integer>(helper);
         Integer[] ys = sorter.sort(xs);
         assertTrue(helper.sorted(ys));

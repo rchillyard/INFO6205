@@ -8,6 +8,8 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
 
+import java.io.IOException;
+
 public class BubbleSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     /**
@@ -20,8 +22,8 @@ public class BubbleSort<X extends Comparable<X>> extends SortWithHelper<X> {
         super(DESCRIPTION, N, config);
     }
 
-    public BubbleSort() {
-        this(new BaseHelper<>(DESCRIPTION));
+    public BubbleSort(Config config) {
+        this(new BaseHelper<>(DESCRIPTION, config));
     }
 
     /**
@@ -55,8 +57,8 @@ public class BubbleSort<X extends Comparable<X>> extends SortWithHelper<X> {
      * @param ys  the array to be sorted.
      * @param <Y> the underlying element type.
      */
-    public static <Y extends Comparable<Y>> void mutatingBubbleSort(Y[] ys) {
-        new BubbleSort<Y>().mutatingSort(ys);
+    public static <Y extends Comparable<Y>> void mutatingBubbleSort(Y[] ys) throws IOException {
+        new BubbleSort<Y>(Config.load(BubbleSort.class)).mutatingSort(ys);
     }
 
     public static final String DESCRIPTION = "Bubble sort";

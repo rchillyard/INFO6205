@@ -6,6 +6,10 @@ import java.util.Objects;
  * A set of three ints such that their sum is zero.
  */
 class Triple implements Comparable<Triple> {
+    public int sum() {
+        return x + y + z;
+    }
+
     @Override
     public String toString() {
         return "Triple{" +
@@ -38,7 +42,6 @@ class Triple implements Comparable<Triple> {
     }
 
     public Triple(int x, int y, int z) {
-        if (x + y + z != 0) throw new RuntimeException("Triple does not sum to zero: " + x + " " + y + " " + z);
         this.x = x;
         this.y = y;
         this.z = z;

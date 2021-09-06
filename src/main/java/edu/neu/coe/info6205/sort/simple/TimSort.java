@@ -8,6 +8,7 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -36,8 +37,8 @@ public class TimSort<X extends Comparable<X>> extends SortWithHelper<X> {
         super(DESCRIPTION, N, config);
     }
 
-    public TimSort() {
-        this(new BaseHelper<>(DESCRIPTION));
+    public TimSort() throws IOException {
+        this(new BaseHelper<>(DESCRIPTION, Config.load(TimSort.class)));
     }
 
     public void sort(X[] xs, int from, int to) {

@@ -5,7 +5,6 @@ package edu.neu.coe.info6205.util;
 
 import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
-import edu.neu.coe.info6205.sort.Sort;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.sort.simple.TimSort;
 import edu.neu.coe.info6205.sort.simple.*;
@@ -39,7 +38,7 @@ public class SortBenchmark {
         SortBenchmark benchmark = new SortBenchmark(config);
         benchmark.sortIntegers(100000);
         benchmark.sortStrings(Arrays.stream(args).map(Integer::parseInt));
-        benchmark.sortLocalDateTimes(100000);
+        benchmark.sortLocalDateTimes(100000, config);
     }
 
     // CONSIDER generifying common code (but it's difficult if not impossible)
@@ -99,11 +98,11 @@ public class SortBenchmark {
         }
     }
 
-    public void sortLocalDateTimes(final int n) {
+    public void sortLocalDateTimes(final int n, Config config) throws IOException {
         logger.info("Beginning LocalDateTime sorts");
         // TODO why do we have localDateTimeSupplier IN ADDITION TO localDateTimes?
         Supplier<LocalDateTime[]> localDateTimeSupplier = () -> generateRandomLocalDateTimeArray(n);
-        Helper<ChronoLocalDateTime<?>> helper = new BaseHelper<>("DateTimeHelper");
+        Helper<ChronoLocalDateTime<?>> helper = new BaseHelper<>("DateTimeHelper", config);
         final LocalDateTime[] localDateTimes = generateRandomLocalDateTimeArray(n);
 
         // CONSIDER finding the common ground amongst these sorts and get them all working together.
@@ -116,7 +115,7 @@ public class SortBenchmark {
         if (isConfigBenchmarkDateSorter("timsort")) {
             logger.info(benchmarkFactory("Repeat Sort LocalDateTimes using timSort::mutatingSort", new TimSort<>(helper)::mutatingSort, null).runFromSupplier(localDateTimeSupplier, 100) + "ms");
             // NOTE this is intended to replace the run two lines previous. It should take the exact same amount of time.
-            runDateTimeSortBenchmark(LocalDateTime.class, localDateTimes, n, 100, 0);
+            runDateTimeSortBenchmark(LocalDateTime.class, localDateTimes, n, 100);
         }
     }
 
@@ -137,6 +136,13 @@ public class SortBenchmark {
             Benchmark<String[]> benchmark = new Benchmark_Timer<>("SystemSort", null, Arrays::sort, null);
             doPureBenchmark(words, nWords, nRuns, random, benchmark);
         }
+
+        if (isConfigBenchmarkStringSorter("mergesort")) {
+            runMergeSortBenchmark(words, nWords, nRuns, false, false);
+            runMergeSortBenchmark(words, nWords, nRuns, true, false);
+            runMergeSortBenchmark(words, nWords, nRuns, false, true);
+            runMergeSortBenchmark(words, nWords, nRuns, true, true);
+        }
     }
 
     /**
@@ -151,8 +157,12 @@ public class SortBenchmark {
     void benchmarkStringSortersInstrumented(String[] words, int nWords, int nRuns) {
         logger.info("Testing with " + formatWhole(nRuns) + " runs of sorting " + formatWhole(nWords) + " words" + (config.isInstrumented() ? " and instrumented" : ""));
 
-        if (isConfigBenchmarkStringSorter("mergesort"))
-            runStringSortBenchmark(words, nWords, nRuns, new MergeSortBasic<>(nWords, config), timeLoggersLinearithmic);
+        if (isConfigBenchmarkStringSorter("mergesort")) {
+            runMergeSortBenchmark(words, nWords, nRuns, false, false);
+            runMergeSortBenchmark(words, nWords, nRuns, true, false);
+            runMergeSortBenchmark(words, nWords, nRuns, false, true);
+            runMergeSortBenchmark(words, nWords, nRuns, true, true);
+        }
 
         if (isConfigBenchmarkStringSorter("quicksort3way"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_3way<>(nWords, config), timeLoggersLinearithmic);
@@ -261,10 +271,15 @@ public class SortBenchmark {
         for (TimeLogger timeLogger : timeLoggersLinearithmic) timeLogger.log(time, nWords);
     }
 
-    private void dateSortBenchmark(Supplier<LocalDateTime[]> localDateTimeSupplier, LocalDateTime[] localDateTimes, Sort<ChronoLocalDateTime<?>> dateHuskySortSystemSort, String s, int i) {
-        logger.info(benchmarkFactory(s, dateHuskySortSystemSort::sort, dateHuskySortSystemSort::postProcess).runFromSupplier(localDateTimeSupplier, 100) + "ms");
-        // NOTE: this is intended to replace the run in the previous line. It should take the exact same amount of time.
-        runDateTimeSortBenchmark(LocalDateTime.class, localDateTimes, 100000, 100, i);
+//    private void dateSortBenchmark(Supplier<LocalDateTime[]> localDateTimeSupplier, LocalDateTime[] localDateTimes, Sort<ChronoLocalDateTime<?>> dateHuskySortSystemSort, String s, int i) {
+//        logger.info(benchmarkFactory(s, dateHuskySortSystemSort::sort, dateHuskySortSystemSort::postProcess).runFromSupplier(localDateTimeSupplier, 100) + "ms");
+//        // NOTE: this is intended to replace the run in the previous line. It should take the exact same amount of time.
+//        runDateTimeSortBenchmark(LocalDateTime.class, localDateTimes, 100000, 100, i);
+//    }
+
+    private void runMergeSortBenchmark(String[] words, int nWords, int nRuns, Boolean insurance, Boolean noCopy) {
+        Config x = config.copy(MergeSort.MERGESORT, MergeSort.INSURANCE, insurance.toString()).copy(MergeSort.MERGESORT, MergeSort.NOCOPY, noCopy.toString());
+        runStringSortBenchmark(words, nWords, nRuns, new MergeSort<>(nWords, x), timeLoggersLinearithmic);
     }
 
     private void doLeipzigBenchmark(String resource, int nWords, int nRuns) throws FileNotFoundException {
@@ -274,8 +289,7 @@ public class SortBenchmark {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private void runDateTimeSortBenchmark(Class<?> tClass, ChronoLocalDateTime<?>[] dateTimes, int N, int m, int whichSort) {
-        // NOTE: whichSort is ignored here.
+    private void runDateTimeSortBenchmark(Class<?> tClass, ChronoLocalDateTime<?>[] dateTimes, int N, int m) throws IOException {
         final SortWithHelper<ChronoLocalDateTime<?>> sorter = new TimSort<>();
         @SuppressWarnings("unchecked") final SorterBenchmark<ChronoLocalDateTime<?>> sorterBenchmark = new SorterBenchmark<>((Class<ChronoLocalDateTime<?>>) tClass, (xs) -> Arrays.copyOf(xs, xs.length), sorter, dateTimes, m, timeLoggersLinearithmic);
         sorterBenchmark.run(N);
@@ -283,17 +297,13 @@ public class SortBenchmark {
 
     /**
      * For (basic) insertionsort, the number of array accesses is actually 6 times the number of comparisons.
-     * That's because, for each inversions, there will typically be one swap (four array accesses) and (at least) one comparision (two array accesses).
+     * That's because, for each inversions, there will typically be one swap (four array accesses) and (at least) one comparison (two array accesses).
      * Thus, in the case where comparisons are based on primitives,
      * the normalized time per run should approximate the time for one array access.
      */
     private final static TimeLogger[] timeLoggersQuadratic = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / meanInversions(n) / 6 * 1e6)
-    };
-
-    private static final Consumer<String[]> DO_NOTHING = (xs2) -> {
-        // XXX do nothing.
     };
 
     private static final double LgE = Utilities.lg(Math.E);

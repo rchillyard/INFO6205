@@ -8,6 +8,7 @@ import edu.neu.coe.info6205.sort.*;
 import edu.neu.coe.info6205.util.*;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class InsertionSortOptTest {
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        BaseHelper<Integer> helper = new BaseHelper<>("InsertionSortOpt", xs.length);
+        BaseHelper<Integer> helper = new BaseHelper<>("InsertionSortOpt", xs.length, Config.load(InsertionSortOptTest.class));
         GenericSort<Integer> sorter = new InsertionSortOpt<>(helper);
         Integer[] ys = sorter.sort(xs);
         assertTrue(helper.sorted(ys));
@@ -59,14 +60,14 @@ public class InsertionSortOptTest {
     }
 
     @Test
-    public void testMutatingInsertionSort() {
+    public void testMutatingInsertionSort() throws IOException {
         final List<Integer> list = new ArrayList<>();
         list.add(3);
         list.add(4);
         list.add(2);
         list.add(1);
         Integer[] xs = list.toArray(new Integer[0]);
-        BaseHelper<Integer> helper = new BaseHelper<>("InsertionSortOpt", xs.length);
+        BaseHelper<Integer> helper = new BaseHelper<>("InsertionSortOpt", xs.length, Config.load(InsertionSortOptTest.class));
         GenericSort<Integer> sorter = new InsertionSortOpt<>(helper);
         sorter.mutatingSort(xs);
         assertTrue(helper.sorted(xs));

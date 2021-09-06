@@ -34,10 +34,7 @@ public class ThreeSumBenchmark {
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // Create a preCheck method to ensure there are sufficient elements in the array.
-        // Then run Benchmark_Timer with the precheck and the function. Run a total of runs times, using supplier to get the ints.
-        // SOLUTION
-        // END SOLUTION
+        // TO BE IMPLEMENTED
     }
 
     private final static TimeLogger[] timeLoggersCubic = {

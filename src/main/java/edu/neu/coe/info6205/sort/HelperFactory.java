@@ -28,7 +28,7 @@ public class HelperFactory {
      * @return a Helper<X></X>
      */
     public static <X extends Comparable<X>> Helper<X> create(String description, int nElements, boolean instrumented, Config config) {
-        return instrumented ? new InstrumentedHelper<>(description, nElements, config) : new BaseHelper<>(description, nElements);
+        return instrumented ? new InstrumentedHelper<>(description, nElements, config) : new BaseHelper<>(description, nElements, config);
     }
 
 }

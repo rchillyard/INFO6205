@@ -22,8 +22,8 @@ public class QuickSort_3way<X extends Comparable<X>> extends QuickSort<X> {
         setPartitioner(createPartitioner());
     }
 
-    public QuickSort_3way() {
-        this(new BaseHelper<>(DESCRIPTION));
+    public QuickSort_3way(Config config) {
+        this(new BaseHelper<>(DESCRIPTION, config));
     }
 
     /**

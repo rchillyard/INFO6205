@@ -25,13 +25,9 @@ public class Config {
      * @return a new Config as described.
      */
     public Config copy(String sectionName, String optionName, String value) {
-        Ini ini = new Ini();
-        for (Map.Entry<String, Profile.Section> entry : this.ini.entrySet())
-            for (Map.Entry<String, String> x : entry.getValue().entrySet())
-                ini.put(entry.getKey(), x.getKey(), x.getValue());
-        Config result = new Config(ini);
+        Config result = new Config(copyIni());
         Profile.Section section = result.ini.get(sectionName);
-        section.replace(optionName, value);
+        section.put(optionName, value);
         result.ini.replace(sectionName, section);
         return result;
     }
@@ -156,6 +152,16 @@ public class Config {
             return true;
         }
         return !value;
+    }
+
+    private Ini copyIni() {
+        Ini result = new Ini();
+        // CONSIDER using result.putAll(this.result)...
+        // XXX ... but only if Ini4J fixes the bug (unlikely since it hasn't been touched in 6 years!)
+        for (Map.Entry<String, Profile.Section> entry : this.ini.entrySet())
+            for (Map.Entry<String, String> x : entry.getValue().entrySet())
+                result.put(entry.getKey(), x.getKey(), x.getValue());
+        return result;
     }
 
     final static LazyLogger logger = new LazyLogger(Config.class);
