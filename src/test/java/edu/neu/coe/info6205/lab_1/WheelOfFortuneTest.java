@@ -112,7 +112,8 @@ public class WheelOfFortuneTest {
         for (int j = 0; j < 10; j++) {
             FrequencyCounter<String> frequencyCounter = new FrequencyCounter<>();
             for (int i = 0; i < 1000000; i++) frequencyCounter.increment(wheel1.get());
-            assertEquals(50.1, frequencyCounter.relativeFrequencyAsPercentage("highCard"), 1.6);
+            double highCard1 = frequencyCounter.relativeFrequencyAsPercentage("highCard");
+            assertEquals(50.1, highCard1, 1.6);
             assertEquals(5, frequencyCounter.relativeFrequencyAsPercentage("twoPair"), 1);
             assertEquals(2, frequencyCounter.relativeFrequencyAsPercentage("trips"), 0.7);
         }

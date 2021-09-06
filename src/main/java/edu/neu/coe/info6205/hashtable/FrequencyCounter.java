@@ -47,6 +47,7 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
 
     public void increment(Key s) {
         // TO BE IMPLEMENTED
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**

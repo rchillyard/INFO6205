@@ -8,15 +8,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * Concrete class which implements LinkedList of Item as a sequence of Elements.
+ *
+ * @param <Item> the underlying type of this list.
+ */
 public class LinkedList_Elements<Item> implements LinkedList<Item> {
 
-    @Override
+    /**
+     * Add the given element to the head of this list.
+     *
+     * @param item an item.
+     */
     public void add(Item item) {
         Element<Item> tail = head;
         head = new Element<>(item, tail);
     }
 
-    @Override
+    /**
+     * Remove the element at the head of this list.
+     *
+     * @return the value of the element that was at the head of the list.
+     * @throws BQSException the list is empty.
+     */
     public Item remove() throws BQSException {
         if (head == null) throw new BQSException("collection is empty");
         Item result = head.item;
@@ -24,21 +38,39 @@ public class LinkedList_Elements<Item> implements LinkedList<Item> {
         return result;
     }
 
-    @Override
+    /**
+     * Method to get the element at the head of this list without any mutation.
+     * Equivalent to add(remove()).
+     *
+     * @return the item at the head of the list.
+     */
     public Item getHead() {
         return isEmpty() ? null : head.item;
     }
 
-    @Override
+    /**
+     * @return true if this list is empty.
+     */
     public boolean isEmpty() {
         return head == null;
     }
 
-    private Element<Item> head = null;
-
-    @Override
+    /**
+     * Method to yield an iterator for this list.
+     *
+     * @return an Iterator.
+     */
     public Iterator<Item> iterator() {
         return asItemIterable().iterator();
+    }
+
+    /**
+     * Method to render this List as a String.
+     *
+     * @return a representation of this list.
+     */
+    public String toString() {
+        return asItemIterable().toString();
     }
 
     private Iterable<Item> asItemIterable() {
@@ -51,8 +83,5 @@ public class LinkedList_Elements<Item> implements LinkedList<Item> {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return asItemIterable().toString();
-    }
+    private Element<Item> head = null;
 }

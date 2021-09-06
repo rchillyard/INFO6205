@@ -5,15 +5,9 @@
 package edu.neu.coe.info6205.bqs;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Stack_LinkedList<Item> implements Stack<Item> {
-
-    /**
-     * Primary constructor
-     */
-    public Stack_LinkedList() {
-        list = new LinkedList_Elements<>();
-    }
 
     /**
      * push method, delegates to list as add
@@ -52,15 +46,41 @@ public class Stack_LinkedList<Item> implements Stack<Item> {
         return list.isEmpty();
     }
 
-    @Override
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
     public Iterator<Item> iterator() {
         return list.iterator();
     }
 
     @Override
-    public String toString() {
-        return list.toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stack_LinkedList)) return false;
+        Stack_LinkedList<?> that = (Stack_LinkedList<?>) o;
+        return Objects.equals(list, that.list);
     }
 
-    private final LinkedList_Elements<Item> list;
+    @Override
+    public int hashCode() {
+        return Objects.hash(list);
+    }
+
+    /**
+     * Secondary, but sole public, constructor.
+     */
+    public Stack_LinkedList() {
+        this(new LinkedList_Elements<>());
+    }
+
+    /**
+     * Primary, but package-private, constructor.
+     */
+    Stack_LinkedList(LinkedList<Item> list) {
+        this.list = list;
+    }
+
+    private final LinkedList<Item> list;
 }
