@@ -94,6 +94,7 @@ public class Bag_Array<Item> implements Bag<Item> {
      */
     private static <T> T[] growFrom(T[] from, int size) {
         // TO BE IMPLEMENTED
+        return null;
     }
 
     private Item[] items = null;

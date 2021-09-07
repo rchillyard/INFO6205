@@ -19,5 +19,6 @@ public class BFS {
 
     public List<Integer> BFS(int s) {
         // TO BE IMPLEMENTED
+        return null;
     }
 }

@@ -39,6 +39,7 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
         else {
             // TO BE IMPLEMENTED
         }
+        return null;
     }
 
     public boolean isEmpty() {

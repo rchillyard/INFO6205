@@ -49,6 +49,7 @@ public class RandomWalk {
      */
     public double distance() {
         // TO BE IMPLEMENTED
+        return 0;
     }
 
     /**
