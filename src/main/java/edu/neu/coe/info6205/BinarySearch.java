@@ -17,6 +17,7 @@ public class BinarySearch {
         int hi = high;
         while (hi >= lo) {
             // TO BE IMPLEMENTED : implement binary search
+            return -1;
         }
         return -1;
 
