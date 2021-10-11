@@ -6,11 +6,13 @@ package edu.neu.coe.info6205.sort.elementary;
 
 import edu.neu.coe.info6205.sort.*;
 import edu.neu.coe.info6205.util.*;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -138,4 +140,33 @@ public class InsertionSortTest {
 
     final static LazyLogger logger = new LazyLogger(InsertionSort.class);
 
+    private static Integer[] ordered;
+    private static Integer[] partially;
+    private static Integer[] random;
+    private static Integer[] reversed;
+    private int m = 20;  //run m times
+    private static int n = 1250;
+
+    @BeforeClass
+    public static void arrayInitial(){
+        ordered = new Integer[n];
+        partially = new Integer[n];
+        random = new Integer[n];
+        reversed = new Integer[n];
+
+        Random ran = new Random();
+        final Config config = ConfigTest.setupConfig("true","0","1","","");
+        Helper<Integer> helper = HelperFactory.create("InsertionSort", n, config);
+
+
+        //
+        for (int i=0; i<n; i++) {
+            ordered[i] = i;
+            reversed[i] = n-i-1;
+        }
+        random = helper.random(Integer.class, r -> r.nextInt(n));
+        partially = helper.random(Integer.class, r -> r.nextInt(n));
+        new InsertionSort<Integer>().sort(partially, 0, partially.length/2);
+        System.out.println("Created 4 kind of array");
+    }
 }

@@ -8,6 +8,7 @@
 package edu.neu.coe.info6205.union_find;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Height-weighted Quick Union with Path Compression
@@ -82,6 +83,15 @@ public class UF_HWQUPC implements UF {
         validate(p);
         int root = p;
         // TO BE IMPLEMENTED
+        while (parent[root] != root) {
+            if (pathCompression){
+                doPathCompression(root);
+            }
+            root = parent[root];
+        }
+        if (pathCompression){
+            parent[p] = root;
+        }
         return root;
     }
 
@@ -169,6 +179,15 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED make shorter root point to taller one
+        if(height[i] > height[j]){
+            parent[j] = i;
+        } else if (height[i] < height[j]){
+            parent[i] = j;
+        } else {
+           parent[j] = i;
+            height[i]++;
+        }
+
     }
 
     /**
@@ -176,5 +195,56 @@ public class UF_HWQUPC implements UF {
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED update parent to value of grandparent
+        parent[i] = parent[parent[i]];
     }
+
+
+    public static int count(int n, boolean doPathCompression) {
+//        int connection = 0;
+//        //input n.parseInt()   std.in
+//        //generate random pairs to connect
+//        if(connected(1,2))
+//            union(1,2);
+        UF_HWQUPC uf = new UF_HWQUPC(n, doPathCompression);
+        Random random = new Random();
+        boolean generated[] = new boolean[n];
+        Arrays.fill(generated,false);
+        int connections=0;
+        boolean loop=true;
+        while(loop) {
+            int p = random.nextInt(n);
+            int q = random.nextInt(n);
+            generated[p] = true;
+            generated[q] = true;
+            connections++;
+            if (!uf.connected(p, q)) {
+                uf.union(p, q);
+            }
+            //
+            int index = 0;
+            for (; index < n ; index++) {
+                if(!generated[index]) break;
+            }
+            if(index==n) loop=false;
+        }
+        return connections;
+    }
+
+    public static void main(String[] args) {
+        int n = 128;
+        int ttl = 0;
+        for (; n>=1; n/=2) {
+            ttl = 0;
+            for (int i = 0; i < 100; i++) {
+                int total = 0;
+                int cnt = count(n, true);
+                total += cnt;
+                ttl = total;
+            }
+            System.out.println("Numbers:" + n + "\nThe average number of connections is " + ttl );
+        }
+        System.out.println("Experiment finish");
+
+    }
+
 }
