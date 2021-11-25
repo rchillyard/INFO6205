@@ -103,7 +103,7 @@ public class MSDStringSortTest {
 
     private static String getPathname(final String resource, @SuppressWarnings("SameParameterValue") final Class<?> clazz) throws FileNotFoundException {
         final URL url = clazz.getClassLoader().getResource(resource);
-        if (url != null) return url.getPath();
+        if (url != null) return url.getPath().replaceAll("%20", " ");
         throw new FileNotFoundException(resource + " in " + clazz);
     }
 
