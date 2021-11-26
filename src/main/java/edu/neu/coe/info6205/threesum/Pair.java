@@ -3,11 +3,11 @@ package edu.neu.coe.info6205.threesum;
 import java.util.Objects;
 
 /**
- * A set of three ints.
+ * A pair of two ints.
  */
-class Triple implements Comparable<Triple> {
+class Pair implements Comparable<Pair> {
     public int sum() {
-        return x + y + z;
+        return x + y ;
     }
 
     @Override
@@ -15,39 +15,34 @@ class Triple implements Comparable<Triple> {
         return "Triple{" +
                 "x=" + x +
                 ", y=" + y +
-                ", z=" + z +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Triple)) return false;
-        Triple triple = (Triple) o;
-        return x == triple.x && y == triple.y && z == triple.z;
+        if (!(o instanceof Pair)) return false;
+        Pair triple = (Pair) o;
+        return x == triple.x && y == triple.y;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, z);
+        return Objects.hash(x, y);
     }
 
     @Override
-    public int compareTo(Triple o) {
+    public int compareTo(Pair o) {
         int cf1 = this.x - o.x;
         if (cf1 != 0) return cf1;
-        int cf2 = this.y - o.y;
-        if (cf2 != 0) return cf2;
-        return this.z - o.z;
+        return this.y - o.y;
     }
 
-    public Triple(int x, int y, int z) {
+    public Pair(int x, int y) {
         this.x = x;
         this.y = y;
-        this.z = z;
     }
 
     final int x;
     final int y;
-    final int z;
 }
