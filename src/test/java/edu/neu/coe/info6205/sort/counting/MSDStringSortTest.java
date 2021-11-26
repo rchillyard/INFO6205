@@ -5,11 +5,15 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.util.Config;
 import org.junit.Test;
 
-import java.io.*;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,12 +37,24 @@ public class MSDStringSortTest {
         int n = 1000;
         final Helper<String> helper = new BaseHelper<>("test", n, 1L, Config.load(MSDStringSortTest.class));
         helper.init(n);
-        String[] words = getWords("3000-common-words.txt", MSDStringSortTest::lineAsList);
+        String[] words = getWords("/3000-common-words.txt", MSDStringSortTest::lineAsList);
         final String[] xs = helper.random(String.class, r -> words[r.nextInt(words.length)]);
         assertEquals(n, xs.length);
         MSDStringSort.sort(xs);
         assertEquals("African-American", xs[0]);
         assertEquals("Palestinian", xs[16]);
+    }
+
+    @Test
+    public void testGetWords1() {
+        String[] words = getWords("/3000-common-words.txt", MSDStringSortTest::lineAsList);
+        assertEquals(2998, words.length);
+    }
+
+    @Test
+    public void testGetWords2() {
+        String[] words = getWords("/3000 common words.txt", MSDStringSortTest::lineAsList);
+        assertEquals(2998, words.length);
     }
 
     /**
@@ -59,13 +75,14 @@ public class MSDStringSortTest {
      * @return an array of Strings.
      */
     static String[] getWords(final String resource, final Function<String, List<String>> stringListFunction) {
+        Class<?> clazz = MSDStringSortTest.class;
         try {
-            final File file = new File(getPathname(resource, MSDStringSortTest.class));
+            final File file = new File(Objects.requireNonNull(clazz.getResource(resource)).toURI());
             final String[] result = getWordArray(file, stringListFunction, 2);
             System.out.println("getWords: testing with " + formatWhole(result.length) + " unique words: from " + file);
             return result;
-        } catch (final FileNotFoundException e) {
-            System.out.println("Cannot find resource: " + resource);
+        } catch (final URISyntaxException | NullPointerException e) {
+            System.out.println("Cannot find resource: " + resource + "  relative to class: " + clazz);
             return new String[0];
         }
     }
@@ -100,11 +117,4 @@ public class MSDStringSortTest {
         words.add(line);
         return words;
     }
-
-    private static String getPathname(final String resource, @SuppressWarnings("SameParameterValue") final Class<?> clazz) throws FileNotFoundException {
-        final URL url = clazz.getClassLoader().getResource(resource);
-        if (url != null) return url.getPath();
-        throw new FileNotFoundException(resource + " in " + clazz);
-    }
-
 }
