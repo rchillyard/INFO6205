@@ -248,22 +248,25 @@ public class BSTOptimisedTest {
         bst.inorder(bst.root);
         assertEquals(8,bst.size(bst.root));
 
-//      test : delete and replace with predecessor
+        // test : delete and replace with predecessor
+        // acccessing node with key"20"
         assertEquals(2 ,bst.size(bst.root.larger.smaller));
         assertEquals(1 ,bst.size(bst.root.larger.larger));
         bst.delete("20");
         assertEquals(1 ,bst.size(bst.root.larger.smaller));
         assertEquals(1 ,bst.size(bst.root.larger.larger));
 
-//      test: delete and replace with successor
+        // test: delete and replace with successor
         bst.inorder(bst.root);
         bst.put("42",42);
-        assertEquals(1 ,bst.size(bst.root.larger.smaller));
-        assertEquals(2 ,bst.size(bst.root.larger.larger));
-        bst.delete("18");
+
+        // accessing node with key "30"
+        assertEquals(0 ,bst.size(bst.root.larger.larger.smaller));
+        assertEquals(1 ,bst.size(bst.root.larger.larger.larger));
+        bst.delete("30");
         bst.inorder(bst.root);
-        assertEquals(1 ,bst.size(bst.root.larger.smaller));
-        assertEquals(2 ,bst.size(bst.root.larger.larger));
+        assertEquals(0 ,bst.size(bst.root.larger.larger.smaller));
+        assertEquals(0 ,bst.size(bst.root.larger.larger.larger));
 
 
     }
