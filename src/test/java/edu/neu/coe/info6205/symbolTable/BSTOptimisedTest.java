@@ -245,7 +245,7 @@ public class BSTOptimisedTest {
         bst.put("18",18);
         bst.put("16",16);
         bst.put("30",30);
-        bst.inorder(bst.root);
+     
         assertEquals(8,bst.size(bst.root));
 
         // test : delete and replace with predecessor
