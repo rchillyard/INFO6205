@@ -400,41 +400,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         public DepthException() {
         }
     }
-
-    public void inorder(Node root)
-    {
-        if (root == null) {
-            return;
-        }
-
-        inorder(root.smaller);
-        System.out.print(root.value + " ");
-        inorder(root.larger);
-    }
 }
 
-class Main {
-    public static void main(String[] args)
-    {
 
-        BSTOptimisedDeletion bst = new BSTOptimisedDeletion();
-        bst.put("15",15);
-        bst.put("10",10);
-        bst.put("20",20);
-        bst.put("08",8);
-        bst.put("12",12);
-        bst.put("18",18);
-        bst.put("16",16);
-        bst.put("30",30);
-        bst.put("19",19);
-        System.out.println( " ");
-        bst.inorder (bst.root);
-        bst.delete("12");
-        bst.delete("30");
-        bst.delete("08");
-        System.out.println( " ");
-        bst.inorder(bst.root);
-
-    }
-}
 
