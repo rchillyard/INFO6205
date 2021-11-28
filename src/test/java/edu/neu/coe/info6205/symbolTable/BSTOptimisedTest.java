@@ -257,14 +257,12 @@ public class BSTOptimisedTest {
         assertEquals(1 ,bst.size(bst.root.larger.larger));
 
         // test: delete and replace with successor
-        bst.inorder(bst.root);
         bst.put("42",42);
 
         // accessing node with key "30"
         assertEquals(0 ,bst.size(bst.root.larger.larger.smaller));
         assertEquals(1 ,bst.size(bst.root.larger.larger.larger));
         bst.delete("30");
-        bst.inorder(bst.root);
         assertEquals(0 ,bst.size(bst.root.larger.larger.smaller));
         assertEquals(0 ,bst.size(bst.root.larger.larger.larger));
 
