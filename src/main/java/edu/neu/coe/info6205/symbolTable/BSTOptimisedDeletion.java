@@ -152,14 +152,12 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             if (x.smaller == null) return x.larger;
 
             if (size(x.larger) >= size(x.smaller)){
-                System.out.println("L>S");
                 Node t = x;
                 x = min(t.larger);
                 x.larger = deleteMin(t.larger);
                 x.smaller = t.smaller;
             }
             else if (size(x.larger) < size(x.smaller)){
-                System.out.println("L<S");
                 Node t = x;
                 x = max(t.smaller);
                 x.smaller = deleteMax(t.smaller);
