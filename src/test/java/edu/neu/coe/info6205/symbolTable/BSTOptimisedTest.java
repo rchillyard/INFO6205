@@ -247,12 +247,25 @@ public class BSTOptimisedTest {
         bst.put("30",30);
         bst.inorder(bst.root);
         assertEquals(8,bst.size(bst.root));
+
+//      test : delete and replace with predecessor
         assertEquals(2 ,bst.size(bst.root.larger.smaller));
         assertEquals(1 ,bst.size(bst.root.larger.larger));
         bst.delete("20");
         assertEquals(1 ,bst.size(bst.root.larger.smaller));
         assertEquals(1 ,bst.size(bst.root.larger.larger));
-        
+
+//      test: delete and replace with successor
+        bst.inorder(bst.root);
+        bst.put("42",42);
+        assertEquals(1 ,bst.size(bst.root.larger.smaller));
+        assertEquals(2 ,bst.size(bst.root.larger.larger));
+        bst.delete("18");
+        bst.inorder(bst.root);
+        assertEquals(1 ,bst.size(bst.root.larger.smaller));
+        assertEquals(2 ,bst.size(bst.root.larger.larger));
+
+
     }
 
 }
