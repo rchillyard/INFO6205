@@ -1,9 +1,6 @@
 package edu.neu.coe.info6205.symbolTable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
@@ -20,7 +17,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
     @Override
     public void putAll(Map<Key, Value> map) {
         List<Key> ks = new ArrayList<>(map.keySet());
-//        Collections.shuffle(ks);
+        Collections.shuffle(ks);
         for (Key k : ks) put(k, map.get(k));
     }
 
@@ -134,135 +131,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         }
     }
 
-    public Node getMinimumKey(Node curr)
-    {
-        while (curr.smaller != null) {
-            curr = curr.larger;
-        }
-        return curr;
-    }
-
-
-    // Helper function to find the maximum value node in the subtree rooted at `ptr`
-    public Node findMaximumKey(Node ptr)
-    {
-        while (ptr.larger != null) {
-            ptr = ptr.larger;
-        }
-        return ptr;
-    }
-
-    // Function to delete a node from a BST
-    private Node delete(Node x, Key key)
-    {
-        // pointer to store the parent of the current node
-        Node parent = null;
-        // start with the root node
-        Node curr = x;
-
-        // search key in the BST and set its parent pointer
-        while (curr != null && curr.key != key)
-        {
-            // update the parent to the current node
-            parent = curr;
-            // if the given key is less than the current node, go to the left subtree;
-            // otherwise, go to the right subtree
-            if (key.compareTo(curr.key)<0) {
-                curr = curr.smaller;
-            }
-            else {
-                curr = curr.larger;
-            }
-        }
-        // return if the key is not found in the tree
-        if (curr == null) {
-            return x;
-        }
-        // Case 1: node to be deleted has no children, i.e., it is a leaf node
-        if (curr.smaller == null && curr.larger == null)
-        {
-            // if the node to be deleted is not a root node, then set its
-            // parent left/right child to null
-            if (curr != x)
-            {
-                if (parent.smaller == curr) {
-                    parent.smaller = null;
-                }
-                else {
-                    parent.larger = null;
-                }
-            }
-            // if the tree has only a root node, set it to null
-            else {
-                x = null;
-            }
-        }
-
-        // Case 2: node to be deleted has two children
-        else if (curr.smaller != null && curr.larger != null)
-        {
-            if (size(curr.larger) >= size(curr.smaller)){
-                // find its inorder successor node
-                Node successor = getMinimumKey(curr.larger);
-
-                // store successor value
-                Value val = successor.value;
-
-                // recursively delete the successor. Note that the successor
-                // will have at most one child (right child)
-                delete(x, successor.key);
-                // copy value of the successor to the current node
-                curr.value = val;
-            }
-            else if (size(curr.larger) < size(curr.smaller)){
-
-                // find its inorder predecessor node
-                Node predecessor = findMaximumKey(curr.smaller);
-
-                // copy value of the predecessor to the current node
-                curr.value = predecessor.value;
-
-                // recursively delete the predecessor. Note that the
-                // predecessor will have at most one child (left child)
-                curr.smaller = delete(curr.smaller, predecessor.key);
-        }
-
-        }
-
-        // Case 3: node to be deleted has only one child
-        else {
-            // choose a child node
-            Node child = (curr.smaller != null)? curr.smaller: curr.larger;
-
-            // if the node to be deleted is not a root node, set its parent
-            // to its child
-            if (curr != x)
-            {
-                if (curr == parent.smaller) {
-                    parent.smaller = child;
-                }
-                else {
-                    parent.larger = child;
-                }
-            }
-
-            // if the node to be deleted is a root node, then set the root to the child
-            else {
-                x = child;
-            }
-        }
-
-        return x;
-    }
-
-
-    private Node deleteMin(Node x) {
-        if (x.smaller == null) return x.larger;
-        x.smaller = deleteMin(x.smaller);
-        x.count = 1 + size(x.smaller) + size(x.larger);
-        return x;
-    }
-
     public int size(Node node) {
         if (node == null)
             return 0;
@@ -270,10 +138,61 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             return(size(node.smaller) + 1 + size(node.larger));
     }
 
+    // CONSIDER this should be an instance method of Node.
+    private Node delete(Node x, Key key) {
+        // SKELETON
+        // return null;
+        // SOLUTION
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.smaller = delete(x.smaller, key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+
+            if (size(x.larger) >= size(x.smaller)){
+                System.out.println("L>S");
+                Node t = x;
+                x = min(t.larger);
+                x.larger = deleteMin(t.larger);
+                x.smaller = t.smaller;
+            }
+            else if (size(x.larger) < size(x.smaller)){
+                System.out.println("L<S");
+                Node t = x;
+                x = max(t.smaller);
+                x.smaller = deleteMax(t.smaller);
+                x.larger = t.larger;
+            }
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
+        // END SOLUTION
+    }
+
+    private Node deleteMin(Node x) {
+        if (x.smaller == null) return x.larger;
+        x.smaller = deleteMin(x.smaller);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
+    }
+    private Node deleteMax(Node x) {
+        if (x.larger == null) return x.smaller;
+        x.larger = deleteMax(x.larger);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
+    }
+
     private Node min(Node x) {
         if (x == null) throw new RuntimeException("min not implemented for null");
         else if (x.smaller == null) return x;
         else return min(x.smaller);
+    }
+    private Node max(Node x) {
+        if (x == null) throw new RuntimeException("min not implemented for null");
+        else if (x.larger == null) return x;
+        else return max(x.larger);
     }
 
     /**
@@ -400,7 +319,18 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         public DepthException() {
         }
     }
-}
+    public void inorder(Node root)
+    {
+        if (root == null) {
+            return;
+        }
 
+        inorder(root.smaller);
+        System.out.print(root.value + " ");
+        System.out.print(root.value + " ");
+        inorder(root.larger);
+    }
+
+}
 
 
