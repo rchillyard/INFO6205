@@ -131,9 +131,28 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
+    // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
-        // TO BE IMPLEMENTED
-        return null;
+        // SKELETON
+        // return null;
+        // SOLUTION
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.smaller = delete(x.smaller, key);
+        else if (cmp > 0) x.larger = delete(x.larger, key);
+        else {
+            if (x.larger == null) return x.smaller;
+            if (x.smaller == null) return x.larger;
+
+            // NOTE: violation of the ASP.
+            Node t = x;
+            x = min(t.larger);
+            x.larger = deleteMin(t.larger);
+            x.smaller = t.smaller;
+        }
+        x.count = size(x.smaller) + size(x.larger) + 1;
+        return x;
+        // END SOLUTION
     }
 
     private Node deleteMin(Node x) {
