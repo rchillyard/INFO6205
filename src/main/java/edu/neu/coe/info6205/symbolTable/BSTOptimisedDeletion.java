@@ -188,7 +188,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         else return min(x.smaller);
     }
     private Node max(Node x) {
-        if (x == null) throw new RuntimeException("min not implemented for null");
+        if (x == null) throw new RuntimeException("max not implemented for null");
         else if (x.larger == null) return x;
         else return max(x.larger);
     }
@@ -317,17 +317,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         public DepthException() {
         }
     }
-    public void inorder(Node root)
-    {
-        if (root == null) {
-            return;
-        }
 
-        inorder(root.smaller);
-        System.out.print(root.value + " ");
-        System.out.print(root.value + " ");
-        inorder(root.larger);
-    }
 
 }
 
