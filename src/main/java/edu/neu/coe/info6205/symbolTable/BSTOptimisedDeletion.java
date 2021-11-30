@@ -3,7 +3,7 @@ package edu.neu.coe.info6205.symbolTable;
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
+public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
     @Override
     public Boolean contains(Key key) {
         return get(key) != null;
@@ -72,10 +72,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
-    public BSTSimple() {
+    public BSTOptimisedDeletion() {
     }
 
-    public BSTSimple(Map<Key, Value> map) {
+    public BSTOptimisedDeletion(Map<Key, Value> map) {
         this();
         putAll(map);
     }
@@ -131,6 +131,13 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
+    public int size(Node node) {
+        if (node == null)
+            return 0;
+        else
+            return(size(node.smaller) + 1 + size(node.larger));
+    }
+
     // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
         // SKELETON
@@ -144,11 +151,18 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
             if (x.larger == null) return x.smaller;
             if (x.smaller == null) return x.larger;
 
-            // NOTE: violation of the ASP.
-            Node t = x;
-            x = min(t.larger);
-            x.larger = deleteMin(t.larger);
-            x.smaller = t.smaller;
+            if (size(x.larger) >= size(x.smaller)){
+                Node t = x;
+                x = min(t.larger);
+                x.larger = deleteMin(t.larger);
+                x.smaller = t.smaller;
+            }
+            else if (size(x.larger) < size(x.smaller)){
+                Node t = x;
+                x = max(t.smaller);
+                x.smaller = deleteMax(t.smaller);
+                x.larger = t.larger;
+            }
         }
         x.count = size(x.smaller) + size(x.larger) + 1;
         return x;
@@ -161,15 +175,22 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         x.count = 1 + size(x.smaller) + size(x.larger);
         return x;
     }
-
-    private int size(Node x) {
-        return x == null ? 0 : x.count;
+    private Node deleteMax(Node x) {
+        if (x.larger == null) return x.smaller;
+        x.larger = deleteMax(x.larger);
+        x.count = 1 + size(x.smaller) + size(x.larger);
+        return x;
     }
 
     private Node min(Node x) {
         if (x == null) throw new RuntimeException("min not implemented for null");
         else if (x.smaller == null) return x;
         else return min(x.smaller);
+    }
+    private Node max(Node x) {
+        if (x == null) throw new RuntimeException("max not implemented for null");
+        else if (x.larger == null) return x;
+        else return max(x.larger);
     }
 
     /**
@@ -296,4 +317,8 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         public DepthException() {
         }
     }
+
+
 }
+
+
