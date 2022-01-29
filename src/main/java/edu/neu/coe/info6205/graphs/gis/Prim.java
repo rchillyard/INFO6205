@@ -18,7 +18,7 @@ import edu.neu.coe.info6205.union_find.TypedUF;
 import edu.neu.coe.info6205.union_find.TypedUF_HWQUPC;
 import edu.neu.coe.info6205.union_find.UFException;
 
-public class Prim<V, X extends Comparable<X> & Sequenced> implements Iterable<Edge<V, X>> {
+public class Prim<V, X extends Comparable<X> & Sequenced> implements MST<V, X> {
 
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Prim(EdgeGraph<V, X> graph, V startingpoint) {

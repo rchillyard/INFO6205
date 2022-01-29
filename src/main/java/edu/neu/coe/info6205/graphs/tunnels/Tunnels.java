@@ -37,6 +37,11 @@ public class Tunnels implements Iterable<Edge<Building, TunnelProperties>> {
         kruskal = new GeoKruskal<>(createGraph(buildings));
     }
 
+    /**
+     * NOTE: never used
+     *
+     * @return
+     */
     public Graph<Building, Edge<Building, TunnelProperties>> getMst() {
         return getKruskal().getMST();
     }
@@ -51,11 +56,11 @@ public class Tunnels implements Iterable<Edge<Building, TunnelProperties>> {
         return getKruskal().iterator();
     }
 
-    private Kruskal<Building, TunnelProperties> getKruskal() {
+    private MST_Base<Building, TunnelProperties> getKruskal() {
         return kruskal;
     }
 
-    private final Kruskal<Building, TunnelProperties> kruskal;
+    private final MST_Base<Building, TunnelProperties> kruskal;
 
     private static Geo<Building, TunnelProperties> createGraph(List<Building> buildings) {
         GeoGraphSpherical<Building, TunnelProperties> graph = new GeoGraphSpherical<>();

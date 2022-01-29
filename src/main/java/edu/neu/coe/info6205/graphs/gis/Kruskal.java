@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.graphs.gis;
 
 import edu.neu.coe.info6205.SizedIterable;
+import edu.neu.coe.info6205.bqs.Bag;
 import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.bqs.Queue_Elements;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
@@ -21,37 +22,20 @@ import java.util.Iterator;
  *
  * @tparam V is the type of each vertex.
  */
-public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable<Edge<V, X>> {
+public class Kruskal<V, X extends Comparable<X> & Sequenced> extends MST_Base<V, X> {
 
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Kruskal(EdgeGraph<V, X> graph) {
-        this.queue = new Queue_Elements<>();
-//        showEdgesInSequence(graph);
-        this.pq = createPQ(graph.edges());
+        super();
+        //        showEdgesInSequence(graph);
         this.uf = createUF(graph.vertices());
         this.size = uf.size();
+        this.pq = createPQ(graph.edges());
         try {
             mst = runKruskal();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public EdgeGraph<V, X> getMST() {
-        int sequence = 0;
-        EdgeGraph<V, X> result = new Graph_Edges<>();
-        for (Edge<V, X> edge : queue) {
-            edge.getAttribute().setSequence(sequence++);
-            result.addEdge(edge);
-        }
-        return result;
-    }
-
-    @Override
-    public Iterator<Edge<V, X>> iterator() {
-        ArrayList<Edge<V, X>> result = new ArrayList<>();
-        for (Edge<V, X> edge : mst) result.add(edge);
-        return result.iterator();
     }
 
 
@@ -73,32 +57,9 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
         return new TypedUF_HWQUPC<>(vertices);
     }
 
-    private PriorityQueue<Edge<V, X>> createPQ(SizedIterable<Edge<V, X>> edges) {
-        PriorityQueue<Edge<V, X>> result = new PriorityQueue<>(edges.size(), false, Comparator.comparing(Edge::getAttribute));
-        for (Edge<V, X> e : edges) result.give(e);
-        return result;
-    }
-
-    private void showEdgesInSequence(EdgeGraph<V, X> graph) {
-        // TODO remove this debugging code
-        PriorityQueue<Edge<V, X>> tempPQ = createPQ(graph.edges());
-        while (!tempPQ.isEmpty()) {
-            try {
-                System.out.println(tempPQ.take());
-            } catch (PQException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private final Queue<Edge<V, X>> queue;
-    private final PriorityQueue<Edge<V, X>> pq;
     private final TypedUF<V> uf;
+
+
     private final int size;
-    private Iterable<Edge<V, X>> mst;
-
-
-    public static <V, X extends Comparable<X>> Edge<V, X> createEdge(V v1, V v2, X x) {
-        return new Edge<>(v1, v2, x);
-    }
+    private final PriorityQueue<Edge<V, X>> pq;
 }

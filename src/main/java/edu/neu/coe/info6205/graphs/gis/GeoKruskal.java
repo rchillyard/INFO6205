@@ -3,6 +3,12 @@ package edu.neu.coe.info6205.graphs.gis;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
 
+/**
+ * CONSIDER rename this to GeoMST and have it delegate to an implementer of MST
+ *
+ * @param <V> the point attribute
+ * @param <X> the edge attribute
+ */
 public class GeoKruskal<V extends GeoPoint, X extends Comparable<X> & Sequenced> extends Kruskal<V, X> {
     public GeoKruskal(EdgeGraph<V, X> graph) {
         super(graph);

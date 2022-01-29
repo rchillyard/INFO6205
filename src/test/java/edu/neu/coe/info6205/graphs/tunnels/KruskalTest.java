@@ -11,7 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static edu.neu.coe.info6205.graphs.gis.Kruskal.createEdge;
+import static edu.neu.coe.info6205.graphs.gis.MST_Base.createEdge;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
