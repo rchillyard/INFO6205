@@ -51,6 +51,7 @@ public class KruskalTest {
         Edge<String, Route> edge2 = edgeList.get(0);
         Iterable<Edge<String, Route>> iterable = new Kruskal<>(kalimantan);
         Iterator<Edge<String, Route>> iterator = iterable.iterator();
+        
         assertTrue(iterator.hasNext());
         assertEquals(edge1, iterator.next());
         assertEquals(edge2, iterator.next());

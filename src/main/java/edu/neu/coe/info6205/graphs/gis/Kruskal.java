@@ -1,7 +1,6 @@
 package edu.neu.coe.info6205.graphs.gis;
 
 import edu.neu.coe.info6205.SizedIterable;
-import edu.neu.coe.info6205.bqs.Bag;
 import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.bqs.Queue_Elements;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
@@ -20,7 +19,7 @@ import java.util.Iterator;
 /**
  * This is a generic solution for Kruskal's algorithm to find the minimum spanning tree of an edge-weighted graph
  *
- * @tparam V is the type of each vertex.
+ * @param V is the type of each vertex.
  */
 public class Kruskal<V, X extends Comparable<X> & Sequenced> extends MST_Base<V, X> {
 
