@@ -11,11 +11,11 @@ import edu.neu.coe.info6205.util.Config;
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     /**
-     * Constructor for any sub-classes to use.
+     * Constructor for any subclasses to use.
      *
      * @param description the description.
-     * @param N           the number of elements expected.
-     * @param config      the configuration.
+     * @param N the number of elements expected.
+     * @param config the configuration.
      */
     protected InsertionSort(String description, int N, Config config) {
         super(description, N, config);
@@ -24,7 +24,7 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
     /**
      * Constructor for InsertionSort
      *
-     * @param N      the number elements we expect to sort.
+     * @param N the number elements we expect to sort.
      * @param config the configuration.
      */
     public InsertionSort(int N, Config config) {
@@ -51,15 +51,21 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
     /**
      * Sort the sub-array xs:from:to using insertion sort.
      *
-     * @param xs   sort the array xs from "from" to "to".
+     * @param xs sort the array xs from "from" to "to".
      * @param from the index of the first element to sort
-     * @param to   the index of the first element not to sort
+     * @param to the index of the first element not to sort
      */
     public void sort(X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
-
-        // FIXME
-        // END 
+        for (int i = from + 1; i < to; i++) {
+            for (int j = i; j > from; j--) {
+                if (helper.less(xs[j], xs[j - 1])) {
+                    helper.swap(xs, j - 1, j);
+                } else {
+                    break;
+                }
+            }
+        }
     }
 
     public static final String DESCRIPTION = "Insertion sort";
