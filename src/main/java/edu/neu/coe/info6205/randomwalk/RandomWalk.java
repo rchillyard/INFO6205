@@ -52,6 +52,7 @@ public class RandomWalk {
      */
     public double distance() {
         // FIXME
+        return 0.0;
         // END 
     }
 

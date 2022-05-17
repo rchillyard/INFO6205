@@ -20,8 +20,10 @@ public class Moves3 implements Moves {
         Point p = t;
         while (true) {
             // FIXME  Sorry, but you have to do this one yourself!
+            break;
             // END 
         }
+        return false;
     }
 
     /**
