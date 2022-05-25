@@ -24,26 +24,32 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
         length = a.length;
     }
 
+    /**
+     * Get an array or Triple containing all of those triples for which sum is zero.
+     *
+     * @return a Triple[].
+     */
     public Triple[] getTriples() {
         List<Triple> triples = new ArrayList<>();
         Collections.sort(triples);
         for (int i = 0; i < length - 2; i++)
-            triples.addAll(calipers(a, i, (t) -> t.sum()));
+            triples.addAll(calipers(a, i, Triple::sum));
         return triples.stream().distinct().toArray(Triple[]::new);
     }
 
     /**
-     * Get a list of Triples such that the middle index is the given value i.
+     * Get a set of candidate Triples such that the first index is the given value i.
+     * Any candidate triple is added to the result if it yields zero when passed into function.
      *
      * @param a        a sorted array of ints.
      * @param i        the index of the first element of resulting triples.
-     * @param function a function which takes a triple and returns the comparison of sum of the triple with zero.
-     * @return a Triple such that
+     * @param function a function which takes a triple and returns a value which will be compared with zero.
+     * @return a List of Triples.
      */
     public static List<Triple> calipers(int[] a, int i, Function<Triple, Integer> function) {
         List<Triple> triples = new ArrayList<>();
-        // FIXME : implement getTriples
-        // END 
+        // FIXME : invoke function and use its result.
+        // END
         return triples;
     }
 

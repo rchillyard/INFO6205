@@ -172,7 +172,7 @@ public class ThreeSumTest {
         assertEquals(expected1, triplesQuadratic.length);
     }
 
-    @Ignore
+    @Test
     public void testGetTriplesC4() {
         Supplier<int[]> intsSupplier = new Source(1500, 1000).intsSupplier(10);
         int[] ints = intsSupplier.get();
