@@ -20,9 +20,9 @@ public class LinkedListTest {
         LinkedList<Integer> list = new LinkedList_Elements<>();
         assertTrue(list.isEmpty());
         list.add(1);
-        assertEquals(new Integer(1), list.getHead());
+        assertEquals(Integer.valueOf(1), list.getHead());
         assertFalse(list.isEmpty());
-        assertEquals(new Integer(1), list.remove());
+        assertEquals(Integer.valueOf(1), list.remove());
     }
 
     /**
@@ -34,8 +34,32 @@ public class LinkedListTest {
         list.add(1);
         Iterator<Integer> iterator = list.iterator();
         assertTrue(iterator.hasNext());
-        assertEquals(new Integer(1), iterator.next());
+        assertEquals(Integer.valueOf(1), iterator.next());
         assertFalse(iterator.hasNext());
+    }
+
+    /**
+     * Test method for LinkedList
+     */
+    @Test
+    public void testEquals() {
+        LinkedList<Integer> list1 = new LinkedList_Elements<>();
+        list1.add(1);
+        LinkedList<Integer> list2 = new LinkedList_Elements<>();
+        list2.add(1);
+        assertEquals(list1, list2);
+    }
+
+    /**
+     * Test method for LinkedList
+     */
+    @Test
+    public void testHashCode() {
+        LinkedList<Integer> list1 = new LinkedList_Elements<>();
+        list1.add(1);
+        LinkedList<Integer> list2 = new LinkedList_Elements<>();
+        list2.add(1);
+        assertEquals(list1.hashCode(), list2.hashCode());
     }
 
 }

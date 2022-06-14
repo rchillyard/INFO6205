@@ -16,7 +16,6 @@ public class Element<Item> {
         this(x, null);
     }
 
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Element)) return false;
@@ -24,7 +23,6 @@ public class Element<Item> {
         return item.equals(element.item) && Objects.equals(next, element.next);
     }
 
-    @Override
     public int hashCode() {
         return Objects.hash(item, next);
     }
@@ -32,7 +30,6 @@ public class Element<Item> {
     final Item item;
     Element<Item> next;
 
-    @Override
     public String toString() {
         return item + (next == null ? " (last)" : "");
     }
