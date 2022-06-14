@@ -20,7 +20,7 @@ public class StopwatchTest {
         }
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = Throwable.class)
     public void lap2() {
         try (Stopwatch target = new Stopwatch()) {
             target.close();
