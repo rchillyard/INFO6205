@@ -54,6 +54,19 @@ public class LinkedListTest {
      * Test method for LinkedList
      */
     @Test
+    public void testNotEquals() {
+        LinkedList<Integer> list1 = new LinkedList_Elements<>();
+        list1.add(1);
+        LinkedList<Integer> list2 = new LinkedList_Elements<>();
+        list2.add(1);
+        list2.add(2);
+        assertNotEquals(list1, list2);
+    }
+
+    /**
+     * Test method for LinkedList
+     */
+    @Test
     public void testHashCode() {
         LinkedList<Integer> list1 = new LinkedList_Elements<>();
         list1.add(1);
