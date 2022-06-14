@@ -7,6 +7,7 @@ import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
+import java.util.Arrays;
 
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
@@ -51,14 +52,23 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
     /**
      * Sort the sub-array xs:from:to using insertion sort.
      *
-     * @param xs   sort the array xs from "from" to "to".
-     * @param from the index of the first element to sort
-     * @param to   the index of the first element not to sort
+     * @param xj   sort the array xs from "from" to "to".
+     * @param st the index of the first element to sort
+     * @param ft  the index of the first element not to sort
      */
-    public void sort(X[] xs, int from, int to) {
+    public void sort(X[] xj, int st, int ft) {
         final Helper<X> helper = getHelper();
-
         // FIXME
+        for (int i = st; i < ft; i++) {
+            X key = xj[i];
+            int j = i - 1;
+
+            while (j >= 0 && helper.less(key, xj[j])) {
+                helper.swap(xj, j, j+1);
+                j = j - 1;
+            }
+            xj[j + 1] = key;
+        }
         // END 
     }
 
