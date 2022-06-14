@@ -7,6 +7,7 @@ package edu.neu.coe.info6205.bqs;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Concrete class which implements LinkedList of Item as a sequence of Elements.
@@ -17,6 +18,19 @@ import java.util.Iterator;
  * @param <Item> the underlying type of this list.
  */
 public class LinkedList_Elements<Item> implements LinkedList<Item> {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LinkedList_Elements)) return false;
+        LinkedList_Elements<?> that = (LinkedList_Elements<?>) o;
+        return Objects.equals(head, that.head);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(head);
+    }
 
     /**
      * Add the given element to the head of this list.
