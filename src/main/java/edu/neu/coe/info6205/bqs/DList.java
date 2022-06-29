@@ -86,8 +86,21 @@ public class DList<Item> implements Iterable<Item> {
      * @param next may be null, in which case the item will be the only item on the list
      */
     public void addBeforeElement(Item item, D_Element next) {
-        // FIXME
-        // END 
+        D_Element temp = new D_Element(item);
+        // if there is only one item in the list
+        if(next == null) {
+            head = tail = temp;
+            head.prev = null;
+            tail.next = null;
+        } else {
+            // insert element & update head pointer
+            temp.next = head;
+            temp.prev = null;
+            head.prev = temp;
+            head = temp;
+        }
+        // increment the count of items in the doubly-linked list
+        count++;
     }
 
     /**
@@ -97,8 +110,15 @@ public class DList<Item> implements Iterable<Item> {
      * @param prev may NOT be null
      */
     public void addAfterElement(Item item, D_Element prev) {
-        // FIXME
-        // END 
+        D_Element temp = new D_Element(item);
+        // update pointers of element "prev" to point to the element which is to be inserted
+        temp.prev = prev;
+        temp.next = prev.next;
+        prev.next = temp;
+        prev.next.prev = temp;
+        tail = temp;
+        // increment the count of items in the doubly-linked list
+        count++;
     }
 
     /**
@@ -107,20 +127,53 @@ public class DList<Item> implements Iterable<Item> {
      * @param element the element to be removed.
      */
     public void remove(D_Element element) {
-        // FIXME
-        // END 
+        // if element to be removed is head
+        if(head == element) {
+            // if there is only 1 element in the doubly-linked list
+            if (size() == 1)
+                head = null;
+            else
+                head = element.next;
+        }
+        // change next only if node to be deleted is NOT the last node
+        if (element.next != null)
+            element.next.prev = element.prev;
+        // change prev only if node to be deleted is NOT the first node
+        if (element.prev != null)
+            element.prev.next = element.next;
+        // decrement the count of items in the doubly-linked list
+        count--;
     }
 
     public D_Element findFirst(Item item) {
-        // FIXME by replacing the following code
-         return null;
-        // END 
+        // if item is found at head
+        if (head.item == item)
+            return head;
+        D_Element temp = head;
+        // traverse linked list till first instance of item is found
+        while(temp != null) {
+            if(temp.item == item) {
+                return temp;
+            }
+            temp = temp.next;
+        }
+        // return null if not found
+        return null;
     }
 
     public D_Element findLast(Item item) {
-        // FIXME by replacing the following code
-         return null;
-        // END 
+        // if item is found at tail
+        if (tail.item == item)
+            return tail;
+        D_Element temp = tail;
+        // traverse linked list in reverse till last instance of item is found
+        while(temp.prev != null) {
+            if(temp.item == item)
+                return temp;
+            temp = temp.prev;
+        }
+        // return null if not found
+        return null;
     }
 
     public boolean isEmpty() {
