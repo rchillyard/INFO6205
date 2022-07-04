@@ -123,6 +123,20 @@ public class DList<Item> implements Iterable<Item> {
         // END 
     }
 
+    /**
+     * Get the tail element from the doubly-linked list
+     *
+     * @return the tail element of type Item
+     */
+    Item getTail() { return tail.item; }
+
+    /**
+     * Get the head element from the doubly-linked list
+     *
+     * @return the head element of type Item
+     */
+    Item getHead() { return  head.item; }
+
     public boolean isEmpty() {
         return head == null;
     }
