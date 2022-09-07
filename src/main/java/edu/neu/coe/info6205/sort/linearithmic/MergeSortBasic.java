@@ -52,19 +52,18 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
 
     @Override
     public void sort(X[] a, int from, int to) {
-        @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
-        if (to <= lo + getHelper().cutoff()) {
+        if (to <= from + getHelper().cutoff()) {
             insertionSort.sort(a, from, to);
             return;
         }
         final int n = to - from;
         int mid = from + n / 2;
-        sort(a, lo, mid);
+        sort(a, from, mid);
         sort(a, mid, to);
         System.arraycopy(a, from, aux, from, n);
         getHelper().incrementCopies(n);
         getHelper().incrementHits(2 * n);
-        merge(aux, a, lo, mid, to);
+        merge(aux, a, from, mid, to);
     }
 
     private void merge(X[] aux, X[] a, int lo, int mid, int hi) {

@@ -15,6 +15,7 @@ public class ClassicHelper<X> implements GenericHelper<X> {
 
     public X[] random(Class<X> clazz, Function<Random, X> f) {
         if (n <= 0) throw new BaseHelper.HelperException("Helper.random: not initialized");
+        randomArray = null;
         randomArray = Utilities.fillRandomArray(clazz, random, n, f);
         return randomArray;
     }

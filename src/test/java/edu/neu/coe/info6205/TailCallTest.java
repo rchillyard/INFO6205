@@ -4,9 +4,8 @@ import org.junit.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.assertEquals;
-
 import static edu.neu.coe.info6205.TailCalls.call;
+import static org.junit.Assert.assertEquals;
 
 public class TailCallTest {
 

@@ -270,14 +270,14 @@ public class InstrumentedHelperTest {
         String[] xs = new String[]{"a", "b"};
         final Helper<String> helper = new InstrumentedHelper<>("test", config);
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
-        helper.fixInversion(xs, 1);
+        helper.fixInversion(xs, 1); // XXX Deprecated
         assertEquals(1, privateMethodTester.invokePrivate("getCompares"));
         assertEquals(0, privateMethodTester.invokePrivate("getSwaps"));
         assertEquals(2, privateMethodTester.invokePrivate("getHits"));
         assertArrayEquals(new String[]{"a", "b"}, xs);
         helper.swapStable(xs, 1);
         assertArrayEquals(new String[]{"b", "a"}, xs);
-        helper.fixInversion(xs, 1);
+        helper.fixInversion(xs, 1); // XXX Deprecated
         assertArrayEquals(new String[]{"a", "b"}, xs);
         assertEquals(2, privateMethodTester.invokePrivate("getCompares"));
         assertEquals(2, privateMethodTester.invokePrivate("getSwaps"));

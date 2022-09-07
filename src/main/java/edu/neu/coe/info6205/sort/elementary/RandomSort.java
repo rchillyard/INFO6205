@@ -11,7 +11,6 @@ import edu.neu.coe.info6205.util.QuickRandom;
 import edu.neu.coe.info6205.util.Utilities;
 
 import java.io.IOException;
-import java.util.Random;
 
 /**
  * Class to implement Random Sort.
@@ -27,45 +26,18 @@ public class RandomSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     /**
      * Constructor for RandomSort
-     *  @param N      the number elements we expect to sort.
+     *
+     * @param N      the number elements we expect to sort.
      * @param config the configuration.
      */
-    public RandomSort(int N, Config config, Random random) {
-        super(DESCRIPTION, N, config);
-        this.random = random;
-    }
-
-    /**
-     * Constructor for RandomSort
-     *  @param N      the number elements we expect to sort.
-     * @param config the configuration.*/
     public RandomSort(int N, Config config) {
-        this(N, config, new Random());
+        super(DESCRIPTION, N, config);
     }
 
     public RandomSort() throws IOException {
-        this(new BaseHelper<>(DESCRIPTION, Config.load(RandomSort.class)), new Random());
+        this(new BaseHelper<>(DESCRIPTION, Config.load(RandomSort.class)));
     }
 
-    /**
-     * Constructor for RandomSort
-     *
-     * @param helper an explicit instance of Helper to be used.
-     */
-    public RandomSort(Helper<X> helper, Random random) {
-        super(helper);
-        this.random = random;
-    }
-
-    /**
-     * Constructor for RandomSort
-     *
-     * @param helper an explicit instance of Helper to be used.
-     * @param seed   an explicit seed.
-     */
-    public RandomSort(Helper<X> helper, long seed) {
-        this(helper, new Random(seed));
-    }
 
     /**
      * Constructor for RandomSort
@@ -73,14 +45,7 @@ public class RandomSort<X extends Comparable<X>> extends SortWithHelper<X> {
      * @param helper an explicit instance of Helper to be used.
      */
     public RandomSort(Helper<X> helper) {
-        this(helper, new Random());
-    }
-
-    /**
-     * Constructor for RandomSort
-     */
-    public RandomSort(Config config) {
-        this(new BaseHelper<>(DESCRIPTION, config), new Random());
+        super(helper);
     }
 
     /**
@@ -92,21 +57,31 @@ public class RandomSort<X extends Comparable<X>> extends SortWithHelper<X> {
     public void sort(X[] xs, int from, int to) {
         int N = to - from;
         final Helper<X> helper = getHelper();
+        boolean instrumented = helper.instrumented();
         QuickRandom r = new QuickRandom(N);
+        int inversions = instrumented ? helper.inversions(xs) : 0;
         if (N > CUTOFF) {
-//            final int inversions = helper.inversions(xs);
-            int m = (int) ((Utilities.lg(N) + EXTRA) * N * FACTOR);
+            int m = (int) (FACTOR * Utilities.lg(N) * N);
             for (int i = m; i > 0; i--) {
                 int j = r.get() + from;
-//                System.out.println("Random Sort: i="+i+", j="+j+", m="+m);
-                if (helper.swapConditional(xs, j, r.get())) i--;
+//                System.out.println("Random Sort: N="+N+", i="+i+", j="+j+", m="+m);
+                helper.swapConditional(xs, j, r.get());
             }
-//            final int fixes = inversions - helper.inversions(xs);
-//            System.out.println("pre-processor: inversions="+inversions+", fixes="+fixes+", comparisons="+m);
+            if (instrumented) {
+                final int currentInversions = helper.inversions(xs);
+                final int fixes = inversions - currentInversions;
+                inversions = currentInversions;
+                System.out.println("pre-processor: inversions=" + currentInversions + ", fixes=" + fixes + ", comparisons=" + m);
+            }
         }
         new InsertionSort<>(helper).sort(xs, from, to);
-//        String s = helper.showStats();
-//        System.out.println("after insertion sort: "+s);
+        if (instrumented) {
+            String s = helper.showStats();
+            System.out.println("after insertion sort: " + s);
+            final int currentInversions = helper.inversions(xs);
+            final int fixes = inversions - currentInversions;
+            System.out.println("insertion sort: inversions=" + currentInversions + ", fixes=" + fixes);
+        }
     }
 
     public static final String DESCRIPTION = "Random sort";
@@ -116,16 +91,11 @@ public class RandomSort<X extends Comparable<X>> extends SortWithHelper<X> {
     }
 
     /**
-     * The number to be added to lg N in order to get the best efficiency from the pre-process.
-     */
-    public static final int EXTRA = 0;
-
-    /**
      * The number to be multiplied by N lg N in order to get the best efficiency from the pre-process.
+     * Given that the probability of an inversion is 50%, we usually choose 2.0 here.
+     * But, slightly higher values may work better.
      */
-    public static final double FACTOR = 0.7;
-
-    private final Random random;
+    public static final double FACTOR = 2.5;
 
     private static final int CUTOFF = 16;
 }

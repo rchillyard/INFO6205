@@ -51,8 +51,8 @@ public class RandomWalk {
      * @return the (Euclidean) distance from the origin to the current position.
      */
     public double distance() {
-        // FIXME
-        return 0.0;
+        // FIXME by replacing the following code
+         return 0.0;
         // END 
     }
 

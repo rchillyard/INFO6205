@@ -343,6 +343,7 @@ public class SortBenchmark {
     }
 
     private static void doPureBenchmark(String[] words, int nWords, int nRuns, Random random, Benchmark<String[]> benchmark) {
+        // TODO we should manage the space returned by fillRandomArray and deallocate it after use.
         final double time = benchmark.runFromSupplier(() -> Utilities.fillRandomArray(String.class, random, nWords, r -> words[r.nextInt(words.length)]), nRuns);
         for (TimeLogger timeLogger : timeLoggersLinearithmic) timeLogger.log(time, nWords);
     }

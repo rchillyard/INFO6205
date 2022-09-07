@@ -58,8 +58,19 @@ public class Bag_Array<Item> implements Bag<Item> {
         return Arrays.asList(asArray()).iterator();
     }
 
+    /**
+     * Method to get this Bag as an array.
+     * <p>
+     * Internally, Object[] can be cast as an Item[] but it is not valid externally.
+     * Hence, the arraycopy.
+     * This is a quirk of Java Generics.
+     *
+     * @return this Bag as an array.
+     */
     public Item[] asArray() {
-        return Arrays.copyOf(items, count);
+        @SuppressWarnings("unchecked") Item[] items = (Item[]) new Object[count];
+        System.arraycopy(this.items, 0, items, 0, count);
+        return items;
     }
 
     @Override

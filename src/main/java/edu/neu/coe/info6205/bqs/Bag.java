@@ -34,9 +34,11 @@ public interface Bag<Item> extends SizedIterable<Item> {
     int multiplicity(Item item);
 
     /**
-     * @return this Bag as an array.
+     * Method to get this Bag as an array.
+     *
+     * @return this Bag as an array of Objects.
      */
-    Item[] asArray();
+    Object[] asArray();
 
     /**
      * Empty out this Bag

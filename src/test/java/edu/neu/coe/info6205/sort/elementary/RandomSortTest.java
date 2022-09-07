@@ -91,10 +91,11 @@ public class RandomSortTest {
         int n = 100;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, 0L, config);
         helper.init(n);
+        System.out.println(helper.toString());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
         final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
         Integer[] xs = helper.random(Integer.class, r -> r.nextInt(100000));
-        SortWithHelper<Integer> sorter = new RandomSort<Integer>(helper, 0L);
+        SortWithHelper<Integer> sorter = new RandomSort<Integer>(helper);
         sorter.preProcess(xs);
         Integer[] ys = sorter.sort(xs);
         assertTrue(helper.sorted(ys));
@@ -118,6 +119,7 @@ public class RandomSortTest {
         int n = 100;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, config);
         helper.init(n);
+        System.out.println(helper.toString());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
         final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
         Integer[] xs = new Integer[n];

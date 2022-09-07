@@ -46,7 +46,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
     /**
      * Method to perform a stable swap using half-exchanges,
      * i.e. between xs[i] and xs[j] such that xs[j] is moved to index i,
-     * and xs[i] thru xs[j-1] are all moved up one.
+     * and xs[i] through xs[j-1] are all moved up one.
      * This type of swap is used by insertion sort.
      *
      * @param xs the array of Xs.
@@ -83,6 +83,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     public X[] random(Class<X> clazz, Function<Random, X> f) {
         if (n <= 0) throw new HelperException("Helper.random: not initialized");
+        randomArray = null;
         randomArray = Utilities.fillRandomArray(clazz, random, n, f);
         return randomArray;
     }
@@ -99,7 +100,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     @Override
     public String toString() {
-        return "Helper for " + description + " with " + n + " elements";
+        return "Helper for " + description + " with " + n + " elements" + (instrumented() ? " instrumented" : "");
     }
 
     public String getDescription() {

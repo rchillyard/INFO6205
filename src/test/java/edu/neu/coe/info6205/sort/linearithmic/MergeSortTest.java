@@ -43,6 +43,25 @@ public class MergeSortTest {
     }
 
     @Test
+    public void testSort1a() throws Exception {
+        Integer[] xs = new Integer[5];
+        xs[0] = 3;
+        xs[1] = 4;
+        xs[2] = 2;
+        xs[3] = 1;
+        xs[4] = 0;
+        // NOTE: first we ensure that there is no cutoff to insertion sort going on.
+        final Config config = ConfigTest.setupConfig("true", "", "0", "1", "");
+        GenericSort<Integer> s = new MergeSort<>(xs.length, config);
+        Integer[] ys = s.sort(xs);
+        assertEquals(Integer.valueOf(0), ys[0]);
+        assertEquals(Integer.valueOf(1), ys[1]);
+        assertEquals(Integer.valueOf(2), ys[2]);
+        assertEquals(Integer.valueOf(3), ys[3]);
+        assertEquals(Integer.valueOf(4), ys[4]);
+    }
+
+    @Test
     public void testSort2() throws Exception {
         int k = 7;
         int N = (int) Math.pow(2, k);

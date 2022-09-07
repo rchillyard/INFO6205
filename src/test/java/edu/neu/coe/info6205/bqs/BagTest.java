@@ -6,6 +6,8 @@ package edu.neu.coe.info6205.bqs;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 public class BagTest {
@@ -45,10 +47,10 @@ public class BagTest {
     }
 
     /**
-     * Test method for Bag
+     * Test iterator (implicitly) for Bag.
      */
     @Test
-    public void testIterator() {
+    public void testIterator1() {
         Bag<Integer> bag = new Bag_Array<>();
         for (int i = 1; i <= 4; i++)
             bag.add(i);
@@ -59,19 +61,33 @@ public class BagTest {
     }
 
     /**
-     * Test method for asArray
-     * <p>
-     * FIXME the asArray method apparently ends up causing a ClassCastException.
+     * Test method for asArray (more explicit use of iterator).
      */
-//    @Test
+    @Test
+    public void testIterator2() {
+        Bag<Integer> bag = new Bag_Array<>();
+        for (int i = 1; i <= 4; i++)
+            bag.add(i);
+        assertEquals(4, bag.size());
+        Iterator<Integer> integers = bag.iterator();
+        int sum = 0;
+        while (integers.hasNext()) sum += integers.next();
+        assertEquals(10, sum);
+    }
+
+    /**
+     * Test method for asArray
+     */
+    @Test
     public void testAsArray() {
         Bag<Integer> bag = new Bag_Array<>();
         for (int i = 1; i <= 4; i++)
             bag.add(i);
         assertEquals(4, bag.size());
-        Integer[] integers = bag.asArray();
+        // NOTE we can (successfully) cast an individual object but not an array.
+        Object[] integers = bag.asArray();
         int sum = 0;
-        for (Integer x : integers) sum += x;
+        for (Object x : integers) sum += (Integer) x;
         assertEquals(10, sum);
     }
 
