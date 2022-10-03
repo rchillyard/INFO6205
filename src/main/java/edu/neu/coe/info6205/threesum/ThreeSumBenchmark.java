@@ -6,7 +6,6 @@ import edu.neu.coe.info6205.util.Utilities;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public class ThreeSumBenchmark {
     public ThreeSumBenchmark(int runs, int n, int m) {
@@ -34,8 +33,11 @@ public class ThreeSumBenchmark {
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // FIXME
-        // END 
+        Benchmark_Timer<int[]> bt = new Benchmark_Timer<>(description, null, function, function);
+        double time = bt.runFromSupplier(supplier, runs);
+        for (TimeLogger tl : timeLoggers) {
+            tl.log(time, n);
+        }
     }
 
     private final static TimeLogger[] timeLoggersCubic = {
