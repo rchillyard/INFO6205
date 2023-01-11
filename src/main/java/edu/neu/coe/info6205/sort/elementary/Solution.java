@@ -8,7 +8,7 @@ public class Solution {
     }
 
     static int binarySearch(int[] array, int key) {
-        //TODO:: implement binary search
+        // TODO IMPLEMENT binary search
         if (array.length == 0) return -1;
         int left = 0;
         int right = array.length - 1;

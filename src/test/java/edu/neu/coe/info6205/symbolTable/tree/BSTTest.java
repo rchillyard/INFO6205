@@ -1,7 +1,14 @@
-package edu.neu.coe.info6205.symbolTable;
+/*
+ * Copyright (c) 2017. Phasmid Software
+ */
+
+package edu.neu.coe.info6205.symbolTable.tree;
 
 import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.bqs.Queue_Elements;
+import edu.neu.coe.info6205.symbolTable.tree.BST;
+import edu.neu.coe.info6205.symbolTable.tree.BSTSimple;
+import edu.neu.coe.info6205.symbolTable.tree.BstDetail;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
@@ -11,25 +18,27 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-public class BSTOptimisedTest {
+@SuppressWarnings("ALL")
+public class BSTTest {
+
     @Test
     public void testSetRoot1() throws Exception {
-        BST<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BST<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
         tester.invokePrivate("setRoot", node);
         System.out.println(bst);
     }
 
     @Test
     public void testSetRoot2() throws Exception {
-        BST<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BST<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node nodeX = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
-        BSTOptimisedDeletion.Node nodeY = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 52, 0);
-        BSTOptimisedDeletion.Node nodeZ = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Z", 99, 0);
+        BSTSimple.Node nodeX = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node nodeY = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 52, 0);
+        BSTSimple.Node nodeZ = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Z", 99, 0);
         nodeY.smaller = nodeX;
         nodeY.larger = nodeZ;
         tester.invokePrivate("setRoot", nodeY);
@@ -38,7 +47,7 @@ public class BSTOptimisedTest {
 
     @Test
     public void testPut0() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         assertEquals(0, bst.size());
         bst.put("X", 42);
         assertEquals(1, bst.size());
@@ -46,13 +55,13 @@ public class BSTOptimisedTest {
 
     @Test
     public void testPut1() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
         tester.invokePrivate("setRoot", node);
         bst.put("Y", 99);
-        BSTOptimisedDeletion.Node root = (BSTOptimisedDeletion.Node) tester.invokePrivate("getRoot");
+        BSTSimple.Node root = (BSTSimple.Node) tester.invokePrivate("getRoot");
         assertEquals("X", root.key);
         assertEquals("Y", root.larger.key);
         assertNull(root.smaller);
@@ -61,14 +70,14 @@ public class BSTOptimisedTest {
 
     @Test
     public void testPut2() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 42, 0);
         tester.invokePrivate("setRoot", node);
         bst.put("X", 99);
         bst.put("Z", 37);
-        BSTOptimisedDeletion.Node root = (BSTOptimisedDeletion.Node) tester.invokePrivate("getRoot");
+        BSTSimple.Node root = (BSTSimple.Node) tester.invokePrivate("getRoot");
         assertEquals("Y", root.key);
         assertEquals("X", root.smaller.key);
         assertEquals("Z", root.larger.key);
@@ -77,10 +86,10 @@ public class BSTOptimisedTest {
 
     @Test
     public void testPut3() throws Exception {
-        BstDetail<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BstDetail<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         bst.put("Y", 42);
-        BSTOptimisedDeletion.Node root = (BSTOptimisedDeletion.Node) tester.invokePrivate("getRoot");
+        BSTSimple.Node root = (BSTSimple.Node) tester.invokePrivate("getRoot");
         assertEquals("Y", root.key);
         assertNull(root.smaller);
         assertNull(root.larger);
@@ -94,7 +103,7 @@ public class BSTOptimisedTest {
 
     @Test
     public void testPutN() throws Exception {
-        BstDetail<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BstDetail<String, Integer> bst = new BSTSimple<>();
         bst.put("Hello", 3);
         bst.put("Goodbye", 5);
         bst.put("Ciao", 8);
@@ -108,18 +117,38 @@ public class BSTOptimisedTest {
         map.put("Hello", 3);
         map.put("Goodbye", 5);
         map.put("Ciao", 6);
-        BstDetail<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BstDetail<String, Integer> bst = new BSTSimple<>();
         bst.putAll(map);
         System.out.println(bst);
         assertEquals(map.size(), bst.size());
     }
 
     @Test
-    public void testDelete1() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+    public void testTraverse() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 42, 0);
+        tester.invokePrivate("setRoot", node);
+        bst.put("X", 99);
+        bst.put("Z", 37);
+        Queue<String> queue = new Queue_Elements<String>();
+        bst.inOrderTraverse((w, x) -> {
+            queue.enqueue(w);
+            return null;
+        });
+        assertEquals("X", queue.dequeue());
+        assertEquals("Y", queue.dequeue());
+        assertEquals("Z", queue.dequeue());
+        assertTrue(queue.isEmpty());
+    }
+
+    @Test
+    public void testDelete1() throws Exception {
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
+        PrivateMethodTester tester = new PrivateMethodTester(bst);
+        Class[] classes = {Comparable.class, Object.class, int.class};
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
         tester.invokePrivate("setRoot", node);
         bst.delete("X");
         assertNull(bst.root);
@@ -128,48 +157,47 @@ public class BSTOptimisedTest {
 
     @Test
     public void testDelete2() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
         tester.invokePrivate("setRoot", node);
-        bst.put("Y",57);
-        assertNotNull(bst.root.larger);
+        bst.put("Y", 57);
         bst.delete("Y");
         assertNull(bst.root.smaller);
         assertNull(bst.root.larger);
-        assertEquals(1, bst.size(node));
+        assertEquals(1, bst.size());
     }
 
     @Test
     public void testDelete3() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
         tester.invokePrivate("setRoot", node);
         bst.put("W", 57);
         bst.delete("W");
         assertNull(bst.root.smaller);
         assertNull(bst.root.larger);
-        assertEquals(1, bst.size(bst.root));
+        assertEquals(1, bst.size());
     }
 
     @Test
     public void testDelete4() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node node = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
         tester.invokePrivate("setRoot", node);
         bst.put("W", 57);
         bst.delete("A");
-        assertEquals(2, bst.size(bst.root));
+        assertEquals(2, bst.size());
     }
 
     @Test
     public void testSize1() {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         for (int i = 0; i < 100; i++) bst.put(Integer.toString(i), i);
         assertEquals(100, bst.size());
     }
@@ -177,19 +205,19 @@ public class BSTOptimisedTest {
     @Test
     public void testSize2() {
         Random random = new Random(0L);
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         for (int i = 0; i < 100; i++) bst.put(Integer.toString(random.nextInt(200)), i);
         assertEquals(79, bst.size());
     }
 
     @Test
     public void testDepthKey1() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node nodeX = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
-        BSTOptimisedDeletion.Node nodeY = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 52, 0);
-        BSTOptimisedDeletion.Node nodeZ = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Z", 99, 0);
+        BSTSimple.Node nodeX = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node nodeY = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 52, 0);
+        BSTSimple.Node nodeZ = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Z", 99, 0);
         nodeY.smaller = nodeX;
         nodeY.larger = nodeZ;
         tester.invokePrivate("setRoot", nodeY);
@@ -201,7 +229,7 @@ public class BSTOptimisedTest {
 
     @Test
     public void testDepthKey2() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         bst.put("Hello", 3);
         bst.put("Goodbye", 5);
         bst.put("Ciao", 8);
@@ -212,12 +240,12 @@ public class BSTOptimisedTest {
 
     @Test
     public void testDepth1() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         PrivateMethodTester tester = new PrivateMethodTester(bst);
         Class[] classes = {Comparable.class, Object.class, int.class};
-        BSTOptimisedDeletion.Node nodeX = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
-        BSTOptimisedDeletion.Node nodeY = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 52, 0);
-        BSTOptimisedDeletion.Node nodeZ = (BSTOptimisedDeletion.Node) tester.invokePrivateExplicit("makeNode", classes, "Z", 99, 0);
+        BSTSimple.Node nodeX = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "X", 42, 0);
+        BSTSimple.Node nodeY = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 52, 0);
+        BSTSimple.Node nodeZ = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Z", 99, 0);
         nodeY.smaller = nodeX;
         nodeY.larger = nodeZ;
         tester.invokePrivate("setRoot", nodeY);
@@ -226,47 +254,10 @@ public class BSTOptimisedTest {
 
     @Test
     public void testDepth2() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
+        BSTSimple<String, Integer> bst = new BSTSimple<>();
         bst.put("Hello", 3);
         bst.put("Goodbye", 5);
         bst.put("Ciao", 8);
         assertEquals(3, bst.depth());
     }
-
-    @Test
-    public void testOptimisedDeleteOfNode() throws Exception {
-        BSTOptimisedDeletion<String, Integer> bst = new BSTOptimisedDeletion<>();
-        assertEquals(0,bst.size(bst.root));
-        bst.put("15",15);
-        bst.put("10",10);
-        bst.put("20",20);
-        bst.put("08",8);
-        bst.put("12",12);
-        bst.put("18",18);
-        bst.put("16",16);
-        bst.put("30",30);
-
-        assertEquals(8,bst.size(bst.root));
-
-        // test : delete and replace with predecessor
-        // acccessing node with key"20"
-        assertEquals(2 ,bst.size(bst.root.larger.smaller));
-        assertEquals(1 ,bst.size(bst.root.larger.larger));
-        bst.delete("20");
-        assertEquals(1 ,bst.size(bst.root.larger.smaller));
-        assertEquals(1 ,bst.size(bst.root.larger.larger));
-
-        // test: delete and replace with successor
-        bst.put("42",42);
-
-        // accessing node with key "30"
-        assertEquals(0 ,bst.size(bst.root.larger.larger.smaller));
-        assertEquals(1 ,bst.size(bst.root.larger.larger.larger));
-        bst.delete("30");
-        assertEquals(0 ,bst.size(bst.root.larger.larger.smaller));
-        assertEquals(0 ,bst.size(bst.root.larger.larger.larger));
-
-
-    }
-
 }

@@ -73,7 +73,7 @@ public class WQUPCTest {
     }
 
     /**
-     * TODO this appears to be identical to testFind3. What's going on here?
+     * CONSIDER this appears to be identical to testFind3. What's going on here?
      */
     @SuppressWarnings("Duplicates")
     @Test

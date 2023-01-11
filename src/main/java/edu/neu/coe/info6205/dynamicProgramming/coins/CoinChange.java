@@ -40,7 +40,7 @@ public class CoinChange {
         }
 
         public boolean expand() {
-            System.out.println("Expand: " + this);
+//            System.out.println("Expand: " + this);
             if (required > 0) {
                 for (int i = coins.length; i > 0; i--) {
                     if (coins[i - 1] <= required) {

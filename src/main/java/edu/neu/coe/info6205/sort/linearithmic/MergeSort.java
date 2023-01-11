@@ -44,7 +44,7 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     @Override
     public void sort(X[] a, int from, int to) {
-        // TODO don't copy but just allocate according to the xs/aux interchange optimization
+        // CONSIDER don't copy but just allocate according to the xs/aux interchange optimization
         X[] aux = Arrays.copyOf(a, a.length);
         sort(a, aux, from, to);
     }
@@ -63,7 +63,7 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
         // END 
     }
 
-    // TODO combine with MergeSortBasic perhaps.
+    // CONSIDER combine with MergeSortBasic perhaps.
     private void merge(X[] sorted, X[] result, int from, int mid, int to) {
         final Helper<X> helper = getHelper();
         int i = from;

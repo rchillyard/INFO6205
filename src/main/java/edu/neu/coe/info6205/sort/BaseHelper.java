@@ -66,25 +66,11 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
         return true;
     }
 
-    /**
-     * Method to count the inversions in an array.
-     * NOTE: this method may not work correctly if there are duplicates.
-     *
-     * @param xs an array of Xs.
-     * @return the number of inversions.
-     */
-    public int inversions(X[] xs) {
-        int result = 0;
-        for (int i = 0; i < xs.length; i++)
-            for (int j = i + 1; j < xs.length; j++)
-                if (xs[i].compareTo(xs[j]) > 0) result++;
-        return result;
-    }
-
-    public X[] random(Class<X> clazz, Function<Random, X> f) {
-        if (n <= 0) throw new HelperException("Helper.random: not initialized");
+    public X[] random(int m, Class<X> clazz, Function<Random, X> f) {
+        if (m <= 0)
+            throw new HelperException("Helper.random: requesting zero random elements (helper not initialized?)");
         randomArray = null;
-        randomArray = Utilities.fillRandomArray(clazz, random, n, f);
+        randomArray = Utilities.fillRandomArray(clazz, random, m, f);
         return randomArray;
     }
 
@@ -100,6 +86,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     @Override
     public String toString() {
+        // CONSIDER swapping order of description and Helper for... (see also overrides)
         return "Helper for " + description + " with " + n + " elements" + (instrumented() ? " instrumented" : "");
     }
 

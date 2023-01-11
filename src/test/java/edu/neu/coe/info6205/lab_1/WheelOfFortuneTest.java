@@ -1,6 +1,6 @@
 package edu.neu.coe.info6205.lab_1;
 
-import edu.neu.coe.info6205.hashtable.FrequencyCounter;
+import edu.neu.coe.info6205.symbolTable.hashtable.FrequencyCounter;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.After;
 import org.junit.Before;

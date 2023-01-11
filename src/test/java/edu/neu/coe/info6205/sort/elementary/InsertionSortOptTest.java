@@ -26,7 +26,7 @@ public class InsertionSortOptTest {
         list.add(3);
         list.add(4);
         Integer[] xs = list.toArray(new Integer[0]);
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         Helper<Integer> helper = HelperFactory.create("InsertionSortOpt", list.size(), config);
         helper.init(list.size());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
@@ -75,7 +75,7 @@ public class InsertionSortOptTest {
 
     @Test
     public void sort2() throws Exception {
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = 10000;
         Helper<Integer> helper = HelperFactory.create("InsertionSortopt", n, config);
         helper.init(n);

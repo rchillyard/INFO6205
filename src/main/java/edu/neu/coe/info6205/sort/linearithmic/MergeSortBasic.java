@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.sort.linearithmic;
 
 import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.InstrumentedHelper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.sort.elementary.InsertionSort;
 import edu.neu.coe.info6205.util.Config;
@@ -44,7 +45,7 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
     public X[] sort(X[] xs, boolean makeCopy) {
         getHelper().init(xs.length);
         X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
-        // TODO don't copy but just allocate according to the xs/aux interchange optimization
+        // CONSIDER don't copy but just allocate according to the xs/aux interchange optimization
         aux = Arrays.copyOf(xs, xs.length);
         sort(result, 0, result.length);
         return result;
@@ -64,6 +65,21 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
         getHelper().incrementCopies(n);
         getHelper().incrementHits(2 * n);
         merge(aux, a, from, mid, to);
+    }
+
+    /**
+     * This method is designed to count inversions in linearithmic time, using merge sort.
+     *
+     * @param ys  an array of comparable Y elements.
+     * @param <Y> the underlying type of the elements.
+     * @return the number of inversions in ys, which remains unchanged.
+     */
+    public static <Y extends Comparable<Y>> int countInversions(Y[] ys) {
+        final Config config = Config.setupConfigFixes();
+        MergeSortBasic<Y> sorter = new MergeSortBasic<>(ys.length, config);
+        Y[] sorted = sorter.sort(ys, true); // CONSIDER passing false
+        InstrumentedHelper<Y> helper = (InstrumentedHelper<Y>) sorter.getHelper();
+        return helper.getFixes();
     }
 
     private void merge(X[] aux, X[] a, int lo, int mid, int hi) {

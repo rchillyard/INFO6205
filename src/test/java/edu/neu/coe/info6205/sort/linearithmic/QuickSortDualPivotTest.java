@@ -5,7 +5,10 @@
 package edu.neu.coe.info6205.sort.linearithmic;
 
 import edu.neu.coe.info6205.sort.*;
-import edu.neu.coe.info6205.util.*;
+import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.LazyLogger;
+import edu.neu.coe.info6205.util.PrivateMethodTester;
+import edu.neu.coe.info6205.util.StatPack;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -99,7 +102,7 @@ public class QuickSortDualPivotTest {
         Integer[] xs = new Integer[2];
         xs[0] = 3;
         xs[1] = 4;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "1", "");
+        final Config config = Config.setupConfig("true", "0", "1", "1", "");
         final BaseHelper<Integer> helper = new InstrumentedHelper<>("test", config);
         QuickSort<Integer> sorter = new QuickSort_DualPivot<>(helper);
         Integer[] ys = sorter.sort(xs);
@@ -120,7 +123,7 @@ public class QuickSortDualPivotTest {
         Integer[] xs = new Integer[2];
         xs[0] = 4;
         xs[1] = 3;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "1", "");
+        final Config config = Config.setupConfig("true", "0", "1", "1", "");
         final BaseHelper<Integer> helper = new InstrumentedHelper<>("test", config);
         QuickSort<Integer> sorter = new QuickSort_DualPivot<>(helper);
         Integer[] ys = sorter.sort(xs);
@@ -142,7 +145,7 @@ public class QuickSortDualPivotTest {
         xs[0] = 4;
         xs[1] = 3;
         xs[2] = 5;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "1", "");
+        final Config config = Config.setupConfig("true", "0", "1", "1", "");
         final BaseHelper<Integer> helper = new InstrumentedHelper<>("test", config);
         QuickSort<Integer> sorter = new QuickSort_DualPivot<>(helper);
         Integer[] ys = sorter.sort(xs);
@@ -167,7 +170,7 @@ public class QuickSortDualPivotTest {
         xs[1] = 4;
         xs[2] = 2;
         xs[3] = 1;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "1", "");
+        final Config config = Config.setupConfig("true", "0", "1", "1", "");
         final BaseHelper<Integer> helper = new InstrumentedHelper<>("test", config);
         QuickSort<Integer> sorter = new QuickSort_DualPivot<>(helper);
         Integer[] ys = sorter.sort(xs);
@@ -191,7 +194,7 @@ public class QuickSortDualPivotTest {
         char[] charArray = testString.toCharArray();
         Character[] array = new Character[charArray.length];
         for (int i = 0; i < array.length; i++) array[i] = charArray[i];
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         QuickSort<Character> sorter = new QuickSort_DualPivot<Character>(array.length, config);
         Partitioner<Character> partitioner = sorter.partitioner;
         List<Partition<Character>> partitions = partitioner.partition(QuickSort.createPartition(array));
@@ -217,7 +220,7 @@ public class QuickSortDualPivotTest {
         char[] charArray = testString.toCharArray();
         Character[] array = new Character[charArray.length];
         for (int i = 0; i < array.length; i++) array[i] = charArray[i];
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         QuickSort<Character> sorter = new QuickSort_DualPivot<Character>(array.length, config);
         Partitioner<Character> partitioner = sorter.partitioner;
         List<Partition<Character>> partitions = partitioner.partition(QuickSort.createPartition(array));
@@ -243,7 +246,7 @@ public class QuickSortDualPivotTest {
         int N = (int) Math.pow(2, k);
         // NOTE this depends on the cutoff value for quick sort.
         int levels = k - 2;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         final BaseHelper<Integer> helper = (BaseHelper<Integer>) HelperFactory.create("quick sort dual pivot", N, config);
         System.out.println(helper);
         Sort<Integer> s = new QuickSort_DualPivot<>(helper);
@@ -272,7 +275,7 @@ public class QuickSortDualPivotTest {
     public void testPartitionWithSort() {
         String[] xs = new String[]{"g", "f", "e", "d", "c", "b", "a"};
         int n = xs.length;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         final BaseHelper<String> helper = new InstrumentedHelper<>("test", config);
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
         QuickSort<String> sorter = new QuickSort_DualPivot<>(helper);

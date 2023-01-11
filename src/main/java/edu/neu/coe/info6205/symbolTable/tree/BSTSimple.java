@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.symbolTable;
+package edu.neu.coe.info6205.symbolTable.tree;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -70,6 +70,12 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         } catch (DepthException e) {
             return -1;
         }
+    }
+
+    @Override
+    public double meanDepth() {
+        // TODO implement me.
+        return 0;
     }
 
     public BSTSimple() {

@@ -118,6 +118,27 @@ public class DAGTest {
     public void testSorted() {
         DAG<Integer, Double> target = setupStandardDAG();
         Iterable<Integer> sorted = target.sorted();
+        System.out.println(sorted);
+        Iterator<Integer> iterator = sorted.iterator();
+        assertEquals(Integer.valueOf(3), iterator.next());
+        assertEquals(Integer.valueOf(6), iterator.next());
+        assertEquals(Integer.valueOf(0), iterator.next());
+        assertEquals(Integer.valueOf(5), iterator.next());
+        assertEquals(Integer.valueOf(2), iterator.next());
+        assertEquals(Integer.valueOf(1), iterator.next());
+        assertEquals(Integer.valueOf(4), iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    /**
+     * Test method for sorted with cycle.
+     * TODO reinstate this test but it the result is not really predictable.
+     */
+    public void testSortedWithCycle() {
+        DAG_Impl<Integer, Double> target = setupStandardDAG();
+        target.addEdge(new Edge<>(4, 3, 1.0));
+        Iterable<Integer> sorted = target.sorted();
+        System.out.println(sorted);
         Iterator<Integer> iterator = sorted.iterator();
         assertEquals(Integer.valueOf(3), iterator.next());
         assertEquals(Integer.valueOf(6), iterator.next());

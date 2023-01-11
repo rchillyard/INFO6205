@@ -71,7 +71,7 @@ public class MatrixTest {
 
     @Test
     public void testConstructor4() {
-        // TODO introduce an assertion
+        // TESTME introduce an assertion
         final Matrix matrix2 = new Matrix(3, 3, (x, y) -> x * y, (x, y) -> 0xFFFFFFFFL);
     }
 

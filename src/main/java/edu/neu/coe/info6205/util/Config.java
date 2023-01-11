@@ -13,6 +13,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.neu.coe.info6205.sort.InstrumentedHelper.*;
+import static edu.neu.coe.info6205.sort.linearithmic.MergeSort.INSURANCE;
+import static edu.neu.coe.info6205.sort.linearithmic.MergeSort.NOCOPY;
+
 @SuppressWarnings("SuspiciousMethodCalls")
 public class Config {
 
@@ -143,6 +147,51 @@ public class Config {
 
     public static Config load() throws IOException {
         return load(null);
+    }
+
+    public static final String SEED = "seed";
+    public static final String CUTOFF = "cutoff";
+
+    public static Config setupConfig(final String instrumenting, final String seed, final String inversions, String cutoff, String interimInversions) {
+        final Ini ini = new Ini();
+        final String sInstrumenting = INSTRUMENTING;
+        ini.put(Config.HELPER, Config.INSTRUMENT, instrumenting);
+        ini.put(Config.HELPER, SEED, seed);
+        ini.put(Config.HELPER, CUTOFF, cutoff);
+        ini.put(sInstrumenting, INVERSIONS, inversions);
+        ini.put(sInstrumenting, SWAPS, instrumenting);
+        ini.put(sInstrumenting, COMPARES, instrumenting);
+        ini.put(sInstrumenting, COPIES, instrumenting);
+        ini.put(sInstrumenting, FIXES, instrumenting);
+        ini.put(sInstrumenting, HITS, instrumenting);
+        ini.put("huskyhelper", "countinteriminversions", interimInversions);
+        return new Config(ini);
+    }
+
+
+    public static Config setupConfig2(final String instrumenting, final String seed, final String inversions, String cutoff, String interimInversions, String insurance, String noCopy) {
+        final Ini ini = new Ini();
+        final String sInstrumenting = INSTRUMENTING;
+        ini.put(Config.HELPER, Config.INSTRUMENT, instrumenting);
+        ini.put(Config.HELPER, SEED, seed);
+        ini.put(Config.HELPER, CUTOFF, cutoff);
+        ini.put(sInstrumenting, INVERSIONS, inversions);
+        ini.put(sInstrumenting, SWAPS, instrumenting);
+        ini.put(sInstrumenting, COMPARES, instrumenting);
+        ini.put(sInstrumenting, COPIES, instrumenting);
+        ini.put(sInstrumenting, FIXES, instrumenting);
+        ini.put("huskyhelper", "countinteriminversions", interimInversions);
+        ini.put(Config.HELPER, INSURANCE, insurance);
+        ini.put(Config.HELPER, NOCOPY, noCopy);
+        return new Config(ini);
+    }
+
+    public static Config setupConfigFixes() {
+        final Ini ini = new Ini();
+        ini.put(Config.HELPER, Config.INSTRUMENT, true);
+        ini.put(Config.HELPER, CUTOFF, 0);
+        ini.put(INSTRUMENTING, FIXES, true);
+        return new Config(ini);
     }
 
     private boolean unLogged(String s) {

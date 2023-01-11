@@ -42,16 +42,42 @@ public interface GenericHelper<X> {
      * @param target the target array.
      * @param j      the source index.
      */
-    default void copy(X[] source, int i, X[] target, int j)  { target[j] = source[i]; }
+    default void copy(X[] source, int i, X[] target, int j) {
+        target[j] = source[i];
+    }
 
     /**
      * Method to generate an array of randomly chosen X elements.
+     *
+     * @param m     the number of random elements required.
+     * @param clazz the class of X.
+     * @param f     a function which takes a Random and generates a random value of X.
+     * @return an array of X of length determined by the current value according to setN.
+     */
+    X[] random(int m, Class<X> clazz, Function<Random, X> f);
+
+    /**
+     * Method to generate an array of randomly chosen X elements.
+     * The length of the returned array is dependent on the value of n used to initialize this Helper.
      *
      * @param clazz the class of X.
      * @param f     a function which takes a Random and generates a random value of X.
      * @return an array of X of length determined by the current value according to setN.
      */
-    X[] random(Class<X> clazz, Function<Random, X> f);
+    default X[] random(Class<X> clazz, Function<Random, X> f) {
+        return random(getN(), clazz, f);
+    }
+
+    /**
+     * Method to generate an array of two randomly chosen X elements.
+     *
+     * @param clazz the class of X.
+     * @param f     a function which takes a Random and generates a random value of X.
+     * @return an array of X of length determined by the current value according to setN.
+     */
+    default X[] randomPair(Class<X> clazz, Function<Random, X> f) {
+        return random(2, clazz, f);
+    }
 
     /**
      * @return the description of this Helper.

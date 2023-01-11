@@ -12,7 +12,7 @@ import java.util.concurrent.ForkJoinPool;
 
 /**
  * This code has been fleshed out by Ziyao Qiao. Thanks very much.
- * TODO tidy it up a bit.
+ * CONSIDER tidy it up a bit.
  */
 public class Main {
 

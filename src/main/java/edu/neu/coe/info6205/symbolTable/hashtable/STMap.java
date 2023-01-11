@@ -2,13 +2,27 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.hashtable;
+package edu.neu.coe.info6205.symbolTable.hashtable;
+
+import edu.neu.coe.info6205.symbolTable.ST;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class STMap<Key, Value> implements ST<Key, Value> {
+    /**
+     * Returns the number of key-value mappings in this STMap.  If the
+     * map contains more than {@code Integer.MAX_VALUE} elements, returns
+     * {@code Integer.MAX_VALUE}.
+     *
+     * @return the number of key-value mappings in this map
+     */
+    @Override
+    public int size() {
+        return map.size();
+    }
+
     /**
      * Retrieve the value for a given key.
      *

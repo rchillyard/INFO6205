@@ -5,7 +5,10 @@
 package edu.neu.coe.info6205.sort.elementary;
 
 import edu.neu.coe.info6205.sort.*;
-import edu.neu.coe.info6205.util.*;
+import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.LazyLogger;
+import edu.neu.coe.info6205.util.PrivateMethodTester;
+import edu.neu.coe.info6205.util.StatPack;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +29,7 @@ public class InsertionSortTest {
         list.add(3);
         list.add(4);
         Integer[] xs = list.toArray(new Integer[0]);
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         Helper<Integer> helper = HelperFactory.create("InsertionSort", list.size(), config);
         helper.init(list.size());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
@@ -87,7 +90,7 @@ public class InsertionSortTest {
 
     @Test
     public void sort2() throws Exception {
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = 100;
         Helper<Integer> helper = HelperFactory.create("InsertionSort", n, config);
         helper.init(n);
@@ -112,7 +115,7 @@ public class InsertionSortTest {
 
     @Test
     public void sort3() throws Exception {
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = 100;
         Helper<Integer> helper = HelperFactory.create("InsertionSort", n, config);
         helper.init(n);

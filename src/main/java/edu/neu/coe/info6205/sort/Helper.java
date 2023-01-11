@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.sort;
 
+import edu.neu.coe.info6205.sort.linearithmic.MergeSortBasic;
+
 import static java.util.Arrays.binarySearch;
 
 /**
@@ -152,7 +154,7 @@ public interface Helper<X extends Comparable<X>> extends GenericHelper<X> {
     }
 
     /**
-     * TODO eliminate this method as it has been superseded by swapConditional. However, maybe the latter is a better name.
+     * CONSIDER eliminate this method as it has been superseded by swapConditional. However, maybe the latter is a better name.
      * Method to fix a potentially unstable inversion.
      *
      * @param xs the array of X elements.
@@ -164,7 +166,7 @@ public interface Helper<X extends Comparable<X>> extends GenericHelper<X> {
     }
 
     /**
-     * TODO eliminate this method as it has been superseded by swapStableConditional. However, maybe the latter is a better name.
+     * CONSIDER eliminate this method as it has been superseded by swapStableConditional. However, maybe the latter is a better name.
      * Method to fix a stable inversion.
      *
      * @param xs the array of X elements.
@@ -188,7 +190,9 @@ public interface Helper<X extends Comparable<X>> extends GenericHelper<X> {
      * @param xs an array of Xs.
      * @return the number of inversions.
      */
-    int inversions(X[] xs);
+    default int inversions(X[] xs) {
+        return MergeSortBasic.countInversions(xs);
+    }
 
     /**
      * Method to post-process the array xs after sorting.

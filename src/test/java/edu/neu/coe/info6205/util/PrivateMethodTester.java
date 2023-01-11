@@ -98,7 +98,7 @@ public class PrivateMethodTester {
     }
 
     private Method getPrivateMethod(String name, Class<?>[] classes, int i, Class<?>[] effectiveClasses) throws NoSuchMethodException {
-        // TODO: This method will substitute primitive classes for object classes. But we need to substitute superclasses and interfaces as well.
+        // CONSIDER: This method will substitute primitive classes for object classes. But we need to substitute superclasses and interfaces as well.
         for (int j = 0; j < classes.length; j++) {
             if (((i >> j) & 1) == 1) effectiveClasses[j] = getPrimitiveClass(classes[j]);
             try {

@@ -1,7 +1,10 @@
 package edu.neu.coe.info6205.sort;
 
 import edu.neu.coe.info6205.sort.linearithmic.MergeSort;
-import edu.neu.coe.info6205.util.*;
+import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.PrivateMethodTester;
+import edu.neu.coe.info6205.util.StatPack;
+import edu.neu.coe.info6205.util.Statistics;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -317,7 +320,7 @@ public class InstrumentedHelperTest {
     }
 
     @SuppressWarnings("unused")
-    @Ignore // TODO fix this test
+    @Ignore // FIXME fix this test
     public void testMergeSortMany() {
         int N = 8;
         int m = 10;
@@ -340,7 +343,7 @@ public class InstrumentedHelperTest {
 
     @BeforeClass
     public static void beforeClass() {
-        config = ConfigTest.setupConfig("true", "0", "10", "1", "");
+        config = Config.setupConfig("true", "0", "10", "1", "");
     }
 
     private static Config config;
@@ -434,7 +437,7 @@ public class InstrumentedHelperTest {
         list.add(3);
         list.add(2);
         Integer[] xs = list.toArray(new Integer[0]);
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = xs.length;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, 0L, config);
         helper.init(n);
@@ -454,7 +457,7 @@ public class InstrumentedHelperTest {
         list.add(3);
         list.add(2);
         Integer[] xs = list.toArray(new Integer[0]);
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = xs.length;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, 0L, config);
         helper.init(n);
@@ -472,7 +475,7 @@ public class InstrumentedHelperTest {
 
     @Test
     public void testIncrementFixes2() {
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = 10;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, 0L, config);
         helper.init(n);

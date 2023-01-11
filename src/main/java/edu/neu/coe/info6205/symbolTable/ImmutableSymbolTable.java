@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.hashtable;
+package edu.neu.coe.info6205.symbolTable;
 
 import java.util.Set;
 
@@ -9,6 +9,17 @@ import java.util.Set;
  * @param <Value> value type.
  */
 public interface ImmutableSymbolTable<Key, Value> {
+
+    /**
+     * Tests if this ImmutableSymbolTable maps no keys to value. In other words, its size is 0.
+     *
+     * @return {@code true} if this ImmutableSymbolTable maps no keys to values;
+     * {@code false} otherwise.
+     */
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
     /**
      * Retrieve the value for a given key.
      *
@@ -23,4 +34,11 @@ public interface ImmutableSymbolTable<Key, Value> {
      * @return the Set of keys.
      */
     Set<Key> keys();
+
+    /**
+     * Get the size of this ImmutableSymbolTable.
+     *
+     * @return the current size.
+     */
+    int size();
 }

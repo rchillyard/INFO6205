@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.hashtable;
+package edu.neu.coe.info6205.symbolTable.hashtable;
 
 import org.junit.Test;
 

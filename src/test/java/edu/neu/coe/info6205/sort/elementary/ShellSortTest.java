@@ -4,13 +4,15 @@
 
 package edu.neu.coe.info6205.sort.elementary;
 
-import edu.neu.coe.info6205.sort.*;
+import edu.neu.coe.info6205.sort.BaseHelperTest;
+import edu.neu.coe.info6205.sort.GenericSort;
+import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.InstrumentedHelper;
 import edu.neu.coe.info6205.util.Config;
 import edu.neu.coe.info6205.util.LazyLogger;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import edu.neu.coe.info6205.util.StatPack;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -212,6 +214,18 @@ public class ShellSortTest {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
         assertArrayEquals(zs, new ShellSort<Integer>(5, config).sort(xs));
+    }
+
+    @Test
+    public void doShellSort() {
+        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
+        InstrumentedHelper<Integer> helper = new InstrumentedHelper<>("ShellSort with instrumentation", xs.length, config);
+        ShellSort.doShellSort(3, helper, xs);
+    }
+
+    @Test
+    public void doInstrumentedRandomDoubleShellSort() throws IOException {
+        ShellSort.doRandomDoubleShellSort(3, 1000, 10, Config.load());
     }
 
     final static LazyLogger logger = new LazyLogger(ShellSort.class);
