@@ -6,10 +6,9 @@ import edu.neu.coe.info6205.randomwalk.RandomWalk;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
-public class testplot {
-    static String filePath = "randomWalkPlot.csv";
+public class TestPlot {
+    static String filePath = "plotData/randomWalkPlot.csv";
     static final int totalSteps = 1000;
     static int numSteps;
     static final int numExperiments = 1000;
