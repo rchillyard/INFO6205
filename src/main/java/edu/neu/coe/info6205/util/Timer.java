@@ -59,14 +59,15 @@ public class Timer {
         pause();
         logger.trace("repeat: with " + n + " runs");
         // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
+        T t = null;
         if (preFunction != null) {
-            preFunction.apply(supplier.get());
+            t = preFunction.apply(supplier.get());
         }
 
         U finalValue = null;
         resume();
         for (int i = 0; i < n; i++) {
-            finalValue = function.apply(supplier.get());
+            finalValue = function.apply(t);
             lap();
         }
         pause();
