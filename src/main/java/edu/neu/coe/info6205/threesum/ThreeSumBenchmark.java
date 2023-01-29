@@ -17,23 +17,30 @@ public class ThreeSumBenchmark {
 
     public void runBenchmarks() {
         System.out.println("ThreeSumBenchmark: N=" + n);
+        Stopwatch s = new Stopwatch();
         benchmarkThreeSum("ThreeSumQuadratic", (xs) -> new ThreeSumQuadratic(xs).getTriples(), n, timeLoggersQuadratic);
+        System.out.println(s.lap());
         benchmarkThreeSum("ThreeSumQuadrithmic", (xs) -> new ThreeSumQuadrithmic(xs).getTriples(), n, timeLoggersQuadrithmic);
+        System.out.println(s.lap());
         benchmarkThreeSum("ThreeSumCubic", (xs) -> new ThreeSumCubic(xs).getTriples(), n, timeLoggersCubic);
+        System.out.println(s.lap());
     }
 
     public static void main(String[] args) {
         new ThreeSumBenchmark(100, 250, 250).runBenchmarks();
-        new ThreeSumBenchmark(50, 500, 500).runBenchmarks();
-        new ThreeSumBenchmark(20, 1000, 1000).runBenchmarks();
+        new ThreeSumBenchmark(100, 500, 500).runBenchmarks();
+        new ThreeSumBenchmark(100, 1000, 1000).runBenchmarks();
         new ThreeSumBenchmark(10, 2000, 2000).runBenchmarks();
-        new ThreeSumBenchmark(5, 4000, 4000).runBenchmarks();
-        new ThreeSumBenchmark(3, 8000, 8000).runBenchmarks();
+        new ThreeSumBenchmark(2, 4000, 4000).runBenchmarks();
+        new ThreeSumBenchmark(2, 8000, 8000).runBenchmarks();
         new ThreeSumBenchmark(2, 16000, 16000).runBenchmarks();
     }
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
+        for(int i=0;i<runs;i++){
+            function.accept(supplier.get());
+        }
         // FIXME
         // END 
     }
