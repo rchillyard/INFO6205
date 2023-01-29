@@ -57,7 +57,22 @@ public class Timer {
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         logger.trace("repeat: with " + n + " runs");
         // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
-         return 0;
+        long startTime = System.nanoTime();
+        for (int i = 0; i < n; i++) {
+            T input = supplier.get();
+            if (preFunction != null) {
+                input = preFunction.apply(input);
+            }
+            U output = function.apply(input);
+            if (postFunction != null) {
+                postFunction.accept(output);
+            }
+        }
+        long endTime = System.nanoTime();
+        double averageTime = (endTime - startTime) / (double) n;
+        return averageTime / 1_000_000;
+//        function.apply(supplier.get());
+//        return 0;
         // END 
     }
 

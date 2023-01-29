@@ -14,6 +14,7 @@ import java.util.function.Function;
  * The array provided in the constructor MUST be ordered.
  */
 public class ThreeSumQuadraticWithCalipers implements ThreeSum {
+
     /**
      * Construct a ThreeSumQuadratic on a.
      *
@@ -49,6 +50,22 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
     public static List<Triple> calipers(int[] a, int i, Function<Triple, Integer> function) {
         List<Triple> triples = new ArrayList<>();
         // FIXME : use function to qualify triples and to navigate otherwise.
+        int j = i + 1;
+        int k = a.length -  1;
+        while (j < k) {
+            Triple triple = new Triple(a[i], a[j], a[k]);
+            int sum = function.apply(triple);//do sum
+            if (sum < 0) {
+                j++;
+            } else if (sum > 0) {
+                k--;
+            } else {
+                triple = new Triple(i, j, k);
+                triples.add(triple);
+                j++;
+                k--;
+            }
+        }
         // END 
         return triples;
     }

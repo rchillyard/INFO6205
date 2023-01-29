@@ -1,9 +1,11 @@
 package edu.neu.coe.info6205.threesum;
 
 import edu.neu.coe.info6205.util.Benchmark_Timer;
+import edu.neu.coe.info6205.util.Stopwatch;
 import edu.neu.coe.info6205.util.TimeLogger;
 import edu.neu.coe.info6205.util.Utilities;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -22,18 +24,30 @@ public class TwoSumBenchmark {
     }
 
     public static void main(String[] args) {
-        new TwoSumBenchmark(100, 250, 250).runBenchmarks();
-        new TwoSumBenchmark(50, 500, 500).runBenchmarks();
-        new TwoSumBenchmark(20, 1000, 1000).runBenchmarks();
-        new TwoSumBenchmark(10, 2000, 2000).runBenchmarks();
-        new TwoSumBenchmark(5, 4000, 4000).runBenchmarks();
-        new TwoSumBenchmark(3, 8000, 8000).runBenchmarks();
-        new TwoSumBenchmark(2, 16000, 16000).runBenchmarks();
+        try (Stopwatch stopwatch = new Stopwatch()) {
+            new TwoSumBenchmark(100, 250, 250).runBenchmarks();
+            new TwoSumBenchmark(50, 500, 500).runBenchmarks();
+            new TwoSumBenchmark(20, 1000, 1000).runBenchmarks();
+            new TwoSumBenchmark(10, 2000, 2000).runBenchmarks();
+            new TwoSumBenchmark(5, 4000, 4000).runBenchmarks();
+            new TwoSumBenchmark(3, 8000, 8000).runBenchmarks();
+            new TwoSumBenchmark(2, 16000, 16000).runBenchmarks();
+            System.out.println(stopwatch.lap());
+        }
     }
 
     private void benchmarkTwoSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
         // FIXME
+        if (description.equals("TwoSumWithCalipers")) {
+//            function =
+        }
+
+        if (description.equals("TwoSumQuadratic")) {
+
+        }
+
+
         // END 
     }
 
