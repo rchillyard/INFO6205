@@ -1,9 +1,11 @@
 package edu.neu.coe.info6205.threesum;
 
 import edu.neu.coe.info6205.util.Benchmark_Timer;
+import edu.neu.coe.info6205.util.Stopwatch;
 import edu.neu.coe.info6205.util.TimeLogger;
 import edu.neu.coe.info6205.util.Utilities;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -18,6 +20,7 @@ public class ThreeSumBenchmark {
     public void runBenchmarks() {
         System.out.println("ThreeSumBenchmark: N=" + n);
         benchmarkThreeSum("ThreeSumQuadratic", (xs) -> new ThreeSumQuadratic(xs).getTriples(), n, timeLoggersQuadratic);
+        benchmarkThreeSum("ThreeSumQuadraticWithCalipers", (xs) -> new ThreeSumQuadraticWithCalipers(xs).getTriples(), n, timeLoggersQuadraticWithCalipers);
         benchmarkThreeSum("ThreeSumQuadrithmic", (xs) -> new ThreeSumQuadrithmic(xs).getTriples(), n, timeLoggersQuadrithmic);
         benchmarkThreeSum("ThreeSumCubic", (xs) -> new ThreeSumCubic(xs).getTriples(), n, timeLoggersCubic);
     }
@@ -33,9 +36,91 @@ public class ThreeSumBenchmark {
     }
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
-        if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // FIXME
-        // END 
+
+        if (description.equals("ThreeSumCubic") && n <= 4000) {
+            final Stopwatch timer = new Stopwatch();
+            int[] ints = supplier.get();
+            System.out.println(ints.length);
+            double[] rawTime = new double[runs];
+
+            for (int i = 0; i < runs; i++) {
+                function.accept(ints);
+                rawTime[i] = (double)timer.lap();
+            }
+            double avgRawTime = 0;
+            for (int i = 0; i < rawTime.length; i++) {
+                avgRawTime += rawTime[i];
+            }
+            for (TimeLogger timeLogger : timeLoggers) {
+                timeLogger.log(avgRawTime/runs, n);
+            }
+
+            return;
+        }
+
+        if (description.equals("ThreeSumQuadrithmic") && n <= 4000) {
+            final Stopwatch timer = new Stopwatch();
+            int[] ints = supplier.get();
+            System.out.println(ints.length);
+            double[] rawTime = new double[runs];
+
+            for (int i = 0; i < runs; i++) {
+                function.accept(ints);
+                rawTime[i] = (double)timer.lap();
+            }
+            double avgRawTime = 0;
+            for (int i = 0; i < rawTime.length; i++) {
+                avgRawTime += rawTime[i];
+            }
+            for (TimeLogger timeLogger : timeLoggers) {
+                timeLogger.log(avgRawTime/runs, n);
+            }
+
+            return;
+        }
+
+        if (description.equals("ThreeSumQuadratic") && n <= 4000) {
+            final Stopwatch timer = new Stopwatch();
+            int[] ints = supplier.get();
+            System.out.println(ints.length);
+            double[] rawTime = new double[runs];
+
+            for (int i = 0; i < runs; i++) {
+                function.accept(ints);
+                rawTime[i] = (double)timer.lap();
+            }
+            double avgRawTime = 0;
+            for (int i = 0; i < rawTime.length; i++) {
+                avgRawTime += rawTime[i];
+            }
+            for (TimeLogger timeLogger : timeLoggers) {
+                timeLogger.log(avgRawTime/runs, n);
+            }
+
+            return;
+        }
+
+        if (description.equals("ThreeSumQuadraticWithCalipers") && n <= 4000) {
+            final Stopwatch timer = new Stopwatch();
+            int[] ints = supplier.get();
+            System.out.println(ints.length);
+            double[] rawTime = new double[runs];
+
+            for (int i = 0; i < runs; i++) {
+                function.accept(ints);
+                rawTime[i] = (double)timer.lap();
+            }
+            double avgRawTime = 0;
+            for (int i = 0; i < rawTime.length; i++) {
+                avgRawTime += rawTime[i];
+            }
+            for (TimeLogger timeLogger : timeLoggers) {
+                timeLogger.log(avgRawTime/runs, n);
+            }
+
+            return;
+        }
+        // END
     }
 
     private final static TimeLogger[] timeLoggersCubic = {
@@ -49,6 +134,10 @@ public class ThreeSumBenchmark {
     private final static TimeLogger[] timeLoggersQuadratic = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / n / n * 1e6)
+    };
+    private final static TimeLogger[] timeLoggersQuadraticWithCalipers = {
+            new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
+            new TimeLogger("Normalized time per run (n^2)(calipers): ", (time, n) -> time / n / n * 1e6)
     };
 
     private final int runs;
