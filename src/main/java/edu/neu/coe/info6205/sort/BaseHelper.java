@@ -13,7 +13,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
      *
      * @param clazz the class for configuration.
      * @param <Y>   the type.
-     * @return a Helper<Y></Y>
+     * @return a Helper&lt;Y&gt;
      */
     public static <Y extends Comparable<Y>> Helper<Y> getHelper(final Class<?> clazz) {
         try {

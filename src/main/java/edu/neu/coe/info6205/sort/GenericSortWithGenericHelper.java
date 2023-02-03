@@ -2,6 +2,11 @@ package edu.neu.coe.info6205.sort;
 
 import edu.neu.coe.info6205.util.Config;
 
+/**
+ * Abstract class GenericSortWithGenericHelper which extends GenericSort.
+ *
+ * @param <X> the underlying type which does not have to be Comparable.
+ */
 public abstract class GenericSortWithGenericHelper<X> implements GenericSort<X> {
 
     public GenericSortWithGenericHelper(GenericHelper<X> helper) {

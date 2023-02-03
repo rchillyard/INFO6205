@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 /**
  * Interface to model the behavior of an EdgeGraph.
  *
- * @tparam V the vertex type
- * @tparam E the edge-attribute type
+ * @param <V> the vertex type
+ * @param <E> the edge-attribute type
  */
 public interface EdgeGraph<V, E> extends Graph<V, Edge<V, E>> {
 

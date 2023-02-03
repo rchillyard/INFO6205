@@ -16,7 +16,7 @@ public class GreedyTest {
      * See also Zeckendorf.java in the main tree.
      * This version of Zeckendorf uses the Greedy class.
      */
-    class GreedyZ {
+    static class GreedyZ {
 
         GreedyZ() {
             fibonacci = new Fibonacci();
@@ -62,8 +62,8 @@ public class GreedyTest {
     public void testGet1() {
         GreedyZ target = new GreedyZ();
         Iterator<Long> fibs = target.run(10L).iterator();
-        assertEquals(new Long(8), fibs.next());
-        assertEquals(new Long(2), fibs.next());
+        assertEquals(Long.valueOf(8), fibs.next());
+        assertEquals(Long.valueOf(2), fibs.next());
         assertFalse(fibs.hasNext());
     }
 
@@ -74,9 +74,9 @@ public class GreedyTest {
     public void testGet2() {
         GreedyZ target = new GreedyZ();
         Iterator<Long> fibs = target.run(100L).iterator();
-        assertEquals(new Long(89), fibs.next());
-        assertEquals(new Long(8), fibs.next());
-        assertEquals(new Long(3), fibs.next());
+        assertEquals(Long.valueOf(89), fibs.next());
+        assertEquals(Long.valueOf(8), fibs.next());
+        assertEquals(Long.valueOf(3), fibs.next());
         assertFalse(fibs.hasNext());
     }
 
@@ -87,8 +87,8 @@ public class GreedyTest {
     public void testGet3() {
         GreedyZ target = new GreedyZ();
         Iterator<Long> fibs = target.run(1000L).iterator();
-        assertEquals(new Long(987), fibs.next());
-        assertEquals(new Long(13), fibs.next());
+        assertEquals(Long.valueOf(987), fibs.next());
+        assertEquals(Long.valueOf(13), fibs.next());
         assertFalse(fibs.hasNext());
     }
 
@@ -99,12 +99,12 @@ public class GreedyTest {
     public void testGet4() {
         GreedyZ target = new GreedyZ();
         Iterator<Long> fibs = target.run(10000L).iterator();
-        assertEquals(new Long(6765), fibs.next());
-        assertEquals(new Long(2584), fibs.next());
-        assertEquals(new Long(610), fibs.next());
-        assertEquals(new Long(34), fibs.next());
-        assertEquals(new Long(5), fibs.next());
-        assertEquals(new Long(2), fibs.next());
+        assertEquals(Long.valueOf(6765), fibs.next());
+        assertEquals(Long.valueOf(2584), fibs.next());
+        assertEquals(Long.valueOf(610), fibs.next());
+        assertEquals(Long.valueOf(34), fibs.next());
+        assertEquals(Long.valueOf(5), fibs.next());
+        assertEquals(Long.valueOf(2), fibs.next());
         assertFalse(fibs.hasNext());
     }
 

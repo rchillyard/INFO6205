@@ -1,5 +1,8 @@
 package edu.neu.coe.info6205.sort;
 
+/**
+ * Class SortException.
+ */
 public class SortException extends RuntimeException {
 
     public SortException(String message) {

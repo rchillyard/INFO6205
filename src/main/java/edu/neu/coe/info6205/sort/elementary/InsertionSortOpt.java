@@ -9,6 +9,11 @@ import edu.neu.coe.info6205.util.Config;
 
 import java.io.IOException;
 
+/**
+ * Class InsertionSortOpt is an optimized version of InsertionSort..
+ *
+ * @param <X> the underlying comparable type.
+ */
 public class InsertionSortOpt<X extends Comparable<X>> extends InsertionSort<X> {
 
     /**

@@ -1,5 +1,8 @@
 package edu.neu.coe.info6205;
 
+/**
+ * Class Complex.
+ */
 public class Complex {
     public Complex(double real, double imag) {
         this.real = real;
