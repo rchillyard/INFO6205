@@ -64,24 +64,30 @@ public class Timer {
         logger.trace("repeat: with " + n + " runs");
         // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
         T t = null;
-        if (preFunction != null) {
-            t = preFunction.apply(supplier.get());
-        }
-
         U finalValue = null;
-        resume();
+
         for (int i = 0; i < n; i++) {
+
+            if (preFunction != null) {
+                t = preFunction.apply(supplier.get());
+            } else {
+                t = supplier.get();
+            }
+
+            resume();
             finalValue = function.apply(t);
             lap();
+            pause();
+
+            if (postFunction != null) {
+                postFunction.accept(finalValue);
+            }
+
         }
-        pause();
+
         double meanLapTime = meanLapTime();
         resume();
 
-
-        if (postFunction != null) {
-            postFunction.accept(finalValue);
-        }
         return meanLapTime;
         // END 
     }
