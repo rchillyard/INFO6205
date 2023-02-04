@@ -40,10 +40,10 @@ public class Benchmark_Timer<T> implements Benchmark<T> {
      * Calculate the appropriate number of warmup runs.
      *
      * @param m the number of runs.
-     * @return at least 2 and at most m/10.
+     * @return at least 2 and at most the lower of 6 or m/15.
      */
     static int getWarmupRuns(int m) {
-        return Integer.max(2, Integer.min(10, m / 10));
+        return Integer.max(2, Integer.min(6, m / 15));
     }
 
     /**
@@ -129,7 +129,6 @@ public class Benchmark_Timer<T> implements Benchmark<T> {
     private final Consumer<T> fRun;
     private final Consumer<T> fPost;
 
-    final static LazyLogger logger = new LazyLogger(Benchmark_Timer.class);
     public static void main(String[] args) {
         int m1=30;
         int initialLen=1000;
@@ -197,5 +196,5 @@ public class Benchmark_Timer<T> implements Benchmark<T> {
         }
     }
 
-
+    final static LazyLogger logger = new LazyLogger(Benchmark_Timer.class);
 }
