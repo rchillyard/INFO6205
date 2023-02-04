@@ -11,8 +11,8 @@ import java.util.function.Consumer;
 /**
  * TODO this should extend AbstractGraph
  *
- * @param V
- * @param E
+ * @param <V> the vertex type.
+ * @param <E> the edge type.
  */
 public class DAG_Impl<V, E> extends DiGraph<V, E> implements DAG<V, E> {
 

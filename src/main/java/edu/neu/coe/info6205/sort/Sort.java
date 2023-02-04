@@ -5,6 +5,13 @@ package edu.neu.coe.info6205.sort;
 
 import java.util.Arrays;
 
+/**
+ * Interface Sort.
+ * This interface defines the behavior of a generic sort.
+ * Note that the underlying type X is not required to be Comparable.
+ *
+ * @param <X> the underlying type.
+ */
 public interface Sort<X> extends GenericSort<X> {
 
     /**

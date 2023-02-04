@@ -52,8 +52,8 @@ public class BenchmarkTest {
     public void getWarmupRuns() {
         assertEquals(2, Benchmark_Timer.getWarmupRuns(0));
         assertEquals(2, Benchmark_Timer.getWarmupRuns(20));
-        assertEquals(3, Benchmark_Timer.getWarmupRuns(30));
-        assertEquals(10, Benchmark_Timer.getWarmupRuns(100));
-        assertEquals(10, Benchmark_Timer.getWarmupRuns(1000));
+        assertEquals(3, Benchmark_Timer.getWarmupRuns(45));
+        assertEquals(6, Benchmark_Timer.getWarmupRuns(100));
+        assertEquals(6, Benchmark_Timer.getWarmupRuns(1000));
     }
 }

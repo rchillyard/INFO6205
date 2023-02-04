@@ -218,14 +218,14 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
      * Remove does not change the origin or extent but will reduce the count.
      *
      * @param p element to be removed from this list, if present
-     * @return <tt>true</tt> if this list contained the specified element
+     * @return <code>true</code> if this list contained the specified element
      * @throws ClassCastException            if the type of the specified element
      *                                       is incompatible with this list
      *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
      * @throws NullPointerException          if the specified element is null and this
      *                                       list does not permit null elements
      *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     * @throws UnsupportedOperationException if the <code>remove</code> operation
      *                                       is not supported by this list
      */
     public boolean remove(Point p) {

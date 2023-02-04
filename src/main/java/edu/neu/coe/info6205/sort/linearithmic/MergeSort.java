@@ -7,6 +7,11 @@ import edu.neu.coe.info6205.util.Config;
 
 import java.util.Arrays;
 
+/**
+ * Class MergeSort.
+ *
+ * @param <X> the underlying comparable type.
+ */
 public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public static final String DESCRIPTION = "MergeSort";

@@ -24,7 +24,7 @@ public class QueueTest {
         assertTrue(queue.isEmpty());
         queue.enqueue(1);
         assertFalse(queue.isEmpty());
-        assertEquals(queue.dequeue(), new Integer(1));
+        assertEquals(Integer.valueOf(1), queue.dequeue());
         assertTrue(queue.isEmpty());
     }
 
@@ -35,8 +35,8 @@ public class QueueTest {
         queue.enqueue(1);
         queue.enqueue(2);
         assertFalse(queue.isEmpty());
-        assertEquals(queue.dequeue(), new Integer(1));
-        assertEquals(queue.dequeue(), new Integer(2));
+        assertEquals(Integer.valueOf(1), queue.dequeue());
+        assertEquals(Integer.valueOf(2), queue.dequeue());
         assertTrue(queue.isEmpty());
     }
 
@@ -47,12 +47,12 @@ public class QueueTest {
         queue.enqueue(1);
         queue.enqueue(2);
         assertFalse(queue.isEmpty());
-        assertEquals(queue.dequeue(), new Integer(1));
+        assertEquals(Integer.valueOf(1), queue.dequeue());
         queue.enqueue(3);
         queue.enqueue(4);
-        assertEquals(queue.dequeue(), new Integer(2));
-        assertEquals(queue.dequeue(), new Integer(3));
-        assertEquals(queue.dequeue(), new Integer(4));
+        assertEquals(Integer.valueOf(2), queue.dequeue());
+        assertEquals(Integer.valueOf(3), queue.dequeue());
+        assertEquals(Integer.valueOf(4), queue.dequeue());
         assertTrue(queue.isEmpty());
     }
 }

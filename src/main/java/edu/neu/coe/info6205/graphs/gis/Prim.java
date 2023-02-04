@@ -21,7 +21,7 @@ import java.util.Iterator;
  *
  *
  *
- * @tparam V is the type of each vertex.
+ * @param <V> is the type of each vertex.
  */
 public class Prim<V, X extends Comparable<X> & Sequenced> implements Iterable<Edge<V, X>> {
 

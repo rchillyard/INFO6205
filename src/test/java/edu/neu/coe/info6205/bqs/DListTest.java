@@ -30,7 +30,7 @@ public class DListTest {
         assertEquals(list.size(), 1);
         Iterator<Integer> items = list.iterator();
         assertTrue(items.hasNext());
-        assertEquals(items.next(), new Integer(1));
+        assertEquals(Integer.valueOf(1), items.next());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class DListTest {
         assertEquals(list.size(), 1);
         Iterator<Integer> items = list.iterator();
         assertTrue(items.hasNext());
-        assertEquals(items.next(), new Integer(1));
+        assertEquals(Integer.valueOf(1), items.next());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class DListTest {
         assertFalse(list.isEmpty());
         assertEquals(list.toString(), "1, ");
         DList<Integer>.D_Element first = list.findFirst(1);
-        assertEquals(first.item, new Integer(1));
+        assertEquals(Integer.valueOf(1), first.item);
         list.remove(first);
         assertEquals(list.size(), 0);
     }
@@ -68,7 +68,7 @@ public class DListTest {
         list.addBeforeElement(1, null);
         assertFalse(list.isEmpty());
         DList<Integer>.D_Element first = list.findFirst(1);
-        assertEquals(first.item, new Integer(1));
+        assertEquals(Integer.valueOf(1), first.item);
         list.addAfterElement(2, first);
         assertEquals(list.toString(), "1, 2, ");
         assertEquals(list.size(), 2);
@@ -80,7 +80,7 @@ public class DListTest {
         list.addBeforeElement(1, null);
         assertFalse(list.isEmpty());
         DList<Integer>.D_Element first = list.findLast(1);
-        assertEquals(first.item, new Integer(1));
+        assertEquals(Integer.valueOf(1), first.item);
         list.addAfterElement(2, first);
         assertEquals(list.toString(), "1, 2, ");
         assertEquals(list.size(), 2);
