@@ -1,5 +1,8 @@
 package edu.neu.coe.info6205.life.base;
 
+/**
+ * Interface Countable.
+ */
 public interface Countable {
 
     /**

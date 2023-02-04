@@ -8,6 +8,11 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
 
+/**
+ * Class InsertionSort.
+ *
+ * @param <X> the underlying comparable type.
+ */
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     /**

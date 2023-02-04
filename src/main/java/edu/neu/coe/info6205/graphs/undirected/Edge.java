@@ -5,8 +5,8 @@ import java.util.Objects;
 /**
  * An undirected Edge with attributes.
  *
- * @tparam V the vertex type
- * @tparam E the attribute type
+ * @param <V> the vertex type
+ * @param <E> the attribute type
  */
 public class Edge<V, E> {
 

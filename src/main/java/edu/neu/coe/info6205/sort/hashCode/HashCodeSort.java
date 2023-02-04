@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Class HashCodeSort.
+ *
+ * @param <X> the underlying comparable type.
+ */
 public class HashCodeSort<X extends Comparable<X>> {
 
     /**

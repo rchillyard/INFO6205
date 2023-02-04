@@ -19,7 +19,6 @@ import java.util.NoSuchElementException;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  *
- *               @param <Item> the generic type of an item in this bag
  *               @param <T> the generic type of an item in this bag
  */
 public class GBag<T> implements Iterable<T> {

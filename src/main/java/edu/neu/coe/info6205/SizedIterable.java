@@ -18,7 +18,7 @@ public interface SizedIterable<T> extends Iterable<T> {
      * The result is always a copy of the original (typically of a different shape).
      * The order of the result is the same as the order of the iterator.
      *
-     * @return a List<T> formed from the iterator of this Iterable.
+     * @return a List&lt;T&gt; formed from the iterator of this Iterable.
      */
     default List<T> toList() {
         final Iterator<T> iterator = iterator();

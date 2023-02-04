@@ -19,7 +19,7 @@ import java.util.Iterator;
 /**
  * This is a generic solution for Kruskal's algorithm to find the minimum spanning tree of an edge-weighted graph
  *
- * @tparam V is the type of each vertex.
+ * @param <V> is the type of each vertex.
  */
 public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable<Edge<V, X>> {
 

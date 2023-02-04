@@ -5,7 +5,7 @@ import edu.neu.coe.info6205.SizedIterable;
 /**
  * Graph interface for undirected graphs.
  *
- * @tparam <Vertex> the type of a vertex.
+ * @param <Vertex> the type of a vertex.
  */
 public interface Graph<Vertex, Adjacent> {
 
