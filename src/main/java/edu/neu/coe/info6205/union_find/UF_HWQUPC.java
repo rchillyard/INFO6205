@@ -8,6 +8,8 @@
 package edu.neu.coe.info6205.union_find;
 
 import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Height-weighted Quick Union with Path Compression
@@ -82,8 +84,13 @@ public class UF_HWQUPC implements UF {
         validate(p);
         int root = p;
         // FIXME
-        // END 
+        while (root != parent[root])
+            root = parent[root];
+        if (pathCompression)
+            doPathCompression(p);
         return root;
+        // END 
+        //return root;
     }
 
     /**
@@ -170,14 +177,62 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // FIXME make shorter root point to taller one
+        if (height[i] < height[j]){
+            parent[i] = j;
+            height[j]+=height[i];
+
+            }
+        else if (height[i] > height[j]){
+            parent[j] = i;
+            height[i]+=height[j];
+                 }
+        else {
+            parent[j] = i;
+            height[i]++;
+        }
         // END 
     }
 
     /**
      * This implements the single-pass path-halving mechanism of path compression
      */
-    private void doPathCompression(int i) {
+    private void doPathCompression(int p) {
         // FIXME update parent to value of grandparent
+        if(p == parent[p]){
+            return;
+        }
+        updateParent(p,find(parent[p]));
+
         // END 
+    }
+    private static int siteCounting(int n){
+        UF abc = new UF_HWQUPC(n);
+        int con = 0;
+        while(abc.components() > 1){
+            Random rand = new Random();
+            int a = rand.nextInt(n);
+            int b = rand.nextInt(n);
+            con++;
+            abc.connect(a,b);
+        }
+        return con;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter site size:");
+        int n = sc.nextInt();
+
+        for (int a=0;a<15;a++) {
+            int total = 0;
+            for (int i = 0; i < 20; i++) {
+                total = total + siteCounting(n);
+
+            }
+            System.out.println(n + ":" + total / 20);
+            n = n * 2;
+        }
+
     }
 }
