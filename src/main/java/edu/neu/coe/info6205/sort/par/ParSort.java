@@ -8,10 +8,11 @@ import java.util.concurrent.CompletableFuture;
  * CONSIDER tidy it up a bit.
  */
 class ParSort {
-
+    //parallel
     public static int cutoff = 1000;
 
     public static void sort(int[] array, int from, int to) {
+        //System.out.println(cutoff);
         if (to - from < cutoff) Arrays.sort(array, from, to);
         else {
             // FIXME next few lines should be removed from public repo.
