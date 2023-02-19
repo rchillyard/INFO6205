@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 
+import static java.lang.Math.floor;
+
 /**
  * This code has been fleshed out by Ziyao Qiao. Thanks very much.
  * CONSIDER tidy it up a bit.
@@ -17,28 +19,38 @@ import java.util.concurrent.ForkJoinPool;
 public class Main {
 
     public static void main(String[] args) {
-        processArgs(args);
-        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
-        Random random = new Random();
-        int[] array = new int[5000000];
-        ArrayList<Long> timeList = new ArrayList<>();
-        for (int j = 100; j < 1000; j++) {
-            ParSort.cutoff = 10000 * (j + 1);
-            // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
-            long time;
-            long startTime = System.currentTimeMillis();
-            for (int t = 0; t < 10; t++) {
-                for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
-                ParSort.sort(array, 0, array.length);
-            }
-            long endTime = System.currentTimeMillis();
-            time = (endTime - startTime);
-            timeList.add(time);
+        for (int threads=1;threads<=8;threads*=2) {
+            ForkJoinPool pool = new ForkJoinPool(threads);
+            processArgs(args);
+            System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+            Random random = new Random();
+            for(int asize=1000000;asize<=10000000;asize+=2000000){
+                long mintime=1000000;
+            int[] array = new int[10000000];
+            ArrayList<Long> timeList = new ArrayList<>();
+            for (double jj = 0.002;jj < 0.71;jj*=2 ) {
+            //for (double j = 10000; j < 5000000; j *= 2) {
+                //ParSort.cutoff = 10000 * (j + 100);
+                ParSort.cutoff = (int) floor(array.length*jj);
+                //ParSort.cutoff = (int) j;
+                //j=j*2;
+                // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
+                long time;
+                long startTime = System.currentTimeMillis();
+                //int noofthread;
+                for (int t = 0; t < 10; t++) {
+                    for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
+                    ParSort.sort(array, 0, array.length, pool);
+                }
+                long endTime = System.currentTimeMillis();
+                time = (endTime - startTime);
+                timeList.add(time);
+
+                if (time<=mintime) mintime=time;
 
 
-            System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10times Time:" + time + "ms");
+                System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10times Time:" + time/10 + "ms" + " threads: " + threads + " arraysize :" + asize);
 
-        }
         try {
             FileOutputStream fis = new FileOutputStream("./src/result.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
@@ -54,6 +66,10 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+            }  System.out.println(mintime+"  "+threads+ "  "+ asize   );
+            }
         }
     }
 
