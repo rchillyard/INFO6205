@@ -22,11 +22,12 @@ public class SorterBenchmark<T extends Comparable<T>> extends Benchmark_Timer<T[
      * @param N the number of elements.
      *          Not to be confused with nRuns, an instance field, which specifies the number of repetitions of the function.
      */
-    public void run(int N) {
+    public double run(int N) {
         logger.info("run: sort " + formatWhole(N) + " elements using " + this);
         sorter.init(N);
         final double time = super.runFromSupplier(() -> generateRandomArray(ts), nRuns);
         for (TimeLogger timeLogger : timeLoggers) timeLogger.log(time, N);
+        return time;
     }
 
     @Override

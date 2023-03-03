@@ -64,6 +64,17 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
             return;
         }
 
+        int mid = from + (to - from)/2;
+        sort(aux, a, from, mid);
+        sort(aux, a, mid, to);
+        boolean leftSorted = true, rightSorted = true;
+        /*if (insurance) {
+            for (int i = 0; i < )
+        }
+         */
+
+        merge(aux, a, from, mid, to);
+
         // FIXME : implement merge sort with insurance and no-copy optimizations
         // END 
     }
