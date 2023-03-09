@@ -20,7 +20,7 @@ public class StackTest {
         stack.push(1);
         assertFalse(stack.isEmpty());
         Integer item = stack.pop();
-        assertEquals(item, new Integer(1));
+        assertEquals(Integer.valueOf(1), item);
     }
 
 }

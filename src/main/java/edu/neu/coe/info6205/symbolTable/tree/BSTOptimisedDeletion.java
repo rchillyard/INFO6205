@@ -164,7 +164,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
     /**
      * Secondary constructor which yields an empty BST.
      *
-     * @param mode the deletion mode: see constructor BSTOptimisedDeletion(Map<Key, Value> map, int mode).
+     * @param mode the deletion mode: see constructor BSTOptimisedDeletion(Map&lt;Key, Value&gt; map, int mode).
      */
     public BSTOptimisedDeletion(int mode) {
         this(null, mode);

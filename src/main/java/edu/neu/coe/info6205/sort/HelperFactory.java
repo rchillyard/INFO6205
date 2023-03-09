@@ -5,6 +5,9 @@ import edu.neu.coe.info6205.util.Config;
 
 import java.util.Random;
 
+/**
+ * Class HelperFactory.
+ */
 public class HelperFactory {
 
     /**
@@ -14,7 +17,7 @@ public class HelperFactory {
      * @param nElements   the number of elements to be sorted.
      * @param config      the configuration.
      * @param <X>         the underlying type.
-     * @return a Helper<X></X>
+     * @return a Helper&lt;X&gt;
      */
     public static <X extends Comparable<X>> Helper<X> create(String description, int nElements, Config config) {
         return create(description, nElements, config.isInstrumented(), config);
@@ -28,7 +31,7 @@ public class HelperFactory {
      * @param seed        an explicit seed.
      * @param config      the configuration.
      * @param <X>         the underlying type.
-     * @return a Helper<X></X>
+     * @return a Helper&lt;X&gt;
      */
     public static <X extends Comparable<X>> Helper<X> create(String description, int nElements, long seed, Config config) {
         return create(description, nElements, config.isInstrumented(), seed, config);
@@ -42,7 +45,7 @@ public class HelperFactory {
      * @param instrumented an explicit value of instrumented, not derived from the config.
      * @param config       the configuration.
      * @param <X>          the underlying type.
-     * @return a Helper<X></X>
+     * @return a Helper&lt;X&gt;
      */
     public static <X extends Comparable<X>> Helper<X> create(String description, int nElements, boolean instrumented, Config config) {
         return instrumented ? new InstrumentedHelper<>(description, nElements, config) : new BaseHelper<>(description, nElements, config);
@@ -57,7 +60,7 @@ public class HelperFactory {
      * @param seed         a specific value of seed for the random number source.
      * @param config       the configuration.
      * @param <X>          the underlying type.
-     * @return a Helper<X></X>
+     * @return a Helper&lt;X&gt;
      */
     public static <X extends Comparable<X>> Helper<X> create(String description, int nElements, boolean instrumented, long seed, Config config) {
         return instrumented ? new InstrumentedHelper<>(description, nElements, seed, config) : new BaseHelper<>(description, nElements, seed, config);
@@ -71,7 +74,7 @@ public class HelperFactory {
      * @param nElements   the number of elements to be sorted.
      * @param config      the configuration.
      * @param <X>         the underlying type.
-     * @return a ClassicHelper<X></X>
+     * @return a GenericHelper&lt;X&gt;
      */
     public static <X> GenericHelper<X> createGeneric(String description, int nElements, Config config) {
         return new ClassicHelper<>(description, nElements, new Random(config.getLong("helper", "seed", System.currentTimeMillis())), config);
