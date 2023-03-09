@@ -1,11 +1,11 @@
 package edu.neu.coe.info6205.Game;
 
-public interface IGame {
+public interface Game {
     /**
      * to make the next move
      */
-    public void move();
-    public void displayGame();
+    public Move move();
+    public void display();
     public boolean isGameOver();
     public Player getWinner();
 

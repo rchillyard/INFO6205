@@ -1,0 +1,32 @@
+package edu.neu.coe.info6205.Game;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerStats<T> {
+
+    private int numberOfMoves = 0;
+
+    private int numberOfValidMoves = 0;
+    private List<MoveStats<T>> moveStatsList;
+
+    PlayerStats() {
+        moveStatsList = new ArrayList<>();
+    }
+
+    public void add(MoveStats<T> move) {
+        moveStatsList.add(move);
+        numberOfMoves++;
+        if (move.validMove) numberOfValidMoves++;
+    }
+
+    public int getNumberOfMoves() {
+        return numberOfMoves;
+    }
+
+    public int getNumberOfValidMoves() { return numberOfValidMoves; }
+
+    public List<MoveStats<T>> getMoveStatsList() {
+        return moveStatsList;
+    }
+}

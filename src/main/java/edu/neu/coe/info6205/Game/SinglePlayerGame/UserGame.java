@@ -2,11 +2,15 @@ package edu.neu.coe.info6205.Game.SinglePlayerGame;
 
 import edu.neu.coe.info6205.Game.Move;
 
-public interface UserGameInterface<T> {
+public interface UserGame<T> {
 
-    public void fill();
+    public boolean fillWrapper(Move<T> move);
 
     public boolean validateMove(Move move);
 
+    public boolean isGameOver();
+
     public T[][] getGrid();
+
+    public void display();
 }

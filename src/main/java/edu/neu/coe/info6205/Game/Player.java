@@ -3,22 +3,25 @@ package edu.neu.coe.info6205.Game;
 public class Player<T, G> {
     private int playerId;
     private boolean isBot;
-    private int numberOfMoves;
+
+    private PlayerStats<T> playerStats;
     private Solver<T, G> moveGenerator;
 
     public Player(int playerId, boolean isBot) {
         this.playerId = playerId;
         this.isBot = isBot;
+        playerStats = new PlayerStats<T>();
     }
 
     public Player(int playerId, boolean isBot, Solver<T, G> moveGenerator) {
         this.playerId = playerId;
         this.isBot = isBot;
         this.moveGenerator = moveGenerator;
+        playerStats = new PlayerStats<T>();
     }
 
-    public int incrementMove() {
-        return ++this.numberOfMoves;
+    public void addMove(Move<T> move, long timeInMilli, boolean validMove) {
+        this.playerStats.add(new MoveStats<>(move, timeInMilli, validMove));
     }
 
     public int getPlayerId() {
@@ -30,7 +33,11 @@ public class Player<T, G> {
     }
 
     public int getNumberOfMoves() {
-        return numberOfMoves;
+        return playerStats.getNumberOfMoves();
+    }
+
+    public int getValidNumberOfMoves() {
+        return playerStats.getNumberOfValidMoves();
     }
 
     public Solver<T, G> getMoveGenerator() {
