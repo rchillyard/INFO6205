@@ -23,7 +23,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Integer>> {
 
     int n = 9;
 
-    HashSet<String> hashSet;
+    HashSet<Integer> hashSet;
 
     @Override
     public void solve(UserGame<Integer> game) {
@@ -57,13 +57,17 @@ public class SudokuSolver implements Solver<Integer, UserGame<Integer>> {
                                   HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
         //((SudokuGame)game).displayGame();
         //System.out.println( "i: " + i + " j: " + j);
+        Integer hashGrid = getHash(game.getGrid());
+        if (hashSet.contains(hashGrid)) {
+            return false;
+        }
         Set<Integer> possibleValues = getValuesForPositions(i, j, rowArray, columnArray, gridArray);
         //if (i == 0 && j == 0)
             //System.out.println("valuesWhich can be filled :" + possibleValues
             //.size() + " for i: " + i + " j: " + j);
         if (possibleValues.size() == 0) {
-            System.out.println("In here for Position i: " + i + " j: " + j);
-            ((SudokuGame) game).display();
+            //System.out.println("In here for Position i: " + i + " j: " + j);
+            //((SudokuGame) game).display();
             return false;
         }
 
@@ -71,7 +75,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Integer>> {
 
             fillValues(i, j, value, game, positionToBeFilled, rowArray, columnArray, gridArray);
 
-            if (positionToBeFilled.size() == 0) {
+            if (game.isGameOver()) {
                 System.out.println("Game is over");
                 return true;
             }
@@ -87,11 +91,9 @@ public class SudokuSolver implements Solver<Integer, UserGame<Integer>> {
 
             removeValues(i, j, value, game, positionToBeFilled, rowArray, columnArray, gridArray);
         }
-        if (positionToBeFilled.size() < 6) {
-            System.out.println("Finally Here: size left"+ positionToBeFilled.size());
-        }
         //System.out.println("Finally Here: size left"+ positionToBeFilled.size());
         //((SudokuGame)game).displayGame();
+        hashSet.add(hashGrid);
         return false;
 
     }
@@ -132,6 +134,16 @@ public class SudokuSolver implements Solver<Integer, UserGame<Integer>> {
         //return 2 * (row / 2) + column / 2;
     }
 
+    private int getHash(Integer[][] grid) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                sb.append(grid[i][j] != null ? grid[i][j] : "_");
+            }
+        }
+        return sb.toString().hashCode();
+    }
     private void fillSets(Integer[][] grid, HashSet<Pair> positionToBeFilled, HashSet<Integer>[] rowArray,
                           HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
 

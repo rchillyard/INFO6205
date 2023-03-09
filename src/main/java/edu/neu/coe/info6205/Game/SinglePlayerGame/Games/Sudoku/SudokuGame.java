@@ -99,6 +99,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
             return null;
         }
 
+
         for (int i = 0; i < n; i++) {
             if (!isColumnCorrect(i)) {
                 System.out.println("Column incorrect of index i:" + i);
@@ -186,12 +187,12 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         Integer[][] grid = getGrid();
         Integer[][] refGrid = getRefGrid();
         List<Pair> hamperedPos = new LinkedList<>();
-        for (Pair pair : getAlreadyFilledPositions()) {
+        for (Pair pair : this.positionsAlreadyFilled) {
             if (grid[pair.getX()][pair.getY()] != refGrid[pair.getX()][pair.getY()]) {
                 hamperedPos.add(pair);
             }
         }
-        System.out.println("hampered Pos : " + hamperedPos);
+        System.out.println("hampered Pos : " + hamperedPos.size());
         return hamperedPos.size() != 0;
     }
 

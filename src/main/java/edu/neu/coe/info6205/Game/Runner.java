@@ -12,7 +12,28 @@ public class Runner {
 
         SudokuGame game = new SudokuGame(new SudokuGameCreator(), true, new SudokuSolver());
         game.display();
+        /*System.out.println(game.getGrid().hashCode());
+        game.fillWrapper(new Move<>(0, 0, 3));
+        System.out.println("after adding 3 - " + getHash(game.getGrid()));
+        game.fillWrapper(new Move<>(0, 0, 4));
+        System.out.println("after adding 4 - " + getHash(game.getGrid()));
+        game.fillWrapper(new Move<>(0, 0, 3));
+        System.out.println("after adding 3 - " + getHash(game.getGrid()));
+
+         */
         game.run();
+        game.checkWinner();
         game.display();
+    }
+
+    private static int getHash(Integer[][] grid) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                sb.append(grid[i][j] != null ? grid[i][j] : "_");
+            }
+        }
+        return sb.toString().hashCode();
     }
 }
