@@ -6,7 +6,6 @@ import java.util.List;
 public class PlayerStats<T> {
 
     private int numberOfMoves = 0;
-
     private int numberOfValidMoves = 0;
     private List<MoveStats<T>> moveStatsList;
 
@@ -28,5 +27,13 @@ public class PlayerStats<T> {
 
     public List<MoveStats<T>> getMoveStatsList() {
         return moveStatsList;
+    }
+
+    public long getTotalTime() {
+        return moveStatsList.stream().map(p -> p.timeInMillis).reduce(0L, Long::sum);
+    }
+
+    public double getAverageTimePerMove() {
+        return (double) getTotalTime()/moveStatsList.size();
     }
 }

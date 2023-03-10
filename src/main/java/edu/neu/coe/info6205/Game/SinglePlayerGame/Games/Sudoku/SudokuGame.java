@@ -48,7 +48,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
 
     public SudokuGame(SPGameCreator<Integer> gameCreator, boolean isBot,
                       Solver<Integer, UserGame<Integer>> moveGenerator) {
-        super(gameCreator, 9, 9, isBot, moveGenerator);
+        super(gameCreator, 3, 3, isBot, moveGenerator);
         this.positionsAlreadyFilled = getAlreadyFilledPositions();
         this.positionsToBeFilled = getPositionsToFilled();
         minMoves = positionsAlreadyFilled.size();
@@ -86,7 +86,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         if (won == null) {
             checkWinner();
         }
-        return won ? getWinner() : null;
+        return won ? getPlayer() : null;
     }
 
 
@@ -114,9 +114,9 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
             }
         }
 
-        for (int i = 0; i < n; i += 2) {
-            for (int j = 0; j < n; j += 2) {
-                if (!isGridConditionCorrect(i, i + 2, j, j + 2)) {
+        for (int i = 0; i < n; i += 3) {
+            for (int j = 0; j < n; j += 3) {
+                if (!isGridConditionCorrect(i, i + 3, j, j + 3)) {
                     won = false;
                     return null;
                 }

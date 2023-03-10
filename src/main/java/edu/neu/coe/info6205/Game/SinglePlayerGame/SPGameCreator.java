@@ -10,14 +10,14 @@ public abstract class SPGameCreator<T> {
             grid = createGame(row, column);
         }
         if (playerGridView == null) {
-            playerGridView = createPlayerGameView();
+            playerGridView = createPlayerGameView(grid);
         }
         return true;
     }
 
     protected abstract T[][] createGame(int row, int column);
 
-    protected abstract T[][] createPlayerGameView();
+    protected abstract T[][] createPlayerGameView(T[][] grid);
 
     public T[][] getGrid() {
         return grid;

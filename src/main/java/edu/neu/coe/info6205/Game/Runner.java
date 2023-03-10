@@ -24,6 +24,10 @@ public class Runner {
         game.run();
         game.checkWinner();
         game.display();
+        Player winner = game.getWinner();
+        System.out.println(winner.getTotalTime());
+        System.out.println(winner.getAverageTimePerMove());
+
     }
 
     private static int getHash(Integer[][] grid) {

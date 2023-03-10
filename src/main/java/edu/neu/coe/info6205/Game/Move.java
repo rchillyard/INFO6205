@@ -1,6 +1,6 @@
 package edu.neu.coe.info6205.Game;
 
-public class Move<T> {
+public class  Move<T> {
     Integer row;
     Integer column;
     T val;

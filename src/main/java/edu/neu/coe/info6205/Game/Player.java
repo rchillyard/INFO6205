@@ -44,5 +44,15 @@ public class Player<T, G> {
         return moveGenerator;
     }
 
+    public long getTotalTime() {
+        return playerStats.getTotalTime();
+    }
+
+    public double getAverageTimePerMove() {
+        return playerStats.getAverageTimePerMove();
+    }
+
+
+
 
 }

@@ -2,11 +2,32 @@ package edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.Game.SinglePlayerGame.SPGameCreator;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class SudokuGameCreator extends SPGameCreator<Integer> {
+
+    List<Integer> oneToNine = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     @Override
     protected Integer[][] createGame(int row, int column) {
 
+        Integer[][] smallerGrid = getRandomGrid(row);
+        Integer[][] largerGrid = new Integer[row*row][row*row];
+        for (int j = 0; j < row*row; j += row) {
+            for (int i = 0; i < row*row; i += row) {
+                System.out.println("i: " + i + " j: " + j);
+                fillLargerBySmaller(smallerGrid, largerGrid, i, j);
+                shiftByValue(1, row, smallerGrid);
+            }
+        }
+        //Integer[][]
+
+        //shiftByValue(1, row, smallerGrid);
+        display(largerGrid);
 
         return new Integer[][] {
                 {4, 3, 5, 2, 6, 9, 7, 8, 1},
@@ -37,9 +58,78 @@ public class SudokuGameCreator extends SPGameCreator<Integer> {
            */
     }
 
-    @Override
-    protected Integer[][] createPlayerGameView() {
 
+    private void fillLargerBySmaller(Integer[][] smaller, Integer[][] larger, int rowStart, int columnStart) {
+        for (int i = rowStart, si = 0; i < rowStart + smaller.length; i++, si++) {
+            for (int j = columnStart, sj = 0; j < columnStart + smaller.length; j++, sj++) {
+                larger[i][j] = smaller[si][sj];
+            }
+        }
+    }
+
+    private void print(Integer[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                System.out.print(grid[i][j]+",");
+            }
+            System.out.println();
+        }
+    }
+
+    private Integer[][] getRandomGrid(int n) {
+        Integer[][] smallerGrid = new Integer[n][n];
+        int max = n*n;
+        HashSet set = getSetTillN(max);
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                while (true) {
+                    int val = random.nextInt(max + 1);
+                    if (set.contains(val)) {
+                        smallerGrid[i][j] = val;
+                        set.remove(val);
+                        break;
+                    }
+                }
+            }
+        }
+        return smallerGrid;
+    }
+
+    private void shiftByValue(int shift, int n, Integer[][] grid) {
+        int[] ints = new int[n*n];
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                ints[index++] = grid[i][j];
+            }
+        }
+
+        index = shift % (n*n);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                grid[i][j] = ints[index++];
+                if (index == ints.length)
+                    index = 0;
+            }
+        }
+
+    }
+
+    private HashSet<Integer> getSetTillN(int n) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 1; i <= n; i++) {set.add(i);}
+        return set;
+    }
+
+    @Override
+    protected Integer[][] createPlayerGameView(Integer[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+
+            }
+        }
 
         return new Integer[][] {
                 {null, null, null, 2, 6, null, 7, null, 1},
@@ -67,8 +157,46 @@ public class SudokuGameCreator extends SPGameCreator<Integer> {
         };
 
  */
+    }
 
 
+    public void display(Integer[][] grid) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (j == 0 || j == 3 || j == 6) System.out.print((j == 3 || j == 6 ? " " : "") + "|");
+                System.out.print((grid[i][j] != null ? grid[i][j] : "_") + "|");
+            }
+            System.out.println();
+            if (i == 2 || i == 5) {
+                System.out.println("-----------------------");
+            }
+        }
+        System.out.println("\n");
+    }
 
+    private boolean isRowCorrect(int row) {
+        Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
+        for (int i = 0; i < 9; i++) {
+            set.remove(getGrid()[row][i]);
+        }
+        return set.size() == 0;
+    }
+
+    private boolean isColumnCorrect(int column) {
+        Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
+        for (int i = 0; i < 9; i++) {
+            set.remove(getGrid()[i][column]);
+        }
+        return set.size() == 0;
+    }
+
+    public boolean isGridConditionCorrect(int rowStart, int rowEnd, int columnStart, int columnEnd) {
+        Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
+        for (int i = rowStart; i < rowEnd; i++) {
+            for (int j = columnStart; j < columnEnd; j++) {
+                set.remove(getGrid()[i][j]);
+            }
+        }
+        return set.size() == 0;
     }
 }
