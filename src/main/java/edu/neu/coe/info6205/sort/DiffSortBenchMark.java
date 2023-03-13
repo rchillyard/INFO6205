@@ -19,34 +19,40 @@ public class DiffSortBenchMark {
     public static void main(String[] args) {
         try {
             File fileHeap = new File("HeapBenchMark.csv");
-            //File fileMerge = new File("MergeBenchMark.csv");
-            File fileQuick = new File("QuickBenchMark.csv");
+            //File fileMerge = new File("MergeBenchMarkNI.csv");
+            //File fileQuick = new File("QuickBenchMarkNI.csv");
             fileHeap.createNewFile();
-            fileQuick.createNewFile();
+            //fileQuick.createNewFile();
             //fileMerge.createNewFile();
             FileWriter fileWriterHeap = new FileWriter(fileHeap);
             //FileWriter fileWriterMerge = new FileWriter(fileMerge);
-            FileWriter fileWriterQuick = new FileWriter(fileQuick);
+            //FileWriter fileWriterQuick = new FileWriter(fileQuick);
 
             fileWriterHeap.write(getHeaderString());
             //fileWriterMerge.write(getHeaderString());
-            fileWriterQuick.write(getHeaderString());
-            boolean instrumentation = true;
+            //fileWriterQuick.write(getHeaderString());
+            //boolean instrumentation = false;
 
 
             System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
             Config config = Config.setupConfig("true", "", "1", "", "");
 
-            int start = 500000;
-            int end = 8000000;
+            int start = 10000;
+            int end = 160000;
+            //int end = 81920000;
 
             CompletableFuture<FileWriter> heapSort = runHeapSort(start, end, config, fileWriterHeap);
-            CompletableFuture<FileWriter> quickSort = runQuickSort(start, end, config, fileWriterQuick);
+
+            //CompletableFuture<FileWriter> quickSort = runQuickSort(start, end, config, fileWriterQuick);
+
             //CompletableFuture<FileWriter> mergeSort = runMergeSort(start, end, config, fileWriterMerge);
 
             //mergeSort.join();
-            quickSort.join();
+            //quickSort.join();
             heapSort.join();
+
+
+
             //mergeSort.join();
 
 
@@ -72,10 +78,14 @@ public class DiffSortBenchMark {
                                     }
                                     return array;
                                 },
-                                sort, arr, 1, timeLoggersLinearithmic);
+                                sort, arr, 20, timeLoggersLinearithmic);
                         double time = sorterBenchmark.run(n);
                         try {
-                            fileWriter.write(createCsvString(n, time, ((InstrumentedHelper) helper).getStatPack(), config.isInstrumented()));
+                            if (!(helper instanceof InstrumentedHelper)) {
+                                fileWriter.write(createCsvString(n, time, null, config.isInstrumented()));
+                            } else {
+                                fileWriter.write(createCsvString(n, time, ((InstrumentedHelper) helper).getStatPack(), config.isInstrumented()));
+                            }
                             //System.out.println(((InstrumentedHelper) helper).getStatPack());
                         } catch (Exception e) {
                             System.out.println("error while writing file Heap" + e);
@@ -108,10 +118,14 @@ public class DiffSortBenchMark {
                                      }
                                      return array;
                                  },
-                                 sort, arr, 1, timeLoggersLinearithmic);
+                                 sort, arr, 20, timeLoggersLinearithmic);
                          double time = sorterBenchmark.run(n);
                          try {
-                             fileWriter.write(createCsvString(n, time, ((InstrumentedHelper) helper).getStatPack(), config.isInstrumented()));
+                             if (!(helper instanceof InstrumentedHelper)) {
+                                 fileWriter.write(createCsvString(n, time, null, config.isInstrumented()));
+                             } else {
+                                 fileWriter.write(createCsvString(n, time, ((InstrumentedHelper) helper).getStatPack(), config.isInstrumented()));
+                             }
                          } catch (Exception e) {
                              System.out.println("error while writing file Merge" + e);
                          }
@@ -142,10 +156,14 @@ public class DiffSortBenchMark {
                                     }
                                     return array;
                                 },
-                                sort, arr, 1, timeLoggersLinearithmic);
+                                sort, arr, 20, timeLoggersLinearithmic);
                         double time = sorterBenchmark.run(n);
                         try {
-                            fileWriter.write(createCsvString(n, time, ((InstrumentedHelper) helper).getStatPack(), config.isInstrumented()));
+                            if (!(helper instanceof InstrumentedHelper)) {
+                                fileWriter.write(createCsvString(n, time, null, config.isInstrumented()));
+                            } else {
+                                fileWriter.write(createCsvString(n, time, ((InstrumentedHelper) helper).getStatPack(), config.isInstrumented()));
+                            }
                         } catch (Exception e) {
                             System.out.println("error while writing file Quick" + e);
                         }
@@ -204,7 +222,11 @@ public class DiffSortBenchMark {
 
             sb.append(statPack.getStatistics("fixes").mean() + ",");
             sb.append(statPack.getStatistics("fixes").stdDev() + ",");
-            sb.append(statPack.getStatistics("fixes").normalizedMean() + "\n");
+            sb.append(statPack.getStatistics("fixes").normalizedMean() + ",");
+
+            sb.append(statPack.getStatistics("copies").mean() + ",");
+            sb.append(statPack.getStatistics("copies").stdDev() + ",");
+            sb.append(statPack.getStatistics("copies").normalizedMean() + "\n");
         } else {
             sb.append("\n");
         }
@@ -232,7 +254,12 @@ public class DiffSortBenchMark {
 
         sb.append("fixes:Mean,");
         sb.append("fixes:StdDev,");
-        sb.append("fixes:NormalizedMean\n");
+        sb.append("fixes:NormalizedMean,");
+
+
+        sb.append("copies:Mean,");
+        sb.append("copies:StdDev,");
+        sb.append("copies:NormalizedMean\n");
 
         return sb.toString();
 
