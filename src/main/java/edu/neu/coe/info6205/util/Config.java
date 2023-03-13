@@ -145,6 +145,7 @@ public class Config {
         throw new IOException("resource " + name + " not found for " + clazz);
     }
 
+
     public static Config load() throws IOException {
         return load(null);
     }

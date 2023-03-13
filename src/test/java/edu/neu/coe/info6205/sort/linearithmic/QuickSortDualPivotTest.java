@@ -252,6 +252,9 @@ public class QuickSortDualPivotTest {
         Sort<Integer> s = new QuickSort_DualPivot<>(helper);
         s.init(N);
         final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
+//        System.out.println(xs.length);
+//        for(int ki=0;ki<xs.length;ki++)
+//            System.out.print(xs[ki]+" ");
         assertEquals(Integer.valueOf(1360), xs[0]);
         helper.preProcess(xs);
         Integer[] ys = s.sort(xs);
