@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.Game.generics;
+package edu.neu.coe.info6205.game.generics;
 
 import java.util.function.UnaryOperator;
 
@@ -16,7 +16,7 @@ public class Board_Grid_Array<T> extends Board_Grid<T> {
         return super.getState(gridPosition);
     }
 
-    public Board<T, GridPosition, Move<T, GridPosition>> move(edu.neu.coe.info6205.Game.Move<T> move) {
+    public Board<T, GridPosition, Move<T, GridPosition>> move(edu.neu.coe.info6205.game.Move<T> move) {
         int x = move.getColumn();
         int y = move.getRow();
         T val = move.getVal();
@@ -41,6 +41,18 @@ public class Board_Grid_Array<T> extends Board_Grid<T> {
                 return null;
             }
         };
+
         return super.move(m);
+    }
+
+    public int getHash() {
+        StringBuilder sb = new StringBuilder();
+        int n = grid.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                sb.append(grid[i][j] != null ? grid[i][j] : "_");
+            }
+        }
+        return sb.toString().hashCode();
     }
 }

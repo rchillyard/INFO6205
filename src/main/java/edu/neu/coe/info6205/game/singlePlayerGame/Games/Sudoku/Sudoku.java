@@ -1,23 +1,25 @@
-package edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku;
+package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
-import edu.neu.coe.info6205.Game.Move;
-import edu.neu.coe.info6205.Game.SinglePlayerGame.UserGame;
-import edu.neu.coe.info6205.Game.Solver;
-import edu.neu.coe.info6205.Game.Player;
-import edu.neu.coe.info6205.Game.SinglePlayerGame.SPGameCreator;
-import edu.neu.coe.info6205.Game.SinglePlayerGame.SinglePlayerGame;
+import edu.neu.coe.info6205.game.Move;
+import edu.neu.coe.info6205.game.generics.Board;
+import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
+import edu.neu.coe.info6205.game.generics.GridPosition;
+import edu.neu.coe.info6205.game.generics.SPGameCreator;
+import edu.neu.coe.info6205.game.singlePlayerGame.UserGame;
+import edu.neu.coe.info6205.game.Solver;
+import edu.neu.coe.info6205.game.Player;
+import edu.neu.coe.info6205.game.singlePlayerGame.SPGameCreatorObsolete;
+import edu.neu.coe.info6205.game.singlePlayerGame.SinglePlayerGame;
 import edu.neu.coe.info6205.util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class SudokuGame extends SinglePlayerGame<Integer> {
+public class Sudoku extends SinglePlayerGame<Integer> {
 
     private int minMoves = 0;
     HashSet<Pair> positionsToBeFilled;
     HashSet<Pair> positionsAlreadyFilled;
-
     List<Integer> oneToNine = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     int n = 9;
@@ -26,7 +28,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         HashSet<Pair> set = new HashSet<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (getGrid()[i][j] == null) {
+                if (getBoardGrid().getState(i, j) == null) {
                     set.add(new Pair(i, j));
                 }
             }
@@ -38,7 +40,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         HashSet<Pair> set = new HashSet<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (getGrid()[i][j] != null) {
+                if (getBoardGrid().getState(i, j) != null) {
                     set.add(new Pair(i, j));
                 }
             }
@@ -46,9 +48,9 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         return set;
     }
 
-    public SudokuGame(SPGameCreator<Integer> gameCreator, boolean isBot,
-                      Solver<Integer, UserGame<Integer>> moveGenerator) {
-        super(gameCreator, 3, 3, isBot, moveGenerator);
+    public Sudoku(SPGameCreator<Board_Grid_Array<Integer>> gameCreator, boolean isBot,
+                  Solver moveGenerator, int size) {
+        super(gameCreator, isBot, moveGenerator, size);
         this.positionsAlreadyFilled = getAlreadyFilledPositions();
         this.positionsToBeFilled = getPositionsToFilled();
         minMoves = positionsAlreadyFilled.size();
@@ -61,7 +63,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (j == 0 || j == 3 || j == 6) System.out.print((j == 3 || j == 6 ? " " : "") + "|");
-                System.out.print((getGrid()[i][j] != null ? getGrid()[i][j] : "_") + "|");
+                System.out.print((getBoardGrid().getState(i, j) != null ? getBoardGrid().getState(i, j) : "_") + "|");
             }
             System.out.println();
             if (i == 2 || i == 5) {
@@ -94,10 +96,12 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
     public Player checkWinner() {
         if (!isGameOver()) return null;
 
+        /*
         if (isSudokuHampered()) {
             System.out.println("Game was hampered methods other than fillWrapper were used to fill the grid");
             return null;
         }
+         */
 
 
         for (int i = 0; i < n; i++) {
@@ -132,7 +136,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         if (positionsToBeFilled.contains(pair)) {
             if (move.getVal() != null) {
                 positionsToBeFilled.remove(pair);
-                getGrid()[pair.getX()][pair.getY()] = move.getVal();
+                setBoard(getBoardGrid().move(move));
             }
             return true;
         } else if (positionsAlreadyFilled.contains(pair)) {
@@ -142,7 +146,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
             if (move.getVal() == null) {
                 positionsToBeFilled.add(pair);
             }
-            getGrid()[pair.getX()][pair.getY()] = move.getVal();
+            setBoard(getBoardGrid().move(move));
             return true;
         }
     }
@@ -157,10 +161,15 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         return false;
     }
 
+
+    public Board_Grid_Array getBoardGrid() {
+        return (Board_Grid_Array) getBoard();
+    }
+
     private boolean isRowCorrect(int row) {
         Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
         for (int i = 0; i < n; i++) {
-            set.remove(getGrid()[row][i]);
+            set.remove(getBoardGrid().getState(row, i));
         }
         return set.size() == 0;
     }
@@ -168,7 +177,7 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
     private boolean isColumnCorrect(int column) {
         Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
         for (int i = 0; i < n; i++) {
-            set.remove(getGrid()[i][column]);
+            set.remove(getBoardGrid().getState(i, column));
         }
         return set.size() == 0;
     }
@@ -177,14 +186,14 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
         Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
         for (int i = rowStart; i < rowEnd; i++) {
             for (int j = columnStart; j < columnEnd; j++) {
-                set.remove(getGrid()[i][j]);
+                set.remove(getBoardGrid().getState(i, j));
             }
         }
         return set.size() == 0;
     }
 
     private boolean isSudokuHampered() {
-        Integer[][] grid = getGrid();
+        /*Integer[][] grid = getGrid();
         Integer[][] refGrid = getRefGrid();
         List<Pair> hamperedPos = new LinkedList<>();
         for (Pair pair : this.positionsAlreadyFilled) {
@@ -193,7 +202,9 @@ public class SudokuGame extends SinglePlayerGame<Integer> {
             }
         }
         System.out.println("hampered Pos : " + hamperedPos.size());
-        return hamperedPos.size() != 0;
+       return hamperedPos.size() != 0;
+         */
+        return false;
     }
 
 

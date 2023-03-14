@@ -1,6 +1,6 @@
-package edu.neu.coe.info6205.Game.SinglePlayerGame;
+package edu.neu.coe.info6205.game.singlePlayerGame;
 
-public abstract class SPGameCreator<T> {
+public abstract class SPGameCreatorObsolete<T> {
     private T[][] grid;
     private T[][] playerGridView;
 

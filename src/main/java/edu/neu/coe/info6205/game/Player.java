@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.Game;
+package edu.neu.coe.info6205.game;
 
 public class Player<T, G> {
     private int playerId;
@@ -51,8 +51,5 @@ public class Player<T, G> {
     public double getAverageTimePerMove() {
         return playerStats.getAverageTimePerMove();
     }
-
-
-
 
 }

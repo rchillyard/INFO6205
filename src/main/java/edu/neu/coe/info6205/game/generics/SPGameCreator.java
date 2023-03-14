@@ -1,21 +1,22 @@
-package edu.neu.coe.info6205.Game.generics;
+package edu.neu.coe.info6205.game.generics;
 
 public abstract class SPGameCreator<Board> {
     public Board getBoard() {
         return board;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+    //public void setBoard(Board board) {
+    //    this.board = board;
+    //}
 
     public Board getPlayerView() {
         return playerView;
     }
 
-    public void setPlayerView(Board playerView) {
-        this.playerView = playerView;
-    }
+
+    //public void setPlayerView(Board playerView) {
+    //    this.playerView = playerView;
+    //}
 
     private Board board;
     private Board playerView;
@@ -25,9 +26,11 @@ public abstract class SPGameCreator<Board> {
         this.playerView = playerView;
     }
 
-    public boolean initialize(int row, int column) {
+    public SPGameCreator() {}
+
+    public boolean initialize(Integer... args) {
         if (board == null) {
-            board = createGame(row, column);
+            board = createGame(args);
         }
         if (playerView == null) {
             playerView = createPlayerGameView(board);
@@ -35,7 +38,7 @@ public abstract class SPGameCreator<Board> {
         return true;
     }
 
-    protected abstract Board createGame(int row, int column);
+    protected abstract Board createGame(Integer... args);
 
     protected abstract Board createPlayerGameView(Board board);
 }

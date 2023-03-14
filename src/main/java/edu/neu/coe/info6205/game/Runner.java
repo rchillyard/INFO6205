@@ -1,16 +1,19 @@
-package edu.neu.coe.info6205.Game;
+package edu.neu.coe.info6205.game;
 
-import edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku.SudokuGame;
-import edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku.SudokuGameCreator;
-import edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku.SudokuSolver;
-import edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku.SudokuSolver2;
+import edu.neu.coe.info6205.game.generics.Board;
+import edu.neu.coe.info6205.game.generics.GridPosition;
+import edu.neu.coe.info6205.game.generics.SPGameCreator;
+import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.Sudoku;
+import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuCreator;
+import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuSolver;
 
 public class Runner {
 
     public static void main(String[] args) {
 
 
-        SudokuGame game = new SudokuGame(new SudokuGameCreator(), true, new SudokuSolver());
+        Sudoku game = new Sudoku(
+                new SudokuCreator(), true, new SudokuSolver(3), 3);
         game.display();
         /*System.out.println(game.getGrid().hashCode());
         game.fillWrapper(new Move<>(0, 0, 3));

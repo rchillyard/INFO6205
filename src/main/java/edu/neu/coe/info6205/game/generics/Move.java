@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.Game.generics;
+package edu.neu.coe.info6205.game.generics;
 
 import java.util.function.UnaryOperator;
 

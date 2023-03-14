@@ -1,35 +1,40 @@
-package edu.neu.coe.info6205.Game.SinglePlayerGame.Games.Sudoku;
+package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
-import edu.neu.coe.info6205.Game.SinglePlayerGame.SPGameCreator;
+import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
+import edu.neu.coe.info6205.game.generics.SPGameCreator;
+import edu.neu.coe.info6205.game.singlePlayerGame.SPGameCreatorObsolete;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class SudokuGameCreator extends SPGameCreator<Integer> {
+public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
 
-    List<Integer> oneToNine = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    List<Integer> nums = null;
+
+    public SudokuCreator() {
+    }
 
     @Override
-    protected Integer[][] createGame(int row, int column) {
+    protected Board_Grid_Array<Integer> createGame(Integer... args) {
+        int size = args[0];
+        nums = new LinkedList<>();
+        for (int i = 1; i <= size; i++) { nums.add(i); }
+        //this.initialize(size);
 
-        Integer[][] smallerGrid = getRandomGrid(row);
-        Integer[][] largerGrid = new Integer[row*row][row*row];
-        for (int j = 0; j < row*row; j += row) {
-            for (int i = 0; i < row*row; i += row) {
+        Integer[][] smallerGrid = getRandomGrid(size);
+        Integer[][] largerGrid = new Integer[size*size][size*size];
+        for (int j = 0; j < size*size; j += size) {
+            for (int i = 0; i < size*size; i += size) {
                 System.out.println("i: " + i + " j: " + j);
                 fillLargerBySmaller(smallerGrid, largerGrid, i, j);
-                shiftByValue(1, row, smallerGrid);
+                shiftByValue(1, size, smallerGrid);
             }
         }
-        //Integer[][]
 
-        //shiftByValue(1, row, smallerGrid);
         display(largerGrid);
+        //return new Board_Grid_Array<>(largerGrid);
 
-        return new Integer[][] {
+        return new Board_Grid_Array<>(new Integer[][] {
                 {4, 3, 5, 2, 6, 9, 7, 8, 1},
                 {6, 8, 2, 5, 7, 1, 4, 9, 3},
                 {1, 9, 7, 8, 3, 4, 5, 6, 2},
@@ -39,7 +44,7 @@ public class SudokuGameCreator extends SPGameCreator<Integer> {
                 {5, 1, 9, 3, 2, 6, 8, 7, 4},
                 {2, 4, 8, 9, 5, 7, 1, 3, 6},
                 {7, 6, 3, 4, 1, 8, 2, 5, 9}
-        };
+        });
 
           /*
 
@@ -57,6 +62,39 @@ public class SudokuGameCreator extends SPGameCreator<Integer> {
 
            */
     }
+
+    @Override
+    protected Board_Grid_Array<Integer> createPlayerGameView(Board_Grid_Array<Integer> integerBoard_grid_array) {
+        return new Board_Grid_Array<>(new Integer[][] {
+                {null, null, null, 2, 6, null, 7, null, 1},
+                {6, 8, null, null, 7, null, null, 9, null},
+                {1, 9, null, null, null, 4, 5, null, null},
+                {8, 2, null, 1, null, null, null, 4, null},
+                {null, null, 4, 6, null, 2, 9, null, null},
+                {null, 5, null, null, null, 3, null, 2, 8},
+                {null, null, 9, 3, null, null, null, 7, 4},
+                {null, 4, null, null, 5, null, null, 3, 6},
+                {7, null, 3, null, 1, 8, null, null, null}
+        });
+    }
+
+
+
+/*
+        return new Integer[][] {
+                {null, 2, null, null, null, null, null, null, null},
+                {null, null, null, 6, null, null, null, null, 3},
+                {null, 7, 4, null, 8, null, null, null, null},
+                {null, null, null, null, null, 3, null, null, 2},
+                {null, 8, null, null, 4, null, null, 1, null},
+                {6, null, null, 5, null, null, null, null, null},
+                {null, null, null, null, 1, null, 7, 8, null},
+                {5, null, null, null, null, 9, null, null, null},
+                {null, null, null, null, null, null, null, 4, null}
+        };
+
+ */
+
 
 
     private void fillLargerBySmaller(Integer[][] smaller, Integer[][] larger, int rowStart, int columnStart) {
@@ -123,42 +161,6 @@ public class SudokuGameCreator extends SPGameCreator<Integer> {
         return set;
     }
 
-    @Override
-    protected Integer[][] createPlayerGameView(Integer[][] grid) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
-
-            }
-        }
-
-        return new Integer[][] {
-                {null, null, null, 2, 6, null, 7, null, 1},
-                {6, 8, null, null, 7, null, null, 9, null},
-                {1, 9, null, null, null, 4, 5, null, null},
-                {8, 2, null, 1, null, null, null, 4, null},
-                {null, null, 4, 6, null, 2, 9, null, null},
-                {null, 5, null, null, null, 3, null, 2, 8},
-                {null, null, 9, 3, null, null, null, 7, 4},
-                {null, 4, null, null, 5, null, null, 3, 6},
-                {7, null, 3, null, 1, 8, null, null, null}
-        };
-
-/*
-        return new Integer[][] {
-                {null, 2, null, null, null, null, null, null, null},
-                {null, null, null, 6, null, null, null, null, 3},
-                {null, 7, 4, null, 8, null, null, null, null},
-                {null, null, null, null, null, 3, null, null, 2},
-                {null, 8, null, null, 4, null, null, 1, null},
-                {6, null, null, 5, null, null, null, null, null},
-                {null, null, null, null, 1, null, 7, 8, null},
-                {5, null, null, null, null, 9, null, null, null},
-                {null, null, null, null, null, null, null, 4, null}
-        };
-
- */
-    }
-
 
     public void display(Integer[][] grid) {
         for (int i = 0; i < 9; i++) {
@@ -174,29 +176,33 @@ public class SudokuGameCreator extends SPGameCreator<Integer> {
         System.out.println("\n");
     }
 
+    /*
+
     private boolean isRowCorrect(int row) {
-        Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
+        Set<Integer> set = nums.stream().collect(Collectors.toSet());
         for (int i = 0; i < 9; i++) {
-            set.remove(getGrid()[row][i]);
+            set.remove(()[row][i]);
         }
         return set.size() == 0;
     }
 
     private boolean isColumnCorrect(int column) {
-        Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
+        Set<Integer> set = nums.stream().collect(Collectors.toSet());
         for (int i = 0; i < 9; i++) {
-            set.remove(getGrid()[i][column]);
+            set.remove(()[i][column]);
         }
         return set.size() == 0;
     }
 
     public boolean isGridConditionCorrect(int rowStart, int rowEnd, int columnStart, int columnEnd) {
-        Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
+        Set<Integer> set = nums.stream().collect(Collectors.toSet());
         for (int i = rowStart; i < rowEnd; i++) {
             for (int j = columnStart; j < columnEnd; j++) {
-                set.remove(getGrid()[i][j]);
+                set.remove(()[i][j]);
             }
         }
         return set.size() == 0;
     }
+
+     */
 }
