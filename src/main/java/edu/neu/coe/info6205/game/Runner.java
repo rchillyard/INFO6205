@@ -1,8 +1,5 @@
 package edu.neu.coe.info6205.game;
 
-import edu.neu.coe.info6205.game.generics.Board;
-import edu.neu.coe.info6205.game.generics.GridPosition;
-import edu.neu.coe.info6205.game.generics.SPGameCreator;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.Sudoku;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuCreator;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuSolver;

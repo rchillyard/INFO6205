@@ -2,10 +2,8 @@ package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
 import edu.neu.coe.info6205.game.generics.SPGameCreator;
-import edu.neu.coe.info6205.game.singlePlayerGame.SPGameCreatorObsolete;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
 

@@ -1,11 +1,6 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
-import edu.neu.coe.info6205.game.Move;
-import edu.neu.coe.info6205.game.singlePlayerGame.UserGame;
-import edu.neu.coe.info6205.game.Solver;
 import edu.neu.coe.info6205.game.SolverType;
-
-import java.util.HashSet;
 
 public class SudokuSolver2  {
 

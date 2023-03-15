@@ -1,7 +1,6 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.Move;
-import edu.neu.coe.info6205.game.generics.Board;
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
 import edu.neu.coe.info6205.game.singlePlayerGame.UserGame;
 import edu.neu.coe.info6205.game.Solver;
