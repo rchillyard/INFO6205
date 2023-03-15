@@ -1,23 +1,23 @@
 package edu.neu.coe.info6205.game;
 
 public class Player<T, G> {
-    private int playerId;
-    private boolean isBot;
+    private final int playerId;
+    private final boolean isBot;
 
-    private PlayerStats<T> playerStats;
+    private final PlayerStats<T> playerStats;
     private Solver<T, G> moveGenerator;
 
     public Player(int playerId, boolean isBot) {
         this.playerId = playerId;
         this.isBot = isBot;
-        playerStats = new PlayerStats<T>();
+        playerStats = new PlayerStats<>();
     }
 
     public Player(int playerId, boolean isBot, Solver<T, G> moveGenerator) {
         this.playerId = playerId;
         this.isBot = isBot;
         this.moveGenerator = moveGenerator;
-        playerStats = new PlayerStats<T>();
+        playerStats = new PlayerStats<>();
     }
 
     public void addMove(Move<T> move, long timeInMilli, boolean validMove) {

@@ -7,7 +7,7 @@ public class PlayerStats<T> {
 
     private int numberOfMoves = 0;
     private int numberOfValidMoves = 0;
-    private List<MoveStats<T>> moveStatsList;
+    private final List<MoveStats<T>> moveStatsList;
 
     PlayerStats() {
         moveStatsList = new ArrayList<>();

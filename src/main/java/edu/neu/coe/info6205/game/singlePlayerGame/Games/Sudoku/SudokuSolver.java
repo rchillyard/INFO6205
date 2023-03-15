@@ -14,11 +14,11 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board_Grid_Array<I
 
     private static final SolverType type = SolverType.SingleTurnSolver;
 
-    List<Integer> nums = null;
+    List<Integer> nums;
     /**
      * n is size of the smaller grid
      */
-    int n = 0;
+    int n;
 
     public SudokuSolver(int n) {
         this.n = n;
@@ -84,8 +84,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board_Grid_Array<I
             }
 
             List<Pair> pairs = new ArrayList<>(positionToBeFilled);
-            for (int x = 0; x < pairs.size(); x++) {
-                Pair pair = pairs.get(x);
+            for (Pair pair : pairs) {
                 if (solveRecursive(pair.getX(), pair.getY(), game, positionToBeFilled, rowArray, columnArray, gridArray)) {
                     return true;
                 }

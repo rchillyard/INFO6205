@@ -20,7 +20,7 @@ public class Board_Grid_Array<T> extends Board_Grid<T> {
         int x = move.getColumn();
         int y = move.getRow();
         T val = move.getVal();
-        Move<T, GridPosition> m = new Move<T, GridPosition>() {
+        Move<T, GridPosition> m = new Move<>() {
             @Override
             public UnaryOperator<T> stateTransition() {
                 return t -> val;

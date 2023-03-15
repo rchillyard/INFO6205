@@ -8,11 +8,11 @@ import edu.neu.coe.info6205.game.generics.*;
 
 import static edu.neu.coe.info6205.game.SolverType.SingleTurnSolver;
 
-public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
+public abstract class SinglePlayerGame<T, G> implements Game<T, G>, UserGame<Board<T, GridPosition, Move<T>>, T> {
 
-    private Board<T, GridPosition, Move<T>> board = null;
-    private T[][] refGrid = null;
-    private Player player = null;
+    private Board<T, GridPosition, Move<T>> board;
+    private final T[][] refGrid = null;
+    private Player<T, G> player = null;
 
     private long ticks = 0;
 
@@ -20,17 +20,18 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
 
     protected Boolean won = null;
 
-    private SPGameCreator<Board<T, GridPosition, Move<T>>> gameCreator;
+    private final SPGameCreator<Board<T, GridPosition, Move<T>>> gameCreator;
 
     //SinglePlayerGame() {}
 
-    protected SinglePlayerGame(SPGameCreator<? extends Board> gameCreator, boolean isBot,
-                               Solver<T, UserGame> moveGenerator, Integer... sizeArgs) {
+    protected SinglePlayerGame(SPGameCreator<? extends Board<T, GridPosition, Move<T>>> gameCreator, boolean isBot,
+                               Solver<T, G> moveGenerator, Integer... sizeArgs) {
+        // TODO check this cast
         this.gameCreator = (SPGameCreator<Board<T, GridPosition, Move<T>>>) gameCreator;
         this.gameCreator.initialize(sizeArgs);
         this.board = this.gameCreator.getPlayerView();
         //this.refGrid = deepCopy(grid); //todo mehul need to solve
-        this.player = new Player(1, isBot, moveGenerator);
+        this.player = new Player<T, G>(1, isBot, moveGenerator);
     }
 
 
@@ -42,7 +43,7 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
             checkWinner();
         } else {
             while (isGameOver()) {
-                Move<T> move = null;
+                Move<T> move;
                 do {
                     move = move();
                 } while (fillWrapper(move));
@@ -63,8 +64,8 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
 
     /**
      * For calculating time taken for one move.
-     * @param move
-     * @return
+     * @param move a move
+     * @return true if valid move.
      */
     public boolean fillWrapper(Move<T> move) {
         long timeTaken = reset();
@@ -76,13 +77,13 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
 
     /**
      * This method is meant only for Game creators to override
-     * @param move
-     * @return
+     * @param move the move.
+     * @return true if valid.
      */
     public abstract boolean fill(Move<T> move);
 
     private T[][] deepCopy(T[][] grid) {
-        return java.util.Arrays.stream(grid).map(el -> el.clone()).toArray($ -> grid.clone());
+        return java.util.Arrays.stream(grid).map(T[]::clone).toArray($ -> grid.clone());
     }
 
     protected int getMovesPlayed() {
@@ -93,7 +94,7 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
         return board;
     }
 
-    public void setBoard(Board board) {
+    public void setBoard(Board<T, GridPosition, Move<T>> board) {
         this.board = board;
     }
 
@@ -101,7 +102,7 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board, T> {
         return refGrid;
     }
 
-    protected Player getPlayer() {
+    protected Player<T, G> getPlayer() {
         return player;
     }
 

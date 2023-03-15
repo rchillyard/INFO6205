@@ -1,8 +1,8 @@
 package edu.neu.coe.info6205.game;
 
 public class  Move<T> {
-    Integer row;
-    Integer column;
+    final Integer row;
+    final Integer column;
     T val;
 
     public Move(int row, int column) {

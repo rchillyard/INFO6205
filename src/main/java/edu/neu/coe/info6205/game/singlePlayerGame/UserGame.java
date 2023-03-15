@@ -1,17 +1,22 @@
 package edu.neu.coe.info6205.game.singlePlayerGame;
 
 import edu.neu.coe.info6205.game.Move;
-import edu.neu.coe.info6205.game.generics.Board;
 
 public interface UserGame<Board, T> {
 
-    public boolean fillWrapper(Move<T> move);
+    boolean fillWrapper(Move<T> move);
 
-    public boolean validateMove(Move move);
+    /**
+     * TODO this always returns false.
+     *
+     * @param move the Move to be validated.
+     * @return true if valid.
+     */
+    boolean validateMove(Move<T> move);
 
-    public boolean isGameOver();
+    boolean isGameOver();
 
-    public Board getBoard();
+    Board getBoard();
 
-    public void display();
+    void display();
 }

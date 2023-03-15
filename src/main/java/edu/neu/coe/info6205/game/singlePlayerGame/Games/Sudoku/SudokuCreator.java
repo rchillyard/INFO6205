@@ -115,7 +115,7 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
     private Integer[][] getRandomGrid(int n) {
         Integer[][] smallerGrid = new Integer[n][n];
         int max = n*n;
-        HashSet set = getSetTillN(max);
+        HashSet<Integer> set = getSetTillN(max);
         Random random = new Random();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

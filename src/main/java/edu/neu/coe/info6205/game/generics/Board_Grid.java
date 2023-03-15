@@ -13,6 +13,7 @@ public class Board_Grid<StateType> implements Board<StateType, GridPosition, Mov
 
     @Override
     public StateType getState(GridPosition gridPosition) {
+        // TODO check this cast
         return (StateType) grid[gridPosition.x][gridPosition.y];
     }
 
@@ -21,8 +22,10 @@ public class Board_Grid<StateType> implements Board<StateType, GridPosition, Mov
         Object[][] newGrid = Arrays.copyOf(grid, grid.length); // TODO check this
         Board_Grid<StateType> newBoard = new Board_Grid<>(newGrid);
         Move<StateType, GridPosition> current = move;
+        // TODO need to update current in loop.
         while (current != null) {
-            StateType state = current.stateTransition().apply(getState(current.startPosition()));
+            StateType stateType = getState(current.startPosition());
+            StateType state = current.stateTransition().apply(stateType);
             GridPosition endPosition = current.endPosition();
             newBoard.grid[endPosition.x][endPosition.y] = state;
         }

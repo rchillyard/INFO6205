@@ -24,7 +24,8 @@ public class Runner {
         game.run();
         game.checkWinner();
         game.display();
-        Player winner = game.getWinner();
+        // TODO check this assignment
+        Player<Integer, Sudoku> winner = game.getWinner();
         System.out.println(winner.getTotalTime());
         System.out.println(winner.getAverageTimePerMove());
 

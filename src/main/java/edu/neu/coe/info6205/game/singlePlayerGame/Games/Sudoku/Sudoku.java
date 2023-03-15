@@ -1,7 +1,9 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.Move;
+import edu.neu.coe.info6205.game.generics.Board;
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
+import edu.neu.coe.info6205.game.generics.GridPosition;
 import edu.neu.coe.info6205.game.generics.SPGameCreator;
 import edu.neu.coe.info6205.game.singlePlayerGame.SinglePlayerGame;
 import edu.neu.coe.info6205.game.Solver;
@@ -11,20 +13,20 @@ import edu.neu.coe.info6205.util.Pair;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Sudoku extends SinglePlayerGame<Integer> {
+public class Sudoku extends SinglePlayerGame<Integer, Sudoku> {
 
-    private int minMoves = 0;
-    HashSet<Pair> positionsToBeFilled;
-    HashSet<Pair> positionsAlreadyFilled;
-    List<Integer> oneToNine = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private int minMoves;
+    final HashSet<Pair> positionsToBeFilled;
+    final HashSet<Pair> positionsAlreadyFilled;
+    final List<Integer> oneToNine = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    int n = 9;
+    final int n = 9;
 
     private HashSet<Pair> getPositionsToFilled() {
         HashSet<Pair> set = new HashSet<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (getBoardGrid().getState(i, j) == null) {
+                if (getBoardGrid().getState(new GridPosition(i, j)) == null) {
                     set.add(new Pair(i, j));
                 }
             }
@@ -36,7 +38,7 @@ public class Sudoku extends SinglePlayerGame<Integer> {
         HashSet<Pair> set = new HashSet<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (getBoardGrid().getState(i, j) != null) {
+                if (getBoardGrid().getState(new GridPosition(i, j)) != null) {
                     set.add(new Pair(i, j));
                 }
             }
@@ -45,7 +47,7 @@ public class Sudoku extends SinglePlayerGame<Integer> {
     }
 
     public Sudoku(SPGameCreator<Board_Grid_Array<Integer>> gameCreator, boolean isBot,
-                  Solver moveGenerator, int size) {
+                  Solver<Integer, Sudoku> moveGenerator, int size) {
         super(gameCreator, isBot, moveGenerator, size);
         this.positionsAlreadyFilled = getAlreadyFilledPositions();
         this.positionsToBeFilled = getPositionsToFilled();
@@ -59,7 +61,7 @@ public class Sudoku extends SinglePlayerGame<Integer> {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (j == 0 || j == 3 || j == 6) System.out.print((j == 3 || j == 6 ? " " : "") + "|");
-                System.out.print((getBoardGrid().getState(i, j) != null ? getBoardGrid().getState(i, j) : "_") + "|");
+                System.out.print((getBoardGrid().getState(new GridPosition(i, j)) != null ? getBoardGrid().getState(new GridPosition(i, j)) : "_") + "|");
             }
             System.out.println();
             if (i == 2 || i == 5) {
@@ -75,7 +77,7 @@ public class Sudoku extends SinglePlayerGame<Integer> {
     }
 
     @Override
-    public Player getWinner() {
+    public Player<Integer, Sudoku> getWinner() {
         if (!isGameOver()) {
             System.out.println("Game still not over");
             return null;
@@ -89,7 +91,7 @@ public class Sudoku extends SinglePlayerGame<Integer> {
 
 
     @Override
-    public Player checkWinner() {
+    public Player<Integer, Sudoku> checkWinner() {
         if (!isGameOver()) return null;
 
         /*
@@ -149,8 +151,8 @@ public class Sudoku extends SinglePlayerGame<Integer> {
 
     /**
      * To be implemented by the Solver for this. Is this needed?
-     * @param move
-     * @return
+     * @param move the move.
+     * @return true if valid.
      */
     @Override
     public boolean validateMove(Move move) {
@@ -158,14 +160,15 @@ public class Sudoku extends SinglePlayerGame<Integer> {
     }
 
 
-    public Board_Grid_Array getBoardGrid() {
-        return (Board_Grid_Array) getBoard();
+    public Board<Integer, GridPosition, Move<Integer>> getBoardGrid() {
+        return getBoard();
     }
 
     private boolean isRowCorrect(int row) {
         Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
         for (int i = 0; i < n; i++) {
-            set.remove(getBoardGrid().getState(row, i));
+            // TODO check this
+            set.remove(getBoardGrid().getState(new GridPosition(row, i)));
         }
         return set.size() == 0;
     }
@@ -173,7 +176,8 @@ public class Sudoku extends SinglePlayerGame<Integer> {
     private boolean isColumnCorrect(int column) {
         Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
         for (int i = 0; i < n; i++) {
-            set.remove(getBoardGrid().getState(i, column));
+            // TODO check this
+            set.remove(getBoardGrid().getState(new GridPosition(i, column)));
         }
         return set.size() == 0;
     }
@@ -182,7 +186,8 @@ public class Sudoku extends SinglePlayerGame<Integer> {
         Set<Integer> set = oneToNine.stream().collect(Collectors.toSet());
         for (int i = rowStart; i < rowEnd; i++) {
             for (int j = columnStart; j < columnEnd; j++) {
-                set.remove(getBoardGrid().getState(i, j));
+                // TODO check this
+                set.remove(getBoardGrid().getState(new GridPosition(i, j)));
             }
         }
         return set.size() == 0;
