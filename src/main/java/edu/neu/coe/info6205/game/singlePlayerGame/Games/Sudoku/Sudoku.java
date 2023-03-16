@@ -13,7 +13,7 @@ import edu.neu.coe.info6205.util.Pair;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Sudoku extends SinglePlayerGame<Integer, Sudoku> {
+public class Sudoku extends SinglePlayerGame<Integer> {
 
     private int minMoves;
     final HashSet<Pair> positionsToBeFilled;
@@ -47,11 +47,20 @@ public class Sudoku extends SinglePlayerGame<Integer, Sudoku> {
     }
 
     public Sudoku(SPGameCreator<Board_Grid_Array<Integer>> gameCreator, boolean isBot,
-                  Solver<Integer, Sudoku> moveGenerator, int size) {
+                  Solver moveGenerator, int size) {
         super(gameCreator, isBot, moveGenerator, size);
         this.positionsAlreadyFilled = getAlreadyFilledPositions();
         this.positionsToBeFilled = getPositionsToFilled();
+        print(positionsToBeFilled);
         minMoves = positionsAlreadyFilled.size();
+    }
+
+    private void print(HashSet<Pair> setArray) {
+            System.out.print("Position To be filled by Sudoku");
+            for (Pair val : setArray) {
+                System.out.print(val + ", ");
+            }
+            System.out.println();
     }
     /**
      *
@@ -73,11 +82,12 @@ public class Sudoku extends SinglePlayerGame<Integer, Sudoku> {
 
     @Override
     public boolean isGameOver() {
+        display();
         return positionsToBeFilled.size() == 0;
     }
 
     @Override
-    public Player<Integer, Sudoku> getWinner() {
+    public Player getWinner() {
         if (!isGameOver()) {
             System.out.println("Game still not over");
             return null;

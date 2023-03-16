@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MoveTest {
+public class MoveProcessorTest {
 
     @Test
     public void getRow() {

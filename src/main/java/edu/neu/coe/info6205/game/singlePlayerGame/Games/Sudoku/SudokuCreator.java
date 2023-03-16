@@ -14,6 +14,7 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
 
     @Override
     protected Board_Grid_Array<Integer> createGame(Integer... args) {
+        /*
         int size = args[0];
         nums = new LinkedList<>();
         for (int i = 1; i <= size; i++) { nums.add(i); }
@@ -31,7 +32,7 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
 
         display(largerGrid);
         //return new Board_Grid_Array<>(largerGrid);
-
+        */
         return new Board_Grid_Array<>(new Integer[][] {
                 {4, 3, 5, 2, 6, 9, 7, 8, 1},
                 {6, 8, 2, 5, 7, 1, 4, 9, 3},

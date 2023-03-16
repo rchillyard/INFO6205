@@ -2,7 +2,7 @@ package edu.neu.coe.info6205.game.generics;
 
 import java.util.Arrays;
 
-public class Board_Grid<StateType> implements Board<StateType, GridPosition, Move<StateType, GridPosition>> {
+public class Board_Grid<StateType> implements Board<StateType, GridPosition, MoveProcessor<StateType, GridPosition>> {
     public Board_Grid(Object[][] grid) {
         this.grid = grid;
     }
@@ -18,10 +18,10 @@ public class Board_Grid<StateType> implements Board<StateType, GridPosition, Mov
     }
 
     @Override
-    public Board<StateType, GridPosition, Move<StateType, GridPosition>> move(Move<StateType, GridPosition> move) {
+    public Board<StateType, GridPosition, MoveProcessor<StateType, GridPosition>> move(MoveProcessor<StateType, GridPosition> move) {
         Object[][] newGrid = Arrays.copyOf(grid, grid.length); // TODO check this
         Board_Grid<StateType> newBoard = new Board_Grid<>(newGrid);
-        Move<StateType, GridPosition> current = move;
+        MoveProcessor<StateType, GridPosition> current = move;
         // TODO need to update current in loop.
         while (current != null) {
             StateType stateType = getState(current.startPosition());
@@ -33,10 +33,10 @@ public class Board_Grid<StateType> implements Board<StateType, GridPosition, Mov
     }
 
 //    @Override
-//    public Board<StateType, GridPosition, Move> move(Move move) {
+//    public Board<StateType, GridPosition, MoveProcessor> move(MoveProcessor move) {
 //        Object[][] newGrid = Arrays.copyOf(grid,grid.length); // TODO check this
-//        Board_Grid<StateType, Move> newBoard = new Board_Grid<>(newGrid);
-//        Move current = move;
+//        Board_Grid<StateType, MoveProcessor> newBoard = new Board_Grid<>(newGrid);
+//        MoveProcessor current = move;
 //        while (current != null) {
 //
 //        }
@@ -45,7 +45,7 @@ public class Board_Grid<StateType> implements Board<StateType, GridPosition, Mov
 
     //
 //    @Override
-//    public Board<T, GridPosition, Move<T>> move(Move<T> move) {
+//    public Board<T, GridPosition, MoveProcessor<T>> move(MoveProcessor<T> move) {
 //        Object[][] newGrid = Arrays.copyOf(grid,grid.length); // TODO check this
 //        Board_Grid<T> newBoard = new Board_Grid<>(newGrid);
 //        newBoard.move(move);

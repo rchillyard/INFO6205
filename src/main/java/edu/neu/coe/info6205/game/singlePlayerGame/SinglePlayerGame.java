@@ -8,11 +8,11 @@ import edu.neu.coe.info6205.game.generics.*;
 
 import static edu.neu.coe.info6205.game.SolverType.SingleTurnSolver;
 
-public abstract class SinglePlayerGame<T, G> implements Game<T, G>, UserGame<Board<T, GridPosition, Move<T>>, T> {
+public abstract class SinglePlayerGame<T> implements Game, UserGame<Board<T, GridPosition, Move<T>>, T> {
 
     private Board<T, GridPosition, Move<T>> board;
     private final T[][] refGrid = null;
-    private Player<T, G> player = null;
+    private Player player = null;
 
     private long ticks = 0;
 
@@ -20,18 +20,17 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>, UserGame<Boa
 
     protected Boolean won = null;
 
-    private final SPGameCreator<Board<T, GridPosition, Move<T>>> gameCreator;
+    //private final SPGameCreator<Board<T, GridPosition, MoveProcessor<T>>> gameCreator;
 
     //SinglePlayerGame() {}
 
-    protected SinglePlayerGame(SPGameCreator<? extends Board<T, GridPosition, Move<T>>> gameCreator, boolean isBot,
-                               Solver<T, G> moveGenerator, Integer... sizeArgs) {
+    protected SinglePlayerGame(SPGameCreator<? extends Board> gameCreator, boolean isBot,
+                               Solver moveGenerator, Integer... sizeArgs) {
         // TODO check this cast
-        this.gameCreator = (SPGameCreator<Board<T, GridPosition, Move<T>>>) gameCreator;
-        this.gameCreator.initialize(sizeArgs);
-        this.board = this.gameCreator.getPlayerView();
+        gameCreator.initialize(sizeArgs);
+        this.board = gameCreator.getPlayerView();
         //this.refGrid = deepCopy(grid); //todo mehul need to solve
-        this.player = new Player<T, G>(1, isBot, moveGenerator);
+        this.player = new Player(1, isBot, moveGenerator);
     }
 
 
@@ -82,9 +81,11 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>, UserGame<Boa
      */
     public abstract boolean fill(Move<T> move);
 
+    /*
     private T[][] deepCopy(T[][] grid) {
         return java.util.Arrays.stream(grid).map(T[]::clone).toArray($ -> grid.clone());
     }
+     */
 
     protected int getMovesPlayed() {
         return this.player.getValidNumberOfMoves();
@@ -102,7 +103,7 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>, UserGame<Boa
         return refGrid;
     }
 
-    protected Player<T, G> getPlayer() {
+    protected Player getPlayer() {
         return player;
     }
 

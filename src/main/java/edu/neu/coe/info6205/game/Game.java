@@ -1,16 +1,16 @@
 package edu.neu.coe.info6205.game;
 
-public interface Game<T, G> {
+public interface Game {
     /**
      * to make the next move
      *
      * TODO this always returns null.
      */
-    Move<T> move();
+    Move move();
     void display();
     boolean isGameOver();
-    Player<T, G> getWinner();
+    Player getWinner();
 
-    Player<T, G> checkWinner();
+    Player checkWinner();
 
 }

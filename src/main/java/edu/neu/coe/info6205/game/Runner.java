@@ -13,11 +13,11 @@ public class Runner {
                 new SudokuCreator(), true, new SudokuSolver(3), 3);
         game.display();
         /*System.out.println(game.getGrid().hashCode());
-        game.fillWrapper(new Move<>(0, 0, 3));
+        game.fillWrapper(new MoveProcessor<>(0, 0, 3));
         System.out.println("after adding 3 - " + getHash(game.getGrid()));
-        game.fillWrapper(new Move<>(0, 0, 4));
+        game.fillWrapper(new MoveProcessor<>(0, 0, 4));
         System.out.println("after adding 4 - " + getHash(game.getGrid()));
-        game.fillWrapper(new Move<>(0, 0, 3));
+        game.fillWrapper(new MoveProcessor<>(0, 0, 3));
         System.out.println("after adding 3 - " + getHash(game.getGrid()));
 
          */

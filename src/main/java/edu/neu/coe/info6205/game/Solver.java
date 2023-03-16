@@ -9,7 +9,7 @@ public interface Solver<T, E> {
      * TODO this always returns null.
      *
      * @param grid  the grid.
-     * @return a Move.
+     * @return a MoveProcessor.
      */
     Move<T> getMove(T[][] grid);
 

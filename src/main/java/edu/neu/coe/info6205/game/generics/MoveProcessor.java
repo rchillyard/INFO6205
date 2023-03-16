@@ -2,7 +2,7 @@ package edu.neu.coe.info6205.game.generics;
 
 import java.util.function.UnaryOperator;
 
-public interface Move<StateType, Position> {
+public interface MoveProcessor<StateType, Position> {
 
     UnaryOperator<StateType> stateTransition();
 
@@ -18,7 +18,7 @@ public interface Move<StateType, Position> {
     /**
      * TODO this always returns null.
      *
-     * @return the next component of this Move.
+     * @return the next component of this MoveProcessor.
      */
-    Move<StateType, Position> next();
+    MoveProcessor<StateType, Position> next();
 }
