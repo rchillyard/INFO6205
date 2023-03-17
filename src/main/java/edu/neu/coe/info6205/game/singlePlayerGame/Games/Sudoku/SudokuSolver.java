@@ -1,12 +1,11 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.Move;
-import edu.neu.coe.info6205.game.generics.Board;
+import edu.neu.coe.info6205.game.Solver;
+import edu.neu.coe.info6205.game.SolverType;
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
 import edu.neu.coe.info6205.game.generics.GridPosition;
 import edu.neu.coe.info6205.game.singlePlayerGame.UserGame;
-import edu.neu.coe.info6205.game.Solver;
-import edu.neu.coe.info6205.game.SolverType;
 import edu.neu.coe.info6205.util.Pair;
 
 import java.util.*;
@@ -83,7 +82,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board_Grid_Array<I
         System.out.println();
     }
 
-    public void display(Board board) {
+    public void display(Board_Grid_Array<Integer> board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (j == 0 || j == 3 || j == 6) System.out.print((j == 3 || j == 6 ? " " : "") + "|");

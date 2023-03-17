@@ -1,11 +1,16 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
+import edu.neu.coe.info6205.game.Move;
+import edu.neu.coe.info6205.game.generics.Board;
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
+import edu.neu.coe.info6205.game.generics.GridPosition;
 import edu.neu.coe.info6205.game.generics.SPGameCreator;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
-public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
+public class SudokuCreator extends SPGameCreator<Integer, GridPosition, Move<Integer>> {
 
     List<Integer> nums = null;
 
@@ -13,7 +18,7 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
     }
 
     @Override
-    protected Board_Grid_Array<Integer> createGame(Integer... args) {
+    protected Board<Integer, GridPosition, Move<Integer>> createGame(Integer... args) {
         /*
         int size = args[0];
         nums = new LinkedList<>();
@@ -33,7 +38,7 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
         display(largerGrid);
         //return new Board_Grid_Array<>(largerGrid);
         */
-        return new Board_Grid_Array<>(new Integer[][] {
+        Board_Grid_Array<Object> result = new Board_Grid_Array<>(new Integer[][]{
                 {4, 3, 5, 2, 6, 9, 7, 8, 1},
                 {6, 8, 2, 5, 7, 1, 4, 9, 3},
                 {1, 9, 7, 8, 3, 4, 5, 6, 2},
@@ -44,6 +49,8 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
                 {2, 4, 8, 9, 5, 7, 1, 3, 6},
                 {7, 6, 3, 4, 1, 8, 2, 5, 9}
         });
+        // TODO convert result into the proper form.
+        return result;
 
           /*
 
@@ -63,8 +70,8 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
     }
 
     @Override
-    protected Board_Grid_Array<Integer> createPlayerGameView(Board_Grid_Array<Integer> integerBoard_grid_array) {
-        return new Board_Grid_Array<>(new Integer[][] {
+    protected Board<Integer, GridPosition, Move<Integer>> createPlayerGameView(Board<Integer, GridPosition, Move<Integer>> board) {
+        Board_Grid_Array<Object> result = new Board_Grid_Array<>(new Integer[][]{
                 {null, null, null, 2, 6, null, 7, null, 1},
                 {6, 8, null, null, 7, null, null, 9, null},
                 {1, 9, null, null, null, 4, 5, null, null},
@@ -75,6 +82,8 @@ public class SudokuCreator extends SPGameCreator<Board_Grid_Array<Integer>> {
                 {null, 4, null, null, 5, null, null, 3, 6},
                 {7, null, 3, null, 1, 8, null, null, null}
         });
+        // TODO convert result into the proper form.
+        return result;
     }
 
 

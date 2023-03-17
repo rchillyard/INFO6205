@@ -1,19 +1,22 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.Move;
+import edu.neu.coe.info6205.game.Player;
+import edu.neu.coe.info6205.game.Solver;
 import edu.neu.coe.info6205.game.generics.Board;
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
 import edu.neu.coe.info6205.game.generics.GridPosition;
 import edu.neu.coe.info6205.game.generics.SPGameCreator;
 import edu.neu.coe.info6205.game.singlePlayerGame.SinglePlayerGame;
-import edu.neu.coe.info6205.game.Solver;
-import edu.neu.coe.info6205.game.Player;
+import edu.neu.coe.info6205.game.singlePlayerGame.UserGame;
 import edu.neu.coe.info6205.util.Pair;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Sudoku extends SinglePlayerGame<Integer> {
+public class Sudoku extends SinglePlayerGame<Integer, UserGame<Board_Grid_Array<Integer>, Integer>> {
 
     private int minMoves;
     final HashSet<Pair> positionsToBeFilled;
@@ -46,8 +49,8 @@ public class Sudoku extends SinglePlayerGame<Integer> {
         return set;
     }
 
-    public Sudoku(SPGameCreator<Board_Grid_Array<Integer>> gameCreator, boolean isBot,
-                  Solver moveGenerator, int size) {
+    public Sudoku(SPGameCreator<Integer, GridPosition, Move<Integer>> gameCreator, boolean isBot,
+                  Solver<Integer, UserGame<Board_Grid_Array<Integer>, Integer>> moveGenerator, int size) {
         super(gameCreator, isBot, moveGenerator, size);
         this.positionsAlreadyFilled = getAlreadyFilledPositions();
         this.positionsToBeFilled = getPositionsToFilled();
@@ -56,8 +59,8 @@ public class Sudoku extends SinglePlayerGame<Integer> {
     }
 
     private void print(HashSet<Pair> setArray) {
-            System.out.print("Position To be filled by Sudoku");
-            for (Pair val : setArray) {
+        System.out.print("Position To be filled by Sudoku");
+        for (Pair val : setArray) {
                 System.out.print(val + ", ");
             }
             System.out.println();
@@ -87,7 +90,7 @@ public class Sudoku extends SinglePlayerGame<Integer> {
     }
 
     @Override
-    public Player getWinner() {
+    public Player<Integer, UserGame<Board_Grid_Array<Integer>, Integer>> getWinner() {
         if (!isGameOver()) {
             System.out.println("Game still not over");
             return null;
@@ -99,9 +102,8 @@ public class Sudoku extends SinglePlayerGame<Integer> {
         return won ? getPlayer() : null;
     }
 
-
     @Override
-    public Player<Integer, Sudoku> checkWinner() {
+    public Player<Integer, UserGame<Board_Grid_Array<Integer>, Integer>> checkWinner() {
         if (!isGameOver()) return null;
 
         /*
@@ -110,7 +112,6 @@ public class Sudoku extends SinglePlayerGame<Integer> {
             return null;
         }
          */
-
 
         for (int i = 0; i < n; i++) {
             if (!isColumnCorrect(i)) {
@@ -161,11 +162,12 @@ public class Sudoku extends SinglePlayerGame<Integer> {
 
     /**
      * To be implemented by the Solver for this. Is this needed?
+     *
      * @param move the move.
      * @return true if valid.
      */
     @Override
-    public boolean validateMove(Move move) {
+    public boolean validateMove(Move<Integer> move) {
         return false;
     }
 

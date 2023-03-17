@@ -1,7 +1,7 @@
 package edu.neu.coe.info6205.game.generics;
 
-public abstract class SPGameCreator<Board> {
-    public Board getBoard() {
+public abstract class SPGameCreator<StateType, Position, BoardMove> {
+    public Board<StateType, Position, BoardMove> getBoard() {
         return board;
     }
 
@@ -9,7 +9,7 @@ public abstract class SPGameCreator<Board> {
     //    this.board = board;
     //}
 
-    public Board getPlayerView() {
+    public Board<StateType, Position, BoardMove> getPlayerView() {
         return playerView;
     }
 
@@ -18,16 +18,19 @@ public abstract class SPGameCreator<Board> {
     //    this.playerView = playerView;
     //}
 
-    private Board board;
-    private Board playerView;
+    private Board<StateType, Position, BoardMove> board;
+    private Board<StateType, Position, BoardMove> playerView;
 
-    public SPGameCreator(Board board, Board playerView) {
-        this.board = board;
-        this.playerView = playerView;
-    }
+    // TODO re-invent this
+
+//    public SPGameCreator(Board<StateType, Position, BoardMove> board, Board<StateType, Position, BoardMove> playerView) {
+//        this.board = board;
+//        this.playerView = playerView;
+//    }
 
     public SPGameCreator() {}
 
+    // TODO get rid of this
     public boolean initialize(Integer... args) {
         if (board == null) {
             board = createGame(args);
@@ -38,7 +41,7 @@ public abstract class SPGameCreator<Board> {
         return true;
     }
 
-    protected abstract Board createGame(Integer... args);
+    protected abstract Board<StateType, Position, BoardMove> createGame(Integer... args);
 
-    protected abstract Board createPlayerGameView(Board board);
+    protected abstract Board<StateType, Position, BoardMove> createPlayerGameView(Board<StateType, Position, BoardMove> board);
 }

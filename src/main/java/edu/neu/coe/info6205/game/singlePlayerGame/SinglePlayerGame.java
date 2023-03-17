@@ -2,17 +2,19 @@ package edu.neu.coe.info6205.game.singlePlayerGame;
 
 import edu.neu.coe.info6205.game.Game;
 import edu.neu.coe.info6205.game.Move;
-import edu.neu.coe.info6205.game.Solver;
 import edu.neu.coe.info6205.game.Player;
-import edu.neu.coe.info6205.game.generics.*;
+import edu.neu.coe.info6205.game.Solver;
+import edu.neu.coe.info6205.game.generics.Board;
+import edu.neu.coe.info6205.game.generics.GridPosition;
+import edu.neu.coe.info6205.game.generics.SPGameCreator;
 
 import static edu.neu.coe.info6205.game.SolverType.SingleTurnSolver;
 
-public abstract class SinglePlayerGame<T> implements Game, UserGame<Board<T, GridPosition, Move<T>>, T> {
+public abstract class SinglePlayerGame<T, G> implements Game<T, G>, UserGame<Board<T, GridPosition, Move<T>>, T> {
 
     private Board<T, GridPosition, Move<T>> board;
     private final T[][] refGrid = null;
-    private Player player = null;
+    private Player<T, G> player = null;
 
     private long ticks = 0;
 
@@ -24,13 +26,13 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board<T, Gri
 
     //SinglePlayerGame() {}
 
-    protected SinglePlayerGame(SPGameCreator<? extends Board> gameCreator, boolean isBot,
-                               Solver moveGenerator, Integer... sizeArgs) {
+    protected SinglePlayerGame(SPGameCreator<T, GridPosition, Move<T>> gameCreator, boolean isBot,
+                               Solver<T, G> moveGenerator, Integer... sizeArgs) {
         // TODO check this cast
         gameCreator.initialize(sizeArgs);
         this.board = gameCreator.getPlayerView();
         //this.refGrid = deepCopy(grid); //todo mehul need to solve
-        this.player = new Player(1, isBot, moveGenerator);
+        this.player = new Player<>(1, isBot, moveGenerator);
     }
 
 
@@ -53,7 +55,7 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board<T, Gri
     @Override
     public Move<T> move() {
         if (SingleTurnSolver.equals(player.getMoveGenerator().getType())) {
-            player.getMoveGenerator().solve(this);
+            player.getMoveGenerator().solve((G) this);
             return null;
         } else {
             //T[][] deepCopy = deepCopy(grid);
@@ -103,7 +105,7 @@ public abstract class SinglePlayerGame<T> implements Game, UserGame<Board<T, Gri
         return refGrid;
     }
 
-    protected Player getPlayer() {
+    protected Player<T, G> getPlayer() {
         return player;
     }
 

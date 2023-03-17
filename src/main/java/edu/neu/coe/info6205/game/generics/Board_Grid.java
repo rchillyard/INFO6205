@@ -13,7 +13,7 @@ public class Board_Grid<StateType> implements Board<StateType, GridPosition, Mov
 
     @Override
     public StateType getState(GridPosition gridPosition) {
-        // TODO check this cast
+        // TODO this cast is OK -- it's because we have to store the grid as an array of Object
         return (StateType) grid[gridPosition.x][gridPosition.y];
     }
 
