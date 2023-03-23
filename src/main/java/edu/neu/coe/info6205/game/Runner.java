@@ -1,6 +1,9 @@
 package edu.neu.coe.info6205.game;
 
+import edu.neu.coe.info6205.game.generics.Board;
 import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
+import edu.neu.coe.info6205.game.generics.GridPosition;
+import edu.neu.coe.info6205.game.generics.MoveProcessor;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.Sudoku;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuCreator;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuSolver;
@@ -27,7 +30,7 @@ public class Runner {
         game.checkWinner();
         game.display();
         // TODO check this assignment
-        Player<Integer, UserGame<Board_Grid_Array<Integer>, Integer>> winner = game.getWinner();
+        Player<Integer, UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer>> winner = game.getWinner();
         System.out.println(winner.getTotalTime());
         System.out.println(winner.getAverageTimePerMove());
 

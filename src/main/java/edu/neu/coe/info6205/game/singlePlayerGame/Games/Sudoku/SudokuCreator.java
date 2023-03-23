@@ -1,16 +1,13 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.Move;
-import edu.neu.coe.info6205.game.generics.Board;
-import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
-import edu.neu.coe.info6205.game.generics.GridPosition;
-import edu.neu.coe.info6205.game.generics.SPGameCreator;
+import edu.neu.coe.info6205.game.generics.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-public class SudokuCreator extends SPGameCreator<Integer, GridPosition, Move<Integer>> {
+public class SudokuCreator extends SPGameCreator<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> {
 
     List<Integer> nums = null;
 
@@ -18,7 +15,7 @@ public class SudokuCreator extends SPGameCreator<Integer, GridPosition, Move<Int
     }
 
     @Override
-    protected Board<Integer, GridPosition, Move<Integer>> createGame(Integer... args) {
+    protected Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> createGame(Integer... args) {
         /*
         int size = args[0];
         nums = new LinkedList<>();
@@ -38,7 +35,7 @@ public class SudokuCreator extends SPGameCreator<Integer, GridPosition, Move<Int
         display(largerGrid);
         //return new Board_Grid_Array<>(largerGrid);
         */
-        Board_Grid_Array<Object> result = new Board_Grid_Array<>(new Integer[][]{
+        Board_Grid_Array<Integer> result = new Board_Grid_Array<>(new Integer[][]{
                 {4, 3, 5, 2, 6, 9, 7, 8, 1},
                 {6, 8, 2, 5, 7, 1, 4, 9, 3},
                 {1, 9, 7, 8, 3, 4, 5, 6, 2},
@@ -70,8 +67,8 @@ public class SudokuCreator extends SPGameCreator<Integer, GridPosition, Move<Int
     }
 
     @Override
-    protected Board<Integer, GridPosition, Move<Integer>> createPlayerGameView(Board<Integer, GridPosition, Move<Integer>> board) {
-        Board_Grid_Array<Object> result = new Board_Grid_Array<>(new Integer[][]{
+    protected Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> createPlayerGameView(Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> board) {
+        Board_Grid_Array<Integer> result = new Board_Grid_Array<>(new Integer[][]{
                 {null, null, null, 2, 6, null, 7, null, 1},
                 {6, 8, null, null, 7, null, null, 9, null},
                 {1, 9, null, null, null, 4, 5, null, null},
