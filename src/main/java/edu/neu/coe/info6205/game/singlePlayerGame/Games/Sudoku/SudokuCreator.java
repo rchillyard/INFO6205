@@ -1,13 +1,12 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
-import edu.neu.coe.info6205.game.Move;
 import edu.neu.coe.info6205.game.generics.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-public class SudokuCreator extends SPGameCreator<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> {
+public class SudokuCreator extends SPGameCreator<Integer, GridPosition, StateTransition<Integer, GridPosition>> {
 
     List<Integer> nums = null;
 
@@ -15,7 +14,7 @@ public class SudokuCreator extends SPGameCreator<Integer, GridPosition, MoveProc
     }
 
     @Override
-    protected Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> createGame(Integer... args) {
+    protected Board<Integer, GridPosition, StateTransition<Integer, GridPosition>> createGame(Integer... args) {
         /*
         int size = args[0];
         nums = new LinkedList<>();
@@ -67,7 +66,7 @@ public class SudokuCreator extends SPGameCreator<Integer, GridPosition, MoveProc
     }
 
     @Override
-    protected Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> createPlayerGameView(Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> board) {
+    protected Board<Integer, GridPosition, StateTransition<Integer, GridPosition>> createPlayerGameView(Board<Integer, GridPosition, StateTransition<Integer, GridPosition>> board) {
         Board_Grid_Array<Integer> result = new Board_Grid_Array<>(new Integer[][]{
                 {null, null, null, 2, 6, null, 7, null, 1},
                 {6, 8, null, null, 7, null, null, 9, null},
@@ -111,9 +110,9 @@ public class SudokuCreator extends SPGameCreator<Integer, GridPosition, MoveProc
     }
 
     private void print(Integer[][] grid) {
-        for (int i = 0; i < grid.length; i++) {
+        for (Integer[] integers : grid) {
             for (int j = 0; j < grid[0].length; j++) {
-                System.out.print(grid[i][j]+",");
+                System.out.print(integers[j] + ",");
             }
             System.out.println();
         }

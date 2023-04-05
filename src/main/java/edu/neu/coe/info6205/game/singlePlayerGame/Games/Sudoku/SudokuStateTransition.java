@@ -1,21 +1,22 @@
 package edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku;
 
 import edu.neu.coe.info6205.game.generics.GridPosition;
-import edu.neu.coe.info6205.game.generics.MoveProcessor;
+import edu.neu.coe.info6205.game.generics.StateTransition;
 
 import java.util.function.UnaryOperator;
 
-public class SudokuMoveProcessor implements MoveProcessor<Integer, GridPosition> {
+public class SudokuStateTransition implements StateTransition<Integer, GridPosition> {
 
-    GridPosition gridPosition;
-    Integer value;
+    final GridPosition gridPosition;
+    final Integer value;
 
-    SudokuMoveProcessor(int x, int y, Integer value) {
+    SudokuStateTransition(int x, int y, Integer value) {
         this.gridPosition = new GridPosition(x, y);
         this.value = value;
     }
+
     @Override
-    public UnaryOperator<Integer> stateTransition() {
+    public UnaryOperator<Integer> transitionFunction() {
         return t -> this.value;
     }
 
@@ -30,7 +31,7 @@ public class SudokuMoveProcessor implements MoveProcessor<Integer, GridPosition>
     }
 
     @Override
-    public MoveProcessor<Integer, GridPosition> next() {
+    public StateTransition<Integer, GridPosition> next() {
         return null;
     }
 }

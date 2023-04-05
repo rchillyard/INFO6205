@@ -6,17 +6,17 @@ import edu.neu.coe.info6205.game.Player;
 import edu.neu.coe.info6205.game.Solver;
 import edu.neu.coe.info6205.game.generics.Board;
 import edu.neu.coe.info6205.game.generics.GridPosition;
-import edu.neu.coe.info6205.game.generics.MoveProcessor;
 import edu.neu.coe.info6205.game.generics.SPGameCreator;
+import edu.neu.coe.info6205.game.generics.StateTransition;
 
 import static edu.neu.coe.info6205.game.SolverType.SingleTurnSolver;
 
 public abstract class SinglePlayerGame<T, G> implements Game<T, G>,
-        UserGame<Board<T, GridPosition, MoveProcessor<T, GridPosition>>, T> {
+        UserGame<Board<T, GridPosition, StateTransition<T, GridPosition>>, T> {
 
-    private Board<T, GridPosition, MoveProcessor<T, GridPosition>> board;
+    private Board<T, GridPosition, StateTransition<T, GridPosition>> board;
     private final T[][] refGrid = null;
-    private Player<T, UserGame<Board<T, GridPosition, MoveProcessor<T, GridPosition>>, T>> player = null;
+    private final Player<T, UserGame<Board<T, GridPosition, StateTransition<T, GridPosition>>, T>> player;
 
     private long ticks = 0;
 
@@ -24,12 +24,12 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>,
 
     protected Boolean won = null;
 
-    //private final SPGameCreator<Board<T, GridPosition, MoveProcessor<T>>> gameCreator;
+    //private final SPGameCreator<Board<T, GridPosition, StateTransition<T>>> gameCreator;
 
     //SinglePlayerGame() {}
 
-    protected SinglePlayerGame(SPGameCreator<T, GridPosition, MoveProcessor<T, GridPosition>> gameCreator, boolean isBot,
-                               Solver<T, UserGame<Board<T, GridPosition, MoveProcessor<T, GridPosition>>, T>> moveGenerator, Integer... sizeArgs) {
+    protected SinglePlayerGame(SPGameCreator<T, GridPosition, StateTransition<T, GridPosition>> gameCreator, boolean isBot,
+                               Solver<T, UserGame<Board<T, GridPosition, StateTransition<T, GridPosition>>, T>> moveGenerator, Integer... sizeArgs) {
         // TODO check this cast
         gameCreator.initialize(sizeArgs);
         this.board = gameCreator.getPlayerView();
@@ -72,8 +72,8 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>,
      */
     public boolean fillWrapper(Move<T> move) {
         long timeTaken = reset();
-        MoveProcessor<T, GridPosition> moveProcessor = createMoveProcessor(move);
-        boolean isValidMove = fill(moveProcessor);
+        StateTransition<T, GridPosition> stateTransition = createMoveProcessor(move);
+        boolean isValidMove = fill(stateTransition);
         player.addMove(move, timeTaken, isValidMove);
         startTime();
         return isValidMove;
@@ -81,12 +81,13 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>,
 
     /**
      * This method is meant only for Game creators to override
+     *
      * @param move the move.
      * @return true if valid.
      */
-    public abstract boolean fill(MoveProcessor<T, GridPosition> move);
+    public abstract boolean fill(StateTransition<T, GridPosition> move);
 
-    public abstract MoveProcessor<T, GridPosition> createMoveProcessor(Move<T> move);
+    public abstract StateTransition<T, GridPosition> createMoveProcessor(Move<T> move);
 
     /*
     private T[][] deepCopy(T[][] grid) {
@@ -98,11 +99,11 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>,
         return this.player.getValidNumberOfMoves();
     }
 
-    public Board<T, GridPosition, MoveProcessor<T, GridPosition>> getBoard() {
+    public Board<T, GridPosition, StateTransition<T, GridPosition>> getBoard() {
         return board;
     }
 
-    public void setBoard(Board<T, GridPosition, MoveProcessor<T, GridPosition>> board) {
+    public void setBoard(Board<T, GridPosition, StateTransition<T, GridPosition>> board) {
         this.board = board;
     }
 
@@ -110,7 +111,7 @@ public abstract class SinglePlayerGame<T, G> implements Game<T, G>,
         return refGrid;
     }
 
-    protected Player<T, UserGame<Board<T, GridPosition, MoveProcessor<T, GridPosition>>, T>> getPlayer() {
+    protected Player<T, UserGame<Board<T, GridPosition, StateTransition<T, GridPosition>>, T>> getPlayer() {
         return player;
     }
 

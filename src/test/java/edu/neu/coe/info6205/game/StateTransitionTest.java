@@ -2,9 +2,9 @@ package edu.neu.coe.info6205.game;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class MoveProcessorTest {
+public class StateTransitionTest {
 
     @Test
     public void getRow() {

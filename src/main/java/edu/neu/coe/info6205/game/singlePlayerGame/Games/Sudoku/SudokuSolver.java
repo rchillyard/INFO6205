@@ -4,25 +4,23 @@ import edu.neu.coe.info6205.game.Move;
 import edu.neu.coe.info6205.game.Solver;
 import edu.neu.coe.info6205.game.SolverType;
 import edu.neu.coe.info6205.game.generics.Board;
-import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
 import edu.neu.coe.info6205.game.generics.GridPosition;
-import edu.neu.coe.info6205.game.generics.MoveProcessor;
+import edu.neu.coe.info6205.game.generics.StateTransition;
 import edu.neu.coe.info6205.game.singlePlayerGame.UserGame;
 import edu.neu.coe.info6205.util.Pair;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer>> {
+public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, GridPosition, StateTransition<Integer, GridPosition>>, Integer>> {
 
     private static final SolverType type = SolverType.SingleTurnSolver;
 
-    List<Integer> nums;
+    final List<Integer> nums;
     /**
      * n is size of the larger grid
      */
-    int n;
-    int nSquare;
+    final int n;
+    final int nSquare;
 
     public SudokuSolver(int n) {
         this.n = n;
@@ -39,9 +37,9 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
     HashSet<Integer> hashSet;
 
     @Override
-    public void solve(UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer> game) {
+    public void solve(UserGame<Board<Integer, GridPosition, StateTransition<Integer, GridPosition>>, Integer> game) {
 
-        System.out.println("SOlver display");
+        System.out.println("Solver display");
         display(game.getBoard());
 
         int n = 9;
@@ -84,7 +82,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
         System.out.println();
     }
 
-    public void display(Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> board) {
+    public void display(Board<Integer, GridPosition, StateTransition<Integer, GridPosition>> board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (j == 0 || j == 3 || j == 6) System.out.print((j == 3 || j == 6 ? " " : "") + "|");
@@ -110,7 +108,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
 
 
     public boolean solveRecursive(int i, int j,
-                                  UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer> game,
+                                  UserGame<Board<Integer, GridPosition, StateTransition<Integer, GridPosition>>, Integer> game,
                                   HashSet<Pair> positionToBeFilled, HashSet<Integer>[] rowArray,
                                   HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
 
@@ -148,9 +146,9 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
     }
 
     public void fillValues(int i, int j, Integer val,
-                           UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer> game,
+                           UserGame<Board<Integer, GridPosition, StateTransition<Integer, GridPosition>>, Integer> game,
                            HashSet<Pair> positionToBeFilled, HashSet<Integer>[] rowArray,
-                              HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
+                           HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
         rowArray[i].add(val);
         columnArray[j].add(val);
         gridArray[getGridIndexByRowNColumn(i, j)].add(val);
@@ -159,7 +157,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
     }
 
     public void removeValues(int i, int j, Integer val,
-                             UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer> game,
+                             UserGame<Board<Integer, GridPosition, StateTransition<Integer, GridPosition>>, Integer> game,
                              HashSet<Pair> positionToBeFilled,
                              HashSet<Integer>[] rowArray, HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
         rowArray[i].remove(val);
@@ -187,7 +185,7 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
         //return 2 * (row / 2) + column / 2;
     }
 
-    private int getHash(Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> grid) {
+    private int getHash(Board<Integer, GridPosition, StateTransition<Integer, GridPosition>> grid) {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < nSquare; i++) {
@@ -198,7 +196,8 @@ public class SudokuSolver implements Solver<Integer, UserGame<Board<Integer, Gri
         }
         return sb.toString().hashCode();
     }
-    private void fillSets(Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>> board,
+
+    private void fillSets(Board<Integer, GridPosition, StateTransition<Integer, GridPosition>> board,
                           HashSet<Pair> positionToBeFilled, HashSet<Integer>[] rowArray,
                           HashSet<Integer>[] columnArray, HashSet<Integer>[] gridArray) {
 

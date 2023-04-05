@@ -1,9 +1,8 @@
 package edu.neu.coe.info6205.game;
 
 import edu.neu.coe.info6205.game.generics.Board;
-import edu.neu.coe.info6205.game.generics.Board_Grid_Array;
 import edu.neu.coe.info6205.game.generics.GridPosition;
-import edu.neu.coe.info6205.game.generics.MoveProcessor;
+import edu.neu.coe.info6205.game.generics.StateTransition;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.Sudoku;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuCreator;
 import edu.neu.coe.info6205.game.singlePlayerGame.Games.Sudoku.SudokuSolver;
@@ -18,11 +17,11 @@ public class Runner {
                 new SudokuCreator(), true, new SudokuSolver(3), 3);
         game.display();
         /*System.out.println(game.getGrid().hashCode());
-        game.fillWrapper(new MoveProcessor<>(0, 0, 3));
+        game.fillWrapper(new StateTransition<>(0, 0, 3));
         System.out.println("after adding 3 - " + getHash(game.getGrid()));
-        game.fillWrapper(new MoveProcessor<>(0, 0, 4));
+        game.fillWrapper(new StateTransition<>(0, 0, 4));
         System.out.println("after adding 4 - " + getHash(game.getGrid()));
-        game.fillWrapper(new MoveProcessor<>(0, 0, 3));
+        game.fillWrapper(new StateTransition<>(0, 0, 3));
         System.out.println("after adding 3 - " + getHash(game.getGrid()));
 
          */
@@ -30,7 +29,7 @@ public class Runner {
         game.checkWinner();
         game.display();
         // TODO check this assignment
-        Player<Integer, UserGame<Board<Integer, GridPosition, MoveProcessor<Integer, GridPosition>>, Integer>> winner = game.getWinner();
+        Player<Integer, UserGame<Board<Integer, GridPosition, StateTransition<Integer, GridPosition>>, Integer>> winner = game.getWinner();
         System.out.println(winner.getTotalTime());
         System.out.println(winner.getAverageTimePerMove());
 

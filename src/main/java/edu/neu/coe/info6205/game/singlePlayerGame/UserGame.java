@@ -9,7 +9,7 @@ public interface UserGame<Board, T> {
     /**
      * TODO this always returns false.
      *
-     * @param move the MoveProcessor to be validated.
+     * @param move the StateTransition to be validated.
      * @return true if valid.
      */
     boolean validateMove(Move<T> move);
