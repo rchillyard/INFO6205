@@ -28,7 +28,7 @@ public class SudokuSolver2  {
     }
 
     @Override
-    public Move<Integer> getMove(Integer[][] grid) {
+    public StateTransition<Integer> getMove(Integer[][] grid) {
         return null;
     }
 

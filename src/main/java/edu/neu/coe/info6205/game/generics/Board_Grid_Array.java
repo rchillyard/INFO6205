@@ -12,17 +12,17 @@ public class Board_Grid_Array<T> extends Board_Grid<T> {
     }
 
     public T getState(int row, int column) {
-        GridPosition gridPosition = new GridPosition(column, row);
+        GridPosition gridPosition = new GridPosition(row, column);
         return super.getState(gridPosition);
     }
 
-    public Board<T, GridPosition, Move<T, GridPosition>> move(edu.neu.coe.info6205.game.Move<T> move) {
-        int x = move.getColumn();
-        int y = move.getRow();
+    public Board<T, GridPosition, StateTransition<T, GridPosition>> move(edu.neu.coe.info6205.game.Move<T> move) {
+        int x = move.getRow();
+        int y = move.getColumn();
         T val = move.getVal();
-        Move<T, GridPosition> m = new Move<>() {
+        StateTransition<T, GridPosition> m = new StateTransition<>() {
             @Override
-            public UnaryOperator<T> stateTransition() {
+            public UnaryOperator<T> transitionFunction() {
                 return t -> val;
             }
 
@@ -37,7 +37,7 @@ public class Board_Grid_Array<T> extends Board_Grid<T> {
             }
 
             @Override
-            public Move<T, GridPosition> next() {
+            public StateTransition<T, GridPosition> next() {
                 return null;
             }
         };
@@ -48,9 +48,10 @@ public class Board_Grid_Array<T> extends Board_Grid<T> {
     public int getHash() {
         StringBuilder sb = new StringBuilder();
         int n = grid.length;
-        for (int i = 0; i < n; i++) {
+        // CONSIDER is row the right name for this?
+        for (Object[] row : grid) {
             for (int j = 0; j < n; j++) {
-                sb.append(grid[i][j] != null ? grid[i][j] : "_");
+                sb.append(row[j] != null ? row[j] : "_");
             }
         }
         return sb.toString().hashCode();
