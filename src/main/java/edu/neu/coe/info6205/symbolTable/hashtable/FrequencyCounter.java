@@ -2,7 +2,10 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.hashtable;
+package edu.neu.coe.info6205.symbolTable.hashtable;
+
+import edu.neu.coe.info6205.symbolTable.ImmutableSymbolTable;
+import edu.neu.coe.info6205.symbolTable.ST;
 
 import java.util.Set;
 
@@ -63,6 +66,16 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
         return map.toString();
     }
 
+    /**
+     * Get the size of this FrequencyCounter.
+     *
+     * @return the current size.
+     */
+    @Override
+    public int size() {
+        return map.size();
+    }
+
     private final ST<Key, Integer> map;
     @SuppressWarnings("CanBeFinal")
     private long total = 0L;
@@ -72,6 +85,6 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
 
         for (String arg : args) counter.increment(arg);
 
-        System.out.println(counter.toString());
+        System.out.println(counter);
     }
 }

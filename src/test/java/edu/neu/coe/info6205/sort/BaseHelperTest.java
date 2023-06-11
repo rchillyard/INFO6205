@@ -158,11 +158,11 @@ public class BaseHelperTest {
     public void fixInversion1() {
         String[] xs = new String[]{"a", "b"};
         final Helper<String> helper = new BaseHelper<>("test", config);
-        helper.fixInversion(xs, 1);
+        helper.fixInversion(xs, 1); // XXX Deprecated
         assertArrayEquals(new String[]{"a", "b"}, xs);
         helper.swapStable(xs, 1);
         assertArrayEquals(new String[]{"b", "a"}, xs);
-        helper.fixInversion(xs, 1);
+        helper.fixInversion(xs, 1); // XXX Deprecated
         assertArrayEquals(new String[]{"a", "b"}, xs);
     }
 

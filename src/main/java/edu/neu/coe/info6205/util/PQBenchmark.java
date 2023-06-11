@@ -109,7 +109,7 @@ public class PQBenchmark {
         return getWords(regexLeipzig, line);
     }
 
-    // TODO: to be eliminated soon.
+    // CONSIDER: to be eliminated soon.
     private static Benchmark<LocalDateTime[]> benchmarkFactory(String description, Consumer<LocalDateTime[]> sorter, Consumer<LocalDateTime[]> checker) {
         return new Benchmark_Timer<>(
                 description,

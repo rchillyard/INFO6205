@@ -2,10 +2,12 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.hashtable;
+package edu.neu.coe.info6205.symbolTable;
 
 /**
  * Interface to model a symbol table.
+ * <p>
+ * This is similar but different to the java.util.Dictionary interface.
  *
  * @param <Key>   key type.
  * @param <Value> value type.

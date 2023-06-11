@@ -218,14 +218,14 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
      * Remove does not change the origin or extent but will reduce the count.
      *
      * @param p element to be removed from this list, if present
-     * @return <tt>true</tt> if this list contained the specified element
+     * @return <code>true</code> if this list contained the specified element
      * @throws ClassCastException            if the type of the specified element
      *                                       is incompatible with this list
      *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
      * @throws NullPointerException          if the specified element is null and this
      *                                       list does not permit null elements
      *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     * @throws UnsupportedOperationException if the <code>remove</code> operation
      *                                       is not supported by this list
      */
     public boolean remove(Point p) {
@@ -347,7 +347,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
      */
     private Group changeOrigin(long generation, Point origin) {
         Point vector = origin.vector(this.origin);
-        // TODO use updateOrigin
+        // CONSIDER use updateOrigin
         return new Group(generation, origin, extent1.move(vector), extent2.move(vector), mapPoints(p -> p.move(vector)));
     }
 
@@ -426,7 +426,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
     /**
      * Method to yield this Group's extent1.
-     * TODO make private
+     * CONSIDER make private
      *
      * @return the extent1 (relative to the Grid).
      */
@@ -436,7 +436,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
 
     /**
      * Method to yield this Group's extent2.
-     * TODO make private
+     * CONSIDER make private
      *
      * @return the extent2 (relative to the Grid).
      */
@@ -488,7 +488,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
     /**
      * Base constructor.
      * <p>
-     * TODO make this private.
+     * CONSIDER make this private.
      *
      * @param generation the generation of this Group.
      * @param origin     the origin of this Group relative to the origin of the Grid.
@@ -507,7 +507,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
     /**
      * Constructor for an empty Group with Grid origin.
      * <p>
-     * TODO make this private.
+     * CONSIDER make this private.
      *
      * @param generation the generation of this Group.
      */
@@ -518,7 +518,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
     /**
      * Constructor for a Group with a particular origin and a list of Points.
      * <p>
-     * TODO make this private.
+     * CONSIDER make this private.
      *
      * @param generation the generation of this Group.
      * @param origin     the origin of this Group relative to the Grid (it is required that the origin is one of the points).
@@ -579,7 +579,7 @@ public class Group implements Generational<Group, Void>, Renderable, Countable {
         private static void incrementNeighborsAndNoteCell(Point p, int[][] neighbors, int[][] cells) {
             int px = p.getX();
             int py = p.getY();
-            // TODO use withinExtents or similar
+            // CONSIDER use withinExtents or similar
             assert px > 0 && px < neighbors.length - 1 : px + " not in (exclusive) range 0.." + (neighbors.length - 1);
             assert py > 0 && py < neighbors[0].length - 1 : py + " not in (exclusive) range 0.." + (neighbors[0].length - 1);
             for (int i = -1; i < 2; i++) {

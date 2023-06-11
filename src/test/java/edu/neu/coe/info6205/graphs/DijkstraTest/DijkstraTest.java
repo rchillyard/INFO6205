@@ -3,7 +3,6 @@ package edu.neu.coe.info6205.graphs.DijkstraTest;
 import edu.neu.coe.info6205.graphs.Dijkstra.Dijkstra;
 import edu.neu.coe.info6205.graphs.Dijkstra.DirectedEdge;
 import edu.neu.coe.info6205.graphs.Dijkstra.EdgeWeightedDigraph;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -46,22 +45,21 @@ public class DijkstraTest {
         ewd.addEdge(e12);
         ewd.addEdge(e13);
 
+        Dijkstra dijkstra = new Dijkstra(ewd);
+        final Dijkstra.ShortestPaths shortestPaths = dijkstra.shortestPaths(0);
         List<Double> dist = new ArrayList<>();
-
-        Dijkstra dijkstra = new Dijkstra(ewd,0);
-        for(int i = 0 ; i < ewd.V() ; i++){
-            if(dijkstra.hasPathTo(i))
-                dist.add(dijkstra.distTo(i));
-        }
-        assertEquals(dist.get(0),0,0);
-        assertEquals(dist.get(1),4,0);
-        assertEquals(dist.get(2),12,0);
-        assertEquals(dist.get(3),19,0);
-        assertEquals(dist.get(4),21,0);
-        assertEquals(dist.get(5),11,0);
-        assertEquals(dist.get(6),9,0);
-        assertEquals(dist.get(7),8,0);
-        assertEquals(dist.get(8),14,0);
+        for (int i = 0; i < ewd.V(); i++)
+            if (shortestPaths.hasPathTo(i))
+                dist.add(shortestPaths.distTo(i));
+        assertEquals(dist.get(0), 0, 0);
+        assertEquals(dist.get(1), 4, 0);
+        assertEquals(dist.get(2), 12, 0);
+        assertEquals(dist.get(3), 19, 0);
+        assertEquals(dist.get(4), 21, 0);
+        assertEquals(dist.get(5), 11, 0);
+        assertEquals(dist.get(6), 9, 0);
+        assertEquals(dist.get(7), 8, 0);
+        assertEquals(dist.get(8), 14, 0);
     }
 
     @Test
@@ -100,21 +98,21 @@ public class DijkstraTest {
         ewd.addEdge(e13);
         ewd.addEdge(e14);
 
+        Dijkstra dijkstra = new Dijkstra(ewd);
+        final Dijkstra.ShortestPaths shortestPaths = dijkstra.shortestPaths(0);
         List<Double> dist = new ArrayList<>();
+        for (int i = 0; i < ewd.V(); i++)
+            if (shortestPaths.hasPathTo(i))
+                dist.add(shortestPaths.distTo(i));
 
-        Dijkstra dijkstra = new Dijkstra(ewd,0);
-        for(int i = 0 ; i < ewd.V() ; i++){
-            if(dijkstra.hasPathTo(i))
-                dist.add(dijkstra.distTo(i));
-        }
-        assertEquals(dist.get(0),0,0.2);
-        assertEquals(dist.get(1),1.05,0.2);
-        assertEquals(dist.get(2),0.26,0.2);
-        assertEquals(dist.get(3),0.99,0.2);
-        assertEquals(dist.get(4),0.38,0.2);
-        assertEquals(dist.get(5),0.73,0.2);
-        assertEquals(dist.get(6),1.51,0.2);
-        assertEquals(dist.get(7),0.60,0.2);
+        assertEquals(dist.get(0), 0, 0.2);
+        assertEquals(dist.get(1), 1.05, 0.2);
+        assertEquals(dist.get(2), 0.26, 0.2);
+        assertEquals(dist.get(3), 0.99, 0.2);
+        assertEquals(dist.get(4), 0.38, 0.2);
+        assertEquals(dist.get(5), 0.73, 0.2);
+        assertEquals(dist.get(6), 1.51, 0.2);
+        assertEquals(dist.get(7), 0.60, 0.2);
     }
 
     @Test
@@ -143,20 +141,21 @@ public class DijkstraTest {
         ewd.addEdge(e8);
         ewd.addEdge(e9);
 
-        List<Double> dist = new ArrayList<>();
 
-        Dijkstra dijkstra = new Dijkstra(ewd,0);
-        for(int i = 0 ; i < ewd.V() ; i++){
-            if(dijkstra.hasPathTo(i))
-                dist.add(dijkstra.distTo(i));
-        }
-        assertEquals(dist.get(0),0,0);
-        assertEquals(dist.get(1),3,0);
-        assertEquals(dist.get(2),9,0);
-        assertEquals(dist.get(3),2,0);
-        assertEquals(dist.get(4),4,0);
-        assertEquals(dist.get(5),8,0);
-        assertEquals(dist.get(6),6,0);
+        Dijkstra dijkstra = new Dijkstra(ewd);
+        final Dijkstra.ShortestPaths shortestPaths = dijkstra.shortestPaths(0);
+        List<Double> dist = new ArrayList<>();
+        for (int i = 0; i < ewd.V(); i++)
+            if (shortestPaths.hasPathTo(i))
+                dist.add(shortestPaths.distTo(i));
+
+        assertEquals(dist.get(0), 0, 0);
+        assertEquals(dist.get(1), 3, 0);
+        assertEquals(dist.get(2), 9, 0);
+        assertEquals(dist.get(3), 2, 0);
+        assertEquals(dist.get(4), 4, 0);
+        assertEquals(dist.get(5), 8, 0);
+        assertEquals(dist.get(6), 6, 0);
     }
 
     @Test
@@ -183,20 +182,35 @@ public class DijkstraTest {
         ewd.addEdge(e7);
         ewd.addEdge(e8);
 
-        List<Double> dist = new ArrayList<>();
 
-        Dijkstra dijkstra = new Dijkstra(ewd,0);
-        for(int i = 0 ; i < ewd.V() ; i++){
-            if(dijkstra.hasPathTo(i))
-                dist.add(dijkstra.distTo(i));
-        }
-        assertEquals(dist.get(0),0,0);
-        assertEquals(dist.get(1),2,0);
-        assertEquals(dist.get(2),6,0);
-        assertEquals(dist.get(3),7,0);
-        assertEquals(dist.get(4),17,0);
-        assertEquals(dist.get(5),22,0);
-        assertEquals(dist.get(6),19,0);
+        Dijkstra dijkstra = new Dijkstra(ewd);
+        final Dijkstra.ShortestPaths shortestPaths = dijkstra.shortestPaths(0);
+        List<Double> dist = new ArrayList<>();
+        for (int i = 0; i < ewd.V(); i++)
+            if (shortestPaths.hasPathTo(i))
+                dist.add(shortestPaths.distTo(i));
+
+        assertEquals(dist.get(0), 0, 0);
+        assertEquals(dist.get(1), 2, 0);
+        assertEquals(dist.get(2), 6, 0);
+        assertEquals(dist.get(3), 7, 0);
+        assertEquals(dist.get(4), 17, 0);
+        assertEquals(dist.get(5), 22, 0);
+        assertEquals(dist.get(6), 19, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test5(){
+
+        EdgeWeightedDigraph ewd = new EdgeWeightedDigraph(4);
+        DirectedEdge e = new DirectedEdge(0, 1, 2);
+        DirectedEdge e1 = new DirectedEdge(0, 2, -6);
+        DirectedEdge e2 = new DirectedEdge(1, 3, 5);
+        ewd.addEdge(e);
+        ewd.addEdge(e1);
+        ewd.addEdge(e2);
+        Dijkstra dijkstra = new Dijkstra(ewd);
+        dijkstra.shortestPaths(0);
     }
 }
 

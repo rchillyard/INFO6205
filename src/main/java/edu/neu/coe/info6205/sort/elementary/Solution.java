@@ -1,5 +1,8 @@
 package edu.neu.coe.info6205.sort.elementary;
 
+/**
+ * Class Solution.
+ */
 public class Solution {
     public static void main(String[] args) {
         int[] array = {9, 8, 7, 6, 5, 4, 3, 2, 1};
@@ -8,7 +11,7 @@ public class Solution {
     }
 
     static int binarySearch(int[] array, int key) {
-        //TODO:: implement binary search
+        // TODO IMPLEMENT binary search
         if (array.length == 0) return -1;
         int left = 0;
         int right = array.length - 1;

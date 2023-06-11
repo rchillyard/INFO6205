@@ -1,8 +1,5 @@
 package edu.neu.coe.info6205.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Simple benchmarking tool: Stopwatch.
  * There is no warm-up here, no pause/resume and no repetition (for these use Timer).

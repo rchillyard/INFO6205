@@ -183,8 +183,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
             xs[j] = v;
             incrementSwaps(1);
         }
-//        System.out.println(showFixes(xs));
-//        System.out.println("inversions: " + inversions(xs));
         return cf > 0;
     }
 
@@ -321,6 +319,10 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     public void postProcess(X[] xs) {
         super.postProcess(xs);
         if (!sorted(xs)) throw new BaseHelper.HelperException("Array is not sorted");
+        gatherStatistic();
+    }
+
+    private void gatherStatistic() {
         if (statPack == null) throw new RuntimeException("InstrumentedHelper.postProcess: no StatPack");
         if (countCompares)
             statPack.add(COMPARES, compares);
@@ -433,6 +435,10 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
         return swaps;
     }
 
+    public int getFixes() {
+        return fixes;
+    }
+
     /**
      * If instrumenting, increment the number of copies by n.
      *
@@ -466,7 +472,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
 
     @Override
     public String showStats() {
-        return statPack.toString();
+        return description + ": " + statPack.toString();
     }
 
     @Override
@@ -487,10 +493,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
 
     // NOTE: the following private methods are only for testing (using reflection).
 
-    private int getFixes() {
-        return fixes;
-    }
-
     private int getHits() {
         return hits;
     }
@@ -499,15 +501,14 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
         return copies;
     }
 
-    private boolean checkFixes(X[] xs) {
+    private void checkFixes(X[] xs) {
         if (statPack != null) {
             final double initial = statPack.total(INVERSIONS);
             final int inversions = inversions(xs);
             if (fixes + inversions != initial) {
-                System.out.println("inversions and fixes don't match");
-                return false;
-            } else return true;
-        } else return true;
+                System.err.println("inversions and fixes don't match");
+            }
+        }
     }
 
     private final int cutoff;

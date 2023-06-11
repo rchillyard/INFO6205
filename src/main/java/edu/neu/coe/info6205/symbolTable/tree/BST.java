@@ -1,9 +1,9 @@
-package edu.neu.coe.info6205.symbolTable;
+package edu.neu.coe.info6205.symbolTable.tree;
 
 import java.util.Set;
 
 /**
- * Interfact to define the behavior of a Binary Search Tree.
+ * Interface to define the behavior of a Binary Search Tree.
  *
  * @param <Key> the key type.
  * @param <Value> the value type.
@@ -39,4 +39,18 @@ public interface BST<Key extends Comparable<Key>, Value> {
      * @param key the key to be deleted.
      */
     void delete(Key key);
+
+    /**
+     * Method to determine if this BST is empty.
+     *
+     * @return true if empty, otherwise false.
+     */
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
+    /**
+     * @return the size of this BST.
+     */
+    int size();
 }

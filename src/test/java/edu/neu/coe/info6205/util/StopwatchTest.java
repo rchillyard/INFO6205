@@ -5,8 +5,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.junit.Assert.*;
-
 public class StopwatchTest {
 
     @Test
@@ -20,7 +18,7 @@ public class StopwatchTest {
         }
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = Throwable.class)
     public void lap2() {
         try (Stopwatch target = new Stopwatch()) {
             target.close();

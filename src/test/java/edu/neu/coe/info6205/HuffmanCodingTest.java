@@ -115,7 +115,7 @@ public class HuffmanCodingTest {
         assertEquals(186, strings.length);
         StringBuilder sb = new StringBuilder();
         for (String string : strings) sb.append(string);
-        System.out.println(sb.toString());
+//        System.out.println(sb.toString());
         // number of bytes in strings = 2 * 186 = 372
         Long[] longs = huffmanEncoder.encode(strings);
         assertEquals(15, longs.length);

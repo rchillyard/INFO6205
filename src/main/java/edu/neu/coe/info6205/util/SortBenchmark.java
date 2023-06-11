@@ -47,7 +47,7 @@ public class SortBenchmark {
 
     public void sortLocalDateTimes(final int n, Config config) throws IOException {
         logger.info("Beginning LocalDateTime sorts");
-        // TODO why do we have localDateTimeSupplier IN ADDITION TO localDateTimes?
+        // CONSIDER why do we have localDateTimeSupplier IN ADDITION TO localDateTimes?
         Supplier<LocalDateTime[]> localDateTimeSupplier = () -> generateRandomLocalDateTimeArray(n);
         Helper<ChronoLocalDateTime<?>> helper = new BaseHelper<>("DateTimeHelper", config);
         final LocalDateTime[] localDateTimes = generateRandomLocalDateTimeArray(n);
@@ -328,11 +328,11 @@ public class SortBenchmark {
         return words;
     }
 
-    private static Collection<String> getLeipzigWords(String line) {
+    public static Collection<String> getLeipzigWords(String line) {
         return getWords(regexLeipzig, line);
     }
 
-    // TODO: to be eliminated soon.
+    // CONSIDER: to be eliminated soon.
     private static Benchmark<LocalDateTime[]> benchmarkFactory(String description, Consumer<LocalDateTime[]> sorter, Consumer<LocalDateTime[]> checker) {
         return new Benchmark_Timer<>(
                 description,
@@ -343,6 +343,7 @@ public class SortBenchmark {
     }
 
     private static void doPureBenchmark(String[] words, int nWords, int nRuns, Random random, Benchmark<String[]> benchmark) {
+        // CONSIDER we should manage the space returned by fillRandomArray and deallocate it after use.
         final double time = benchmark.runFromSupplier(() -> Utilities.fillRandomArray(String.class, random, nWords, r -> words[r.nextInt(words.length)]), nRuns);
         for (TimeLogger timeLogger : timeLoggersLinearithmic) timeLogger.log(time, nWords);
     }

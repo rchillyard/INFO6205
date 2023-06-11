@@ -2,7 +2,10 @@
 
 package edu.neu.coe.info6205.graphs.BFS_and_prims;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BFS {
     private int V;   // No. of vertices
@@ -35,6 +38,7 @@ public class BFS {
             Iterator<Integer> i = adj[s].listIterator();
             while (i.hasNext()) {
                 int n = i.next();
+//                System.out.println(n);
                 if (!visited[n]) {
                     visited[n] = true;
                     queue.add(n);

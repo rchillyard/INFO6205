@@ -13,7 +13,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
      *
      * @param clazz the class for configuration.
      * @param <Y>   the type.
-     * @return a Helper<Y></Y>
+     * @return a Helper&lt;Y&gt;
      */
     public static <Y extends Comparable<Y>> Helper<Y> getHelper(final Class<?> clazz) {
         try {
@@ -46,7 +46,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
     /**
      * Method to perform a stable swap using half-exchanges,
      * i.e. between xs[i] and xs[j] such that xs[j] is moved to index i,
-     * and xs[i] thru xs[j-1] are all moved up one.
+     * and xs[i] through xs[j-1] are all moved up one.
      * This type of swap is used by insertion sort.
      *
      * @param xs the array of Xs.
@@ -66,24 +66,11 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
         return true;
     }
 
-    /**
-     * Method to count the inversions in an array.
-     * NOTE: this method may not work correctly if there are duplicates.
-     *
-     * @param xs an array of Xs.
-     * @return the number of inversions.
-     */
-    public int inversions(X[] xs) {
-        int result = 0;
-        for (int i = 0; i < xs.length; i++)
-            for (int j = i + 1; j < xs.length; j++)
-                if (xs[i].compareTo(xs[j]) > 0) result++;
-        return result;
-    }
-
-    public X[] random(Class<X> clazz, Function<Random, X> f) {
-        if (n <= 0) throw new HelperException("Helper.random: not initialized");
-        randomArray = Utilities.fillRandomArray(clazz, random, n, f);
+    public X[] random(int m, Class<X> clazz, Function<Random, X> f) {
+        if (m <= 0)
+            throw new HelperException("Helper.random: requesting zero random elements (helper not initialized?)");
+        randomArray = null;
+        randomArray = Utilities.fillRandomArray(clazz, random, m, f);
         return randomArray;
     }
 
@@ -99,7 +86,8 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
 
     @Override
     public String toString() {
-        return "Helper for " + description + " with " + n + " elements";
+        // CONSIDER swapping order of description and Helper for... (see also overrides)
+        return "Helper for " + description + " with " + n + " elements" + (instrumented() ? " instrumented" : "");
     }
 
     public String getDescription() {

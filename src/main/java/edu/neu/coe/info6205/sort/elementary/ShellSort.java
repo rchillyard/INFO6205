@@ -3,15 +3,16 @@
  */
 package edu.neu.coe.info6205.sort.elementary;
 
-import edu.neu.coe.info6205.sort.BaseHelper;
-import edu.neu.coe.info6205.sort.Helper;
-import edu.neu.coe.info6205.sort.SortWithHelper;
+import com.phasmidsoftware.args.Args;
+import edu.neu.coe.info6205.sort.*;
 import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.LazyLogger;
+import edu.neu.coe.info6205.util.Stopwatch;
+import scala.collection.immutable.Seq;
+import scala.util.Try;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -28,7 +29,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
      * @param config the configuration.
      */
     public ShellSort(int m, int N, Config config) {
-        super(DESCRIPTION, N, config);
+        super(DESCRIPTION + m, N, config);
         this.m = m;
     }
 
@@ -37,7 +38,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
     }
 
     public ShellSort(int m) throws IOException {
-        this(m, new BaseHelper<>(DESCRIPTION, Config.load(ShellSort.class)));
+        this(m, new BaseHelper<>(DESCRIPTION + m, Config.load(ShellSort.class)));
     }
 
     /**
@@ -61,10 +62,10 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
      *
      * @param m the "gap" (h) sequence to follow:
      *          1: ordinary insertion sort;
-     *          2: use powers of two less one;
-     *          3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
-     *          4: Sedgewick's sequence.
-     *          5: Pratt Sequence 2^i*3^j with i, j >= 0.
+     *          2: Shell's original sequence (powers of two less one);
+     *          3: Knuth's sequence based on 3 (the one in the book): 1, 4, 13, etc.
+     *          4: Sedgewick's 1986 sequence.
+     *          5: Pratt sequence (1971) 2^i*3^j with i, j >= 0.
      */
     public ShellSort(int m, Config config) {
         this(m, new BaseHelper<>(DESCRIPTION, config));
@@ -73,7 +74,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
     /**
      * Method to sort a sub-array of an array of Xs.
      * <p>
-     * TODO check that the treatment of from and to is correct. It seems to be according to the unit tests.
+     * XXX check that the treatment of from and to is correct. It seems to be according to the unit tests.
      *
      * @param xs an array of Xs to be sorted in place.
      */
@@ -100,7 +101,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
         this.shellFunction = shellFunction;
     }
 
-    public static final String DESCRIPTION = "Shell sort";
+    public static final String DESCRIPTION = "Shell sort in mode: ";
 
     /**
      * Private method to h-sort an array.
@@ -112,9 +113,19 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
      */
     private void hSort(int h, X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
+        int inversionsStart = 0;
+        if (helper.instrumented()) {
+            inversionsStart = helper.inversions(xs);
+            logger.debug("hSort (begin) with h=" + h + ", current inversionsStart=" + inversionsStart);
+        }
         for (int i = h + from; i < to; i++) {
             int j = i;
             while (j >= h + from && helper.swapConditional(xs, j - h, j)) j -= h;
+        }
+        if (helper.instrumented()) {
+            int inversionsEnd = helper.inversions(xs);
+            int proportionFixed = (int) (100.0 * (inversionsStart - inversionsEnd) / inversionsStart);
+            logger.debug("hSort (end) with h=" + h + ", inversions fixed=" + proportionFixed + "%");
         }
     }
 
@@ -231,4 +242,53 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
             return value;
         }
     }
+
+    static <T extends Comparable<T>> boolean doShellSort(int m, Helper<T> helper, final T[] xs) {
+        ShellSort<T> shellSort = new ShellSort<>(m, helper);
+        shellSort.mutatingSort(xs);
+        return helper.sorted(xs);
+    }
+
+    static boolean doRandomDoubleShellSort(int m, int n, int r, final Config config) {
+        boolean instrumented = config.getBoolean("helper", "instrument");
+        Helper<Double> helper = instrumented ? new InstrumentedHelper<>("ShellSort mode: " + m + " with instrumentation", n, config) : new BaseHelper<>("ShellSort mode: " + m, n, config);
+        boolean result = true;
+        for (int i = 0; i < r; i++) {
+            Double[] xs = helper.random(Double.class, Random::nextDouble);
+            result = result && doShellSort(m, helper, xs);
+            helper.postProcess(xs);
+        }
+        if (helper.instrumented()) logger.info(helper.showStats());
+        return result;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Try<Args<String>> argsTry = Args.parseSimple(args);
+        if (argsTry.isSuccess()) {
+            Args<String> stringArgs = argsTry.get();
+            if (stringArgs.size() >= 2) {
+                Config config = Config.load();
+                Seq<String> operands = stringArgs.operands();
+                int m = Integer.parseInt(operands.head());
+                int n = Integer.parseInt(operands.apply(1));
+//                showRandomDoubleShellSortResult(1, n, config);
+                showRandomDoubleShellSortResult(m, n, config);
+            } else
+                System.err.println("Syntax error (too few arguments): " + Arrays.toString(args));
+        } else
+            System.err.println("Syntax error: " + Arrays.toString(args));
+    }
+
+    private static void showRandomDoubleShellSortResult(int m, int n, final Config config) {
+        try (Stopwatch stopwatch = new Stopwatch()) {
+            int repetitions = 100;
+            boolean sorted = doRandomDoubleShellSort(m, n, repetitions, config);
+            long millis = stopwatch.lap();
+            if (sorted)
+                logger.info("Shell Sorted with mode " + m + " and n = " + n + " (millisecs elapsed: " + millis * 1.0 / repetitions + ")");
+            else throw new SortException("not sorted");
+        }
+    }
+
+    final private static LazyLogger logger = new LazyLogger(ShellSort.class);
 }

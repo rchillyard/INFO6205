@@ -5,7 +5,10 @@
 package edu.neu.coe.info6205.sort.elementary;
 
 import edu.neu.coe.info6205.sort.*;
-import edu.neu.coe.info6205.util.*;
+import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.LazyLogger;
+import edu.neu.coe.info6205.util.PrivateMethodTester;
+import edu.neu.coe.info6205.util.StatPack;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +29,7 @@ public class RandomSortTest {
         list.add(3);
         list.add(4);
         Integer[] xs = list.toArray(new Integer[0]);
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         Helper<Integer> helper = HelperFactory.create("RandomSort", list.size(), config);
         helper.init(list.size());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
@@ -87,14 +90,15 @@ public class RandomSortTest {
 
     @Test
     public void sort2() throws Exception {
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = 100;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, 0L, config);
         helper.init(n);
+        System.out.println(helper.toString());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
         final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
         Integer[] xs = helper.random(Integer.class, r -> r.nextInt(100000));
-        SortWithHelper<Integer> sorter = new RandomSort<Integer>(helper, 0L);
+        SortWithHelper<Integer> sorter = new RandomSort<Integer>(helper);
         sorter.preProcess(xs);
         Integer[] ys = sorter.sort(xs);
         assertTrue(helper.sorted(ys));
@@ -114,10 +118,11 @@ public class RandomSortTest {
 
     @Test
     public void sort3() throws Exception {
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
         int n = 100;
         Helper<Integer> helper = HelperFactory.create("RandomSort", n, config);
         helper.init(n);
+        System.out.println(helper.toString());
         final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
         final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
         Integer[] xs = new Integer[n];

@@ -6,6 +6,11 @@ import edu.neu.coe.info6205.util.Config;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class QuickSort_DualPivot which extends QuickSort.
+ *
+ * @param <X> the underlying comparable type.
+ */
 public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
 
     public static final String DESCRIPTION = "QuickSort dual pivot";

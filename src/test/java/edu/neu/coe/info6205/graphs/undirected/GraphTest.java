@@ -36,7 +36,7 @@ public class GraphTest {
         assertTrue(target.edges().iterator().hasNext());
         assertTrue(target.vertices().iterator().hasNext());
         assertEquals(edge, target.edges().iterator().next());
-        assertEquals(new Integer(1), target.vertices().iterator().next());
+        assertEquals(Integer.valueOf(1), target.vertices().iterator().next());
     }
 
 //    /**

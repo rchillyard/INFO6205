@@ -6,11 +6,11 @@ public class GameTest {
 
     @Test
     public void run() {
-        // TODO implement test
+        // TESTME
     }
 
     @Test
     public void generation() {
-        // TODO implement test
+        // TESTME
     }
 }
