@@ -15,8 +15,10 @@ import java.util.regex.Pattern;
  * BigNumber class which represents an exact number of unlimited decimal extent.
  * The representation of the whole part is a BigInteger.
  * The representation of the decimal part is as a true decimal (not binary) number.
+ * <p>
+ * Addition of Comparable and fixes to add method due to Amrita Dubey.
  */
-public class BigNumber extends Number {
+public class BigNumber extends Number implements Comparable<BigNumber> {
     /**
      * Some BigNumber constants.
      */
@@ -227,26 +229,61 @@ public class BigNumber extends Number {
     public BigNumber add(BigNumber that) {
         if (!sign && !that.sign) return this.negate().add(that.negate()).negate();
         if (!sign) return that.add(this);
+        if (this.compareTo(that) < 0) {
+            return that.negate().add(this.negate()).negate();
+        }
         // NOTE at this point, sign is always true.
         int thisLength = decimals.length;
         int thatLength = that.decimals.length;
         int resultLength = Math.max(thisLength, thatLength);
         int[] dec = new int[resultLength];
         int carry = 0;
+        boolean borrow = false;
         boolean subtract = !that.sign;
         for (int i = resultLength - 1; i >= 0; i--) {
             int sum = carry;
+            borrow = false;
             if (i < thisLength) sum += decimals[i];
             if (i < thatLength) sum += subtract ? -that.decimals[i] : that.decimals[i];
+            if (sum < 0) {
+                sum += 10;
+                if (i != 0) dec[i - 1] -= 1;
+                else borrow = true;
+            }
             carry = sum / 10;
-            dec[i] = sum % 10;
+            dec[i] += sum % 10;
         }
         BigInteger wholeSum = whole.add((subtract ? that.whole.negate() : that.whole).add(BigInteger.valueOf(carry)));
+        if (borrow) wholeSum = wholeSum.add(BigInteger.valueOf(-1));
         if (wholeSum.signum() < 0) {
             for (int i = 0; i < resultLength; i++) dec[i] = -dec[i];
             return new BigNumber(wholeSum.negate(), dec, false);
         }
         return new BigNumber(wholeSum, dec, true);
+    }
+
+    public int compareTo(BigNumber that) {
+        if (this.equals(that)) {
+            return 0;
+        } else {
+            int wholeComparison = this.whole.compareTo(that.whole);
+            if (wholeComparison != 0) {
+                return this.sign ? wholeComparison : -wholeComparison;
+            } else {
+                int[] thisDecimals = this.decimals;
+                int[] thatDecimals = that.decimals;
+                int maxLength = Math.max(thisDecimals.length, thatDecimals.length);
+                for (int i = 0; i < maxLength; i++) {
+                    int thisNumber = (i < thisDecimals.length) ? thisDecimals[i] : 0;
+                    int thatNumber = (i < thatDecimals.length) ? thatDecimals[i] : 0;
+                    if (thisNumber != thatNumber) {
+                        return this.sign ? Integer.compare(thisNumber, thatNumber)
+                                : Integer.compare(thatNumber, thisNumber);
+                    }
+                }
+                return 0;
+            }
+        }
     }
 
     public BigNumber negate() {

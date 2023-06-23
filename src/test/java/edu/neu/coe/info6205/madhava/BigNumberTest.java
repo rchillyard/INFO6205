@@ -120,6 +120,48 @@ public class BigNumberTest {
     }
 
     @Test
+    public void testAddWithDecimal2() {
+        BigNumber addend = BigNumber.value(0, 240, true);
+        BigNumber target = BigNumber.value(0, 20, false);
+        assertEquals("0.04", target.add(addend).toString());
+    }
+
+    @Test
+    public void testAddDecimal3() {
+        BigNumber addend = BigNumber.value(200, 5234, false);
+        BigNumber target = BigNumber.value(100, 5000, true);
+        assertEquals("-100.0234", target.add(addend).toString());
+    }
+
+    @Test
+    public void testAddDecimal4() {
+        BigNumber addend = BigNumber.value(100, 5234, false);
+        BigNumber target = BigNumber.value(235, 18924, true);
+        assertEquals("134.66584", target.add(addend).toString());
+    }
+
+    @Test
+    public void testAddDecimal5() {
+        BigNumber addend = new BigNumber(BigInteger.ZERO, new int[]{1, 7, 6, 4}, true);
+        BigNumber target = new BigNumber(BigInteger.ZERO, new int[]{0, 9}, false);
+        assertEquals(new BigNumber(BigInteger.ZERO, new int[]{0, 8, 6, 4}, true), target.add(addend));
+    }
+
+    @Test
+    public void testAddDecimal6() {
+        BigNumber addend = BigNumber.value(200, 5234, false);
+        BigNumber target = BigNumber.value(100, 5005, false);
+        assertEquals("-301.0239", target.add(addend).toString());
+    }
+
+    @Test
+    public void testAddDecimal7() {
+        BigNumber addend = BigNumber.value(0, 5234, false);
+        BigNumber target = BigNumber.value(0, 5005, true);
+        assertEquals("-0.0229", target.add(addend).toString());
+    }
+
+    @Test
     public void testNegate() {
         assertEquals(new BigNumber(BigInteger.valueOf(3), new int[]{1, 4, 1, 5, 9, 2, 7}, false), BigNumber.value(3, 1415927).negate());
     }
