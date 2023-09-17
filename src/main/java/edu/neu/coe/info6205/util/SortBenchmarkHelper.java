@@ -80,7 +80,13 @@ public class SortBenchmarkHelper {
     // TEST
     private static String getFile(String resource, @SuppressWarnings("SameParameterValue") Class<?> clazz) throws FileNotFoundException {
         final URL url = clazz.getClassLoader().getResource(resource);
-        if (url != null) return url.getFile();
+        if (url != null) {
+            try {
+                return Paths.get(url.toURI()).toString();
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
         throw new FileNotFoundException(resource + " in " + clazz);
     }
 
