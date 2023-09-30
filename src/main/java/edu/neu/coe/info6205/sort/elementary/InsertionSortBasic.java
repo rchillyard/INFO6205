@@ -17,8 +17,10 @@ public class InsertionSortBasic {
     }
 
     private void swap(int i, Object[] a) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     private void swap(Object[] a, int j, int i) {

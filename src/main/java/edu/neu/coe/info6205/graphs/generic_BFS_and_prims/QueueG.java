@@ -29,7 +29,6 @@ public class QueueG<T> {
         return (size() == capacity);
 
     }
-
     public void enqueue(T t) {
         if (isFull()) {
             System.exit(1);

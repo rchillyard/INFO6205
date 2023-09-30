@@ -86,8 +86,10 @@ public class DList<Item> implements Iterable<Item> {
      * @param next may be null, in which case the item will be the only item on the list
      */
     public void addBeforeElement(Item item, D_Element next) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -97,8 +99,10 @@ public class DList<Item> implements Iterable<Item> {
      * @param prev may NOT be null
      */
     public void addAfterElement(Item item, D_Element prev) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -107,20 +111,28 @@ public class DList<Item> implements Iterable<Item> {
      * @param element the element to be removed.
      */
     public void remove(D_Element element) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     public D_Element findFirst(Item item) {
-        // FIXME by replacing the following code
+        // TO BE IMPLEMENTED 
+
+
+        // SKELETON
         return null;
-        // END 
+        // END SOLUTION
     }
 
     public D_Element findLast(Item item) {
-        // FIXME by replacing the following code
+        // TO BE IMPLEMENTED 
+
+
+        // SKELETON
         return null;
-        // END 
+        // END SOLUTION
     }
 
     public boolean isEmpty() {

@@ -43,7 +43,7 @@ public class GBag<T> implements Iterable<T> {
      * Returns true if this bag is empty.
      *
      * @return {@code true} if this bag is empty;
-     * {@code false} otherwise
+     *         {@code false} otherwise
      */
     public boolean isEmpty() {
         return first == null;
@@ -61,7 +61,7 @@ public class GBag<T> implements Iterable<T> {
     /**
      * Adds the item to this bag.
      *
-     * @param item the item to add to this bag
+     * @param  item the item to add to this bag
      */
     public void add(T item) {
         Node<T> oldfirst = first;
@@ -108,4 +108,3 @@ public class GBag<T> implements Iterable<T> {
 
 
 /*Copyright © 2000–2019, Robert Sedgewick and Kevin Wayne.*/
-

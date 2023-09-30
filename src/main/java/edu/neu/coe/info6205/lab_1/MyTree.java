@@ -44,9 +44,11 @@ public class MyTree<X> {
          */
         public Node<X> addChild(Node<X> y) {
             ImmutableList.Builder<Node<X>> builder = ImmutableList.builder();
-            // FIXME by replacing the following code
+            // TO BE IMPLEMENTED 
+
+            // SKELETON
             return null;
-            // END 
+            // END SOLUTION
         }
 
         /**
@@ -69,9 +71,11 @@ public class MyTree<X> {
             Collection<Node<X>> ns = Lists.newArrayList(children.iterator());
             boolean ok = Iterables.removeIf(ns, xNode -> Objects.equals(xNode, y));
             ImmutableList.Builder<Node<X>> builder = ImmutableList.builder();
-            // FIXME by replacing the following code
+            // TO BE IMPLEMENTED 
+
+            // SKELETON
             return null;
-            // END 
+            // END SOLUTION
         }
 
         final X x;

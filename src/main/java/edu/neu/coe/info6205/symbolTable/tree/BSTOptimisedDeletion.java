@@ -242,9 +242,12 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
 
         private Node delete(Key k) {
             // CONSIDER using navigate
-            // FIXME by replacing the following code
+            // TO BE IMPLEMENTED 
+
+
+            // SKELETON
             return null;
-            // END 
+            // END SOLUTION
         }
 
         private Node getHibbardResult() {
@@ -332,7 +335,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             return x;
         }
     }
-
     private Node deleteMax(Node x) {
         // CONSIDER using navigate
         if (x.larger == null) {
@@ -351,7 +353,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         else if (x.smaller == null) return x;
         else return min(x.smaller);
     }
-
     private Node max(Node x) {
         // CONSIDER using navigate
         if (x == null) throw new RuntimeException("max not implemented for null");
@@ -455,5 +456,4 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         }
     }
 }
-
 

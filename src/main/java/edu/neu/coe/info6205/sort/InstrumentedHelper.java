@@ -69,6 +69,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param j  the other index.
      */
     public void swap(X[] xs, int i, int j) {
+//        System.out.println("swap "+xs[i]+" with "+xs[j]);
         incrementSwaps(1);
         X v = xs[i];
         X w = xs[j];
@@ -234,6 +235,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      */
     @Override
     public int compare(X v, X w) {
+//        System.out.println("compare: "+v+" with "+w);
         incrementCompares();
         return v.compareTo(w);
     }
@@ -312,8 +314,8 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * By default, this method checks that an array is sorted.
      *
      * @param xs the array to be tested.
-     *                     TODO log the message
-     *                     TODO show the number of inversions
+     *           TODO log the message
+     *           TODO show the number of inversions
      */
     @Override
     public void postProcess(X[] xs) {

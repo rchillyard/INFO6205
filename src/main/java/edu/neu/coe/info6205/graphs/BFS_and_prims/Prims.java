@@ -41,4 +41,3 @@ public class Prims {
         return mst;
     }
 }
-

@@ -42,9 +42,8 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Initializes an empty indexed priority queue with indices between {@code 0}
      * and {@code maxN - 1}.
-     *
-     * @param maxN the keys on this priority queue are index from {@code 0}
-     *             {@code maxN - 1}
+     * @param  maxN the keys on this priority queue are index from {@code 0}
+     *         {@code maxN - 1}
      * @throws IllegalArgumentException if {@code maxN < 0}
      */
     public IndexMinPQ(int maxN) {
@@ -62,7 +61,7 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
      * Returns true if this priority queue is empty.
      *
      * @return {@code true} if this priority queue is empty;
-     * {@code false} otherwise
+     *         {@code false} otherwise
      */
     public boolean isEmpty() {
         return n == 0;
@@ -71,9 +70,9 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Is {@code i} an index on this priority queue?
      *
-     * @param i an index
+     * @param  i an index
      * @return {@code true} if {@code i} is an index on this priority queue;
-     * {@code false} otherwise
+     *         {@code false} otherwise
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
      */
     public boolean contains(int i) {
@@ -93,11 +92,11 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Associates key with index {@code i}.
      *
-     * @param i   an index
-     * @param key the key to associate with index {@code i}
+     * @param  i an index
+     * @param  key the key to associate with index {@code i}
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
      * @throws IllegalArgumentException if there already is an item associated
-     *                                  with index {@code i}
+     *         with index {@code i}
      */
     public void insert(int i, Key key) {
         validateIndex(i);
@@ -133,7 +132,6 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
 
     /**
      * Removes a minimum key and returns its associated index.
-     *
      * @return an index associated with a minimum key
      * @throws NoSuchElementException if this priority queue is empty
      */
@@ -142,7 +140,7 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
         int min = pq[1];
         exch(1, n--);
         sink(1);
-        assert min == pq[n + 1];
+        assert min == pq[n+1];
         qp[min] = -1;        // delete
         keys[min] = null;    // to help with garbage collection
         pq[n + 1] = -1;        // not needed
@@ -152,10 +150,10 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Returns the key associated with index {@code i}.
      *
-     * @param i the index of the key to return
+     * @param  i the index of the key to return
      * @return the key associated with index {@code i}
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
-     * @throws NoSuchElementException   no key is associated with index {@code i}
+     * @throws NoSuchElementException no key is associated with index {@code i}
      */
     public Key keyOf(int i) {
         validateIndex(i);
@@ -166,10 +164,10 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Change the key associated with index {@code i} to the specified value.
      *
-     * @param i   the index of the key to change
-     * @param key change the key associated with index {@code i} to this key
+     * @param  i the index of the key to change
+     * @param  key change the key associated with index {@code i} to this key
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
-     * @throws NoSuchElementException   no key is associated with index {@code i}
+     * @throws NoSuchElementException no key is associated with index {@code i}
      */
     public void changeKey(int i, Key key) {
         validateIndex(i);
@@ -182,8 +180,8 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Change the key associated with index {@code i} to the specified value.
      *
-     * @param i   the index of the key to change
-     * @param key change the key associated with index {@code i} to this key
+     * @param  i the index of the key to change
+     * @param  key change the key associated with index {@code i} to this key
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
      * @deprecated Replaced by {@code changeKey(int, Key)}.
      */
@@ -195,11 +193,11 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Decrease the key associated with index {@code i} to the specified value.
      *
-     * @param i   the index of the key to decrease
-     * @param key decrease the key associated with index {@code i} to this key
+     * @param  i the index of the key to decrease
+     * @param  key decrease the key associated with index {@code i} to this key
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
      * @throws IllegalArgumentException if {@code key >= keyOf(i)}
-     * @throws NoSuchElementException   no key is associated with index {@code i}
+     * @throws NoSuchElementException no key is associated with index {@code i}
      */
     public void decreaseKey(int i, Key key) {
         validateIndex(i);
@@ -215,11 +213,11 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Increase the key associated with index {@code i} to the specified value.
      *
-     * @param i   the index of the key to increase
-     * @param key increase the key associated with index {@code i} to this key
+     * @param  i the index of the key to increase
+     * @param  key increase the key associated with index {@code i} to this key
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
      * @throws IllegalArgumentException if {@code key <= keyOf(i)}
-     * @throws NoSuchElementException   no key is associated with index {@code i}
+     * @throws NoSuchElementException no key is associated with index {@code i}
      */
     public void increaseKey(int i, Key key) {
         validateIndex(i);
@@ -235,9 +233,9 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     /**
      * Remove the key associated with index {@code i}.
      *
-     * @param i the index of the key to remove
+     * @param  i the index of the key to remove
      * @throws IllegalArgumentException unless {@code 0 <= i < maxN}
-     * @throws NoSuchElementException   no key is associated with index {@code i}
+     * @throws NoSuchElementException no key is associated with index {@code i}
      */
     public void delete(int i) {
         validateIndex(i);
@@ -283,7 +281,7 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
     }
 
     private void sink(int k) {
-        while (2 * k <= n) {
+        while (2*k <= n) {
             int j = 2 * k;
             if (j < n && greater(j, j + 1)) j++;
             if (!greater(k, j)) break;

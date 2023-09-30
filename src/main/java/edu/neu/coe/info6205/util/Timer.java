@@ -38,18 +38,19 @@ public class Timer {
      * @param n        the number of repetitions.
      * @param supplier a function which supplies a different T value for each repetition.
      * @param function a function T=>U and which is to be timed.
-     * @param <T>      the type which is supplied by supplier and passed in to function.
-     * @param <U>      the type which is the result of <code>function</code> (may be Void).
+     * @param <T> the type which is supplied by supplier and passed in to function.
+     * @param <U> the type which is the result of <code>function</code> (may be Void).
      * @return the average milliseconds per repetition.
      */
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function) {
-        return repeat(n, supplier, function, null, null);
+        return repeat(n, false, supplier, function, null, null);
     }
 
     /**
      * Pause (without counting a lap); run the given functions n times while being timed, i.e. once per "lap", and finally return the result of calling meanLapTime().
      *
      * @param n            the number of repetitions.
+     * @param warmup       true if this is in the warmup phase.
      * @param supplier     a function which supplies a T value.
      * @param function     a function T=>U and which is to be timed.
      * @param preFunction  a function which pre-processes a T value and which precedes the call of function, but which is not timed (may be null). The result of the preFunction, if any, is also a T.
@@ -58,11 +59,13 @@ public class Timer {
      * @param <U>          the type which is the result of function and the input to postFunction (if any).
      * @return the average milliseconds per repetition.
      */
-    public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
-        logger.trace("repeat: with " + n + " runs");
-        // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
+    public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
+        // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
+
+
+        // SKELETON
         return 0;
-        // END 
+        // END SOLUTION
     }
 
     /**
@@ -187,9 +190,11 @@ public class Timer {
      * @return the number of ticks for the system clock. Currently defined as nano time.
      */
     private static long getClock() {
-        // FIXME by replacing the following code
+        // TO BE IMPLEMENTED 
+
+        // SKELETON
         return 0;
-        // END 
+        // END SOLUTION
     }
 
     /**
@@ -200,9 +205,11 @@ public class Timer {
      * @return the corresponding number of milliseconds.
      */
     private static double toMillisecs(long ticks) {
-        // FIXME by replacing the following code
+        // TO BE IMPLEMENTED 
+
+        // SKELETON
         return 0;
-        // END 
+        // END SOLUTION
     }
 
     final static LazyLogger logger = new LazyLogger(Timer.class);

@@ -61,10 +61,13 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
         boolean noCopy = config.getBoolean(MERGESORT, NOCOPY);
         if (to <= from + helper.cutoff()) {
             insertionSort.sort(a, from, to);
+            return;
         }
 
-        // FIXME : implement merge sort with insurance and no-copy optimizations
-        // END 
+        // TO BE IMPLEMENTED  : implement merge sort with insurance and no-copy optimizations
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     // CONSIDER combine with MergeSortBasic perhaps.
@@ -94,4 +97,3 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     private final InsertionSort<X> insertionSort;
 }
-

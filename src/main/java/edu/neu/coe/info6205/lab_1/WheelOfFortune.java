@@ -58,9 +58,12 @@ public class WheelOfFortune<T> {
      */
     public T get() {
         int r = random.nextInt(total);
-        // FIXME by replacing the following code
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        // SKELETON
         throw new RuntimeException("logic error: " + r);
+        // END SOLUTION
     }
 
     // Private stuff...

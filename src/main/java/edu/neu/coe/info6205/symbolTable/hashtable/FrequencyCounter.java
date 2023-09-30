@@ -49,8 +49,10 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
     }
 
     public void increment(Key s) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     /**

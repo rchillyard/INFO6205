@@ -21,13 +21,10 @@ public class Prim<V, X extends Comparable<X> & Sequenced> implements Iterable<Ed
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Prim(EdgeGraph<V, X> graph) {
         this.queue = new Queue_Elements<>();
-        // FIXME : finish construction by replacing the following code
-        // END 
-        try {
-            mst = runPrim();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // TO BE IMPLEMENTED  : finish construction
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     public EdgeGraph<V, X> getMST() {
@@ -49,11 +46,10 @@ public class Prim<V, X extends Comparable<X> & Sequenced> implements Iterable<Ed
 
 
     private Iterable<Edge<V, X>> runPrim() throws PQException, UFException {
-        // FIXME : finish construction by replacing the following code
-        ArrayList<Edge<V, X>> result = new ArrayList<>();
-        for (Edge<V, X> edge : queue) result.add(edge);
-        return result;
-        // END 
+        // TO BE IMPLEMENTED  : finish construction
+
+
+        throw new RuntimeException("implementation missing");
     }
 
 

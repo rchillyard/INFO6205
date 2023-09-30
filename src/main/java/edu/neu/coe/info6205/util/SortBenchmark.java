@@ -79,17 +79,11 @@ public class SortBenchmark {
         logger.info("Testing pure sorts with " + formatWhole(nRuns) + " runs of sorting " + formatWhole(nWords) + " words");
         Random random = new Random();
 
-        if (isConfigBenchmarkStringSorter("puresystemsort")) {
-            Benchmark<String[]> benchmark = new Benchmark_Timer<>("SystemSort", null, Arrays::sort, null);
-            doPureBenchmark(words, nWords, nRuns, random, benchmark);
-        }
+        if (isConfigBenchmarkStringSorter("puresystemsort"))
+            runPureSystemSortBenchmark(words, nWords, nRuns, random);
 
-        if (isConfigBenchmarkStringSorter("mergesort")) {
-            runMergeSortBenchmark(words, nWords, nRuns, false, false);
-            runMergeSortBenchmark(words, nWords, nRuns, true, false);
-            runMergeSortBenchmark(words, nWords, nRuns, false, true);
-            runMergeSortBenchmark(words, nWords, nRuns, true, true);
-        }
+        if (isConfigBenchmarkStringSorter("mergesort"))
+            runMergeSortBenchmark(words, nWords, nRuns, isConfigBenchmarkMergeSort("insurance"), isConfigBenchmarkMergeSort("nocopy"));
 
         if (isConfigBenchmarkStringSorter("quicksort3way"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_3way<>(nWords, config), timeLoggersLinearithmic);
@@ -129,18 +123,10 @@ public class SortBenchmark {
         logger.info("Testing with " + formatWhole(nRuns) + " runs of sorting " + formatWhole(nWords) + " words" + (config.isInstrumented() ? " and instrumented" : ""));
         Random random = new Random();
 
+        if (isConfigBenchmarkStringSorter("puresystemsort")) runPureSystemSortBenchmark(words, nWords, nRuns, random);
 
-        if (isConfigBenchmarkStringSorter("puresystemsort")) {
-            Benchmark<String[]> benchmark = new Benchmark_Timer<>("SystemSort", null, Arrays::sort, null);
-            doPureBenchmark(words, nWords, nRuns, random, benchmark);
-        }
-
-        if (isConfigBenchmarkStringSorter("mergesort")) {
-            runMergeSortBenchmark(words, nWords, nRuns, false, false);
-            runMergeSortBenchmark(words, nWords, nRuns, true, false);
-            runMergeSortBenchmark(words, nWords, nRuns, false, true);
-            runMergeSortBenchmark(words, nWords, nRuns, true, true);
-        }
+        if (isConfigBenchmarkStringSorter("mergesort"))
+            runMergeSortBenchmark(words, nWords, nRuns, isConfigBenchmarkMergeSort("insurance"), isConfigBenchmarkMergeSort("nocopy"));
 
         if (isConfigBenchmarkStringSorter("quicksort3way"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_3way<>(nWords, config), timeLoggersLinearithmic);
@@ -164,6 +150,11 @@ public class SortBenchmark {
         // NOTE: this is very slow of course, so recommendation is not to enable this option.
         if (isConfigBenchmarkStringSorter("bubblesort"))
             runStringSortBenchmark(words, nWords, nRuns / 10, new BubbleSort<>(nWords, config), timeLoggersQuadratic);
+    }
+
+    private static void runPureSystemSortBenchmark(String[] words, int nWords, int nRuns, Random random) {
+        Benchmark<String[]> benchmark = new Benchmark_Timer<>("SystemSort", null, Arrays::sort, null);
+        doPureBenchmark(words, nWords, nRuns, random, benchmark);
     }
 
     // CONSIDER generifying common code (but it's difficult if not impossible)
@@ -263,7 +254,7 @@ public class SortBenchmark {
      * @param sorter      the sorter to use--NOTE that this sorter will be closed at the end of this method.
      * @param timeLoggers a set of timeLoggers to be used.
      *                    <p>
-     *                                       NOTE: this method is public because it is referenced in a unit test of a different package
+     *                    NOTE: this method is public because it is referenced in a unit test of a different package
      */
     public static void runStringSortBenchmark(String[] words, int nWords, int nRuns, SortWithHelper<String> sorter, TimeLogger[] timeLoggers) {
         runStringSortBenchmark(words, nWords, nRuns, sorter, sorter::preProcess, timeLoggers);
@@ -387,6 +378,10 @@ public class SortBenchmark {
 
     private boolean isConfigBenchmarkStringSorter(String option) {
         return isConfigBoolean("benchmarkstringsorters", option);
+    }
+
+    private boolean isConfigBenchmarkMergeSort(String option) {
+        return isConfigBoolean("mergesort", option);
     }
 
     private boolean isConfigBenchmarkDateSorter(String option) {

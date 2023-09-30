@@ -77,9 +77,11 @@ public class HuffmanCoding {
         }
 
         public Code add(int x) {
-            // FIXME by replacing the following code
+            // TO BE IMPLEMENTED 
+
+            // SKELETON
             return null;
-            // END 
+            // END SOLUTION
         }
 
         @Override
@@ -136,8 +138,11 @@ public class HuffmanCoding {
 
         private Map<String, Code> getEncoder(Node node) {
             Map<String, Code> result = new HashMap<>();
-            // FIXME
-            // END 
+            // TO BE IMPLEMENTED 
+
+
+            // SKELETON
+            // END SOLUTION
             return result;
         }
 
@@ -160,8 +165,11 @@ public class HuffmanCoding {
         }
 
         private Node decode(StringBuilder stringBuilder, Node state, long x) {
-            // FIXME
-            // END 
+            // TO BE IMPLEMENTED 
+
+
+            // SKELETON
+            // END SOLUTION
             return state;
         }
 
@@ -193,8 +201,11 @@ public class HuffmanCoding {
         }
 
         public void dfs(BiFunction<Object, Integer, Object> depthFunction, BiConsumer<Node, Object> consumer, Object depthIndicator, Integer branch) {
-            // FIXME
-            // END 
+            // TO BE IMPLEMENTED 
+
+
+            // SKELETON
+            // END SOLUTION
         }
 
 

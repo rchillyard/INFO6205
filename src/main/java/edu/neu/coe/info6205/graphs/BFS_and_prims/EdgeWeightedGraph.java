@@ -44,7 +44,7 @@ public class EdgeWeightedGraph {
     /**
      * Initializes an empty edge-weighted graph with {@code V} vertices and 0 edges.
      *
-     * @param V the number of vertices
+     * @param  V the number of vertices
      * @throws IllegalArgumentException if {@code V < 0}
      */
     public EdgeWeightedGraph(int V) {
@@ -60,8 +60,8 @@ public class EdgeWeightedGraph {
     /**
      * Initializes a random edge-weighted graph with {@code V} vertices and <em>E</em> edges.
      *
-     * @param V the number of vertices
-     * @param E the number of edges
+     * @param  V the number of vertices
+     * @param  E the number of edges
      * @throws IllegalArgumentException if {@code V < 0}
      * @throws IllegalArgumentException if {@code E < 0}
      */
@@ -78,10 +78,11 @@ public class EdgeWeightedGraph {
     }
 
 
+
     /**
      * Initializes a new edge-weighted graph that is a deep copy of {@code G}.
      *
-     * @param G the edge-weighted graph to copy
+     * @param  G the edge-weighted graph to copy
      */
     public EdgeWeightedGraph(EdgeWeightedGraph G) {
         this(G.V());
@@ -126,7 +127,7 @@ public class EdgeWeightedGraph {
     /**
      * Adds the undirected edge {@code e} to this edge-weighted graph.
      *
-     * @param e the edge
+     * @param  e the edge
      * @throws IllegalArgumentException unless both endpoints are between {@code 0} and {@code V-1}
      */
     public void addEdge(Edge e) {
@@ -142,7 +143,7 @@ public class EdgeWeightedGraph {
     /**
      * Returns the edges incident on vertex {@code v}.
      *
-     * @param v the vertex
+     * @param  v the vertex
      * @return the edges incident on vertex {@code v} as an Iterable
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
@@ -154,7 +155,7 @@ public class EdgeWeightedGraph {
     /**
      * Returns the degree of vertex {@code v}.
      *
-     * @param v the vertex
+     * @param  v the vertex
      * @return the degree of vertex {@code v}
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
@@ -193,7 +194,7 @@ public class EdgeWeightedGraph {
      * This method takes time proportional to <em>E</em> + <em>V</em>.
      *
      * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
-     * followed by the <em>V</em> adjacency lists of edges
+     *         followed by the <em>V</em> adjacency lists of edges
      */
     public String toString() {
         StringBuilder s = new StringBuilder();

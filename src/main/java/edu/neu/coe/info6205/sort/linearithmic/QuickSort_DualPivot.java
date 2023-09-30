@@ -106,4 +106,3 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
         private final Helper<X> helper;
     }
 }
-

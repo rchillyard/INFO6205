@@ -213,4 +213,3 @@ public class DijkstraTest {
         dijkstra.shortestPaths(0);
     }
 }
-

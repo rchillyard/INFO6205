@@ -20,9 +20,12 @@ public class RandomWalk {
      * @param dy the distance he moves in the y direction
      */
     private void move(int dx, int dy) {
-        // FIXME do move by replacing the following code
+        // TO BE IMPLEMENTED  do move
+
+
+        // SKELETON
         throw new RuntimeException("Not implemented");
-        // END 
+        // END SOLUTION
     }
 
     /**
@@ -31,8 +34,10 @@ public class RandomWalk {
      * @param m the number of steps the drunkard takes
      */
     private void randomWalk(int m) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -51,9 +56,11 @@ public class RandomWalk {
      * @return the (Euclidean) distance from the origin to the current position.
      */
     public double distance() {
-        // FIXME by replacing the following code
+        // TO BE IMPLEMENTED 
+
+        // SKELETON
         return 0.0;
-        // END 
+        // END SOLUTION
     }
 
     /**

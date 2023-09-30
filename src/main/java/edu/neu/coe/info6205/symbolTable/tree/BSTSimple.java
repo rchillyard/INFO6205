@@ -139,9 +139,12 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
 
     // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
-        // FIXME by replacing the following code
+        // TO BE IMPLEMENTED 
+
+
+        // SKELETON
         return null;
-        // END 
+        // END SOLUTION
     }
 
     private Node deleteMin(Node x) {

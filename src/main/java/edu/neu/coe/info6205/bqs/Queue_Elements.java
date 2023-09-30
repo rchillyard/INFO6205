@@ -25,8 +25,10 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
      * @param item the item to add
      */
     public void enqueue(Item item) {
-        // FIXME
-        // END 
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
 
@@ -38,9 +40,12 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
     public Item dequeue() {
         if (isEmpty()) return null;
         else {
-            // FIXME by replacing the following code
+            // TO BE IMPLEMENTED 
+
+
+            // SKELETON
             return null;
-            // END 
+            // END SOLUTION
         }
     }
 

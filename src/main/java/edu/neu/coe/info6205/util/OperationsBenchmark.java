@@ -101,7 +101,6 @@ public class OperationsBenchmark {
         }
         return inversions;
     }
-
     private final static TimeLogger[] timeLoggersLinear = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n): ", (time, n) -> time / n * 1e6)

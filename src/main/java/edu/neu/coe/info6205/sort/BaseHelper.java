@@ -56,7 +56,7 @@ public class BaseHelper<X extends Comparable<X>> implements Helper<X> {
     public void swapInto(X[] xs, int i, int j) {
         if (j > i) {
             X x = xs[j];
-            System.arraycopy(xs, i, xs, i + 1, j - i);
+            copyBlock(xs, i, xs, i + 1, j - i);
             xs[i] = x;
         }
     }

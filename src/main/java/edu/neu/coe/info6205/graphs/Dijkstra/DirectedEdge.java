@@ -23,12 +23,11 @@ public class DirectedEdge {
     /**
      * Initializes a directed edge from vertex {@code v} to vertex {@code w} with
      * the given {@code weight}.
-     *
-     * @param v      the tail vertex
-     * @param w      the head vertex
+     * @param v the tail vertex
+     * @param w the head vertex
      * @param weight the weight of the directed edge
      * @throws IllegalArgumentException if either {@code v} or {@code w}
-     *                                  is a negative integer
+     *    is a negative integer
      * @throws IllegalArgumentException if {@code weight} is {@code NaN}
      */
     public DirectedEdge(int v, int w, double weight) {
@@ -42,7 +41,6 @@ public class DirectedEdge {
 
     /**
      * Returns the tail vertex of the directed edge.
-     *
      * @return the tail vertex of the directed edge
      */
     public int from() {
@@ -51,7 +49,6 @@ public class DirectedEdge {
 
     /**
      * Returns the head vertex of the directed edge.
-     *
      * @return the head vertex of the directed edge
      */
     public int to() {
@@ -60,7 +57,6 @@ public class DirectedEdge {
 
     /**
      * Returns the weight of the directed edge.
-     *
      * @return the weight of the directed edge
      */
     public double weight() {
@@ -69,7 +65,6 @@ public class DirectedEdge {
 
     /**
      * Returns a string representation of the directed edge.
-     *
      * @return a string representation of the directed edge
      */
     public String toString() {

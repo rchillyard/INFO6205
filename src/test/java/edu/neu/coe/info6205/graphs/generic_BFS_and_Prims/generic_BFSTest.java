@@ -1,6 +1,5 @@
 package edu.neu.coe.info6205.graphs.generic_BFS_and_Prims;
 
-import edu.neu.coe.info6205.graphs.BFS_and_prims.BFS;
 import edu.neu.coe.info6205.graphs.generic_BFS_and_prims.GBFS;
 import edu.neu.coe.info6205.graphs.generic_BFS_and_prims.Graph;
 import org.junit.Assert;
@@ -8,7 +7,6 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class generic_BFSTest {
 

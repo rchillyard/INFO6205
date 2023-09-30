@@ -5,10 +5,14 @@ package edu.neu.coe.info6205.sort.elementary;
 
 import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.HelperFactory;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.LazyLogger;
+import edu.neu.coe.info6205.util.Stopwatch;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Class to sort arrays of (comparable) Xs which extends SortWithHelper and Sort.
@@ -82,5 +86,41 @@ public class BubbleSort<X extends Comparable<X>> extends SortWithHelper<X> {
     }
 
     public static final String DESCRIPTION = "Bubble sort";
+
+    public static void main(String[] args) throws IOException {
+        bubbleSortMain(10000);
+        insertionSortMain(10000);
+    }
+
+    private static void bubbleSortMain(int n) throws IOException {
+        BubbleSort<Integer> bubbleSort = new BubbleSort<Integer>(HelperFactory.create("Bubble sort", n, Config.load(BubbleSort.class)));
+        Helper<Integer> helper = bubbleSort.getHelper();
+        logger.info("Begin BubbleSort");
+        try (Stopwatch stopwatch = new Stopwatch()) {
+            for (int i = 0; i < 10; i++)
+                doSort(bubbleSort, helper, stopwatch);
+        }
+        logger.info("End BubbleSort");
+    }
+
+    private static void insertionSortMain(int n) throws IOException {
+        SortWithHelper<Integer> sorter = new InsertionSort<Integer>(HelperFactory.create("Insertion sort", n, Config.load(BubbleSort.class)));
+        Helper<Integer> helper = sorter.getHelper();
+        logger.info("Begin InsertionSort");
+        try (Stopwatch stopwatch = new Stopwatch()) {
+            for (int i = 0; i < 10; i++)
+                doSort(sorter, helper, stopwatch);
+        }
+        logger.info("End InsertionSort");
+    }
+
+    private static void doSort(SortWithHelper<Integer> sorter, Helper<Integer> helper, Stopwatch stopwatch) {
+        Integer[] integers = helper.random(Integer.class, Random::nextInt);
+        Integer[] sorted = sorter.sort(integers);
+        if (!helper.sorted(sorted)) System.err.println("Not sorted");
+        System.out.println(helper.getDescription() + " " + integers.length + " integers: " + stopwatch.lap());
+    }
+
+    final static LazyLogger logger = new LazyLogger(BubbleSort.class);
 
 }

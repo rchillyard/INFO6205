@@ -22,23 +22,27 @@ public class MSDStringSortTest {
     String[] expected = "are by seashells seashells seashore sells sells she she shells surely the the".split(" ");
 
     @Test
-    public void sort() {
-        MSDStringSort.sort(input);
-        System.out.println(Arrays.toString(input));
-        assertArrayEquals(expected, input);
+    public void sort() throws IOException {
+        int n = input.length;
+        final Helper<String> helper = new BaseHelper<>("test", n, 1L, Config.load(MSDStringSortTest.class));
+//        helper.init(n);
+        String[] sorted = new MSDStringSort(helper).sort(input);
+        System.out.println(Arrays.toString(sorted));
+        assertArrayEquals(expected, sorted);
     }
 
     @Test
     public void sort1() throws IOException {
         int n = 1000;
         final Helper<String> helper = new BaseHelper<>("test", n, 1L, Config.load(MSDStringSortTest.class));
-        helper.init(n);
+//        helper.init(n);
         String[] words = getWords("3000-common-words.txt", MSDStringSortTest::lineAsList);
         final String[] xs = helper.random(String.class, r -> words[r.nextInt(words.length)]);
         assertEquals(n, xs.length);
-        MSDStringSort.sort(xs);
-        assertEquals("African-American", xs[0]);
-        assertEquals("Palestinian", xs[16]);
+        String[] ys = new MSDStringSort(helper).sort(xs);
+        System.out.println(Arrays.toString(ys));
+        assertEquals("African-American", ys[0]);
+        assertEquals("Palestinian", ys[16]);
     }
 
     /**

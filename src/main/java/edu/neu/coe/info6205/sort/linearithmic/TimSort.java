@@ -47,4 +47,3 @@ public class TimSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public static final String DESCRIPTION = "Timsort";
 }
-

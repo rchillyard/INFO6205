@@ -4,13 +4,13 @@ import java.util.StringTokenizer;
 
 public class DijkstraTwoStack {
 
-    private final StringTokenizer tokenizer;
-    private int parentheses = 0;
-    private final Stack<String> opStack = new Stack_LinkedList<>();
-    private final Stack<Number> valStack = new Stack_LinkedList<>();
-
-    public DijkstraTwoStack(String infix) {
-        tokenizer = new StringTokenizer(infix);
+    public static void main(String[] args) {
+        try {
+            DijkstraTwoStack twoStack = new DijkstraTwoStack("2 * ( 4 - 3 )");
+            System.out.println(twoStack.evaluate());
+        } catch (BQSException e) {
+            e.printStackTrace();
+        }
     }
 
     public Number evaluate() throws BQSException {
@@ -24,6 +24,14 @@ public class DijkstraTwoStack {
         if (!valStack.isEmpty())
             throw new BQSException("there are superfluous values");
         return result;
+    }
+
+    public DijkstraTwoStack(StringTokenizer tokenizer) {
+        this.tokenizer = tokenizer;
+    }
+
+    public DijkstraTwoStack(String infix) {
+        this(new StringTokenizer(infix));
     }
 
     private void processToken(String s) throws BQSException {
@@ -61,12 +69,8 @@ public class DijkstraTwoStack {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            DijkstraTwoStack twoStack = new DijkstraTwoStack("2 * ( 4 - 3 )");
-            System.out.println(twoStack.evaluate());
-        } catch (BQSException e) {
-            e.printStackTrace();
-        }
-    }
+    private final StringTokenizer tokenizer;
+    private int parentheses = 0;
+    private final Stack<String> opStack = new Stack_LinkedList<>();
+    private final Stack<Number> valStack = new Stack_LinkedList<>();
 }

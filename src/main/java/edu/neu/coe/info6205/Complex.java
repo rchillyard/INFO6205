@@ -8,7 +8,6 @@ public class Complex {
         this.real = real;
         this.imag = imag;
     }
-
     public Complex(double real) {
         this(real, 0);
     }

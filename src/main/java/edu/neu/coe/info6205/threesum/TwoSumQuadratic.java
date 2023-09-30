@@ -14,7 +14,6 @@ import java.util.List;
 class TwoSumQuadratic implements TwoSum {
     /**
      * Construct a ThreeSumCubic on a.
-     *
      * @param a an array.
      */
     public TwoSumQuadratic(int[] a) {

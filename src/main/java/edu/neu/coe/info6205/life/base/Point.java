@@ -150,4 +150,3 @@ public class Point implements Comparable<Point> {
         return new Point(x, y);
     }
 }
-

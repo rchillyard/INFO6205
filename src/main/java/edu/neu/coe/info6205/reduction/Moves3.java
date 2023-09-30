@@ -19,9 +19,12 @@ public class Moves3 implements Moves {
         // DO NOT PUBLISH THIS IN PUBLIC REPO!!!!
         Point p = t;
         while (true) {
-            // FIXME  Sorry, but you have to do this one yourself! by replacing the following code
+            // TO BE IMPLEMENTED   Sorry, but you have to do this one yourself!
+
+
+            // SKELETON
             return false;
-            // END 
+            // END SOLUTION
         }
     }
 

@@ -81,9 +81,10 @@ public class UF_HWQUPC implements UF {
     public int find(int p) {
         validate(p);
         int root = p;
-        // FIXME
-        // END 
-        return root;
+        // TO BE IMPLEMENTED 
+
+
+        throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -169,15 +170,20 @@ public class UF_HWQUPC implements UF {
     private boolean pathCompression;
 
     private void mergeComponents(int i, int j) {
-        // FIXME make shorter root point to taller one
-        // END 
+        // TO BE IMPLEMENTED  make shorter root point to taller one
+
+
+        // SKELETON
+        // END SOLUTION
     }
 
     /**
      * This implements the single-pass path-halving mechanism of path compression
      */
     private void doPathCompression(int i) {
-        // FIXME update parent to value of grandparent
-        // END 
+        // TO BE IMPLEMENTED  update parent to value of grandparent
+
+        // SKELETON
+        // END SOLUTION
     }
 }

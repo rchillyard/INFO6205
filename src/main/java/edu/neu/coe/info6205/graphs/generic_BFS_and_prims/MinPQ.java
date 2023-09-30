@@ -37,7 +37,7 @@ public class MinPQ<Key> implements Iterable<Key> {
     /**
      * Initializes an empty priority queue with the given initial capacity.
      *
-     * @param initCapacity the initial capacity of this priority queue
+     * @param  initCapacity the initial capacity of this priority queue
      */
     public MinPQ(int initCapacity) {
         pq = (Key[]) new Object[initCapacity + 1];
@@ -55,8 +55,8 @@ public class MinPQ<Key> implements Iterable<Key> {
      * Initializes an empty priority queue with the given initial capacity,
      * using the given comparator.
      *
-     * @param initCapacity the initial capacity of this priority queue
-     * @param comparator   the order in which to compare the keys
+     * @param  initCapacity the initial capacity of this priority queue
+     * @param  comparator the order in which to compare the keys
      */
     public MinPQ(int initCapacity, Comparator<Key> comparator) {
         this.comparator = comparator;
@@ -67,7 +67,7 @@ public class MinPQ<Key> implements Iterable<Key> {
     /**
      * Initializes an empty priority queue using the given comparator.
      *
-     * @param comparator the order in which to compare the keys
+     * @param  comparator the order in which to compare the keys
      */
     public MinPQ(Comparator<Key> comparator) {
         this(1, comparator);
@@ -78,7 +78,7 @@ public class MinPQ<Key> implements Iterable<Key> {
      * <p>
      * Takes time proportional to the number of keys, using sink-based heap construction.
      *
-     * @param keys the array of keys
+     * @param  keys the array of keys
      */
     public MinPQ(Key[] keys) {
         n = keys.length;
@@ -93,7 +93,7 @@ public class MinPQ<Key> implements Iterable<Key> {
      * Returns true if this priority queue is empty.
      *
      * @return {@code true} if this priority queue is empty;
-     * {@code false} otherwise
+     *         {@code false} otherwise
      */
     public boolean isEmpty() {
         return n == 0;
@@ -130,7 +130,7 @@ public class MinPQ<Key> implements Iterable<Key> {
     /**
      * Adds a new key to this priority queue.
      *
-     * @param x the key to add to this priority queue
+     * @param  x the key to add to this priority queue
      */
     public void insert(Key x) {
         // double size of array if necessary
@@ -153,7 +153,7 @@ public class MinPQ<Key> implements Iterable<Key> {
         Key min = pq[1];
         exch(1, n--);
         sink(1);
-        pq[n + 1] = null;     // to avoid loitering and help with garbage collection
+        pq[n+1] = null;     // to avoid loitering and help with garbage collection
         if ((n > 0) && (n == (pq.length - 1) / 4)) resize(pq.length / 2);
         assert isMinHeap();
         return min;
@@ -172,7 +172,7 @@ public class MinPQ<Key> implements Iterable<Key> {
     }
 
     private void sink(int k) {
-        while (2 * k <= n) {
+        while (2*k <= n) {
             int j = 2 * k;
             if (j < n && greater(j, j + 1)) j++;
             if (!greater(k, j)) break;

@@ -53,7 +53,8 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
 
     @Override
     public void sort(X[] a, int from, int to) {
-        if (to <= from + getHelper().cutoff()) {
+        Helper<X> helper = getHelper();
+        if (to <= from + helper.cutoff()) {
             insertionSort.sort(a, from, to);
             return;
         }
@@ -61,9 +62,9 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
         int mid = from + n / 2;
         sort(a, from, mid);
         sort(a, mid, to);
-        System.arraycopy(a, from, aux, from, n);
-        getHelper().incrementCopies(n);
-        getHelper().incrementHits(2 * n);
+        helper.copyBlock(a, from, aux, from, n);
+//        helper.incrementCopies(n);
+//        helper.incrementHits(2 * n);
         merge(aux, a, from, mid, to);
     }
 
@@ -100,4 +101,3 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
     private X[] aux = null;
     private final InsertionSort<X> insertionSort;
 }
-

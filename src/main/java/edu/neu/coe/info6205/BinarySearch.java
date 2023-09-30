@@ -2,6 +2,10 @@ package edu.neu.coe.info6205;
 
 import java.util.Arrays;
 
+/**
+ * Class to provide the functionality of binary search.
+ * NOTE that it is essentially the same as the Arrays.binarySearch method.
+ */
 public class BinarySearch {
     public static void main(String[] args) {
         int[] ar = {1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -11,18 +15,17 @@ public class BinarySearch {
         System.out.println(res2);
     }
 
-
-    static int binarySearch(int[] a, int low, int high, int key) {
+    static int binarySearch(int[] a, int low, int to, int key) {
         int lo = low;
-        int hi = high;
-        while (hi >= lo) {
-            // FIXME : implement binary search by replacing the following code
+        int hi = to;
+        while (hi > lo) {
+            // TO BE IMPLEMENTED  : implement binary search
+
+
+            // SKELETON CODE
             return -1;
-            // END 
+            // END SOLUTION
         }
         return -1;
-
     }
-
-
 }

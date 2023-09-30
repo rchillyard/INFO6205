@@ -111,4 +111,3 @@ public class QuickSort_Exp<X extends Comparable<X>> extends QuickSort<X> {
         private final Helper<X> helper;
     }
 }
-

@@ -35,15 +35,33 @@ public interface GenericHelper<X> {
     }
 
     /**
-     * Copy the element at source[j] into target[i]
+     * Get the element at xs[i].
      *
-     * @param source the source array.
-     * @param i      the target index.
-     * @param target the target array.
-     * @param j      the source index.
+     * @param xs the source array.
+     * @param i  the target index.
+     * @return the value of xs[i].
      */
+    default X get(X[] xs, int i) {
+        return xs[i];
+    }
+
+    /**
+     * Set the element at xs[i].
+     *
+     * @param xs the destination array.
+     * @param i  the target index.
+     * @param x  the value to assign to xs[i].
+     */
+    default void set(X[] xs, int i, X x) {
+        xs[i] = x;
+    }
+
     default void copy(X[] source, int i, X[] target, int j) {
         target[j] = source[i];
+    }
+
+    default void copyBlock(X[] source, int i, X[] target, int j, int n) {
+        System.arraycopy(source, i, target, j, n);
     }
 
     /**
