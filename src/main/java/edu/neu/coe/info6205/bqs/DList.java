@@ -113,13 +113,13 @@ public class DList<Item> implements Iterable<Item> {
 
     public D_Element findFirst(Item item) {
         // FIXME by replacing the following code
-         return null;
+        return null;
         // END 
     }
 
     public D_Element findLast(Item item) {
         // FIXME by replacing the following code
-         return null;
+        return null;
         // END 
     }
 
@@ -171,7 +171,7 @@ public class DList<Item> implements Iterable<Item> {
     }
 
 
-    private D_Element head = null;
-    private D_Element tail = null;
-    private int count = 0;
+    private final D_Element head = null;
+    private final D_Element tail = null;
+    private final int count = 0;
 }

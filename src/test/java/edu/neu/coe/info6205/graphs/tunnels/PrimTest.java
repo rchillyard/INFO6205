@@ -6,7 +6,6 @@ import edu.neu.coe.info6205.graphs.gis.Sequenced;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
 import edu.neu.coe.info6205.graphs.undirected.Graph_Edges;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,7 +41,7 @@ public class PrimTest {
         private int sequence;
     }
 
-//    @Test
+    //    @Test
     public void testPrim() {
         EdgeGraph<String, Route> kalimantan = kalimantan();
         ArrayList<Edge<String, Route>> edgeList = new ArrayList<>();

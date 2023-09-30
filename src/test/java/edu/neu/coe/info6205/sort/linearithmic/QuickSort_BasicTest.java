@@ -213,7 +213,7 @@ public class QuickSort_BasicTest {
         final int bestCompares = round(N * k);
         System.out.println("bestCompares: " + bestCompares + ", compares: " + compares + ", worstCompares: " + worstCompares);
         assertTrue(compares <= worstCompares);
-        System.out.println("ratio of compares to swaps: " + compares*1.0/swaps);
+        System.out.println("ratio of compares to swaps: " + compares * 1.0 / swaps);
     }
 
     @Test

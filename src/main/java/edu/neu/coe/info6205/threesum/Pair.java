@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 class Pair implements Comparable<Pair> {
     public int sum() {
-        return x + y ;
+        return x + y;
     }
 
     @Override

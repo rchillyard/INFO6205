@@ -18,7 +18,7 @@ public class Lucas {
         if (n < 0) throw new UnsupportedOperationException("Lucas.get is not supported for negative n");
         if (n == 0) return 2L;
         if (n == 1) return 1L;
-        return bad(n-2) + bad(n-1);
+        return bad(n - 2) + bad(n - 1);
     }
 
     private long evaluate(int n) {

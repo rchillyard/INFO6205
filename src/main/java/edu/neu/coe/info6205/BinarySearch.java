@@ -17,7 +17,7 @@ public class BinarySearch {
         int hi = high;
         while (hi >= lo) {
             // FIXME : implement binary search by replacing the following code
-             return -1;
+            return -1;
             // END 
         }
         return -1;

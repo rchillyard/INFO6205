@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class RandomWalk {
 
-    private int x = 0;
-    private int y = 0;
+    private final int x = 0;
+    private final int y = 0;
 
     private final Random random = new Random();
 
@@ -21,7 +21,7 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // FIXME do move by replacing the following code
-         throw new RuntimeException("Not implemented");
+        throw new RuntimeException("Not implemented");
         // END 
     }
 
@@ -52,7 +52,7 @@ public class RandomWalk {
      */
     public double distance() {
         // FIXME by replacing the following code
-         return 0.0;
+        return 0.0;
         // END 
     }
 

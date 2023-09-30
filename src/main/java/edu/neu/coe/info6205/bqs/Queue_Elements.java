@@ -39,7 +39,7 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
         if (isEmpty()) return null;
         else {
             // FIXME by replacing the following code
-             return null;
+            return null;
             // END 
         }
     }
@@ -51,10 +51,10 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
     // This Element essentially begins a LinkedList of Elements which correspond
     // to the elements that can be taken from the queue (head points to the oldest element).
     // However, it is built in manner that requires a pointer to the newest element.
-    private Element<Item> oldest;
+    private final Element<Item> oldest;
 
     // This Element always points to the newest (tail-most) element in the LinkedList referenced by oldest.
-    private Element<Item> newest;
+    private final Element<Item> newest;
 
     @Override
     public String toString() {

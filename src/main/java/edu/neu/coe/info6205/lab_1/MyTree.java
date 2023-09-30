@@ -45,7 +45,7 @@ public class MyTree<X> {
         public Node<X> addChild(Node<X> y) {
             ImmutableList.Builder<Node<X>> builder = ImmutableList.builder();
             // FIXME by replacing the following code
-             return null;
+            return null;
             // END 
         }
 
@@ -70,7 +70,7 @@ public class MyTree<X> {
             boolean ok = Iterables.removeIf(ns, xNode -> Objects.equals(xNode, y));
             ImmutableList.Builder<Node<X>> builder = ImmutableList.builder();
             // FIXME by replacing the following code
-             return null;
+            return null;
             // END 
         }
 

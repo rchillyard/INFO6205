@@ -11,7 +11,7 @@ public class FastInverseSquareRoot {
         int number = Float.floatToIntBits(x);
         number = MAGIC_NUMBER - (number >> 1);
         float result = Float.intBitsToFloat(number);
-        while (optimize-->0) result *= (1.5f - (x2 * result * result));
+        while (optimize-- > 0) result *= (1.5f - (x2 * result * result));
         return result;
     }
 

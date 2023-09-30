@@ -14,6 +14,7 @@ import java.util.List;
 class TwoSumQuadratic implements TwoSum {
     /**
      * Construct a ThreeSumCubic on a.
+     *
      * @param a an array.
      */
     public TwoSumQuadratic(int[] a) {
@@ -25,8 +26,8 @@ class TwoSumQuadratic implements TwoSum {
         List<Pair> pairs = new ArrayList<>();
         for (int i = 0; i < length; i++)
             for (int j = i + 1; j < length; j++) {
-                    if (a[i] + a[j] == 0)
-                        pairs.add(new Pair(a[i], a[j]));
+                if (a[i] + a[j] == 0)
+                    pairs.add(new Pair(a[i], a[j]));
             }
         Collections.sort(pairs);
         return pairs.stream().distinct().toArray(Pair[]::new);

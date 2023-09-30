@@ -41,7 +41,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         if (node == null)
             return 0;
         else
-            return(size(node.smaller) + 1 + size(node.larger));
+            return (size(node.smaller) + 1 + size(node.larger));
     }
 
     @Override
@@ -243,7 +243,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         private Node delete(Key k) {
             // CONSIDER using navigate
             // FIXME by replacing the following code
-             return null;
+            return null;
             // END 
         }
 
@@ -332,6 +332,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             return x;
         }
     }
+
     private Node deleteMax(Node x) {
         // CONSIDER using navigate
         if (x.larger == null) {
@@ -350,6 +351,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         else if (x.smaller == null) return x;
         else return min(x.smaller);
     }
+
     private Node max(Node x) {
         // CONSIDER using navigate
         if (x == null) throw new RuntimeException("max not implemented for null");

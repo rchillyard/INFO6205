@@ -38,7 +38,7 @@ public class Kml<V extends GeoPoint, E extends Sequenced> {
     private String asPoint(V vertex) {
         return "      <Placemark>\n" + "      <name>" + vertex.getName() +
                 "</name>\n" +
-                "      <description>" + vertex.toString() +
+                "      <description>" + vertex +
                 "</description>\n" +
 //                "      <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>\n" +
                 "      <Point>\n" +
@@ -60,7 +60,7 @@ public class Kml<V extends GeoPoint, E extends Sequenced> {
 
         return "      <Placemark>\n" + "      <name>" + v1.getName() + "--" + v2.getName() +
                 "</name>\n" +
-                "      <description>" + edge.toString() +
+                "      <description>" + edge +
                 "</description>\n" +
                 "      <LineString>\n" +
                 "        <tessellate>1</tessellate>\n" +

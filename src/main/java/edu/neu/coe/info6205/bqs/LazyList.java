@@ -33,7 +33,7 @@ public class LazyList<T> {
     /**
      * Constructor of a lazy list.
      *
-     * @param head the head.
+     * @param head         the head.
      * @param tailFunction a function to evaluate the tail, if necessary.
      */
     public LazyList(T head, Supplier<LazyList<T>> tailFunction) {
@@ -48,9 +48,9 @@ public class LazyList<T> {
      * Method to create a LazyList given a starting value and a function.
      *
      * @param start the starting value.
-     * @param next the function to yield the next value.
+     * @param next  the function to yield the next value.
+     * @param <T>   the underlying type.
      * @return a new LazyList.
-     * @param <T> the underlying type.
      */
     public static <T> LazyList<T> iterate(final T start, Function<T, T> next) {
         final Supplier<LazyList<T>> supplier = () -> iterate(next.apply(start), next);
@@ -61,7 +61,7 @@ public class LazyList<T> {
      * Method to create a LazyList of Integers given a starting value and an increment.
      *
      * @param start the starting value.
-     * @param step the increment.
+     * @param step  the increment.
      * @return a new LazyList.
      */
     public static LazyList<Integer> from(final int start, int step) {

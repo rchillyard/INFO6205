@@ -8,7 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class EdgeTest {
 
@@ -39,7 +40,7 @@ public class EdgeTest {
     public void equalsTest() {
         Edge<Integer, String> target1 = new Edge<>(1, 2, "hello");
         Edge<Integer, String> target2 = new Edge<>(2, 1, "hello");
-        assertTrue(target1.equals(target2));
+        assertEquals(target1, target2);
     }
 
     @Test

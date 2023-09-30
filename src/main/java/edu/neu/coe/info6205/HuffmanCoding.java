@@ -78,7 +78,7 @@ public class HuffmanCoding {
 
         public Code add(int x) {
             // FIXME by replacing the following code
-             return null;
+            return null;
             // END 
         }
 
@@ -232,7 +232,7 @@ public class HuffmanCoding {
     private static List<String> stringToStrings(String w) {
         List<String> result = new ArrayList<>();
         char[] chars = w.toCharArray();
-        for (char x : chars) if (x!=' ' && x!=',') result.add(x+"");
+        for (char x : chars) if (x != ' ' && x != ',') result.add(String.valueOf(x));
         return result;
     }
 

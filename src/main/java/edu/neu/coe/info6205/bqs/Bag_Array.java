@@ -105,7 +105,7 @@ public class Bag_Array<Item> implements Bag<Item> {
      */
     private static <T> T[] growFrom(T[] from, int size) {
         // FIXME grow array and copy by replacing the following code
-         return null;
+        return null;
         // END 
     }
 

@@ -3,7 +3,10 @@ package edu.neu.coe.info6205.graphs.gis;
 import edu.neu.coe.info6205.graphs.dag.DiGraph;
 import edu.neu.coe.info6205.graphs.dag.Edge;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Stack;
 
 public class ShortestPaths<V, E extends Number> {
     public ShortestPaths(DiGraph<V, E> graph, V start) {
@@ -25,9 +28,9 @@ public class ShortestPaths<V, E extends Number> {
         Stack<Edge<V, E>> edges = new Stack<>();
         if (hasPathTo(target)) {
             V v = target;
-            for(Vertex vertex = table.get(v); vertex.edgeTo!=null; ) {
+            for (Vertex vertex = table.get(v); vertex.edgeTo != null; ) {
                 Edge<V, E> edgeTo = vertex.edgeTo;
-                if (edgeTo.getTo()!=v) throw new RuntimeException("assertion error");
+                if (edgeTo.getTo() != v) throw new RuntimeException("assertion error");
                 edges.push(edgeTo);
                 v = edgeTo.getFrom();
             }
@@ -47,7 +50,7 @@ public class ShortestPaths<V, E extends Number> {
         PriorityQueue<V> pq = new PriorityQueue<>();
         pq.offer(start);
         result.put(start, new Vertex(start, 0, null));
-        while(!pq.isEmpty()) relax(graph, pq.poll(), result, pq);
+        while (!pq.isEmpty()) relax(graph, pq.poll(), result, pq);
         return result;
     }
 
@@ -59,7 +62,7 @@ public class ShortestPaths<V, E extends Number> {
             double relaxedCost = table.get(e.getFrom()).cost + e.getAttributes().doubleValue();
             if (vertexW.cost > relaxedCost) {
                 vertexW.relax(relaxedCost, e);
-                if (pq.contains(w)) pq.remove(w);
+                pq.remove(w);
                 pq.offer(w);
             }
         }

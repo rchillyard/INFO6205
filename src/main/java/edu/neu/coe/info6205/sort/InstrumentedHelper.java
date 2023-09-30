@@ -312,8 +312,8 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * By default, this method checks that an array is sorted.
      *
      * @param xs the array to be tested.
-     *           TODO log the message
-     *           TODO show the number of inversions
+     *                     TODO log the message
+     *                     TODO show the number of inversions
      */
     @Override
     public void postProcess(X[] xs) {

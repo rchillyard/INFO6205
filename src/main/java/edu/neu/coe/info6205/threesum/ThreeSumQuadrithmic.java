@@ -17,6 +17,7 @@ import java.util.List;
 class ThreeSumQuadrithmic implements ThreeSum {
     /**
      * Construct a ThreeSumQuadrithmic on a.
+     *
      * @param a a sorted array.
      */
     public ThreeSumQuadrithmic(int[] a) {

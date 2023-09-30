@@ -263,7 +263,7 @@ public class SortBenchmark {
      * @param sorter      the sorter to use--NOTE that this sorter will be closed at the end of this method.
      * @param timeLoggers a set of timeLoggers to be used.
      *                    <p>
-     *                    NOTE: this method is public because it is referenced in a unit test of a different package
+     *                                       NOTE: this method is public because it is referenced in a unit test of a different package
      */
     public static void runStringSortBenchmark(String[] words, int nWords, int nRuns, SortWithHelper<String> sorter, TimeLogger[] timeLoggers) {
         runStringSortBenchmark(words, nWords, nRuns, sorter, sorter::preProcess, timeLoggers);

@@ -148,13 +148,13 @@ public class TimerTest {
         final double mean = timer.repeat(10,
                 () -> zzz, // supplier
                 t -> { // function
-            result = t;
-            GoToSleep(10, 0);
-            return null;
-        }, t -> { // pre-function
-            GoToSleep(10, -1);
-            return 2*t;
-        }, t -> GoToSleep(10, 1) // post-function
+                    result = t;
+                    GoToSleep(10, 0);
+                    return null;
+                }, t -> { // pre-function
+                    GoToSleep(10, -1);
+                    return 2 * t;
+                }, t -> GoToSleep(10, 1) // post-function
         );
         assertEquals(10, new PrivateMethodTester(timer).invokePrivate("getLaps"));
         assertEquals(zzz, 20, 6);

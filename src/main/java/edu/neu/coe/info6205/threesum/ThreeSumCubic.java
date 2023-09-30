@@ -14,6 +14,7 @@ import java.util.List;
 class ThreeSumCubic implements ThreeSum {
     /**
      * Construct a ThreeSumCubic on a.
+     *
      * @param a an array.
      */
     public ThreeSumCubic(int[] a) {

@@ -22,10 +22,10 @@ public class MSDStringSort {
      * Sort from a[lo] to a[hi] (exclusive), ignoring the first d characters of each String.
      * This method is recursive.
      *
-     * @param a the array to be sorted.
+     * @param a  the array to be sorted.
      * @param lo the low index.
      * @param hi the high index (one above the highest actually processed).
-     * @param d the number of characters in each String to be skipped.
+     * @param d  the number of characters in each String to be skipped.
      */
     private static void sort(String[] a, int lo, int hi, int d) {
         if (hi < lo + cutoff) InsertionSortMSD.sort(a, lo, hi, d);

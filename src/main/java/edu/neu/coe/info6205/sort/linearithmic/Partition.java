@@ -7,9 +7,9 @@ package edu.neu.coe.info6205.sort.linearithmic;
  */
 public class Partition<X extends Comparable<X>> {
     /**
-     * @param xs the array to be sorted.
+     * @param xs   the array to be sorted.
      * @param from the index of the first element to be sorted.
-     * @param to the index of the first element NOT to be sorted.
+     * @param to   the index of the first element NOT to be sorted.
      */
     public Partition(X[] xs, int from, int to) {
         this.xs = xs;

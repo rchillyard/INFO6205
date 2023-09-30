@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class GeoEdgeTest {
 
@@ -35,7 +35,7 @@ public class GeoEdgeTest {
         GeoPoint boston = new MockGeoPoint("Boston", new Position_Spherical(42.3, -71));
         Edge<GeoPoint, String> target1 = new GeoEdge<>(london, boston, "across the pond");
         Edge<GeoPoint, String> target2 = new GeoEdge<>(boston, london, "across the pond");
-        assertTrue(target1.equals(target2));
+        assertEquals(target1, target2);
     }
 
 

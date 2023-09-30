@@ -38,7 +38,7 @@ public class HashTable_LP<Key, Value> implements ST<Key, Value> {
         //noinspection unchecked
         Element element = (Element) elements[index];
         if (element != null) {
-            assert (getKey(index).equals( key));
+            assert (getKey(index).equals(key));
             element.value = value;
         } else {
             elements[index] = new Element(key, value);

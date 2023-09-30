@@ -1,25 +1,18 @@
 package edu.neu.coe.info6205.graphs.gis;
 
-import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.bqs.Queue_Elements;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
 import edu.neu.coe.info6205.graphs.undirected.Graph_Edges;
 import edu.neu.coe.info6205.pq.PQException;
-import edu.neu.coe.info6205.pq.PriorityQueue;
-import edu.neu.coe.info6205.union_find.TypedUF;
-import edu.neu.coe.info6205.union_find.TypedUF_HWQUPC;
 import edu.neu.coe.info6205.union_find.UFException;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 
 /**
  * This is a generic solution for Prim's algorithm to find the minimum spanning tree of an edge-weighted graph
- *
- *
  *
  * @param <V> is the type of each vertex.
  */
