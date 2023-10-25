@@ -49,7 +49,23 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
     public static List<Triple> calipers(int[] a, int i, Function<Triple, Integer> function) {
         List<Triple> triples = new ArrayList<>();
         // FIXME : use function to qualify triples and to navigate otherwise.
-        // END 
+        // END
+        if(i==0 || (i>0 && a[i] != a[i-1])){
+            int x = i+1;
+            int z = a.length-1;
+            while(x<z){
+                if(function.apply(new Triple(a[x],a[z],a[i]))==0){
+                    Triple t = new Triple(a[i],a[x],a[z]);
+                    triples.add(t);
+                    x++;
+                    z--;
+                }else if(a[x]+a[z]+a[i]<0){
+                    x++;
+                }else{
+                    z--;
+                }
+            }
+        }
         return triples;
     }
 
