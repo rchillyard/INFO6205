@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Height-weighted Quick Union with Path Compression
  */
-public class UF_HWQUPC implements UF {
+public class  UF_HWQUPC implements UF {
     /**
      * Ensure that site p is connected to site q,
      *
@@ -81,8 +81,12 @@ public class UF_HWQUPC implements UF {
     public int find(int p) {
         validate(p);
         int root = p;
-        // FIXME
-        // END 
+        while(parent[root] != root) {
+            root = parent[root];
+        }
+        if (pathCompression) {
+            doPathCompression(p);
+        }
         return root;
     }
 
@@ -112,6 +116,12 @@ public class UF_HWQUPC implements UF {
     public void union(int p, int q) {
         // CONSIDER can we avoid doing find again?
         mergeComponents(find(p), find(q));
+        /*if (pathCompression) {
+            doPathCompression(p);
+            doPathCompression(q);
+        }
+
+         */
         count--;
     }
 
@@ -170,6 +180,16 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // FIXME make shorter root point to taller one
+        int parentI = find(i);
+        int parentJ = find(j);
+        if (height[parentI] > height[parentJ]) {
+            parent[parentJ] = parentI;
+        } else if (height[parentI] < height[parentJ]) {
+            parent[parentI] = parentJ;
+        } else {
+            parent[parentJ] = parentI;
+            height[parentI]++;
+        }
         // END 
     }
 
@@ -178,6 +198,13 @@ public class UF_HWQUPC implements UF {
      */
     private void doPathCompression(int i) {
         // FIXME update parent to value of grandparent
+        int currParent = parent[i];
+
+        while(currParent != parent[currParent]) {
+            parent[i] = parent[currParent];
+            i = currParent;
+            currParent = parent[currParent];
+        }
         // END 
     }
 }
