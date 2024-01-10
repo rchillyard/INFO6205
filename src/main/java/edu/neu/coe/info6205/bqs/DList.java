@@ -89,7 +89,13 @@ public class DList<Item> implements Iterable<Item> {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+
+
+
+
+
+throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -102,7 +108,11 @@ public class DList<Item> implements Iterable<Item> {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+
+
+
+throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -114,15 +124,21 @@ public class DList<Item> implements Iterable<Item> {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+
+
+throw new RuntimeException("implementation missing");
     }
 
     public D_Element findFirst(Item item) {
         // TO BE IMPLEMENTED 
 
 
+
+
+
         // SKELETON
-        return null;
+         return null;
         // END SOLUTION
     }
 
@@ -130,8 +146,11 @@ public class DList<Item> implements Iterable<Item> {
         // TO BE IMPLEMENTED 
 
 
+
+
+
         // SKELETON
-        return null;
+         return null;
         // END SOLUTION
     }
 
@@ -183,7 +202,7 @@ public class DList<Item> implements Iterable<Item> {
     }
 
 
-    private final D_Element head = null;
-    private final D_Element tail = null;
-    private final int count = 0;
+    private D_Element head = null;
+    private D_Element tail = null;
+    private int count = 0;
 }

@@ -33,7 +33,7 @@ public class LazyList<T> {
     /**
      * Constructor of a lazy list.
      *
-     * @param head         the head.
+     * @param head the head.
      * @param tailFunction a function to evaluate the tail, if necessary.
      */
     public LazyList(T head, Supplier<LazyList<T>> tailFunction) {

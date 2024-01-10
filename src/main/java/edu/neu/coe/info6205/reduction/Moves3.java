@@ -22,8 +22,11 @@ public class Moves3 implements Moves {
             // TO BE IMPLEMENTED   Sorry, but you have to do this one yourself!
 
 
+
+
+
             // SKELETON
-            return false;
+             return false;
             // END SOLUTION
         }
     }

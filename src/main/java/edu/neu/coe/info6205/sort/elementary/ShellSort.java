@@ -250,7 +250,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
     }
 
     static boolean doRandomDoubleShellSort(int m, int n, int r, final Config config) {
-        boolean instrumented = config.getBoolean("helper", "instrument");
+        boolean instrumented = config.getBoolean(Config.HELPER, "instrument");
         Helper<Double> helper = instrumented ? new InstrumentedHelper<>("ShellSort mode: " + m + " with instrumentation", n, config) : new BaseHelper<>("ShellSort mode: " + m, n, config);
         boolean result = true;
         for (int i = 0; i < r; i++) {

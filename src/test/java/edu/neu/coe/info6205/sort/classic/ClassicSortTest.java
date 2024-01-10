@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ClassicSortTest {
 
-    class MyClass implements Classify<MyClass> {
+    static class MyClass implements Classify<MyClass> {
         public MyClass(int value) {
             this.value = value;
         }

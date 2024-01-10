@@ -77,7 +77,7 @@ public class HelperFactory {
      * @return a GenericHelper&lt;X&gt;
      */
     public static <X> GenericHelper<X> createGeneric(String description, int nElements, Config config) {
-        return new ClassicHelper<>(description, nElements, new Random(config.getLong("helper", "seed", System.currentTimeMillis())), config);
+        return new ClassicHelper<>(description, nElements, new Random(config.getLong(Config.HELPER, "seed", System.currentTimeMillis())), config);
     }
 
 }

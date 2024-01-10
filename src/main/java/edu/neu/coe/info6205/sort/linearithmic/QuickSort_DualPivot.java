@@ -59,14 +59,14 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
          */
         public List<Partition<X>> partition(Partition<X> partition) {
             final X[] xs = partition.xs;
-            final int lo = partition.from;
-            final int hi = partition.to - 1;
-            helper.swapConditional(xs, lo, hi);
-            int lt = lo + 1;
-            int gt = hi - 1;
+            final int p1 = partition.from;
+            final int p2 = partition.to - 1;
+            helper.swapConditional(xs, p1, p2);
+            int lt = p1 + 1;
+            int gt = p2 - 1;
             int i = lt;
-            X v1 = xs[lo];
-            X v2 = xs[hi];
+            X v1 = xs[p1];
+            X v2 = xs[p2];
             // NOTE: we are trying to avoid checking on instrumented for every time in the inner loop for performance reasons (probably a silly idea).
             // NOTE: if we were using Scala, it would be easy to set up a comparer function and a swapper function. With java, it's possible but much messier.
             if (helper.instrumented()) {
@@ -76,8 +76,8 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
                     else if (helper.compare(xs, i, v2) > 0) helper.swap(xs, i, gt--);
                     else i++;
                 }
-                helper.swap(xs, lo, --lt);
-                helper.swap(xs, hi, ++gt);
+                helper.swap(xs, p1, --lt);
+                helper.swap(xs, p2, ++gt);
             } else {
                 while (i <= gt) {
                     X x = xs[i];
@@ -85,14 +85,14 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
                     else if (x.compareTo(v2) > 0) swap(xs, i, gt--);
                     else i++;
                 }
-                swap(xs, lo, --lt);
-                swap(xs, hi, ++gt);
+                swap(xs, p1, --lt);
+                swap(xs, p2, ++gt);
             }
 
             List<Partition<X>> partitions = new ArrayList<>();
-            partitions.add(new Partition<>(xs, lo, lt));
+            partitions.add(new Partition<>(xs, p1, lt));
             partitions.add(new Partition<>(xs, lt + 1, gt));
-            partitions.add(new Partition<>(xs, gt + 1, hi + 1));
+            partitions.add(new Partition<>(xs, gt + 1, p2 + 1));
             return partitions;
         }
 

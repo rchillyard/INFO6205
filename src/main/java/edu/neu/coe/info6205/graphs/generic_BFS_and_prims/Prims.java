@@ -17,7 +17,7 @@ public class Prims {
     private final MinPQ<Edge> pq; // crossing (and ineligible) edges
 
     public Prims(EdgeWeightedGraph G) {
-        pq = new MinPQ<Edge>();
+        pq = new MinPQ<>();
         marked = new boolean[G.V()];
         mst = new LinkedList<>();
         visit(G, 0); // assumes G is connected

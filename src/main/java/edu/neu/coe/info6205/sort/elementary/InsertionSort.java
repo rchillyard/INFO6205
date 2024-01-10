@@ -66,7 +66,9 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+
+throw new RuntimeException("implementation missing");
     }
 
     public static final String DESCRIPTION = "Insertion sort";

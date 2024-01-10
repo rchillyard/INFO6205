@@ -4,6 +4,7 @@ import edu.neu.coe.info6205.util.*;
 
 import java.util.Random;
 
+import static edu.neu.coe.info6205.util.Config.HELPER;
 import static edu.neu.coe.info6205.util.Utilities.formatWhole;
 
 /**
@@ -350,7 +351,8 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
 
     @Override
     public void close() {
-        logger.debug(() -> "Closing Helper: " + description + " with statPack: " + statPack);
+        if (showStats)
+            logger.info("Closing Helper: " + description + " with statPack:\n    " + statPack);
         super.close();
     }
 
@@ -378,13 +380,14 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     public InstrumentedHelper(String description, int n, Random random, Config config) {
         // CONSIDER using config.toString here somewhere.
         super(description, n, random, config);
+        this.showStats = config.getBoolean(INSTRUMENTING, SHOW_STATS);
         this.countCopies = config.getBoolean(INSTRUMENTING, COPIES);
         this.countSwaps = config.getBoolean(INSTRUMENTING, SWAPS);
         this.countCompares = config.getBoolean(INSTRUMENTING, COMPARES);
         this.countInversions = config.getInt(INSTRUMENTING, INVERSIONS, 0);
         this.countFixes = config.getBoolean(INSTRUMENTING, FIXES);
         this.countHits = config.getBoolean(INSTRUMENTING, HITS); // the number of array accesses
-        this.cutoff = config.getInt("helper", "cutoff", 0);
+        this.cutoff = config.getInt(HELPER, "cutoff", 0);
     }
 
     /**
@@ -395,7 +398,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param config      The configuration.
      */
     public InstrumentedHelper(String description, int n, Config config) {
-        this(description, n, config.getLong("helper", "seed", System.currentTimeMillis()), config);
+        this(description, n, config.getLong(HELPER, "seed", System.currentTimeMillis()), config);
     }
 
     /**
@@ -428,6 +431,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     public static final String FIXES = "fixes";
     public static final String HITS = "hits";
     public static final String INSTRUMENTING = "instrumenting";
+    public static final String SHOW_STATS = "showStats";
 
     public int getCompares() {
         return compares;
@@ -519,6 +523,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     private final boolean countCompares;
     private final boolean countFixes;
     private final boolean countHits;
+    private final boolean showStats;
     private StatPack statPack;
     private int compares = 0;
     private int swaps = 0;

@@ -80,7 +80,7 @@ public class HuffmanCoding {
             // TO BE IMPLEMENTED 
 
             // SKELETON
-            return null;
+             return null;
             // END SOLUTION
         }
 
@@ -141,6 +141,15 @@ public class HuffmanCoding {
             // TO BE IMPLEMENTED 
 
 
+
+
+
+
+
+
+
+
+
             // SKELETON
             // END SOLUTION
             return result;
@@ -166,6 +175,17 @@ public class HuffmanCoding {
 
         private Node decode(StringBuilder stringBuilder, Node state, long x) {
             // TO BE IMPLEMENTED 
+
+
+
+
+
+
+
+
+
+
+
 
 
             // SKELETON
@@ -202,6 +222,8 @@ public class HuffmanCoding {
 
         public void dfs(BiFunction<Object, Integer, Object> depthFunction, BiConsumer<Node, Object> consumer, Object depthIndicator, Integer branch) {
             // TO BE IMPLEMENTED 
+
+
 
 
             // SKELETON

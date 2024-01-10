@@ -111,11 +111,12 @@ public class BSTBenchmark<K extends Comparable<K>, V> extends Benchmark_Timer<K[
 
         @Override
         public String toString() {
-            String sb = "initialNodes: " + initialNodes +
-                    ", nodes: " + nodes +
-                    ", initialMeanDepth: " + formatDecimal3Places(initialMeanDepth) +
-                    ", meanDepth: " + formatDecimal3Places(meanDepth);
-            return sb;
+            final StringBuilder sb = new StringBuilder();
+            sb.append("initialNodes: ").append(initialNodes);
+            sb.append(", nodes: ").append(nodes);
+            sb.append(", initialMeanDepth: ").append(formatDecimal3Places(initialMeanDepth));
+            sb.append(", meanDepth: ").append(formatDecimal3Places(meanDepth));
+            return sb.toString();
         }
 
         void setMeanDepth(final int nodes, final double meanDepth) {

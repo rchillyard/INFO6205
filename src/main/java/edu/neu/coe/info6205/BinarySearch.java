@@ -22,8 +22,14 @@ public class BinarySearch {
             // TO BE IMPLEMENTED  : implement binary search
 
 
+
+
+
+
+
+
             // SKELETON CODE
-            return -1;
+             return -1;
             // END SOLUTION
         }
         return -1;

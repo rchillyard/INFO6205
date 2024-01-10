@@ -2,7 +2,6 @@ package edu.neu.coe.info6205.graphs.tunnels;
 
 import edu.neu.coe.info6205.SizedIterableImpl;
 import edu.neu.coe.info6205.graphs.gis.Boruvka;
-import edu.neu.coe.info6205.graphs.gis.Prim;
 import edu.neu.coe.info6205.graphs.gis.Sequenced;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
@@ -12,11 +11,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static edu.neu.coe.info6205.graphs.gis.Prim.createEdge;
+import static edu.neu.coe.info6205.graphs.gis.Boruvka.createEdge;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class PrimTest {
+public class BoruvkaTest {
 
     static class Route implements Comparable<Route>, Sequenced {
 
@@ -49,13 +48,13 @@ public class PrimTest {
     }
 /*
     @Test
-    public void testPrim() {
+    public void testBoruvka() {
         EdgeGraph<String, Route> kalimantan = kalimantan();
         ArrayList<Edge<String, Route>> edgeList = new ArrayList<>();
         for (Edge<String, Route> edge : kalimantan.edges()) edgeList.add(edge);
         Edge<String, Route> edge1 = edgeList.get(5);
         Edge<String, Route> edge2 = edgeList.get(0);
-        Iterable<Edge<String, Route>> iterable = new Prim<>(kalimantan);
+        Iterable<Edge<String, Route>> iterable = new Boruvka<>(kalimantan);
         Iterator<Edge<String, Route>> iterator = iterable.iterator();
         //assertTrue(iterator.hasNext());
         //assertEquals(edge1, iterator.next());
@@ -65,19 +64,19 @@ public class PrimTest {
 */
 
     @Test
-    public void testPrim_kalimantan_with_cost() {
+    public void testBoruvka_kalimantan_with_cost() {
         // build an edge graph kalimantan, with 6 vertices and 15 edges
-        EdgeGraph<String, PrimTest.Route> kalimantan = kalimantan();
+        EdgeGraph<String, BoruvkaTest.Route> kalimantan = kalimantan();
         // keep all the edges in a list called edgeList
-        ArrayList<Edge<String, PrimTest.Route>> edgeList = new ArrayList<>();
-        for (Edge<String, PrimTest.Route> edge : kalimantan.edges()) edgeList.add(edge);
+        ArrayList<Edge<String, BoruvkaTest.Route>> edgeList = new ArrayList<>();
+        for (Edge<String, BoruvkaTest.Route> edge : kalimantan.edges()) edgeList.add(edge);
         try {
-            Iterable<Edge<String, PrimTest.Route>> iterable = new Boruvka<>(kalimantan);
-            Iterator<Edge<String, PrimTest.Route>> iterator = iterable.iterator();
+            Iterable<Edge<String, BoruvkaTest.Route>> iterable = new Boruvka<>(kalimantan);
+            Iterator<Edge<String, BoruvkaTest.Route>> iterator = iterable.iterator();
             assertTrue(iterator.hasNext());
             assertEquals(5, SizedIterableImpl.getSize(iterable.iterator()));
             double cost = 0;
-            for (Edge<String, PrimTest.Route> edge : iterable) {
+            for (Edge<String, BoruvkaTest.Route> edge : iterable) {
                 cost += edge.getAttribute().getCost();
                 String v = edge.get(), w = edge.getOther(v);
                 System.out.println("v1= " + v + " v2= " + w + " cost = " + edge.getAttribute().getCost());
@@ -146,15 +145,15 @@ public class PrimTest {
     }
 
     @Test
-    public void testPrim_ChinaShippingCost_with_cost() {
-        EdgeGraph<String, PrimTest.Route> chinaShippingCost = ChinaShippingCost();
-        ArrayList<Edge<String, PrimTest.Route>> edgeList = new ArrayList<>();
-        for (Edge<String, PrimTest.Route> edge : chinaShippingCost.edges()) edgeList.add(edge);
+    public void testBoruvka_ChinaShippingCost_with_cost() {
+        EdgeGraph<String, BoruvkaTest.Route> chinaShippingCost = ChinaShippingCost();
+        ArrayList<Edge<String, BoruvkaTest.Route>> edgeList = new ArrayList<>();
+        for (Edge<String, BoruvkaTest.Route> edge : chinaShippingCost.edges()) edgeList.add(edge);
         try {
-            Iterable<Edge<String, PrimTest.Route>> iterable = new Prim<>(chinaShippingCost);
-            Iterator<Edge<String, PrimTest.Route>> iterator = iterable.iterator();
+            Iterable<Edge<String, BoruvkaTest.Route>> iterable = new Boruvka<>(chinaShippingCost);
+            Iterator<Edge<String, BoruvkaTest.Route>> iterator = iterable.iterator();
             double cost = 0;
-            for (Edge<String, PrimTest.Route> edge : iterable) {
+            for (Edge<String, BoruvkaTest.Route> edge : iterable) {
                 cost += edge.getAttribute().getCost();
                 String v = edge.get(), w = edge.getOther(v);
                 System.out.println("v1= " + v + " v2= " + w + " cost = " + edge.getAttribute().getCost());

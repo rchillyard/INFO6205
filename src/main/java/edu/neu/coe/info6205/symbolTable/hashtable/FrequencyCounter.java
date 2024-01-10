@@ -52,7 +52,8 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -80,7 +81,7 @@ public class FrequencyCounter<Key> implements ImmutableSymbolTable<Key, Integer>
 
     private final ST<Key, Integer> map;
     @SuppressWarnings("CanBeFinal")
-    private final long total = 0L;
+    private long total = 0L;
 
     public static void main(String[] args) {
         FrequencyCounter<String> counter = new FrequencyCounter<>();

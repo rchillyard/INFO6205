@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class RandomWalk {
 
-    private final int x = 0;
-    private final int y = 0;
+    private int x = 0;
+    private int y = 0;
 
     private final Random random = new Random();
 
@@ -24,7 +24,7 @@ public class RandomWalk {
 
 
         // SKELETON
-        throw new RuntimeException("Not implemented");
+         throw new RuntimeException("Not implemented");
         // END SOLUTION
     }
 
@@ -37,7 +37,7 @@ public class RandomWalk {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -59,7 +59,7 @@ public class RandomWalk {
         // TO BE IMPLEMENTED 
 
         // SKELETON
-        return 0.0;
+         return 0.0;
         // END SOLUTION
     }
 

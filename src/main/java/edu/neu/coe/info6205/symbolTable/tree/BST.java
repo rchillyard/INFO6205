@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * Interface to define the behavior of a Binary Search Tree.
  *
- * @param <Key>   the key type.
+ * @param <Key> the key type.
  * @param <Value> the value type.
  */
 public interface BST<Key extends Comparable<Key>, Value> {

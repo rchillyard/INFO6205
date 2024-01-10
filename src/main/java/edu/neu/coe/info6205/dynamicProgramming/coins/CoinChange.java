@@ -91,7 +91,7 @@ public class CoinChange {
             return children.add(node);
         }
 
-        private final List<Node> children;
+        private List<Node> children;
     }
 
     private final int[] coins;

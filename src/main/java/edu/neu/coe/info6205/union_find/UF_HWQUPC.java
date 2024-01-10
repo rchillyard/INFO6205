@@ -84,7 +84,10 @@ public class UF_HWQUPC implements UF {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+
+
+throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -171,6 +174,11 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED  make shorter root point to taller one
+
+
+
+
+
 
 
         // SKELETON

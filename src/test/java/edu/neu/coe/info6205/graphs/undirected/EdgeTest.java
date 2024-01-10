@@ -39,7 +39,7 @@ public class EdgeTest {
     public void equalsTest() {
         Edge<Integer, String> target1 = new Edge<>(1, 2, "hello");
         Edge<Integer, String> target2 = new Edge<>(2, 1, "hello");
-        assertEquals(target1, target2);
+        assertTrue(target1.equals(target2));
     }
 
     @Test

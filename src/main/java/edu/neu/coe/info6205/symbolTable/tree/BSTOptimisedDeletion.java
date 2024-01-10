@@ -41,7 +41,7 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         if (node == null)
             return 0;
         else
-            return (size(node.smaller) + 1 + size(node.larger));
+            return(size(node.smaller) + 1 + size(node.larger));
     }
 
     @Override
@@ -245,8 +245,15 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             // TO BE IMPLEMENTED 
 
 
+
+
+
+
+
+
+
             // SKELETON
-            return null;
+             return null;
             // END SOLUTION
         }
 

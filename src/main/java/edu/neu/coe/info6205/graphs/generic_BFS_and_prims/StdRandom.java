@@ -3,26 +3,26 @@ package edu.neu.coe.info6205.graphs.generic_BFS_and_prims;
 import java.util.Random;
 
 /**
- * The {@code StdRandom} class provides static methods for generating
- * random number from various discrete and continuous distributions,
- * including uniform, Bernoulli, geometric, Gaussian, exponential, Pareto,
- * Poisson, and Cauchy. It also provides method for shuffling an
- * array or subarray and generating random permutations.
- * <p>
- * By convention, all intervals are half open. For example,
- * <code>uniform(-1.0, 1.0)</code> returns a random number between
- * <code>-1.0</code> (inclusive) and <code>1.0</code> (exclusive).
- * Similarly, <code>shuffle(a, lo, hi)</code> shuffles the <code>hi - lo</code>
- * elements in the array <code>a[]</code>, starting at index <code>lo</code>
- * (inclusive) and ending at index <code>hi</code> (exclusive).
- * <p>
- * For additional documentation,
- * see <a href="https://introcs.cs.princeton.edu/22library">Section 2.2</a> of
- * <i>Computer Science: An Interdisciplinary Approach</i>
- * by Robert Sedgewick and Kevin Wayne.
+ *  The {@code StdRandom} class provides static methods for generating
+ *  random number from various discrete and continuous distributions,
+ *  including uniform, Bernoulli, geometric, Gaussian, exponential, Pareto,
+ *  Poisson, and Cauchy. It also provides method for shuffling an
+ *  array or subarray and generating random permutations.
+ *  <p>
+ *  By convention, all intervals are half open. For example,
+ *  <code>uniform(-1.0, 1.0)</code> returns a random number between
+ *  <code>-1.0</code> (inclusive) and <code>1.0</code> (exclusive).
+ *  Similarly, <code>shuffle(a, lo, hi)</code> shuffles the <code>hi - lo</code>
+ *  elements in the array <code>a[]</code>, starting at index <code>lo</code>
+ *  (inclusive) and ending at index <code>hi</code> (exclusive).
+ *  <p>
+ *  For additional documentation,
+ *  see <a href="https://introcs.cs.princeton.edu/22library">Section 2.2</a> of
+ *  <i>Computer Science: An Interdisciplinary Approach</i>
+ *  by Robert Sedgewick and Kevin Wayne.
  *
- * @author Robert Sedgewick
- * @author Kevin Wayne
+ *  @author Robert Sedgewick
+ *  @author Kevin Wayne
  */
 public final class StdRandom {
 
@@ -37,8 +37,7 @@ public final class StdRandom {
     }
 
     // don't instantiate
-    private StdRandom() {
-    }
+    private StdRandom() { }
 
     /**
      * Sets the seed of the pseudo-random number generator.
@@ -119,7 +118,7 @@ public final class StdRandom {
     /**
      * Returns a random real number uniformly in [0, 1).
      *
-     * @return a random real number uniformly in [0, 1)
+     * @return     a random real number uniformly in [0, 1)
      * @deprecated Replaced by {@link #uniform()}.
      */
     @Deprecated
@@ -155,7 +154,7 @@ public final class StdRandom {
         if (!(a < b)) {
             throw new IllegalArgumentException("invalid range: [" + a + ", " + b + ")");
         }
-        return a + uniform() * (b - a);
+        return a + uniform() * (b-a);
     }
 
     /**
@@ -196,7 +195,7 @@ public final class StdRandom {
         do {
             x = uniform(-1.0, 1.0);
             y = uniform(-1.0, 1.0);
-            r = x * x + y * y;
+            r = x*x + y*y;
         } while (r >= 1 || r == 0);
         return x * Math.sqrt(-2 * Math.log(r) / r);
 
@@ -285,7 +284,7 @@ public final class StdRandom {
     public static double pareto(double alpha) {
         if (!(alpha > 0.0))
             throw new IllegalArgumentException("alpha must be positive: " + alpha);
-        return Math.pow(1 - uniform(), -1.0 / alpha) - 1.0;
+        return Math.pow(1 - uniform(), -1.0/alpha) - 1.0;
     }
 
     /**
@@ -393,7 +392,7 @@ public final class StdRandom {
         validateNotNull(a);
         int n = a.length;
         for (int i = 0; i < n; i++) {
-            int r = i + uniform(n - i);     // between i and n-1
+            int r = i + uniform(n-i);     // between i and n-1
             Object temp = a[i];
             a[i] = a[r];
             a[r] = temp;
@@ -410,7 +409,7 @@ public final class StdRandom {
         validateNotNull(a);
         int n = a.length;
         for (int i = 0; i < n; i++) {
-            int r = i + uniform(n - i);     // between i and n-1
+            int r = i + uniform(n-i);     // between i and n-1
             double temp = a[i];
             a[i] = a[r];
             a[r] = temp;
@@ -427,7 +426,7 @@ public final class StdRandom {
         validateNotNull(a);
         int n = a.length;
         for (int i = 0; i < n; i++) {
-            int r = i + uniform(n - i);     // between i and n-1
+            int r = i + uniform(n-i);     // between i and n-1
             int temp = a[i];
             a[i] = a[r];
             a[r] = temp;
@@ -444,7 +443,7 @@ public final class StdRandom {
         validateNotNull(a);
         int n = a.length;
         for (int i = 0; i < n; i++) {
-            int r = i + uniform(n - i);     // between i and n-1
+            int r = i + uniform(n-i);     // between i and n-1
             char temp = a[i];
             a[i] = a[r];
             a[r] = temp;
@@ -466,7 +465,7 @@ public final class StdRandom {
         validateSubarrayIndices(lo, hi, a.length);
 
         for (int i = lo; i < hi; i++) {
-            int r = i + uniform(hi - i);     // between i and hi-1
+            int r = i + uniform(hi-i);     // between i and hi-1
             Object temp = a[i];
             a[i] = a[r];
             a[r] = temp;
@@ -487,7 +486,7 @@ public final class StdRandom {
         validateSubarrayIndices(lo, hi, a.length);
 
         for (int i = lo; i < hi; i++) {
-            int r = i + uniform(hi - i);     // between i and hi-1
+            int r = i + uniform(hi-i);     // between i and hi-1
             double temp = a[i];
             a[i] = a[r];
             a[r] = temp;
@@ -508,7 +507,7 @@ public final class StdRandom {
         validateSubarrayIndices(lo, hi, a.length);
 
         for (int i = lo; i < hi; i++) {
-            int r = i + uniform(hi - i);     // between i and hi-1
+            int r = i + uniform(hi-i);     // between i and hi-1
             int temp = a[i];
             a[i] = a[r];
             a[r] = temp;

@@ -5,39 +5,40 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * The {@code IndexMinPQ} class represents an indexed priority queue of generic keys.
- * It supports the usual <em>insert</em> and <em>delete-the-minimum</em>
- * operations, along with <em>delete</em> and <em>change-the-key</em>
- * methods. In order to let the client refer to keys on the priority queue,
- * an integer between {@code 0} and {@code maxN - 1}
- * is associated with each key—the client uses this integer to specify
- * which key to delete or change.
- * It also supports methods for peeking at the minimum key,
- * testing if the priority queue is empty, and iterating through
- * the keys.
- * <p>
- * This implementation uses a binary heap along with an array to associate
- * keys with integers in the given range.
- * The <em>insert</em>, <em>delete-the-minimum</em>, <em>delete</em>,
- * <em>change-key</em>, <em>decrease-key</em>, and <em>increase-key</em>
- * operations take &Theta;(log <em>n</em>) time in the worst case,
- * where <em>n</em> is the number of elements in the priority queue.
- * Construction takes time proportional to the specified capacity.
- * <p>
- * For additional documentation, see
- * <a href="https://algs4.cs.princeton.edu/24pq">Section 2.4</a> of
- * <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
+ *  The {@code IndexMinPQ} class represents an indexed priority queue of generic keys.
+ *  It supports the usual <em>insert</em> and <em>delete-the-minimum</em>
+ *  operations, along with <em>delete</em> and <em>change-the-key</em>
+ *  methods. In order to let the client refer to keys on the priority queue,
+ *  an integer between {@code 0} and {@code maxN - 1}
+ *  is associated with each key—the client uses this integer to specify
+ *  which key to delete or change.
+ *  It also supports methods for peeking at the minimum key,
+ *  testing if the priority queue is empty, and iterating through
+ *  the keys.
+ *  <p>
+ *  This implementation uses a binary heap along with an array to associate
+ *  keys with integers in the given range.
+ *  The <em>insert</em>, <em>delete-the-minimum</em>, <em>delete</em>,
+ *  <em>change-key</em>, <em>decrease-key</em>, and <em>increase-key</em>
+ *  operations take &Theta;(log <em>n</em>) time in the worst case,
+ *  where <em>n</em> is the number of elements in the priority queue.
+ *  Construction takes time proportional to the specified capacity.
+ *  <p>
+ *  For additional documentation, see
+ *  <a href="https://algs4.cs.princeton.edu/24pq">Section 2.4</a> of
+ *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  *
- * @param <Key> the generic type of key on this priority queue
- * @author Robert Sedgewick
- * @author Kevin Wayne
+ *  @author Robert Sedgewick
+ *  @author Kevin Wayne
+ *
+ *  @param <Key> the generic type of key on this priority queue
  */
 public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer> {
-    private final int maxN;        // maximum number of elements on PQ
+    private int maxN;        // maximum number of elements on PQ
     private int n;           // number of elements on PQ
-    private final int[] pq;        // binary heap using 1-based indexing
-    private final int[] qp;        // inverse of pq - qp[pq[i]] = pq[qp[i]] = i
-    private final Key[] keys;      // keys[i] = priority of i
+    private int[] pq;        // binary heap using 1-based indexing
+    private int[] qp;        // inverse of pq - qp[pq[i]] = pq[qp[i]] = i
+    private Key[] keys;      // keys[i] = priority of i
 
     /**
      * Initializes an empty indexed priority queue with indices between {@code 0}
@@ -51,8 +52,8 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
         this.maxN = maxN;
         n = 0;
         keys = (Key[]) new Comparable[maxN + 1];    // make this of length maxN??
-        pq = new int[maxN + 1];
-        qp = new int[maxN + 1];                   // make this of length maxN??
+        pq   = new int[maxN + 1];
+        qp   = new int[maxN + 1];                   // make this of length maxN??
         for (int i = 0; i <= maxN; i++)
             qp[i] = -1;
     }
@@ -143,7 +144,7 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
         assert min == pq[n+1];
         qp[min] = -1;        // delete
         keys[min] = null;    // to help with garbage collection
-        pq[n + 1] = -1;        // not needed
+        pq[n+1] = -1;        // not needed
         return min;
     }
 
@@ -274,16 +275,16 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
      * Heap helper functions.
      ***************************************************************************/
     private void swim(int k) {
-        while (k > 1 && greater(k / 2, k)) {
-            exch(k, k / 2);
-            k = k / 2;
+        while (k > 1 && greater(k/2, k)) {
+            exch(k, k/2);
+            k = k/2;
         }
     }
 
     private void sink(int k) {
         while (2*k <= n) {
-            int j = 2 * k;
-            if (j < n && greater(j, j + 1)) j++;
+            int j = 2*k;
+            if (j < n && greater(j, j+1)) j++;
             if (!greater(k, j)) break;
             exch(k, j);
             k = j;
@@ -302,13 +303,11 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
      *
      * @return an iterator that iterates over the keys in ascending order
      */
-    public Iterator<Integer> iterator() {
-        return new HeapIterator();
-    }
+    public Iterator<Integer> iterator() { return new HeapIterator(); }
 
     private class HeapIterator implements Iterator<Integer> {
         // create a new pq
-        private final IndexMinPQ<Key> copy;
+        private IndexMinPQ<Key> copy;
 
         // add all elements to copy of heap
         // takes linear time since already in heap order so no keys move
@@ -318,13 +317,8 @@ public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer
                 copy.insert(pq[i], keys[pq[i]]);
         }
 
-        public boolean hasNext() {
-            return !copy.isEmpty();
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+        public boolean hasNext()  { return !copy.isEmpty();                     }
+        public void remove()      { throw new UnsupportedOperationException();  }
 
         public Integer next() {
             if (!hasNext()) throw new NoSuchElementException();

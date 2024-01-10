@@ -14,14 +14,13 @@ import edu.neu.coe.info6205.union_find.UFException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 
 /**
  * This is a generic solution for Kruskal's algorithm to find the minimum spanning tree of an edge-weighted graph
  *
  * @param <V> is the type of each vertex.
  */
-public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable<Edge<V, X>> {
+public class Kruskal<V, X extends Comparable<X> & Sequenced> extends MST<V, X> {
 
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Kruskal(EdgeGraph<V, X> graph) {
@@ -37,6 +36,7 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
         }
     }
 
+    @Override
     public EdgeGraph<V, X> getMST() {
         int sequence = 0;
         EdgeGraph<V, X> result = new Graph_Edges<>();
@@ -45,13 +45,6 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
             result.addEdge(edge);
         }
         return result;
-    }
-
-    @Override
-    public Iterator<Edge<V, X>> iterator() {
-        ArrayList<Edge<V, X>> result = new ArrayList<>();
-        for (Edge<V, X> edge : mst) result.add(edge);
-        return result.iterator();
     }
 
 
@@ -95,7 +88,6 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> implements Iterable
     private final PriorityQueue<Edge<V, X>> pq;
     private final TypedUF<V> uf;
     private final int size;
-    private Iterable<Edge<V, X>> mst;
 
 
     public static <V, X extends Comparable<X>> Edge<V, X> createEdge(V v1, V v2, X x) {

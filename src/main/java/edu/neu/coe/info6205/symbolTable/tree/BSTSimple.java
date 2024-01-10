@@ -142,8 +142,22 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         // TO BE IMPLEMENTED 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // SKELETON
-        return null;
+         return null;
         // END SOLUTION
     }
 
@@ -180,7 +194,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
      * @return the total number of levels in this BST.
      */
     public int depth() {
-        return root != null ? root.depth() : 0;
+        return root!=null ? root.depth() : 0;
     }
 
     private class NodeValue {

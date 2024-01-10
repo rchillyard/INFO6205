@@ -28,7 +28,13 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
         // TO BE IMPLEMENTED 
 
 
-        throw new RuntimeException("implementation missing");
+
+
+
+
+
+
+throw new RuntimeException("implementation missing");
     }
 
 
@@ -43,8 +49,11 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
             // TO BE IMPLEMENTED 
 
 
+
+
+
             // SKELETON
-            return null;
+             return null;
             // END SOLUTION
         }
     }
@@ -56,10 +65,10 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
     // This Element essentially begins a LinkedList of Elements which correspond
     // to the elements that can be taken from the queue (head points to the oldest element).
     // However, it is built in manner that requires a pointer to the newest element.
-    private final Element<Item> oldest;
+    private Element<Item> oldest;
 
     // This Element always points to the newest (tail-most) element in the LinkedList referenced by oldest.
-    private final Element<Item> newest;
+    private Element<Item> newest;
 
     @Override
     public String toString() {

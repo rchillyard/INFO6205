@@ -3,44 +3,45 @@ package edu.neu.coe.info6205.graphs.Dijkstra;
 import edu.neu.coe.info6205.graphs.BFS_and_prims.Bag;
 import edu.neu.coe.info6205.graphs.BFS_and_prims.StdRandom;
 
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 /**
- * The {@code EdgeWeightedDigraph} class represents a edge-weighted
- * digraph of vertices named 0 through <em>V</em> - 1, where each
- * directed edge is of type {@link DirectedEdge} and has a real-valued weight.
- * It supports the following two primary operations: add a directed edge
- * to the digraph and iterate over all of edges incident from a given vertex.
- * It also provides methods for returning the indegree or outdegree of a
- * vertex, the number of vertices <em>V</em> in the digraph, and
- * the number of edges <em>E</em> in the digraph.
- * Parallel edges and self-loops are permitted.
- * <p>
- * This implementation uses an <em>adjacency-lists representation</em>, which
- * It uses &Theta;(<em>E</em> + <em>V</em>) space, where <em>E</em> is
- * the number of edges and <em>V</em> is the number of vertices.
- * All instance methods take &Theta;(1) time. (Though, iterating over
- * the edges returned by {@link #adj(int)} takes time proportional
- * to the outdegree of the vertex.)
- * Constructing an empty edge-weighted digraph with <em>V</em> vertices
- * takes &Theta;(<em>V</em>) time; constructing an edge-weighted digraph
- * with <em>E</em> edges and <em>V</em> vertices takes
- * &Theta;(<em>E</em> + <em>V</em>) time.
- * <p>
- * For additional documentation,
- * see <a href="https://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
- * <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
+ *  The {@code EdgeWeightedDigraph} class represents a edge-weighted
+ *  digraph of vertices named 0 through <em>V</em> - 1, where each
+ *  directed edge is of type {@link DirectedEdge} and has a real-valued weight.
+ *  It supports the following two primary operations: add a directed edge
+ *  to the digraph and iterate over all of edges incident from a given vertex.
+ *  It also provides methods for returning the indegree or outdegree of a
+ *  vertex, the number of vertices <em>V</em> in the digraph, and
+ *  the number of edges <em>E</em> in the digraph.
+ *  Parallel edges and self-loops are permitted.
+ *  <p>
+ *  This implementation uses an <em>adjacency-lists representation</em>, which
+ *  It uses &Theta;(<em>E</em> + <em>V</em>) space, where <em>E</em> is
+ *  the number of edges and <em>V</em> is the number of vertices.
+ *  All instance methods take &Theta;(1) time. (Though, iterating over
+ *  the edges returned by {@link #adj(int)} takes time proportional
+ *  to the outdegree of the vertex.)
+ *  Constructing an empty edge-weighted digraph with <em>V</em> vertices
+ *  takes &Theta;(<em>V</em>) time; constructing an edge-weighted digraph
+ *  with <em>E</em> edges and <em>V</em> vertices takes
+ *  &Theta;(<em>E</em> + <em>V</em>) time.
+ *  <p>
+ *  For additional documentation,
+ *  see <a href="https://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
+ *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  *
- * @author Robert Sedgewick
- * @author Kevin Wayne
+ *  @author Robert Sedgewick
+ *  @author Kevin Wayne
  */
 public class EdgeWeightedDigraph {
     private static final String NEWLINE = System.getProperty("line.separator");
 
     private final int V;                // number of vertices in this digraph
     private int E;                      // number of edges in this digraph
-    private final Bag<DirectedEdge>[] adj;    // adj[v] = adjacency list for vertex v
-    private final int[] indegree;             // indegree[v] = indegree of vertex v
+    private Bag<DirectedEdge>[] adj;    // adj[v] = adjacency list for vertex v
+    private int[] indegree;             // indegree[v] = indegree of vertex v
 
     /**
      * Initializes an empty edge-weighted digraph with {@code V} vertices and 0 edges.
@@ -121,7 +122,7 @@ public class EdgeWeightedDigraph {
     // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex(int v) {
         if (v < 0 || v >= V)
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
     }
 
     /**

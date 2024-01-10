@@ -47,7 +47,7 @@ public class MyTree<X> {
             // TO BE IMPLEMENTED 
 
             // SKELETON
-            return null;
+             return null;
             // END SOLUTION
         }
 
@@ -74,7 +74,7 @@ public class MyTree<X> {
             // TO BE IMPLEMENTED 
 
             // SKELETON
-            return null;
+             return null;
             // END SOLUTION
         }
 

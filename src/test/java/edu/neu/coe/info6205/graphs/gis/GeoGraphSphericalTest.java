@@ -4,7 +4,7 @@ import edu.neu.coe.info6205.SizedIterable;
 import edu.neu.coe.info6205.graphs.tunnels.Building;
 import edu.neu.coe.info6205.graphs.tunnels.BuildingLoader;
 import edu.neu.coe.info6205.graphs.tunnels.TunnelProperties;
-import edu.neu.coe.info6205.graphs.tunnels.Tunnels;
+import edu.neu.coe.info6205.graphs.tunnels.Tunnels_Kruskal;
 import edu.neu.coe.info6205.graphs.undirected.Edge;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.After;
@@ -22,28 +22,28 @@ public class GeoGraphSphericalTest {
     private static final int oneDegreeLongAtEquator = 111321; // in meters
     public static final int londonToBoston = 5239657; // in metres (assuming spherical earth)
     private Building sn;
-    private Tunnels ts;
+    private Tunnels_Kruskal ts;
     private GeoKruskal<Building, TunnelProperties> kruskal;
     private final Building la = new Building(34, "LA", "Centennial", -71.0930697, 42.3384215, false, "Lake Hall");
     private final Building ka = new Building(35, "KA", "Plaza", -71.0931943, 42.3386223, false, "Kariotis Hall");
     private final Edge<Building, TunnelProperties> laka = new GeoEdge<>(la, ka, new TunnelProperties(29510, 25, 1, 0));
     private final Building ri = new Building(42, "RI", "Center", -71.0887314, 42.3397321, true, "Richards Hall");
     private final Building ha = new Building(53, "HA", "Center", -71.0885712, 42.3395146, true, "Hayden Hall");
-    private final Edge riha = new Edge(ri, ha, new TunnelProperties(276L, 28, 0, 0));
-    GeoPoint london = new MockGeoPoint("London", new Position_Spherical(51.5, -0.5)); // Heathrow (approx) 51°28′14″N, 0°27′42″W
-    GeoPoint boston = new MockGeoPoint("Boston", new Position_Spherical(42.35, -71)); // Logan (approx) 42°21′51″N, 71°0′18″W
+    private final Edge<Building, TunnelProperties> riha = new Edge<>(ri, ha, new TunnelProperties(276L, 28, 0, 0));
+    final GeoPoint london = new MockGeoPoint("London", new Position_Spherical(51.5, -0.5)); // Heathrow (approx) 51°28′14″N, 0°27′42″W
+    final GeoPoint boston = new MockGeoPoint("Boston", new Position_Spherical(42.35, -71)); // Logan (approx) 42°21′51″N, 71°0′18″W
 
 
     @Before
-    public void setUp() throws Exception {
-        ts = new Tunnels(BuildingLoader.createBuildings());
+    public void setUp() {
+        ts = new Tunnels_Kruskal(BuildingLoader.createBuildings());
         PrivateMethodTester tsTester = new PrivateMethodTester(ts);
         kruskal = (GeoKruskal<Building, TunnelProperties>) tsTester.invokePrivate("getKruskal");
     }
 
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test

@@ -51,7 +51,18 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
         // TO BE IMPLEMENTED  : use function to qualify triples and to navigate otherwise.
 
 
-        throw new RuntimeException("implementation missing");
+
+
+
+
+
+
+
+
+
+
+
+throw new RuntimeException("implementation missing");
     }
 
     private final int[] a;
