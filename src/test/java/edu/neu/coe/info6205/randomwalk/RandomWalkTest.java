@@ -7,8 +7,7 @@ package edu.neu.coe.info6205.randomwalk;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 public class RandomWalkTest {
 
@@ -86,4 +85,20 @@ public class RandomWalkTest {
         for (int i = 0; i < 5000; i++)
             assertNotSame(0, RandomWalk.randomWalkMulti(1, 1));
     }
+
+    @Test
+    public void newTestRandomWalk() {
+        int[] m = new int[]{70, 65, 43, 24, 4, 67, 54, 67, 90, 10};
+        int n = 100;
+
+        for (int steps : m) {
+            double expectedMeanDistance = Math.sqrt(steps);
+            double observedMeanDistance = RandomWalk.randomWalkMulti(steps, n);
+            double confidence = 1.5;
+            System.out.print("Expected Mean Distance: " + expectedMeanDistance);
+            System.out.println("\tObserved Mean Distance: " + observedMeanDistance);
+            assertTrue(observedMeanDistance >= expectedMeanDistance - confidence && observedMeanDistance <= expectedMeanDistance + confidence);
+        }
+    }
+
 }

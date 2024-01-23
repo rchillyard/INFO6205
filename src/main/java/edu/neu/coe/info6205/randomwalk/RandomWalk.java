@@ -1,7 +1,6 @@
 /*
- * Copyright (c) 2017. Phasmid Software
- */
-
+* Copyright (c) 2017. Phasmid Software
+*/
 package edu.neu.coe.info6205.randomwalk;
 
 import java.util.Random;
@@ -20,12 +19,8 @@ public class RandomWalk {
      * @param dy the distance he moves in the y direction
      */
     private void move(int dx, int dy) {
-        // TO BE IMPLEMENTED  do move
-
-
-        // SKELETON
-         throw new RuntimeException("Not implemented");
-        // END SOLUTION
+        x += dx;
+        y += dy;
     }
 
     /**
@@ -34,10 +29,9 @@ public class RandomWalk {
      * @param m the number of steps the drunkard takes
      */
     private void randomWalk(int m) {
-        // TO BE IMPLEMENTED 
-
-
-throw new RuntimeException("implementation missing");
+        for (int i = 0; i < m; i++) {
+            randomMove();
+        }
     }
 
     /**
@@ -56,11 +50,7 @@ throw new RuntimeException("implementation missing");
      * @return the (Euclidean) distance from the origin to the current position.
      */
     public double distance() {
-        // TO BE IMPLEMENTED 
-
-        // SKELETON
-         return 0.0;
-        // END SOLUTION
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     /**
