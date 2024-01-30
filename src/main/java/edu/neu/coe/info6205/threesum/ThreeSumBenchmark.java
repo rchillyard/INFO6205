@@ -20,6 +20,7 @@ public class ThreeSumBenchmark {
         benchmarkThreeSum("ThreeSumQuadratic", (xs) -> new ThreeSumQuadratic(xs).getTriples(), n, timeLoggersQuadratic);
         benchmarkThreeSum("ThreeSumQuadrithmic", (xs) -> new ThreeSumQuadrithmic(xs).getTriples(), n, timeLoggersQuadrithmic);
         benchmarkThreeSum("ThreeSumCubic", (xs) -> new ThreeSumCubic(xs).getTriples(), n, timeLoggersCubic);
+        benchmarkThreeSum("ThreeSumQuadraticWithCalipers", (xs) -> new ThreeSumCubic(xs).getTriples(), n, timeLoggersCalipers);
     }
 
     public static void main(String[] args) {
@@ -33,18 +34,23 @@ public class ThreeSumBenchmark {
     }
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
-        if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // TO BE IMPLEMENTED 
+        if (description.equals("ThreeSumCubic") && n > 4000) return; 
 
+        Benchmark_Timer<int[]> timer = new Benchmark_Timer<>(
+                description,
+                null,
+                function,
+                null 
+        );
 
+        int[] array = supplier.get();
 
-
-
-
-
-
-throw new RuntimeException("implementation missing");
+        double time = timer.runFromSupplier(() -> array, runs); 
+        for (TimeLogger timeLogger : timeLoggers) {
+            timeLogger.log(time, n);
+        }
     }
+
 
     private final static TimeLogger[] timeLoggersCubic = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
@@ -55,6 +61,10 @@ throw new RuntimeException("implementation missing");
             new TimeLogger("Normalized time per run (n^2 log n): ", (time, n) -> time / n / n / Utilities.lg(n) * 1e6)
     };
     private final static TimeLogger[] timeLoggersQuadratic = {
+            new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
+            new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / n / n * 1e6)
+    };
+    private final static TimeLogger[] timeLoggersCalipers = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / n / n * 1e6)
     };
