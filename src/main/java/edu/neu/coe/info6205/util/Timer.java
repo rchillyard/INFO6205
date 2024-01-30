@@ -60,36 +60,38 @@ public class Timer {
      * @return the average milliseconds per repetition.
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
-        // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // SKELETON
-         return 0;
-        // END SOLUTION
+        if (warmup) {
+            for (int i = 0; i < n; i++) {
+                T supplied = supplier.get();
+                if (preFunction != null) {
+                    supplied = preFunction.apply(supplied);
+                }
+                U result = function.apply(supplied);
+                if (postFunction != null) {
+                    postFunction.accept(result);
+                }
+            }
+            pause();
+        } else {
+            for (int i = 0; i < n; i++) {
+                T supplied = supplier.get();
+                if (preFunction != null) {
+                    supplied = preFunction.apply(supplied);
+                }
+                long start = getClock();
+                U result = function.apply(supplied);
+                long end = getClock();
+                ticks += (end - start);
+                if (postFunction != null) {
+                    postFunction.accept(result);
+                }
+                lap();
+            }
+            pause();
+        }
+        return meanLapTime();
     }
+    // END SOLUTION
 
     /**
      * Stop this Timer and return the mean lap time in milliseconds.
@@ -214,9 +216,7 @@ public class Timer {
      */
     private static long getClock() {
         // TO BE IMPLEMENTED 
-
-        // SKELETON
-         return 0;
+        return System.nanoTime();
         // END SOLUTION
     }
 
@@ -229,9 +229,7 @@ public class Timer {
      */
     private static double toMillisecs(long ticks) {
         // TO BE IMPLEMENTED 
-
-        // SKELETON
-         return 0;
+        return ticks / 1_000_000.0;
         // END SOLUTION
     }
 

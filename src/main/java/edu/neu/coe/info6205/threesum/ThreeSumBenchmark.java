@@ -34,16 +34,14 @@ public class ThreeSumBenchmark {
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
+        Benchmark_Timer<int[]> benchmarkTimer = new Benchmark_Timer<>(description, function);
+        double averageTime = benchmarkTimer.runFromSupplier(supplier, runs);
 
 
-
-
-
-
-
-
-throw new RuntimeException("implementation missing");
+        for (TimeLogger timeLogger: timeLoggers) {
+            timeLogger.log(averageTime, n);
+        }
     }
 
     private final static TimeLogger[] timeLoggersCubic = {
