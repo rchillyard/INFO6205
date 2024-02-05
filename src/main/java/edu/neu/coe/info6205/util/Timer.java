@@ -60,36 +60,27 @@ public class Timer {
      * @return the average milliseconds per repetition.
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
-        if (warmup) {
-            for (int i = 0; i < n; i++) {
-                T supplied = supplier.get();
-                if (preFunction != null) {
-                    supplied = preFunction.apply(supplied);
-                }
-                U result = function.apply(supplied);
-                if (postFunction != null) {
-                    postFunction.accept(result);
-                }
+        ticks = 0L;
+        for (int i = 0; i < n; i++) {
+            T supplied = supplier.get();
+            if (preFunction != null) {
+                supplied = preFunction.apply(supplied);
             }
-            pause();
-        } else {
-            for (int i = 0; i < n; i++) {
-                T supplied = supplier.get();
-                if (preFunction != null) {
-                    supplied = preFunction.apply(supplied);
-                }
-                long start = getClock();
-                U result = function.apply(supplied);
-                long end = getClock();
+            long start = getClock();
+            U result = function.apply(supplied);
+            long end = getClock();
+            if (!warmup) {
                 ticks += (end - start);
-                if (postFunction != null) {
-                    postFunction.accept(result);
-                }
                 lap();
             }
-            pause();
+            if (postFunction != null) {
+                postFunction.accept(result);
+            }
         }
+        pause();
+        ticks -= getClock();
         return meanLapTime();
+
     }
     // END SOLUTION
 
@@ -215,7 +206,7 @@ public class Timer {
      * @return the number of ticks for the system clock. Currently defined as nano time.
      */
     private static long getClock() {
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
         return System.nanoTime();
         // END SOLUTION
     }

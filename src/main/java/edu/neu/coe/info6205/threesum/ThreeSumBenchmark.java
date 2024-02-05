@@ -35,9 +35,8 @@ public class ThreeSumBenchmark {
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
         // TO BE IMPLEMENTED
-        Benchmark_Timer<int[]> benchmarkTimer = new Benchmark_Timer<>(description, function);
+        Benchmark_Timer<int[]> benchmarkTimer = new Benchmark_Timer<>(description,null, function,null);
         double averageTime = benchmarkTimer.runFromSupplier(supplier, runs);
-
 
         for (TimeLogger timeLogger: timeLoggers) {
             timeLogger.log(averageTime, n);
