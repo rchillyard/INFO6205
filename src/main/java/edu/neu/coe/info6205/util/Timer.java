@@ -18,7 +18,7 @@ public class Timer {
      *
      * @param n        the number of repetitions.
      * @param function a function which yields a T.
-     * @param <T> the type supplied by function (amy be Void).
+     * @param <T> the type supplied by function (may be Void).
      * @return the average milliseconds per repetition.
      */
     public <T> double repeat(int n, Supplier<T> function) {
@@ -61,33 +61,25 @@ public class Timer {
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
+        pause();
 
+        for (int i = 0; i < n; i++) {
+            T input = supplier.get();
+            if (preFunction != null) {
+                input = preFunction.apply(input);
+            }
+            resume();
+            U output = function.apply(input);
+            lap();
+            pause();
+            if (postFunction != null) {
+                postFunction.accept(output);
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // SKELETON
-         return 0;
+        final double result = meanLapTime();
+        resume();
+        return result;
         // END SOLUTION
     }
 
@@ -214,9 +206,7 @@ public class Timer {
      */
     private static long getClock() {
         // TO BE IMPLEMENTED 
-
-        // SKELETON
-         return 0;
+        return System.nanoTime();
         // END SOLUTION
     }
 
@@ -228,10 +218,8 @@ public class Timer {
      * @return the corresponding number of milliseconds.
      */
     private static double toMillisecs(long ticks) {
-        // TO BE IMPLEMENTED 
-
-        // SKELETON
-         return 0;
+        // TO BE IMPLEMENTED
+        return (double) ticks / 1000000;
         // END SOLUTION
     }
 
