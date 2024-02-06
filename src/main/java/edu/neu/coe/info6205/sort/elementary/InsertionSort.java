@@ -8,6 +8,8 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
 
+import java.util.Arrays;
+
 /**
  * Class InsertionSort.
  *
@@ -62,13 +64,23 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
      */
     public void sort(X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
-
-        // TO BE IMPLEMENTED 
-
-
-
-
-throw new RuntimeException("implementation missing");
+        // TO BE IMPLEMENTED
+        if (helper.instrumented()) {
+            for (int i = from; i < to; i++) {
+                int j = i;
+                while ((j > from) && helper.swapStableConditional(xs, j)) {
+                    j--;
+                }
+            }
+        } else {
+            for (int i = from; i < to; i++) {
+                for (int j = i; j > from && xs[j - 1].compareTo(xs[j]) > 0; j--) {
+                    X temp = xs[j];
+                    xs[j] = xs[j - 1];
+                    xs[j - 1] = temp;
+                }
+            }
+        }
     }
 
     public static final String DESCRIPTION = "Insertion sort";

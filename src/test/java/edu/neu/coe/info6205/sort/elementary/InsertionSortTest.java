@@ -9,11 +9,15 @@ import edu.neu.coe.info6205.util.Config;
 import edu.neu.coe.info6205.util.LazyLogger;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import edu.neu.coe.info6205.util.StatPack;
+import edu.neu.coe.info6205.util.Timer;
+import edu.neu.coe.info6205.util.Benchmark_Timer;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.function.Supplier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -137,6 +141,61 @@ public class InsertionSortTest {
         final int fixes = (int) statPack.getStatistics(InstrumentedHelper.FIXES).mean();
         System.out.println(statPack);
         assertEquals(inversions, fixes);
+    }
+
+    @Test
+    public void sortTimer() {
+        int[] ns = {250, 500, 1000, 2000, 4000};
+        String[] orders = {"random", "ordered", "partially-ordered", "reverse-ordered"};
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
+
+        for (int n : ns) {
+            System.out.println("Benchmark for n = " + n);
+            for (String order : orders) {
+                Supplier<Integer[]> arraySupplier = () -> generateArray(n, order);
+                InsertionSort<Integer> sorter = new InsertionSort<>("Insertion Sort", n, config);
+                Benchmark_Timer<Integer[]> benchmark = new Benchmark_Timer<>("Sorting Benchmark", sorter::sort);
+
+                //warmup
+                new Timer().repeat(10, true, arraySupplier, sorter::sort, null, null);
+                //timing the function
+                double averageTime = benchmark.runFromSupplier(arraySupplier, 15);
+                System.out.println("Ordering: " + order + ", Average Time: " + averageTime + " milliseconds");
+            }
+            System.out.println();
+        }
+    }
+
+    private static Integer[] generateArray(int n, String order) {
+        Integer[] arr = new Integer[n];
+        Random random = new Random();
+
+        switch (order) {
+            case "random":
+                for (int i = 0; i < n; i++) {
+                    arr[i] = random.nextInt();
+                }
+                break;
+            case "ordered":
+                for (int i = 0; i < n; i++) {
+                    arr[i] = i;
+                }
+                break;
+            case "partially-ordered":
+                for (int i = 0; i < n; i++) {
+                    arr[i] = i + random.nextInt(100);
+                }
+                break;
+            case "reverse-ordered":
+                for (int i = 0; i < n; i++) {
+                    arr[i] = n - i;
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid order type");
+        }
+
+        return arr;
     }
 
     final static LazyLogger logger = new LazyLogger(InsertionSort.class);
