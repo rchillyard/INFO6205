@@ -15,7 +15,6 @@ import edu.neu.coe.info6205.sort.linearithmic.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.*;
@@ -41,9 +40,12 @@ public class SortBenchmark {
         if (args.length == 0) logger.warn("No word counts specified on the command line");
         SortBenchmark benchmark = new SortBenchmark(config);
         benchmark.sortStrings(Arrays.stream(args).map(Integer::parseInt));
-        if (benchmark.isConfigBenchmarkIntegerSorter("shellSort"))
-            benchmark.sortIntegersByShellSort(config.getInt("shellsort", "n", 100000));
-//        benchmark.sortLocalDateTimes(config.getInt("benchmarkdatesorters", "n", 100000), config);
+        benchmark.doIntegerSorts(Arrays.stream(args).map(Integer::parseInt));
+    }
+
+    public void doIntegerSorts(Stream<Integer> wordCounts) {
+        if (isConfigBenchmarkIntegerSorter("shellsort"))
+            wordCounts.forEach(this::getSortedIntegersByShellSort);
     }
 
     public void sortLocalDateTimes(final int n, Config config) throws IOException {
@@ -158,54 +160,14 @@ public class SortBenchmark {
         doPureBenchmark(words, nWords, nRuns, random, benchmark);
     }
 
-    // CONSIDER generifying common code (but it's difficult if not impossible)
-    private void sortIntegersByShellSort(final int n) {
-        final Random random = new Random();
-
-        // sort int[]
-        final Supplier<int[]> intsSupplier = () -> {
-            int[] result = (int[]) Array.newInstance(int.class, n);
-            for (int i = 0; i < n; i++) result[i] = random.nextInt();
-            return result;
-        };
-
-        final double t1 = new Benchmark_Timer<int[]>(
-                "intArraysorter",
-                (xs) -> Arrays.copyOf(xs, xs.length),
-                Arrays::sort,
-                null
-        ).runFromSupplier(intsSupplier, 100);
-        for (TimeLogger timeLogger : timeLoggersLinearithmic) timeLogger.log(t1, n);
-
-        // sort Integer[]
-        final Supplier<Integer[]> integersSupplier = () -> {
-            Integer[] result = (Integer[]) Array.newInstance(Integer.class, n);
-            for (int i = 0; i < n; i++) result[i] = random.nextInt();
-            return result;
-        };
-
-        final double t2 = new Benchmark_Timer<Integer[]>(
-                "integerArraysorter",
-                (xs) -> Arrays.copyOf(xs, xs.length),
-                Arrays::sort,
-                null
-        ).runFromSupplier(integersSupplier, 100);
-        for (TimeLogger timeLogger : timeLoggersLinearithmic) timeLogger.log(t2, n);
-    }
-
-    // This was added by a Student. Need to figure out what to do with it. What's different from the method with int parameter??
-    private void sortIntegersByShellSort() throws IOException {
+    private void sortIntegersByShellSort(int N) throws IOException {
         if (isConfigBenchmarkIntegerSorter("shellsort")) {
-            final Random random = new Random();
-            int N = 1000;
-            for (int j = 0; j < 10; j++) {
-                Integer[] numbers = new Integer[N];
-                for (int i = 0; i < N; i++) numbers[i] = random.nextInt();
-
-                SortWithHelper<Integer> sorter = new ShellSort<>(5);
-                runIntegerSortBenchmark(numbers, N, 1000, sorter, sorter::preProcess, timeLoggersLinearithmic);
-                N = N * 2;
-            }
+            int m = config.getInt(BENCHMARKINTEGERSORTERS, "mode", 5);
+            int runs = config.getInt(BENCHMARKINTEGERSORTERS, "runs", 1000);
+            Helper<Integer> helper = new BaseHelper<>("Shell sort: mode " + m, N, config);
+            Integer[] numbers = helper.random(Integer.class, Random::nextInt);
+            SortWithHelper<Integer> sorter = new ShellSort<>(m, helper);
+            runIntegerSortBenchmark(numbers, N, runs, sorter, sorter::preProcess, timeLoggersLinearithmic);
         }
     }
 
@@ -364,6 +326,14 @@ public class SortBenchmark {
         sorterBenchmark.run(N);
     }
 
+    private void getSortedIntegersByShellSort(int x) {
+        try {
+            sortIntegersByShellSort(x);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * For (basic) insertionsort, the number of array accesses is actually 6 times the number of comparisons.
      * That's because, for each inversion, there will typically be one swap (four array accesses) and (at least) one comparison (two array accesses).
@@ -390,12 +360,14 @@ public class SortBenchmark {
     }
 
     private boolean isConfigBenchmarkIntegerSorter(String option) {
-        return isConfigBoolean("benchmarkintegersorters", option);
+        return isConfigBoolean(BENCHMARKINTEGERSORTERS, option);
     }
 
     private boolean isConfigBoolean(String section, String option) {
         return config.getBoolean(section, option);
     }
+
+    public static final String BENCHMARKINTEGERSORTERS = "benchmarkintegersorters";
 
     private final Config config;
 }
