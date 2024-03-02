@@ -22,6 +22,15 @@ import static org.junit.Assert.*;
 @SuppressWarnings("ALL")
 public class ShellSortTest {
 
+    @BeforeClass
+    public static void setupClass() {
+        try {
+            config = Config.load(BaseHelperTest.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testSedgewick0() throws IOException {
         ShellSort<Integer> shellSort = new ShellSort<>(4);
@@ -43,17 +52,8 @@ public class ShellSortTest {
         assertEquals(0, h.next());
     }
 
-    @BeforeClass
-    public static void setupClass() {
-        try {
-            config = Config.load(BaseHelperTest.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
-    public void hSort3() {
+    public void hSortKnuth3() {
         GenericSort<Integer> sorter = new ShellSort<>(3, config);
         PrivateMethodTester t = new PrivateMethodTester(sorter);
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
@@ -64,21 +64,21 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort1() throws Exception {
+    public void sortKnuth1() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
         assertArrayEquals(zs, new ShellSort<Integer>(3, config).sort(xs));
     }
 
     @Test
-    public void sort1a() throws Exception {
+    public void sortPratt1a() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
         assertArrayEquals(zs, new ShellSort<Integer>(5, config).sort(xs));
     }
 
     @Test
-    public void sort2() throws Exception {
+    public void sortKnuth2() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
         GenericSort ss = new ShellSort<Integer>(3, config);
@@ -87,7 +87,7 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort2a() throws Exception {
+    public void sortPratt2a() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
         GenericSort ss = new ShellSort<Integer>(5, config);
@@ -96,7 +96,7 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort3() throws Exception {
+    public void sortKnuth3() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {15, -1, 3, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         GenericSort ss = new ShellSort<Integer>(3, config);
@@ -105,7 +105,7 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort3a() throws Exception {
+    public void sortKnuth3a() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {15, -1, 3, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         GenericSort ss = new ShellSort<Integer>(5, config);
@@ -114,7 +114,7 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort4() throws Exception {
+    public void sortKnuth4() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 7, 9, 11, 17};
         GenericSort ss = new ShellSort<Integer>(3, config);
@@ -123,7 +123,7 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort4a() throws Exception {
+    public void sortPratt4a() throws Exception {
         Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
         Integer[] zs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 7, 9, 11, 17};
         GenericSort ss = new ShellSort<Integer>(5, config);
@@ -132,33 +132,66 @@ public class ShellSortTest {
     }
 
     @Test
-    public void sort7() throws Exception {
+    public void sortKnuth7() throws Exception {
         doShellSortTest(1000, 3);
     }
 
     @Test
-    public void sort7a() throws Exception {
+    public void sortPratt7a() throws Exception {
         doShellSortTest(1000, 5);
     }
 
     @Test
-    public void sort5a() throws Exception {
+    public void sortKnuth5a() throws Exception {
         doShellSortTest(10, 3);
     }
 
     @Test
-    public void sort5b() throws Exception {
+    public void sortPratt5b() throws Exception {
         doShellSortTest(10, 5);
     }
 
     @Test
-    public void sort6a() throws Exception {
+    public void sortKnuth6a() throws Exception {
         doShellSortTest(100, 3);
     }
 
     @Test
-    public void sort6b() throws Exception {
+    public void sortPratt6b() throws Exception {
         doShellSortTest(100, 5);
+    }
+
+    @Test
+    public void sortInsertionSortH1() {
+        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
+        Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
+        assertArrayEquals(zs, new ShellSort<Integer>(1, config).sort(xs));
+    }
+
+    @Test
+    public void sortShellH2() {
+        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
+        Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
+        assertArrayEquals(zs, new ShellSort<Integer>(2, config).sort(xs));
+    }
+
+    @Test
+    public void sortPrattH3() {
+        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
+        Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
+        assertArrayEquals(zs, new ShellSort<Integer>(5, config).sort(xs));
+    }
+
+    @Test
+    public void doShellSortKnuth() {
+        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
+        InstrumentedHelper<Integer> helper = new InstrumentedHelper<>("ShellSort with instrumentation", xs.length, config);
+        ShellSort.doShellSort(3, helper, xs);
+    }
+
+    @Test
+    public void doInstrumentedRandomDoubleShellSortKnuth() throws IOException {
+        ShellSort.doRandomDoubleShellSort(3, 1000, 10, Config.load());
     }
 
     private void doShellSortTest(int N, final int gapSequence) throws IOException {
@@ -193,39 +226,6 @@ public class ShellSortTest {
             System.out.println("compares: " + instrumentedHelper.getCompares());
             System.out.println("swaps: " + instrumentedHelper.getSwaps());
         }
-    }
-
-    @Test
-    public void sortH1() {
-        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
-        Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
-        assertArrayEquals(zs, new ShellSort<Integer>(1, config).sort(xs));
-    }
-
-    @Test
-    public void sortH2() {
-        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
-        Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
-        assertArrayEquals(zs, new ShellSort<Integer>(2, config).sort(xs));
-    }
-
-    @Test
-    public void sortH3() {
-        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
-        Integer[] zs = {-1, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 15, 17};
-        assertArrayEquals(zs, new ShellSort<Integer>(5, config).sort(xs));
-    }
-
-    @Test
-    public void doShellSort() {
-        Integer[] xs = {15, 3, -1, 2, 4, 1, 0, 5, 8, 6, 1, 9, 17, 7, 11};
-        InstrumentedHelper<Integer> helper = new InstrumentedHelper<>("ShellSort with instrumentation", xs.length, config);
-        ShellSort.doShellSort(3, helper, xs);
-    }
-
-    @Test
-    public void doInstrumentedRandomDoubleShellSort() throws IOException {
-        ShellSort.doRandomDoubleShellSort(3, 1000, 10, Config.load());
     }
 
     final static LazyLogger logger = new LazyLogger(ShellSort.class);
