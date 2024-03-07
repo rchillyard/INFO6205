@@ -3,16 +3,16 @@
  */
 package edu.neu.coe.info6205.sort.elementary;
 
-import com.phasmidsoftware.args.Args;
 import edu.neu.coe.info6205.sort.*;
 import edu.neu.coe.info6205.util.Config;
 import edu.neu.coe.info6205.util.LazyLogger;
 import edu.neu.coe.info6205.util.Stopwatch;
-import scala.collection.immutable.Seq;
-import scala.util.Try;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 /**
@@ -23,8 +23,14 @@ import java.util.function.Consumer;
 public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     /**
-     * Constructor for ShellSort
+     * Primary constructor for ShellSort with configuration and size.
      *
+     * @param m      the mode, that is to say the "gap" (h) sequence to follow:
+     *               1: ordinary insertion sort;
+     *               2: use powers of two less one;
+     *               3: use the sequence based on 3 (the one in the book): 1, 4, 13, etc.
+     *               4: Sedgewick's sequence (not implemented).
+     *               5: Pratt Sequence 2^i*3^j with i, j >= 0.
      * @param N      the number elements we expect to sort.
      * @param config the configuration.
      */
@@ -33,16 +39,24 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
         this.m = m;
     }
 
+    /**
+     * Secondary constructor for ShellSort using Pratt sequence.
+     */
     public ShellSort() throws IOException {
         this(5);
     }
 
+    /**
+     * Secondary constructor for ShellSort using Pratt sequence and the standard configuration-based helper.
+     *
+     * @param m      the mode, that is to say the "gap" (h) sequence to follow (see other constructors)
+     */
     public ShellSort(int m) throws IOException {
         this(m, new BaseHelper<>(DESCRIPTION + m, Config.load(ShellSort.class)));
     }
 
     /**
-     * Constructor for ShellSort
+     * Primary constructor for ShellSort with explicit mode and helper.
      *
      * @param m      the "gap" (h) sequence to follow:
      *               1: ordinary insertion sort;
@@ -58,7 +72,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
     }
 
     /**
-     * Constructor for ShellSort
+     * Secondary constructor for ShellSort with explicit mode and configuration.
      *
      * @param m the "gap" (h) sequence to follow:
      *          1: ordinary insertion sort;
@@ -66,6 +80,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
      *          3: Knuth's sequence based on 3 (the one in the book): 1, 4, 13, etc.
      *          4: Sedgewick's 1986 sequence.
      *          5: Pratt sequence (1971) 2^i*3^j with i, j >= 0.
+     * @param config the configuration.
      */
     public ShellSort(int m, Config config) {
         this(m, new BaseHelper<>(DESCRIPTION, config));
@@ -216,9 +231,7 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
                         return (int) sedgewick(i);
                     case 5:
                         i--;
-                        if (i < 0) {
-                            return 0;
-                        }
+                        if (i < 0) return 0;
                         return data.get(i);
 
                     default:
@@ -249,6 +262,15 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
         return helper.sorted(xs);
     }
 
+    /**
+     * Method to perform an (instrumented) shell sort on random data.
+     *
+     * @param m the mode (gap sequence).
+     * @param n the size of the array to be sorted.
+     * @param r the number of repetitions.
+     * @param config the configuration.
+     * @return true if everything went according to plan.
+     */
     static boolean doRandomDoubleShellSort(int m, int n, int r, final Config config) {
         boolean instrumented = config.getBoolean(Config.HELPER, "instrument");
         Helper<Double> helper = instrumented ? new InstrumentedHelper<>("ShellSort mode: " + m + " with instrumentation", n, config) : new BaseHelper<>("ShellSort mode: " + m, n, config);
@@ -262,22 +284,22 @@ public class ShellSort<X extends Comparable<X>> extends SortWithHelper<X> {
         return result;
     }
 
-    public static void main(String[] args) throws IOException {
-        Try<Args<String>> argsTry = Args.parseSimple(args);
-        if (argsTry.isSuccess()) {
-            Args<String> stringArgs = argsTry.get();
-            if (stringArgs.size() >= 2) {
-                Config config = Config.load();
-                Seq<String> operands = stringArgs.operands();
-                int m = Integer.parseInt(operands.head());
-                int n = Integer.parseInt(operands.apply(1));
-//                showRandomDoubleShellSortResult(1, n, config);
-                showRandomDoubleShellSortResult(m, n, config);
-            } else
-                System.err.println("Syntax error (too few arguments): " + Arrays.toString(args));
-        } else
-            System.err.println("Syntax error: " + Arrays.toString(args));
-    }
+//    public static void main(String[] args) throws IOException {
+//        Try<Args<String>> argsTry = Args.parseSimple(args);
+//        if (argsTry.isSuccess()) {
+//            Args<String> stringArgs = argsTry.get();
+//            if (stringArgs.size() >= 2) {
+//                Config config = Config.load();
+//                Seq<String> operands = stringArgs.operands();
+//                int m = Integer.parseInt(operands.head());
+//                int n = Integer.parseInt(operands.apply(1));
+////                showRandomDoubleShellSortResult(1, n, config);
+//                showRandomDoubleShellSortResult(m, n, config);
+//            } else
+//                System.err.println("Syntax error (too few arguments): " + Arrays.toString(args));
+//        } else
+//            System.err.println("Syntax error: " + Arrays.toString(args));
+//    }
 
     private static void showRandomDoubleShellSortResult(int m, int n, final Config config) {
         try (Stopwatch stopwatch = new Stopwatch()) {
