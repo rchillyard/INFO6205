@@ -35,7 +35,6 @@ public class BaseHelperTest {
          *
          * @param xs the array to be tested.
          */
-        @Override
         public void postProcess(X[] xs) {
             if (!sorted(xs)) throw new BaseHelper.HelperException("Array is not sorted");
         }

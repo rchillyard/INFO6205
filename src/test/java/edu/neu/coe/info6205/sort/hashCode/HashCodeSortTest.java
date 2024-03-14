@@ -74,7 +74,6 @@ public class HashCodeSortTest {
             return result >> 3;
         }
 
-        @Override
         public int compareTo(Date o) {
             int[] thisArray = new int[]{year, month, day, hour, min, sec, millis};
             int[] thatArray = new int[]{o.year, o.month, o.day, o.hour, o.min, o.sec, o.millis};

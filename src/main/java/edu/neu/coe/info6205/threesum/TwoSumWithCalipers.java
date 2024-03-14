@@ -24,7 +24,6 @@ public class TwoSumWithCalipers implements TwoSum {
         length = a.length;
     }
 
-    @Override
     public Pair[] getPairs() {
         List<Pair> pairs = new ArrayList<>();
         Collections.sort(pairs);
@@ -42,19 +41,6 @@ public class TwoSumWithCalipers implements TwoSum {
     public static List<Pair> calipers(int[] a, Function<Pair, Integer> function) {
         List<Pair> pairs = new ArrayList<>();
         // TO BE IMPLEMENTED  : implement getPairs
-
-
-
-
-
-
-
-
-
-
-
-
-
 throw new RuntimeException("implementation missing");
     }
 

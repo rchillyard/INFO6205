@@ -40,7 +40,6 @@ public class QuickSort_DualPivot<X extends Comparable<X>> extends QuickSort<X> {
         this(DESCRIPTION, N, config);
     }
 
-    @Override
     public Partitioner<X> createPartitioner() {
         return new Partitioner_DualPivot(getHelper());
     }

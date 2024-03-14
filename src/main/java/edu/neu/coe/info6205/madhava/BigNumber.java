@@ -175,7 +175,6 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
      * @return the numeric value represented by this object after conversion
      * to type {@code int}.
      */
-    @Override
     public int intValue() {
         if (isWhole()) {
             int value = whole.intValueExact(); // NOTE: can throw an ArithmeticException
@@ -189,7 +188,6 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
      * @return the numeric value represented by this object after conversion
      * to type {@code long}.
      */
-    @Override
     public long longValue() {
         if (isWhole()) {
             long value = whole.longValueExact(); // NOTE: can throw an ArithmeticException
@@ -203,7 +201,6 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
      * @return the numeric value represented by this object after conversion
      * to type {@code float}.
      */
-    @Override
     public float floatValue() {
         return (float) doubleValue();
     }

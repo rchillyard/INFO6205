@@ -3,7 +3,10 @@ package edu.neu.coe.info6205.graphs.gis;
 import edu.neu.coe.info6205.graphs.dag.DiGraph;
 import edu.neu.coe.info6205.graphs.dag.Edge;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Stack;
 
 public class ShortestPaths<V, E extends Number> {
     public ShortestPaths(DiGraph<V, E> graph, V start) {
@@ -70,7 +73,6 @@ public class ShortestPaths<V, E extends Number> {
     private final Map<V, Vertex> table;
 
     class Vertex implements Comparable<Vertex> {
-        @Override
         public int compareTo(Vertex o) {
             return Double.compare(cost, o.cost);
         }

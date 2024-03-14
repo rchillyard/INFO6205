@@ -14,12 +14,10 @@ public class Position_Spherical implements Position {
         return longitude;
     }
 
-    @Override
     public double getX() {
         return latitude;
     }
 
-    @Override
     public double getY() {
         return longitude;
     }

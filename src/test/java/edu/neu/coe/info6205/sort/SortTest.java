@@ -26,7 +26,6 @@ public class SortTest {
          * @param from the index of the first element to sort
          * @param to   the index of the first element not to sort
          */
-        @Override
         public void sort(Integer[] xs, int from, int to) {
             Arrays.sort(xs, from, to);
         }
@@ -58,7 +57,6 @@ public class SortTest {
     public void testSort3() throws IOException {
         final Config config = Config.load(getClass());
         final SortWithHelper<Integer> sorter = new SortWithHelper<Integer>("test", 100, config) {
-            @Override
             public void sort(Integer[] xs, int from, int to) {
                 // Do nothing.
             }
@@ -71,7 +69,6 @@ public class SortTest {
              * @param xs the array to be post-processed.
              * @throws BaseHelper.HelperException if the array xs is not sorted.
              */
-            @Override
             public void postProcess(Integer[] xs) {
                 if (!getHelper().sorted(xs)) throw new BaseHelper.HelperException("Array is not sorted");
             }

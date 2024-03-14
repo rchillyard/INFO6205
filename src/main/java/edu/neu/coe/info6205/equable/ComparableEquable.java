@@ -13,7 +13,6 @@ public class ComparableEquable extends Equable implements Comparable<ComparableE
         super(elements);
     }
 
-    @Override
     public int compareTo(ComparableEquable o) {
         Iterator<?> thisIterator = elements.iterator();
         Iterator<?> thatIterator = o.elements.iterator();

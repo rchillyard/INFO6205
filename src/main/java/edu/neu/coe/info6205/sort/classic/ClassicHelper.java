@@ -21,7 +21,6 @@ public class ClassicHelper<X> implements GenericHelper<X> {
         return randomArray;
     }
 
-    @Override
     public void init(int n) {
         this.n = n;
     }

@@ -41,7 +41,6 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
         return stringBuilder.toString();
     }
 
-    @Override
     public X[] sort(X[] xs, boolean makeCopy) {
         getHelper().init(xs.length);
         X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
@@ -51,7 +50,6 @@ public class MergeSortBasic<X extends Comparable<X>> extends SortWithHelper<X> {
         return result;
     }
 
-    @Override
     public void sort(X[] a, int from, int to) {
         Helper<X> helper = getHelper();
         if (to <= from + helper.cutoff()) {

@@ -20,28 +20,23 @@ public class Dictionary_Hash<K, V> implements Dictionary<K, V> {
         return map.get(k);
     }
 
-    @Override
     public int size() {
         return map.size();
     }
 
-    @Override
     public boolean isEmpty() {
         return map.isEmpty();
     }
 
-    @Override
     public boolean containsKey(Object key) {
         //noinspection SuspiciousMethodCalls
         return map.containsKey(key);
     }
 
-    @Override
     public void clear() {
         map.clear();
     }
 
-    @Override
     public Set<K> keySet() {
         return map.keySet();
     }

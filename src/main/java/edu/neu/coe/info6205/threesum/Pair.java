@@ -31,7 +31,6 @@ class Pair implements Comparable<Pair> {
         return Objects.hash(x, y);
     }
 
-    @Override
     public int compareTo(Pair o) {
         int cf1 = this.x - o.x;
         if (cf1 != 0) return cf1;

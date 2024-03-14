@@ -44,7 +44,6 @@ public class QuickSort_Basic<X extends Comparable<X>> extends QuickSort<X> {
         this(0, config);
     }
 
-    @Override
     public Partitioner<X> createPartitioner() {
         return new Partitioner_Basic(getHelper());
     }

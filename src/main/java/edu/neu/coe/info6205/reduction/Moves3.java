@@ -20,12 +20,6 @@ public class Moves3 implements Moves {
         Point p = t;
         while (true) {
             // TO BE IMPLEMENTED   Sorry, but you have to do this one yourself!
-
-
-
-
-
-            // SKELETON
              return false;
             // END SOLUTION
         }
@@ -38,7 +32,6 @@ public class Moves3 implements Moves {
      * @param which ignored
      * @return the point we moved to
      */
-    @Override
     public Point move(Point p, boolean which) {
         return (p.y > p.x) ? new Point(p.x, p.y - p.x) : new Point(p.x - p.y, p.y);
     }

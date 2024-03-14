@@ -87,14 +87,6 @@ public class DList<Item> implements Iterable<Item> {
      */
     public void addBeforeElement(Item item, D_Element next) {
         // TO BE IMPLEMENTED 
-
-
-
-
-
-
-
-
 throw new RuntimeException("implementation missing");
     }
 
@@ -106,12 +98,6 @@ throw new RuntimeException("implementation missing");
      */
     public void addAfterElement(Item item, D_Element prev) {
         // TO BE IMPLEMENTED 
-
-
-
-
-
-
 throw new RuntimeException("implementation missing");
     }
 
@@ -122,34 +108,17 @@ throw new RuntimeException("implementation missing");
      */
     public void remove(D_Element element) {
         // TO BE IMPLEMENTED 
-
-
-
-
-
 throw new RuntimeException("implementation missing");
     }
 
     public D_Element findFirst(Item item) {
         // TO BE IMPLEMENTED 
-
-
-
-
-
-        // SKELETON
          return null;
         // END SOLUTION
     }
 
     public D_Element findLast(Item item) {
         // TO BE IMPLEMENTED 
-
-
-
-
-
-        // SKELETON
          return null;
         // END SOLUTION
     }
@@ -169,7 +138,6 @@ throw new RuntimeException("implementation missing");
         return sb.toString();
     }
 
-    @Override
     public Iterator<Item> iterator() {
         return head != null ? head.iterator() : Collections.emptyIterator();
     }
@@ -189,7 +157,6 @@ throw new RuntimeException("implementation missing");
         D_Element prev;
         D_Element next;
 
-        @Override
         public Iterator<Item> iterator() {
             Collection<Item> result = new ArrayList<>();
             D_Element cursor = this;

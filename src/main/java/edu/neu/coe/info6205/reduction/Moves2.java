@@ -20,17 +20,17 @@ public class Moves2 {
 
     public boolean valid(int x, int y) {
         Queue<Point> points = new Queue_Elements<>();
-        points.enqueue(new Point(x, y));
+        points.offer(new Point(x, y));
         return inner(points, false);
     }
 
     private boolean inner(Queue<Point> points, boolean result) {
         if (points.isEmpty()) return result;
-        Point x = points.dequeue();
+        Point x = points.poll();
         if (x.equals(t)) return true;
         if (x.x > t.x || x.y > t.y) return inner(points, false);
-        points.enqueue(move(x, true));
-        points.enqueue(move(x, false));
+        points.offer(move(x, true));
+        points.offer(move(x, false));
         return inner(points, result);
     }
 

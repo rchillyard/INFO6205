@@ -46,7 +46,6 @@ public class MyDate implements Comparable<MyDate> {
         return dayOfWeek;
     }
 
-    @Override
     public int compareTo(MyDate that) {
         int cfy = Integer.compare(this.year, that.year);
         if (cfy != 0) return cfy;

@@ -15,7 +15,6 @@ public class HashTable_SC<Key, Value> implements ST<Key, Value> {
      *
      * @return the current size.
      */
-    @Override
     public int size() {
         int result = 0;
         for (Object bucket : buckets) //noinspection unchecked
@@ -31,7 +30,6 @@ public class HashTable_SC<Key, Value> implements ST<Key, Value> {
      * @param key the key.
      * @param value the value.
      */
-    @Override
     public void put(Key key, Value value) {
         int index = getIndex(key);
         @SuppressWarnings("unchecked") Node bucket = (Node) buckets[index];
@@ -50,7 +48,6 @@ public class HashTable_SC<Key, Value> implements ST<Key, Value> {
      * @param key the key.
      * @return the value, if key is present, else null.
      */
-    @Override
     public Value get(Key key) {
         Object bucket = buckets[getIndex(key)];
         if (bucket == null) return null;
@@ -63,7 +60,6 @@ public class HashTable_SC<Key, Value> implements ST<Key, Value> {
      *
      * @return the Set of keys.
      */
-    @Override
     public Set<Key> keys() {
         Set<Key> result = new TreeSet<>();
         for (Object bucket : buckets)

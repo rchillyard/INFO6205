@@ -24,17 +24,10 @@ public class Queue_Elements<Item> implements SizedIterable<Item>, Queue<Item> {
      *
      * @param item the item to add
      */
-    public void enqueue(Item item) {
+    public void offer(Item item) {
         // TO BE IMPLEMENTED 
 
-
-
-
-
-
-
-
-throw new RuntimeException("implementation missing");
+        // END SOLUTION
     }
 
 
@@ -43,16 +36,10 @@ throw new RuntimeException("implementation missing");
      *
      * @return the value of the oldest element.
      */
-    public Item dequeue() {
+    public Item poll() {
         if (isEmpty()) return null;
         else {
             // TO BE IMPLEMENTED 
-
-
-
-
-
-            // SKELETON
              return null;
             // END SOLUTION
         }
@@ -75,18 +62,16 @@ throw new RuntimeException("implementation missing");
         return (oldest != null ? "Queue: next: " + oldest + (oldest.next != null ? " and others..." : "") : "empty");
     }
 
-    @Override
     public Iterator<Item> iterator() {
         return new QueueIterator();
     }
 
-    @Override
     public int size() {
         return SizedIterableImpl.create(this).size();
     }
 
     public void clear() {
-        while (!isEmpty()) dequeue();
+        while (!isEmpty()) poll();
     }
 
     class QueueIterator implements Iterator<Item> {

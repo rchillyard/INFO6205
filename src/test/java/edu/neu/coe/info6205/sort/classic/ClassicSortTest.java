@@ -14,7 +14,6 @@ public class ClassicSortTest {
             this.value = value;
         }
 
-        @Override
         public int classify() {
             return value / 1000;
         }

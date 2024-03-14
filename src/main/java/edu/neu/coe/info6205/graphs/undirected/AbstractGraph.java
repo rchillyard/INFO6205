@@ -26,12 +26,10 @@ abstract public class AbstractGraph<V, Adj> implements Graph<V, Adj> {
         adjacentEdges.put(vertex, new Bag_Array<>());
     }
 
-    @Override
     public SizedIterable<V> vertices() {
         return SizedIterableImpl.create(adjacentEdges.keySet());
     }
 
-    @Override
     public Iterable<Adj> adjacent(V v) {
         return adjacentEdges.get(v);
     }

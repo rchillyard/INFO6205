@@ -7,10 +7,7 @@ import edu.neu.coe.info6205.bqs.Stack;
 import edu.neu.coe.info6205.bqs.Stack_LinkedList;
 import edu.neu.coe.info6205.graphs.undirected.AbstractGraph;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class DiGraph<V, E> extends AbstractGraph<V, Edge<V, E>> {
@@ -41,14 +38,12 @@ public class DiGraph<V, E> extends AbstractGraph<V, Edge<V, E>> {
 
     protected Stack<V> reversePostOrderDFS() {
         Stack<V> postOrderStack = new Stack_LinkedList<>();
-        //noinspection SortedCollectionWithNonComparableKeys
         new DepthFirstSearch(new TreeSet<>(), null, postOrderStack::push).innerDfs();
         return postOrderStack;
     }
 
     public DAG<Kernel<V>, E> kernelDAG() {
-        final DAG_Impl<Kernel<V>, E> result = new DAG_Impl<>();
-        //noinspection SortedCollectionWithNonComparableKeys
+        final DAG_Impl<Kernel<V>, E> result = new DAG_Impl<>(new Random(0L));
         final TreeSet<V> marked = new TreeSet<>();
         for (V vertex : reverse().reversePostOrderDFS()) {
             Kernel<V> kernel = new Kernel<>();

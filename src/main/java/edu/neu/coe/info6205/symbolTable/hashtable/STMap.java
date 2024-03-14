@@ -18,7 +18,6 @@ public class STMap<Key, Value> implements ST<Key, Value> {
      *
      * @return the number of key-value mappings in this map
      */
-    @Override
     public int size() {
         return map.size();
     }

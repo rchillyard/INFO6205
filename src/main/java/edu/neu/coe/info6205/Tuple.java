@@ -33,8 +33,6 @@ public class Tuple extends BaseEquable {
         return "Tuple(" + x + ", " + y + ")";
     }
 
-
-    @Override
     public Equable getEquable() {
         Collection<Object> elements = new ArrayList<>();
         elements.add(x);
