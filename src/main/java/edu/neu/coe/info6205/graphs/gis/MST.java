@@ -12,7 +12,6 @@ public abstract class MST<V, X extends Comparable<X> & Sequenced> implements Ite
 
     abstract EdgeGraph<V, X> getMST();
 
-    @Override
     public Iterator<Edge<V, X>> iterator() {
         ArrayList<Edge<V, X>> result = new ArrayList<>();
         for (Edge<V, X> edge : mst) result.add(edge);

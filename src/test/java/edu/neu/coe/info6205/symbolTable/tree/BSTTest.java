@@ -6,9 +6,6 @@ package edu.neu.coe.info6205.symbolTable.tree;
 
 import edu.neu.coe.info6205.bqs.Queue;
 import edu.neu.coe.info6205.bqs.Queue_Elements;
-import edu.neu.coe.info6205.symbolTable.tree.BST;
-import edu.neu.coe.info6205.symbolTable.tree.BSTSimple;
-import edu.neu.coe.info6205.symbolTable.tree.BstDetail;
 import edu.neu.coe.info6205.util.PrivateMethodTester;
 import org.junit.Test;
 
@@ -134,12 +131,12 @@ public class BSTTest {
         bst.put("Z", 37);
         Queue<String> queue = new Queue_Elements<String>();
         bst.inOrderTraverse((w, x) -> {
-            queue.enqueue(w);
+            queue.offer(w);
             return null;
         });
-        assertEquals("X", queue.dequeue());
-        assertEquals("Y", queue.dequeue());
-        assertEquals("Z", queue.dequeue());
+        assertEquals("X", queue.poll());
+        assertEquals("Y", queue.poll());
+        assertEquals("Z", queue.poll());
         assertTrue(queue.isEmpty());
     }
 

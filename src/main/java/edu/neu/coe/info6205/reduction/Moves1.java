@@ -17,7 +17,6 @@ public class Moves1 implements Moves {
         return valid(new Point(x, y));
     }
 
-    @Override
     public boolean valid(Point p) {
         if (p.x == tx && p.y == ty) return true;
         //noinspection SimplifiableIfStatement
@@ -25,7 +24,6 @@ public class Moves1 implements Moves {
         return valid(p.x, p.x + p.y) || valid(p.x + p.y, p.y);
     }
 
-    @Override
     public Point move(Point p, boolean which) {
         return null;
     }

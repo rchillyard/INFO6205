@@ -5,6 +5,7 @@ import edu.neu.coe.info6205.SizedIterableImpl;
 import edu.neu.coe.info6205.bqs.Bag;
 import edu.neu.coe.info6205.bqs.Bag_Array;
 
+import java.util.Random;
 import java.util.TreeSet;
 import java.util.function.Consumer;
 
@@ -16,29 +17,24 @@ import java.util.function.Consumer;
  */
 public class DAG_Impl<V, E> extends DiGraph<V, E> implements DAG<V, E> {
 
-    @Override
     public SizedIterable<V> vertices() {
         return SizedIterableImpl.create(adjacentEdges.keySet());
     }
 
-    @Override
     public Iterable<Edge<V, E>> adjacent(V vertex) {
         return adjacentEdges.get(vertex);
     }
 
-    @Override
     public void dfs(V vertex, Consumer<V> pre, Consumer<V> post) {
-        //noinspection SortedCollectionWithNonComparableKeys
         new DepthFirstSearch(new TreeSet<>(), pre, post).innerDfs(vertex);
     }
 
-    @Override
     public Iterable<V> sorted() {
         return reversePostOrderDFS();
     }
 
     public SizedIterable<Edge<V, E>> edges() {
-        Bag<Edge<V, E>> result = new Bag_Array<>();
+        Bag<Edge<V, E>> result = new Bag_Array<>(random);
         for (Bag<Edge<V, E>> b : adjacentEdges.values())
             for (Edge<V, E> e : b)
                 result.add(e);
@@ -56,15 +52,24 @@ public class DAG_Impl<V, E> extends DiGraph<V, E> implements DAG<V, E> {
         addEdge(new Edge<>(from, to, attributes));
     }
 
-    @Override
     public String toString() {
         return adjacentEdges.toString();
     }
 
     protected Bag<Edge<V, E>> getAdjacencyBag(V vertex) {
-        return adjacentEdges.computeIfAbsent(vertex, k -> new Bag_Array<>());
+        return adjacentEdges.computeIfAbsent(vertex, k -> new Bag_Array<>(random));
     }
 
-//    private final Map<V, Bag<Edge<V, E>>> adjacentEdges = new HashMap<>();
+    public DAG_Impl(Random random) {
+        this.random = random;
+    }
+
+    public DAG_Impl() {
+        this(new Random());
+    }
+
+    private final Random random;
+
+    //    private final Map<V, Bag<Edge<V, E>>> adjacentEdges = new HashMap<>();
 
 }

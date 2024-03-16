@@ -17,7 +17,6 @@ public class Partition<X extends Comparable<X>> {
         this.to = to;
     }
 
-    @Override
     public String toString() {
         return "Partition{" +
                 "xs: " + xs.length + " elements" +

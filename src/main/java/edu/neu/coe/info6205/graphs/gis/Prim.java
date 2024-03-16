@@ -8,7 +8,6 @@ import edu.neu.coe.info6205.graphs.undirected.EdgeGraph;
 import edu.neu.coe.info6205.graphs.undirected.Graph_Edges;
 import edu.neu.coe.info6205.pq.PQException;
 import edu.neu.coe.info6205.pq.PriorityQueue;
-import edu.neu.coe.info6205.union_find.UFException;
 
 import java.util.*;
 
@@ -22,25 +21,14 @@ public class Prim<V, X extends Comparable<X> & Sequenced> extends MST<V, X> impl
     // CONSIDER having a simpler constructor which just sets up the necessary structures, then having a run method which takes a graph and outputs an Iterable.
     public Prim(EdgeGraph<V, X> graph) {
         this.queue = new Queue_Elements<>();
-        // TO BE IMPLEMENTED  : finish construction
-        // This implementation is a lazy approach,
-        // Translated from the code provided by Princeton University
-        // https://algs4.cs.princeton.edu/43mst/LazyPrimMST.java.html
         this.vertexToInteger = new HashMap<>();
-        int count = 0;
-        for (V vertex : graph.vertices()) {
-            vertexToInteger.put(vertex, count++);
-        }
         this.graph = graph;
-        this.size = graph.vertices().size();
-        this.pq = createPQ(new Queue_Elements<>());
+        int size = graph.vertices().size();
         marked = new boolean[size];
-        try {
-            mst = runPrim();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-throw new RuntimeException("implementation missing");
+        // TO BE IMPLEMENTED  : finish construction
+         this.pq = null;
+         this.mst = null;
+        // END SOLUTION
     }
 
     public EdgeGraph<V, X> getMST() {
@@ -53,7 +41,6 @@ throw new RuntimeException("implementation missing");
         return result;
     }
 
-    @Override
     public Iterator<Edge<V, X>> iterator() {
         ArrayList<Edge<V, X>> result = new ArrayList<>();
         for (Edge<V, X> edge : mst) result.add(edge);
@@ -63,16 +50,6 @@ throw new RuntimeException("implementation missing");
 
     private Iterable<Edge<V, X>> runPrim() throws PQException {
         // TO BE IMPLEMENTED  : finish construction
-
-
-
-
-
-
-
-
-
-
 throw new RuntimeException("implementation missing");
         //throw new RuntimeException("implementation missing");
     }
@@ -86,7 +63,7 @@ throw new RuntimeException("implementation missing");
             int ui = vertexToInteger.get(u), wi = vertexToInteger.get(w); // their indices
             assert marked[ui] || marked[wi];
             if (marked[ui] && marked[wi]) continue;      // lazy, both v and w already scanned
-            queue.enqueue(e);                            // add e to queue
+            queue.offer(e);                            // add e to queue
             //weight += e.weight();
             if (!marked[ui]) scan(v);               // v becomes part of tree
             if (!marked[wi]) scan(w);               // w becomes part of tree
@@ -119,7 +96,6 @@ throw new RuntimeException("implementation missing");
     private final PriorityQueue<Edge<V, X>> pq; // edges with one endpoint in tree
     private final boolean[] marked;    // marked[v] = true iff v on tree
     private final EdgeGraph<V, X> graph;
-    private final int size;
     private final Map<V, Integer> vertexToInteger;
 
     public static <V, X extends Comparable<X>> Edge<V, X> createEdge(V v1, V v2, X x) {

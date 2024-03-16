@@ -11,14 +11,14 @@ public interface Queue<Item> extends Iterable<Item> {
      *
      * @param item the item to add
      */
-    void enqueue(Item item);
+    void offer(Item item);
 
     /**
      * Update this Queue by taking the oldest item off the queue.
      *
      * @return the item or null if there is no such item.
      */
-    Item dequeue();
+    Item poll();
 
     /**
      * @return true if this stack is empty

@@ -10,7 +10,6 @@ import edu.neu.coe.info6205.graphs.undirected.Position;
  * @param <E> the edge type
  */
 public class GeoGraphSpherical<V extends GeoPoint, E> extends BaseGeoGraph<V, E> {
-    @Override
     public double length(Edge<V, E> edge) {
         V v1 = edge.get();
         V v2 = edge.getOther(v1);

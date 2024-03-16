@@ -34,7 +34,6 @@ public abstract class SortWithHelper<X extends Comparable<X>> implements Sort<X>
      *
      * @param n the number of elements to be sorted.
      */
-    @Override
     public void init(int n) {
         getHelper().init(n);
     }
@@ -44,7 +43,6 @@ public abstract class SortWithHelper<X extends Comparable<X>> implements Sort<X>
      *
      * @param xs the elements to be pre-processed.
      */
-    @Override
     public X[] preProcess(X[] xs) {
         return helper.preProcess(xs);
     }

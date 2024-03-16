@@ -7,21 +7,21 @@ import java.util.function.Function;
 
 /**
  * Implementation of ThreeSum which follows the approach of dividing the solution-space into
- * N sub-spaces where each sub-space corresponds to a fixed value for the middle index of the three values.
- * Each sub-space is then solved by expanding the scope of the other two indices outwards from the starting point.
- * Since each sub-space can be solved in O(N) time, the overall complexity is O(N^2).
+ * N sub-spaces where each subspace corresponds to a fixed value for the middle index of the three values.
+ * Each subspace is then solved by expanding the scope of the other two indices outwards from the starting point.
+ * Since each subspace can be solved in O(N) time, the overall complexity is O(N^2).
  * <p>
  * The array provided in the constructor MUST be ordered.
  */
 public class ThreeSumQuadraticWithCalipers implements ThreeSum {
     /**
-     * Construct a ThreeSumQuadratic on a.
+     * Construct ints ThreeSumQuadratic on ints.
      *
-     * @param a a sorted array.
+     * @param ints a sorted array.
      */
-    public ThreeSumQuadraticWithCalipers(int[] a) {
-        this.a = a;
-        length = a.length;
+    public ThreeSumQuadraticWithCalipers(int[] ints) {
+        this.a = ints;
+        length = ints.length;
     }
 
     /**
@@ -41,7 +41,7 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
      * Get a set of candidate Triples such that the first index is the given value i.
      * Any candidate triple is added to the result if it yields zero when passed into function.
      *
-     * @param a        a sorted array of ints.
+     * @param a        a sorted array of ints. This method is concerned only with the partition of a starting with index i+1.
      * @param i        the index of the first element of resulting triples.
      * @param function a function which takes a triple and returns a value which will be compared with zero.
      * @return a List of Triples.

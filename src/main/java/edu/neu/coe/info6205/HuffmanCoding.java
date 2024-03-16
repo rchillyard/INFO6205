@@ -78,8 +78,6 @@ public class HuffmanCoding {
 
         public Code add(int x) {
             // TO BE IMPLEMENTED 
-
-            // SKELETON
              return null;
             // END SOLUTION
         }
@@ -139,18 +137,6 @@ public class HuffmanCoding {
         private Map<String, Code> getEncoder(Node node) {
             Map<String, Code> result = new HashMap<>();
             // TO BE IMPLEMENTED 
-
-
-
-
-
-
-
-
-
-
-
-            // SKELETON
             // END SOLUTION
             return result;
         }
@@ -175,20 +161,6 @@ public class HuffmanCoding {
 
         private Node decode(StringBuilder stringBuilder, Node state, long x) {
             // TO BE IMPLEMENTED 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // SKELETON
             // END SOLUTION
             return state;
         }
@@ -197,7 +169,6 @@ public class HuffmanCoding {
     }
 
     static class Node implements Comparable<Node> {
-        @Override
         public int compareTo(Node o) {
             return Integer.compare(frequency, o.frequency);
         }
@@ -222,11 +193,6 @@ public class HuffmanCoding {
 
         public void dfs(BiFunction<Object, Integer, Object> depthFunction, BiConsumer<Node, Object> consumer, Object depthIndicator, Integer branch) {
             // TO BE IMPLEMENTED 
-
-
-
-
-            // SKELETON
             // END SOLUTION
         }
 

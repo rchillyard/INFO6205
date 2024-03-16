@@ -54,7 +54,6 @@ public class Boruvka<V, X extends Comparable<X> & Sequenced> extends MST<V, X> {
         }
     }
 
-    @Override
     public EdgeGraph<V, X> getMST() {
         int sequence = 0;
         EdgeGraph<V, X> result = new Graph_Edges<>();
@@ -79,8 +78,9 @@ public class Boruvka<V, X extends Comparable<X> & Sequenced> extends MST<V, X> {
         // before the queue of edges has size-1 elements, keep adding edges to the MST.
         for (int t = 1; t < size && this.queue.size() < size - 1; t = t + t) {
 
-            // foreach tree in forest, find closest edge
+            // foreach tree in forest, find the closest edge
             // if edge weights are equal, ties are broken in favor of first edge in G.edges()
+            //noinspection unchecked
             Edge<V, X>[] closest = new Edge[size];
             for (Edge<V, X> e : graph.edges()) {
                 V v = e.get(), w = e.getOther(v);
@@ -99,7 +99,7 @@ public class Boruvka<V, X extends Comparable<X> & Sequenced> extends MST<V, X> {
                     int vi = vertexToInteger.get(v), wi = vertexToInteger.get(w);
                     // don't add the same edge twice
                     if (uf.find(vi) != uf.find(wi)) {
-                        queue.enqueue(e);
+                        queue.offer(e);
                         //weight += e.weight();
                         uf.union(v, w);
                     }

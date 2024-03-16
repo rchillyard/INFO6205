@@ -28,7 +28,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param w the comparand element.
      * @return true only if v is less than w.
      */
-    @Override
     public boolean less(X v, X w) {
         incrementCompares();
         return super.less(v, w);
@@ -42,7 +41,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param w  the second value.
      * @return true if v is less than w.
      */
-    @Override
     public boolean less(X[] xs, int i, X w) {
         incrementHits(1);
         return less(xs[i], w);
@@ -56,7 +54,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param j  the index of the second value.
      * @return true if v is less than w.
      */
-    @Override
     public boolean less(X[] xs, int i, int j) {
         incrementHits(1);
         return less(xs, i, xs[j]);
@@ -90,7 +87,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param i  the index of the destination of xs[j].
      * @param j  the index of the right-most element to be involved in the swap.
      */
-    @Override
     public void swapInto(X[] xs, int i, int j) {
         incrementSwaps(j - i);
         incrementFixes(j - i);
@@ -107,7 +103,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param xs the array of X elements, whose elements 0 thru i-1 MUST be sorted.
      * @param i  the index of the element to be swapped into the ordered array xs[0...i-1].
      */
-    @Override
     public void swapIntoSorted(X[] xs, int i) {
         int j = binarySearch(xs, 0, i, xs[i]);
         incrementHits(1 + (int) Utilities.lg(xs.length));
@@ -169,7 +164,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param j  the index of the upper element.
      * @return true if there was an inversion (i.e. the order was wrong and had to be fixed).
      */
-    @Override
     public boolean swapConditional(X[] xs, int i, int j) {
         if (i == j) return false;
         if (i > j) return swapConditional(xs, j, i);
@@ -195,7 +189,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param i  the index of the upper element.
      * @return true if there was an inversion (i.e. the order was wrong and had to be fixed).
      */
-    @Override
     public boolean swapStableConditional(X[] xs, int i) {
         final X v = xs[i - 1];
         final X w = xs[i];
@@ -220,7 +213,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param target the target array.
      * @param j      the source index.
      */
-    @Override
     public void copy(X[] source, int i, X[] target, int j) {
         incrementCopies(1);
         incrementHits(2);
@@ -234,14 +226,12 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param w the second X.
      * @return the result of comparing v and w.
      */
-    @Override
     public int compare(X v, X w) {
 //        System.out.println("compare: "+v+" with "+w);
         incrementCompares();
         return v.compareTo(w);
     }
 
-    @Override
     public int compare(X[] xs, int i, X w) {
         incrementHits(1);
         return compare(xs[i], w);
@@ -265,7 +255,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      *
      * @return a value for cutoff.
      */
-    @Override
     public int cutoff() {
         // NOTE that a cutoff value of 0 or less will result in an infinite recursion for any recursive method that uses it.
         return (cutoff >= 1) ? cutoff : super.cutoff();
@@ -299,7 +288,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      * @param xs the array to be sorted.
      * @return the array after any pre-processing.
      */
-    @Override
     public X[] preProcess(X[] xs) {
         final X[] result = super.preProcess(xs);
         // NOTE: because counting inversions is so slow, we only do if for a (configured) number of samples.
@@ -318,7 +306,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      *           TODO log the message
      *           TODO show the number of inversions
      */
-    @Override
     public void postProcess(X[] xs) {
         super.postProcess(xs);
         if (!sorted(xs)) throw new BaseHelper.HelperException("Array is not sorted");
@@ -339,17 +326,14 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
             statPack.add(HITS, hits);
     }
 
-    @Override
     public void registerDepth(int depth) {
         if (depth > maxDepth) maxDepth = depth;
     }
 
-    @Override
     public int maxDepth() {
         return maxDepth;
     }
 
-    @Override
     public void close() {
         if (showStats)
             logger.info("Closing Helper: " + description + " with statPack:\n    " + statPack);
@@ -450,7 +434,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      *
      * @param n the number of copies made.
      */
-    @Override
     public void incrementCopies(int n) {
         if (countCopies) copies += n;
     }
@@ -460,7 +443,6 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      *
      * @param n the number of hits.
      */
-    @Override
     public void incrementHits(int n) {
         if (countHits) hits += n;
     }
@@ -470,18 +452,15 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
      *
      * @param n the number of copies made.
      */
-    @Override
     public void incrementFixes(int n) {
         if (countFixes) fixes += n;
 //        System.out.println("incrementFixes: "+n+"; fixes: " + fixes);
     }
 
-    @Override
     public String showStats() {
         return description + ": " + statPack.toString();
     }
 
-    @Override
     public String showFixes(X[] xs) {
         checkFixes(xs);
         return "fixes+inversions: " + (fixes + inversions(xs));

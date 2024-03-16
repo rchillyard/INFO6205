@@ -79,7 +79,7 @@ public class RecursionAndIteration {
         System.out.println("traverse:");
         Queue_Elements<Integer> preQueue = new Queue_Elements<>();
         Queue<Integer> postQueue = new Queue_Elements<>();
-        list.traverse(preQueue::enqueue, postQueue::enqueue);
+        list.traverse(preQueue::offer, postQueue::offer);
         System.out.println("preQueue:");
         for (Integer x : preQueue) System.out.println(x);
         System.out.println("postQueue:");
@@ -89,7 +89,7 @@ public class RecursionAndIteration {
         // Iterative solution using iterate
         System.out.println("iterate:");
         java.util.Stack<Integer> postStack = new java.util.Stack<>();
-        list.iterate(preQueue::enqueue, postStack::push);
+        list.iterate(preQueue::offer, postStack::push);
         System.out.println("preQueue:");
         for (Integer x : preQueue) System.out.println(x);
         System.out.println("postStack:");

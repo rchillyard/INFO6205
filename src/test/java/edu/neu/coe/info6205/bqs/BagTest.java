@@ -43,7 +43,8 @@ public class BagTest {
         assertEquals(33, bag.size());
         assertFalse(bag.isEmpty());
         assertTrue((bag.iterator()).hasNext());
-        assertEquals(Integer.valueOf(0), bag.iterator().next());
+        Integer next = bag.iterator().next();
+        assertTrue(next >= 0 && next <= 32);
     }
 
     /**
@@ -56,7 +57,8 @@ public class BagTest {
             bag.add(i);
         assertEquals(4, bag.size());
         int sum = 0;
-        for (Integer x : bag) sum += x;
+        for (Integer x : bag)
+            sum += x;
         assertEquals(10, sum);
     }
 

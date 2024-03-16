@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 public class Graph_Edges<V, E> extends AbstractGraph<V, Edge<V, E>> implements EdgeGraph<V, E> {
 
-    @Override
     public SizedIterable<Edge<V, E>> edges() {
         Bag<Edge<V, E>> result = new Bag_Array<>();
         for (Iterable<Edge<V, E>> b : adjacentEdges.values())
@@ -17,7 +16,6 @@ public class Graph_Edges<V, E> extends AbstractGraph<V, Edge<V, E>> implements E
         return result;
     }
 
-    @Override
     public void addEdge(Edge<V, E> edge, Predicate<Edge<V, E>> predicate) {
         if (predicate.test(edge)) {
             V v = edge.get();
@@ -28,7 +26,6 @@ public class Graph_Edges<V, E> extends AbstractGraph<V, Edge<V, E>> implements E
         }
     }
 
-    @Override
     public void addEdge(V from, V to, E attribute, Predicate<Edge<V, E>> predicate) {
         addEdge(new Edge<>(from, to, attribute), predicate);
     }

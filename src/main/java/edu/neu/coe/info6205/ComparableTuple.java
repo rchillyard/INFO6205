@@ -34,7 +34,6 @@ public class ComparableTuple extends BaseComparableEquable implements Comparable
         return new ComparableEquable(elements);
     }
 
-    @Override
     public int compareTo(BaseEquable o) {
         return super.compareTo(o);
     }

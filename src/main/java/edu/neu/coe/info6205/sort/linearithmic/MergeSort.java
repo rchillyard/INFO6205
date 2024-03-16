@@ -39,7 +39,6 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
         insertionSort = new InsertionSort<>(getHelper());
     }
 
-    @Override
     public X[] sort(X[] xs, boolean makeCopy) {
         getHelper().init(xs.length);
         X[] result = makeCopy ? Arrays.copyOf(xs, xs.length) : xs;
@@ -47,7 +46,6 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
         return result;
     }
 
-    @Override
     public void sort(X[] a, int from, int to) {
         // CONSIDER don't copy but just allocate according to the xs/aux interchange optimization
         X[] aux = Arrays.copyOf(a, a.length);

@@ -13,14 +13,12 @@ import java.util.function.BiFunction;
  */
 public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
 
-    @Override
     public Value get(Key key) {
         BiFunction<Node, Node, Node> doGet = (node1, node2) -> node2;
         Node result = root.navigate(key, doGet, doGet);
         return result != null ? result.value : null;
     }
 
-    @Override
     public Value put(final Key key, final Value value) {
         if (root != null) {
             Node result = root.navigate(key, doPut(key, value), Node::updateCount);
@@ -44,7 +42,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
             return(size(node.smaller) + 1 + size(node.larger));
     }
 
-    @Override
     public Boolean contains(Key key) {
         return get(key) != null;
     }
@@ -54,25 +51,21 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
      *
      * @param map a map of key value pairs
      */
-    @Override
     public void putAll(Map<Key, Value> map) {
         List<Key> ks = new ArrayList<>(map.keySet());
         Collections.shuffle(ks);
         for (Key k : ks) put(k, map.get(k));
     }
 
-    @Override
     public int size() {
         return root != null ? root.count : 0;
     }
 
-    @Override
     public void inOrderTraverse(BiFunction<Key, Value, Void> f) {
         // CONSIDER using navigate
         doTraverse(0, root, f);
     }
 
-    @Override
     public void deleteMin() {
         // CONSIDER removing this method.
         root = deleteMin(root);
@@ -83,7 +76,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
      *
      * @return a set of keys.
      */
-    @Override
     public Set<Key> keySet() {
         return null;
     }
@@ -93,7 +85,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
      *
      * @return the total number of levels in this BST.
      */
-    @Override
     public int depth() {
         return depth(root);
     }
@@ -126,7 +117,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         }
     }
 
-    @Override
     public double meanDepth() {
         final Depth depth = new Depth();
         root.navigate(null, (node1, node2) -> {
@@ -243,16 +233,6 @@ public class BSTOptimisedDeletion<Key extends Comparable<Key>, Value> implements
         private Node delete(Key k) {
             // CONSIDER using navigate
             // TO BE IMPLEMENTED 
-
-
-
-
-
-
-
-
-
-            // SKELETON
              return null;
             // END SOLUTION
         }

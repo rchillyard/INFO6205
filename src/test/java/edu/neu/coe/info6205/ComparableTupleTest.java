@@ -55,7 +55,6 @@ public class ComparableTupleTest {
             return new ComparableEquable(elements);
         }
 
-        @Override
         public int compareTo(MockIncomparableTuple o) {
             return super.compareTo(o);
         }

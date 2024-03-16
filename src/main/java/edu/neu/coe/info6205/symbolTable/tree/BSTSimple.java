@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<Key, Value> {
-    @Override
     public Boolean contains(Key key) {
         return get(key) != null;
     }
@@ -14,29 +13,24 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
      *
      * @param map a map of key value pairs
      */
-    @Override
     public void putAll(Map<Key, Value> map) {
         List<Key> ks = new ArrayList<>(map.keySet());
         Collections.shuffle(ks);
         for (Key k : ks) put(k, map.get(k));
     }
 
-    @Override
     public int size() {
         return root != null ? root.count : 0;
     }
 
-    @Override
     public void inOrderTraverse(BiFunction<Key, Value, Void> f) {
         doTraverse(0, root, f);
     }
 
-    @Override
     public Value get(Key key) {
         return get(root, key);
     }
 
-    @Override
     public Value put(Key key, Value value) {
         NodeValue nodeValue = put(root, key, value);
         if (root == null) root = nodeValue.node;
@@ -48,12 +42,10 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         root = delete(root, key);
     }
 
-    @Override
     public void deleteMin() {
         root = deleteMin(root);
     }
 
-    @Override
     public Set<Key> keySet() {
         return null;
     }
@@ -72,7 +64,6 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
         }
     }
 
-    @Override
     public double meanDepth() {
         // TODO implement me.
         return 0;
@@ -140,23 +131,6 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BstDetail<
     // CONSIDER this should be an instance method of Node.
     private Node delete(Node x, Key key) {
         // TO BE IMPLEMENTED 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // SKELETON
          return null;
         // END SOLUTION
     }

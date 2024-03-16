@@ -14,12 +14,10 @@ public class SizedIterableImpl<T> implements SizedIterable<T> {
         size = getSize(iterable);
     }
 
-    @Override
     public int size() {
         return size;
     }
 
-    @Override
     public Iterator<T> iterator() {
         return iterable.iterator();
     }

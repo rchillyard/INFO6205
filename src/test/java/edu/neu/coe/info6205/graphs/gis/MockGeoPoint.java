@@ -12,12 +12,10 @@ class MockGeoPoint implements GeoPoint {
         this.position = position;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public Position getPosition() {
         return position;
     }

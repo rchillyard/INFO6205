@@ -36,7 +36,6 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> extends MST<V, X> {
         }
     }
 
-    @Override
     public EdgeGraph<V, X> getMST() {
         int sequence = 0;
         EdgeGraph<V, X> result = new Graph_Edges<>();
@@ -54,7 +53,7 @@ public class Kruskal<V, X extends Comparable<X> & Sequenced> extends MST<V, X> {
             V s1 = edge.get(), s2 = edge.getOther(s1);
             if (!uf.connected(s1, s2)) {
                 uf.union(s1, s2);
-                queue.enqueue(edge);
+                queue.offer(edge);
             }
         }
         ArrayList<Edge<V, X>> result = new ArrayList<>();

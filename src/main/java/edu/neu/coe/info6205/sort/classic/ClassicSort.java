@@ -22,7 +22,6 @@ public class ClassicSort<X extends Classify<X>> extends GenericSortWithGenericHe
 
     public static final String DESCRIPTION = "Classic sort";
 
-    @Override
     public void sort(X[] xs, int from, int to) {
         Map<Integer, Bag<X>> map = new HashMap<>();
         for (int i = from; i < to; i++) {
@@ -58,8 +57,8 @@ public class ClassicSort<X extends Classify<X>> extends GenericSortWithGenericHe
      *
      * @param n the number of elements to be sorted.
      */
-    @Override
     public void init(int n) {
+        // NOTE this does nothing.
     }
 
     /**
@@ -67,11 +66,10 @@ public class ClassicSort<X extends Classify<X>> extends GenericSortWithGenericHe
      *
      * @param xs an array of Xs.
      */
-    @Override
     public void postProcess(X[] xs) {
+        // XXX do nothing.
     }
 
-    @Override
     public void close() {
         if (closeHelper) getHelper().close();
     }

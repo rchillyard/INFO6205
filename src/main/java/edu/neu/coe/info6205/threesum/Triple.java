@@ -32,7 +32,6 @@ class Triple implements Comparable<Triple> {
         return Objects.hash(x, y, z);
     }
 
-    @Override
     public int compareTo(Triple o) {
         int cf1 = this.x - o.x;
         if (cf1 != 0) return cf1;

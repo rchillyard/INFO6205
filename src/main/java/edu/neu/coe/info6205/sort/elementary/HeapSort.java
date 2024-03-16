@@ -10,7 +10,6 @@ public class HeapSort<X extends Comparable<X>> extends SortWithHelper<X> {
         super(helper);
     }
 
-    @Override
     public void sort(X[] array, int from, int to) {
         if (array == null || array.length <= 1) return;
 

@@ -121,7 +121,6 @@ public class UF_HWQUPC implements UF {
         count--;
     }
 
-    @Override
     public int size() {
         return parent.length;
     }

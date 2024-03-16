@@ -6,12 +6,24 @@ package edu.neu.coe.info6205.bqs;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Random;
 
 public class Bag_Array<Item> implements Bag<Item> {
 
-    public Bag_Array() {
+    /**
+     * Primary constructor that takes an explicit Random source (which will be passed to any UnorderedIterator).
+     * NOTE: random is mutable and therefore unpredictable.
+     *
+     * @param random a random source.
+     */
+    public Bag_Array(Random random) {
         //noinspection unchecked
         grow((Item[]) new Object[0], 32);
+        this.random = random;
+    }
+
+    public Bag_Array() {
+        this(new Random());
     }
 
     public void add(Item item) {
@@ -41,7 +53,6 @@ public class Bag_Array<Item> implements Bag<Item> {
         return false;
     }
 
-    @Override
     public int multiplicity(Item item) {
         int result = 0;
         if (isEmpty()) return 0;
@@ -52,10 +63,14 @@ public class Bag_Array<Item> implements Bag<Item> {
         return result;
     }
 
+    /**
+     * Method to generate a randomly ordered iterator on this Bag.
+     *
+     * @return an Iterator on Item.
+     */
     public Iterator<Item> iterator() {
         assert items != null; // Should be not-null any time after construction.
-        // NOTE: there is no Java-defined array iterator.
-        return Arrays.asList(asArray()).iterator();
+        return new UnorderedIterator<>(asArray(), random);
     }
 
     /**
@@ -105,14 +120,11 @@ public class Bag_Array<Item> implements Bag<Item> {
      */
     private static <T> T[] growFrom(T[] from, int size) {
         // TO BE IMPLEMENTED  grow array and copy
-
-
-
-
-        // SKELETON
          return null;
         // END SOLUTION
     }
+
+    private final Random random;
 
     private Item[] items = null;
     private int count = 0;

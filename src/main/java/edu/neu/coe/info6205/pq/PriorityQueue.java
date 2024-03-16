@@ -227,7 +227,6 @@ public class PriorityQueue<K> implements Iterable<K> {
     private int last; // number of elements in the binary heap
     private final boolean floyd; //Determine whether floyd's snake method is on or off inside the take method
 
-    @Override
     public Iterator<K> iterator() {
         Collection<K> result = new ArrayList<>(Arrays.asList(binHeap));
         return result.iterator();

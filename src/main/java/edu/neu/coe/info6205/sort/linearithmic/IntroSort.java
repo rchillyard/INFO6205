@@ -47,7 +47,6 @@ public class IntroSort<X extends Comparable<X>> extends QuickSort_DualPivot<X> {
         this(new BaseHelper<>(DESCRIPTION, config));
     }
 
-    @Override
     public X[] sort(X[] xs, boolean makeCopy) {
         getHelper().init(xs.length);
         depthThreshold = 2 * floor_lg(xs.length);
@@ -62,7 +61,6 @@ public class IntroSort<X extends Comparable<X>> extends QuickSort_DualPivot<X> {
      * @param from the index of the first element to sort.
      * @param to   the index of the first element not to sort.
      */
-    @Override
     public void sort(X[] xs, int from, int to) {
         sort(xs, from, to, 2 * floor_lg(to - from));
     }
@@ -77,7 +75,6 @@ public class IntroSort<X extends Comparable<X>> extends QuickSort_DualPivot<X> {
      * @param depth the current depth of the recursion.
      * @return true if there is no further work to be done.
      */
-    @Override
     protected boolean terminator(X[] xs, int from, int to, int depth) {
         if (to - from <= sizeThreshold) {
             if (to > from + 1)
