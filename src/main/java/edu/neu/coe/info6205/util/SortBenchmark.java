@@ -251,9 +251,9 @@ public class SortBenchmark {
      */
     static void runIntegerSortBenchmark(Integer[] numbers, int n, int nRuns, SortWithHelper<Integer> sorter, UnaryOperator<Integer[]> preProcessor, TimeLogger[] timeLoggers) {
         new SorterBenchmark<>(Integer.class, preProcessor, sorter, numbers, nRuns, timeLoggers).run(n);
-//        logger.info("\n\n");
-//        logger.info(sorter.getHelper().showStats());
-//        sorter.close();
+        logger.info("\n\n");
+        logger.info(sorter.getHelper().showStats());
+        sorter.close();
     }
 
     /**
